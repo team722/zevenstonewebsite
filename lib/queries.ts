@@ -1,0 +1,85 @@
+export const BLOG_POSTS_QUERY = `
+  *[_type == "blogPost"] | order(publishedAt desc) {
+    _id, title, category, publishedAt,
+    "slug": slug.current,
+    excerpt,
+    "imageUrl": mainImage.asset->url,
+    "authorName": author->name,
+    "authorPhoto": author->photo.asset->url,
+    featured
+  }
+`;
+
+export const BLOG_POST_BY_SLUG_QUERY = `
+  *[_type == "blogPost" && slug.current == $slug][0] {
+    _id, title, category, publishedAt, excerpt,
+    "slug": slug.current,
+    "imageUrl": mainImage.asset->url,
+    body,
+    seo,
+    "author": author->{ name, role, "photoUrl": photo.asset->url }
+  }
+`;
+
+export const TEAM_MEMBERS_QUERY = `
+  *[_type == "teamMember"] | order(displayOrder asc) {
+    _id, name, role,
+    "photoUrl": photo.asset->url,
+    bio, linkedIn
+  }
+`;
+
+export const TESTIMONIALS_QUERY = `
+  *[_type == "testimonial"] | order(displayOrder asc) {
+    _id, quote, author, role, company,
+    "photoUrl": photo.asset->url
+  }
+`;
+
+export const PORTFOLIO_PROJECTS_QUERY = `
+  *[_type == "portfolioProject"] | order(displayOrder asc) {
+    _id, client, headline, category,
+    tags,
+    "imageUrl": image.asset->url
+  }
+`;
+
+export const PORTFOLIO_CATEGORIES_QUERY = `
+  *[_type == "portfolioCategory"] | order(displayOrder asc) {
+    _id, label, value
+  }
+`;
+
+export const SERVICES_QUERY = `
+  *[_type == "service"] | order(displayOrder asc) {
+    _id, title, description, details,
+    "imageUrl": image.asset->url,
+    isFeatured
+  }
+`;
+
+export const CASE_STUDIES_QUERY = `
+  *[_type == "caseStudy"] {
+    _id, client, headline, challenge, solution, impact, tags,
+    "imageUrl": image.asset->url
+  }
+`;
+
+export const FAQS_QUERY = `
+  *[_type == "faqItem"] | order(displayOrder asc) {
+    _id, question, answer
+  }
+`;
+
+export const HOME_PAGE_QUERY = `
+  *[_type == "homePage"][0] {
+    stats, whyUsItems, processSteps, founderMessage, moreServicesTags
+  }
+`;
+
+export const SITE_SETTINGS_QUERY = `
+  *[_type == "siteSettings"][0] {
+    partnerLogos[]{ name, "logoUrl": logo.asset->url },
+    coreValues, contactEmail, phoneNumber, address, linkedIn, instagram, twitter
+  }
+`;
