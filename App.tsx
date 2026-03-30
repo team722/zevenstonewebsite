@@ -11,11 +11,12 @@ import { Contact } from './pages/Contact';
 import { SuccessStories } from './pages/SuccessStories';
 import { CaseStudy } from './pages/CaseStudy';
 import { Blog } from './pages/Blog';
+import { LandingPage } from './pages/LandingPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      //  staleTime: 1000 * 60 * 1, // 1 minutes cache before refetching
+      staleTime: 0, // 1 minutes cache before refetching
       retry: 2,
     },
   },
@@ -46,6 +47,7 @@ const App: React.FC = () => {
               <Route path="/case-study/:id" element={<CaseStudy />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/:slug" element={<LandingPage />} />
             </Routes>
           </main>
           <Footer />

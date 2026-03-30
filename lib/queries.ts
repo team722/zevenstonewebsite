@@ -86,3 +86,31 @@ export const SITE_SETTINGS_QUERY = `
     coreValues, contactEmail, phoneNumber, address, linkedIn, instagram, twitter
   }
 `;
+
+export const LANDING_PAGE_QUERY = `
+  *[_type == "landingPage" && slug.current == $slug][0] {
+    title, "slug": slug.current,
+    pageBlocks[] {
+      ...,
+      _type == "hero" => {
+        headline, subheadline, ctaLabel, ctaUrl, backgroundImage
+      },
+      _type == "servicesFeatures" => {
+        sectionTitle, items
+      },
+      _type == "testimonialsSection" => {
+        sectionTitle,
+        testimonials[]->{
+          _id, quote, author, role, company, photo
+        }
+      },
+      _type == "ctaBanner" => {
+        headline, buttonLabel, buttonUrl, backgroundColor
+      },
+      _type == "statsSection" => {
+        stats
+      }
+    },
+    seo
+  }
+`;
