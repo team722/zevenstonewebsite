@@ -73,7 +73,10 @@ export const FAQS_QUERY = `
 
 export const HOME_PAGE_QUERY = `
   *[_type == "homePage"][0] {
-    stats, whyUsItems, processSteps, founderMessage, moreServicesTags
+    stats, whyUsItems, processSteps, moreServicesTags,
+    founderMessage {
+      title, content, author, role, photo
+    }
   }
 `;
 
