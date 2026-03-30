@@ -12,17 +12,6 @@ import { LoadingSpinner } from '../components/ui/LoadingSpinner';
 import { ErrorState } from '../components/ui/ErrorState';
 import { Code, Database, Layout, Smartphone, Globe, LineChart } from 'lucide-react';
 
-const getServiceIcon = (title: string, index: number) => {
-   if (!title) return Zap;
-   const t = title.toLowerCase();
-   if (t.includes('marketing') || t.includes('seo') || t.includes('sem')) return LineChart;
-   if (t.includes('web')) return Globe;
-   if (t.includes('app')) return Smartphone;
-   if (t.includes('video')) return Layout;
-   if (t.includes('ai') || t.includes('data')) return Database;
-   const fallbacks = [Zap, Code, Globe, LineChart, Database, Smartphone];
-   return fallbacks[index % fallbacks.length];
-};
 
 const getWhyUsIcon = (index: number) => {
    const icons = [Search, Layers, Rocket, Lightbulb];
@@ -85,8 +74,9 @@ export const Home: React.FC = () => {
       description: s.description,
       details: s.details,
       image: s.imageUrl,
-      icon: getServiceIcon(s.title, i)
    }));
+
+   console.log(SERVICES_LIST, 'serviceslist')
 
    // 2. PARTNERS
    const PARTNERS_LOGOS = (siteSettings?.partnerLogos || []).map((p: any) => p.logoUrl);
@@ -110,8 +100,6 @@ export const Home: React.FC = () => {
       role: homePage?.founderMessage?.role || 'Founder',
       image: homePage?.founderMessage?.photo ? urlFor(homePage.founderMessage.photo).url() : ''
    };
-
-   console.log(FOUNDER_MESSAGE.image, 'imageurl')
 
    // 5. TESTIMONIALS & FAQS
    const TESTIMONIALS = (testimonialsData || []).map((t: any) => ({
