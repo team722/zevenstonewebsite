@@ -10,4 +10,11 @@ export const sanityClient = createClient({
 
 // Helper to generate optimized image URLs from Sanity image assets
 const builder = imageUrlBuilder(sanityClient);
-export const urlFor = (source: any) => builder.image(source);
+
+export const urlFor = (source: any) => {
+  // Safe fallback to prevent app crashes when images are missing in Sanity CMS
+  if (!source) {
+    return { url: () => '' };
+  }
+  return builder.image(source);
+};
