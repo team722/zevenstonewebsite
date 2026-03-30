@@ -1,10 +1,42 @@
+
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useQuery } from '@tanstack/react-query';
+import { sanityClient } from '../lib/sanity';
+import { TEAM_MEMBERS_QUERY, HOME_PAGE_QUERY, SITE_SETTINGS_QUERY } from '../lib/queries';
+import { LoadingSpinner } from '../components/ui/LoadingSpinner';
+import { ErrorState } from '../components/ui/ErrorState';
 import { Card } from '../components/ui/Card';
 import { Target, Lightbulb, Users, Heart, Rocket, Shield } from 'lucide-react';
-import { TEAM_MEMBERS, PROCESS_STEPS } from '../constants';
+
+// Fallback icons for Core Values (Sanity doesn't store React components)
+const VALUE_ICONS = [Users, Rocket, Shield, Lightbulb, Heart, Target];
 
 export const About: React.FC = () => {
+  const { data: teamMembers, isLoading: loadingTeam, error: teamError } = useQuery({
+    queryKey: ['teamMembers'],
+    queryFn: () => sanityClient.fetch(TEAM_MEMBERS_QUERY),
+  });
+
+  const { data: homePage, isLoading: loadingHome, error: homeError } = useQuery({
+    queryKey: ['homePage'],
+    queryFn: () => sanityClient.fetch(HOME_PAGE_QUERY),
+  });
+
+  const { data: siteSettings, isLoading: loadingSettings, error: settingsError } = useQuery({
+    queryKey: ['siteSettings'],
+    queryFn: () => sanityClient.fetch(SITE_SETTINGS_QUERY),
+  });
+
+  const isLoading = loadingTeam || loadingHome || loadingSettings;
+  const error = teamError || homeError || settingsError;
+
+  if (isLoading) return <LoadingSpinner />;
+  if (error) return <ErrorState />;
+
+  const processSteps = homePage?.processSteps || [];
+  const coreValues = siteSettings?.coreValues || [];
+
   return (
     <div className="pt-32 pb-20 min-h-screen bg-slate-50 font-sans relative overflow-hidden">
       
@@ -79,29 +111,30 @@ export const About: React.FC = () => {
               </div>
               <h2 className="font-bold text-3xl mb-4 text-zeven-dark">Our Mission</h2>
               <p className="text-zeven-gray text-lg leading-relaxed font-light">
-                To deliver meaningful results through smart, scalable solutions — tailored to each client’s stage of growth, industry, and ambition.
+                To deliver meaningful results through smart, scalable solutions — tailored to each client's stage of growth, industry, and ambition.
               </p>
             </div>
           </div>
         </motion.div>
 
-        {/* How We Work */}
-        <div className="mb-32">
-          <div className="text-center mb-16">
-            <h2 className="font-bold text-4xl md:text-5xl mb-6 text-zeven-dark">How We Work</h2>
-            <p className="text-zeven-gray text-xl font-light">A proven framework for digital success.</p>
-          </div>
-          
-          <div className="grid md:grid-cols-4 gap-6">
-            {PROCESS_STEPS.map((step, i) => (
-              <motion.div 
-                key={i} 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="relative group h-full"
-              >
+        {/* How We Work — from Sanity homePage.processSteps */}
+        {processSteps.length > 0 && (
+          <div className="mb-32">
+            <div className="text-center mb-16">
+              <h2 className="font-bold text-4xl md:text-5xl mb-6 text-zeven-dark">How We Work</h2>
+              <p className="text-zeven-gray text-xl font-light">A proven framework for digital success.</p>
+            </div>
+            
+            <div className="grid md:grid-cols-4 gap-6">
+              {processSteps.map((step: any, i: number) => (
+                <motion.div 
+                  key={i} 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="relative group h-full"
+                >
                  <div className="h-full p-8 bg-white/70 backdrop-blur-lg rounded-[2rem] border border-white/60 hover:border-zeven-blue/30 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
                     <div className="w-12 h-12 rounded-full bg-zeven-surface text-zeven-blue flex items-center justify-center mb-6 font-bold text-xl group-hover:bg-zeven-blue group-hover:text-white transition-colors">
                       {i + 1}
@@ -109,71 +142,72 @@ export const About: React.FC = () => {
                     <h3 className="font-bold text-xl mb-3 text-zeven-dark">{step.title}</h3>
                     <p className="text-zeven-gray text-sm leading-relaxed">{step.description}</p>
                  </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
-        {/* Values Grid */}
-        <div className="mb-32">
-          <h2 className="font-bold text-4xl md:text-5xl mb-16 text-center text-zeven-dark">Core Values</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              { title: "Client-Centered", desc: "Every decision starts with understanding your goals.", icon: Users },
-              { title: "Excellence in Execution", desc: "Precision, performance, and polish drive everything.", icon: Rocket },
-              { title: "Innovation with Integrity", desc: "We innovate responsibly with transparency and trust.", icon: Shield },
-              { title: "Creative Boldness", desc: "We’re not afraid to challenge conventions.", icon: Lightbulb },
-              { title: "Collaboration", desc: "The best work comes from open minds.", icon: Heart },
-              { title: "Results That Matter", desc: "Metrics that move your business forward.", icon: Target }
-            ].map((val, i) => (
-              <motion.div 
-                key={i}
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.05 }}
-                className="p-8 rounded-[2rem] bg-white border border-zeven-surface hover:border-zeven-blue/30 hover:shadow-lg transition-all duration-300 group"
-              >
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="p-3 rounded-xl bg-zeven-blue/5 text-zeven-blue group-hover:bg-zeven-blue group-hover:text-white transition-colors">
-                    <val.icon size={24}/>
-                  </div>
-                  <h3 className="font-bold text-lg text-zeven-dark">{val.title}</h3>
-                </div>
-                <p className="text-zeven-gray text-sm leading-relaxed">{val.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
-        {/* Team Section */}
-        <div className="text-center pb-20">
-          <h2 className="font-bold text-4xl md:text-5xl mb-6 text-zeven-dark">Meet the Minds</h2>
-          <p className="text-zeven-gray text-xl max-w-2xl mx-auto mb-16 font-light">
-            Our team is a fusion of strategists, designers, technologists, marketers, and storytellers.
-          </p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              {TEAM_MEMBERS.map((member, i) => (
-                  <motion.div 
-                    key={i} 
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.1 }}
-                    className="group"
-                  >
-                      <div className="aspect-[3/4] rounded-[2rem] overflow-hidden relative mb-6 shadow-md border-4 border-white">
-                          <img src={member.image} alt={member.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 filter grayscale group-hover:grayscale-0" />
-                          <div className="absolute inset-0 bg-gradient-to-t from-zeven-dark/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                          
-                          {/* Hover Socials or Info could go here */}
-                      </div>
-                      <h3 className="font-bold text-xl text-zeven-dark">{member.name}</h3>
-                      <p className="text-sm text-zeven-blue font-semibold uppercase tracking-wider">{member.role}</p>
-                  </motion.div>
+                </motion.div>
               ))}
+            </div>
           </div>
-        </div>
+        )}
+
+        {/* Values Grid — from Sanity siteSettings.coreValues */}
+        {coreValues.length > 0 && (
+          <div className="mb-32">
+            <h2 className="font-bold text-4xl md:text-5xl mb-16 text-center text-zeven-dark">Core Values</h2>
+            <div className="grid md:grid-cols-3 gap-6">
+              {coreValues.map((val: any, i: number) => {
+                const IconComponent = VALUE_ICONS[i % VALUE_ICONS.length];
+                return (
+                  <motion.div 
+                    key={val._key || i}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.05 }}
+                    className="p-8 rounded-[2rem] bg-white border border-zeven-surface hover:border-zeven-blue/30 hover:shadow-lg transition-all duration-300 group"
+                  >
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="p-3 rounded-xl bg-zeven-blue/5 text-zeven-blue group-hover:bg-zeven-blue group-hover:text-white transition-colors">
+                        <IconComponent size={24}/>
+                      </div>
+                      <h3 className="font-bold text-lg text-zeven-dark">{val.title}</h3>
+                    </div>
+                    <p className="text-zeven-gray text-sm leading-relaxed">{val.description}</p>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Team Section — from Sanity teamMembers */}
+        {teamMembers && teamMembers.length > 0 && (
+          <div className="text-center pb-20">
+            <h2 className="font-bold text-4xl md:text-5xl mb-6 text-zeven-dark">Meet the Minds</h2>
+            <p className="text-zeven-gray text-xl max-w-2xl mx-auto mb-16 font-light">
+              Our team is a fusion of strategists, designers, technologists, marketers, and storytellers.
+            </p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                {teamMembers.map((member: any, i: number) => (
+                    <motion.div 
+                      key={member._id || i} 
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: i * 0.1 }}
+                      className="group"
+                    >
+                        <div className="aspect-[3/4] rounded-[2rem] overflow-hidden relative mb-6 shadow-md border-4 border-white">
+                            <img src={member.photoUrl} alt={member.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 filter grayscale group-hover:grayscale-0" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-zeven-dark/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                            
+                            {/* Hover Socials or Info could go here */}
+                        </div>
+                        <h3 className="font-bold text-xl text-zeven-dark">{member.name}</h3>
+                        <p className="text-sm text-zeven-blue font-semibold uppercase tracking-wider">{member.role}</p>
+                    </motion.div>
+                ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
