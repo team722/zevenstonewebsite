@@ -15,7 +15,7 @@ import { Blog } from './pages/Blog';
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 * 1, // 1 minutes cache before refetching
+      //  staleTime: 1000 * 60 * 1, // 1 minutes cache before refetching
       retry: 2,
     },
   },

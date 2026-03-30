@@ -1,12 +1,35 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { CASE_STUDIES, TESTIMONIALS } from '../constants';
+import { useQuery } from '@tanstack/react-query';
+import { sanityClient } from '../lib/sanity';
+import { CASE_STUDIES_QUERY, TESTIMONIALS_QUERY } from '../lib/queries';
+import { LoadingSpinner } from '../components/ui/LoadingSpinner';
+import { ErrorState } from '../components/ui/ErrorState';
 import { Button } from '../components/ui/Button';
 import { ArrowRight, Quote, TrendingUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const SuccessStories: React.FC = () => {
+  const { data: caseStudies, isLoading: loadingCases, error: errorCases } = useQuery({
+    queryKey: ['caseStudies'],
+    queryFn: () => sanityClient.fetch(CASE_STUDIES_QUERY),
+  });
+
+  const { data: testimonials, isLoading: loadingTestimonials, error: errorTestimonials } = useQuery({
+    queryKey: ['testimonials'],
+    queryFn: () => sanityClient.fetch(TESTIMONIALS_QUERY),
+  });
+
+  const isLoading = loadingCases || loadingTestimonials;
+  const error = errorCases || errorTestimonials;
+
+  if (isLoading) return <LoadingSpinner />;
+  if (error) return <ErrorState />;
+
+  const stories = caseStudies || [];
+  const clientLove = (testimonials || []).slice(0, 3);
+
   return (
     <div className="pt-32 pb-20 min-h-screen bg-slate-50 font-sans relative overflow-hidden">
       
@@ -50,74 +73,79 @@ export const SuccessStories: React.FC = () => {
           </motion.p>
         </div>
 
-        {/* Featured Stories */}
-        <div className="grid gap-12 mb-32">
-          {CASE_STUDIES.map((study, idx) => (
-            <motion.div 
-               key={idx}
-               initial={{ opacity: 0, y: 40 }}
-               whileInView={{ opacity: 1, y: 0 }}
-               viewport={{ once: true }}
-               transition={{ duration: 0.6 }}
-               className="bg-white rounded-[2.5rem] border border-zeven-surface shadow-xl overflow-hidden grid lg:grid-cols-2 group hover:shadow-2xl transition-all"
-            >
-               <div className="relative h-[300px] lg:h-auto overflow-hidden">
-                  <img src={study.image} alt={study.headline} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                  <div className="absolute inset-0 bg-zeven-blue/10 group-hover:bg-transparent transition-colors duration-500" />
-               </div>
-               <div className="p-10 lg:p-16 flex flex-col justify-center">
-                  <div className="flex items-center gap-2 mb-6">
-                     <span className="w-8 h-px bg-zeven-blue" />
-                     <span className="text-zeven-blue font-bold uppercase tracking-wider text-sm">{study.client}</span>
-                  </div>
-                  <h2 className="text-3xl font-bold text-zeven-dark mb-6 leading-tight">{study.headline}</h2>
-                  <div className="grid grid-cols-2 gap-8 mb-8">
-                     <div>
-                        <h4 className="text-xs font-bold text-zeven-gray uppercase mb-2">Challenge</h4>
-                        <p className="text-sm text-zeven-dark leading-relaxed">{study.challenge}</p>
-                     </div>
-                     <div>
-                        <h4 className="text-xs font-bold text-zeven-gray uppercase mb-2">Impact</h4>
-                        <p className="text-sm font-bold text-zeven-blue flex items-center gap-1">
-                           <TrendingUp size={14} /> {study.impact}
-                        </p>
-                     </div>
-                  </div>
-                  <Link to={`/case-study/${idx}`}>
-                    <Button variant="outline" className="rounded-full w-fit group-hover:bg-zeven-blue group-hover:text-white group-hover:border-transparent">
-                       Read Full Story <ArrowRight size={16} className="ml-2" />
-                    </Button>
-                  </Link>
-               </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Client Love */}
-        <div className="mb-20">
-          <h2 className="text-3xl font-bold text-zeven-dark mb-12 text-center">Words from our Partners</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-             {TESTIMONIALS.slice(0, 3).map((test, i) => (
-                <motion.div 
-                   key={i}
-                   initial={{ opacity: 0, scale: 0.95 }}
-                   whileInView={{ opacity: 1, scale: 1 }}
-                   viewport={{ once: true }}
-                   className="bg-white/80 backdrop-blur p-8 rounded-[2rem] border border-white shadow-lg"
-                >
-                   <Quote className="text-zeven-blue/30 mb-6" size={32} />
-                   <p className="text-zeven-gray mb-6 leading-relaxed">"{test.quote}"</p>
-                   <div className="flex items-center gap-4">
-                      <img src={test.image} alt={test.author} className="w-12 h-12 rounded-full object-cover" />
-                      <div>
-                         <h4 className="font-bold text-zeven-dark text-sm">{test.author}</h4>
-                         <p className="text-xs text-zeven-blue">{test.company}</p>
-                      </div>
-                   </div>
-                </motion.div>
-             ))}
+        {/* Featured Stories (Sanity Case Studies) */}
+        {stories.length > 0 && (
+          <div className="grid gap-12 mb-32">
+            {stories.map((study: any, idx: number) => (
+              <motion.div 
+                 key={study._id || idx}
+                 initial={{ opacity: 0, y: 40 }}
+                 whileInView={{ opacity: 1, y: 0 }}
+                 viewport={{ once: true }}
+                 transition={{ duration: 0.6 }}
+                 className="bg-white rounded-[2.5rem] border border-zeven-surface shadow-xl overflow-hidden grid lg:grid-cols-2 group hover:shadow-2xl transition-all"
+              >
+                 <div className="relative h-[300px] lg:h-auto overflow-hidden">
+                    <img src={study.imageUrl} alt={study.headline} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                    <div className="absolute inset-0 bg-zeven-blue/10 group-hover:bg-transparent transition-colors duration-500" />
+                 </div>
+                 <div className="p-10 lg:p-16 flex flex-col justify-center">
+                    <div className="flex items-center gap-2 mb-6">
+                       <span className="w-8 h-px bg-zeven-blue" />
+                       <span className="text-zeven-blue font-bold uppercase tracking-wider text-sm">{study.client}</span>
+                    </div>
+                    <h2 className="text-3xl font-bold text-zeven-dark mb-6 leading-tight">{study.headline}</h2>
+                    <div className="grid grid-cols-2 gap-8 mb-8">
+                       <div>
+                          <h4 className="text-xs font-bold text-zeven-gray uppercase mb-2">Challenge</h4>
+                          <p className="text-sm text-zeven-dark leading-relaxed">{study.challenge}</p>
+                       </div>
+                       <div>
+                          <h4 className="text-xs font-bold text-zeven-gray uppercase mb-2">Impact</h4>
+                          <p className="text-sm font-bold text-zeven-blue flex items-center gap-1">
+                             <TrendingUp size={14} /> {study.impact}
+                          </p>
+                       </div>
+                    </div>
+                    {/* Assuming dynamic routing for case studies */}
+                    <Link to={`/case-study/${study._id || idx}`}>
+                      <Button variant="outline" className="rounded-full w-fit group-hover:bg-zeven-blue group-hover:text-white group-hover:border-transparent">
+                         Read Full Story <ArrowRight size={16} className="ml-2" />
+                      </Button>
+                    </Link>
+                 </div>
+              </motion.div>
+            ))}
           </div>
-        </div>
+        )}
+
+        {/* Client Love (Testimonials restricted to top 3) */}
+        {clientLove.length > 0 && (
+          <div className="mb-20">
+            <h2 className="text-3xl font-bold text-zeven-dark mb-12 text-center">Words from our Partners</h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+               {clientLove.map((test: any, i: number) => (
+                  <motion.div 
+                     key={test._id || i}
+                     initial={{ opacity: 0, scale: 0.95 }}
+                     whileInView={{ opacity: 1, scale: 1 }}
+                     viewport={{ once: true }}
+                     className="bg-white/80 backdrop-blur p-8 rounded-[2rem] border border-white shadow-lg"
+                  >
+                     <Quote className="text-zeven-blue/30 mb-6" size={32} />
+                     <p className="text-zeven-gray mb-6 leading-relaxed">"{test.quote}"</p>
+                     <div className="flex items-center gap-4">
+                        <img src={test.photoUrl} alt={test.author} className="w-12 h-12 rounded-full object-cover" />
+                        <div>
+                           <h4 className="font-bold text-zeven-dark text-sm">{test.author}</h4>
+                           <p className="text-xs text-zeven-blue">{test.company}</p>
+                        </div>
+                     </div>
+                  </motion.div>
+               ))}
+            </div>
+          </div>
+        )}
 
         {/* CTA */}
         <div className="bg-zeven-dark rounded-[3rem] p-12 text-center relative overflow-hidden">
