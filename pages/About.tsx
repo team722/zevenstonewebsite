@@ -1,13 +1,13 @@
 
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { sanityClient } from '../lib/sanity';
-import { TEAM_MEMBERS_QUERY, HOME_PAGE_QUERY, SITE_SETTINGS_QUERY } from '../lib/queries';
+import { TEAM_MEMBERS_QUERY, HOME_PAGE_QUERY, SITE_SETTINGS_QUERY, TESTIMONIALS_QUERY } from '../lib/queries';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
 import { ErrorState } from '../components/ui/ErrorState';
 import { Card } from '../components/ui/Card';
-import { Target, Lightbulb, Users, Heart, Rocket, Shield } from 'lucide-react';
+import { Target, Lightbulb, Users, Heart, Rocket, Shield, Quote, ChevronLeft, ChevronRight } from 'lucide-react';
 
 // Fallback icons for Core Values (Sanity doesn't store React components)
 const VALUE_ICONS = [Users, Rocket, Shield, Lightbulb, Heart, Target];
@@ -28,14 +28,22 @@ export const About: React.FC = () => {
     queryFn: () => sanityClient.fetch(SITE_SETTINGS_QUERY),
   });
 
-  const isLoading = loadingTeam || loadingHome || loadingSettings;
-  const error = teamError || homeError || settingsError;
+  const { data: testimonials, isLoading: loadingTestimonials, error: testimonialsError } = useQuery({
+    queryKey: ['testimonials'],
+    queryFn: () => sanityClient.fetch(TESTIMONIALS_QUERY),
+  });
+
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
+
+  const isLoading = loadingTeam || loadingHome || loadingSettings || loadingTestimonials;
+  const error = teamError || homeError || settingsError || testimonialsError;
 
   if (isLoading) return <LoadingSpinner />;
   if (error) return <ErrorState />;
 
   const processSteps = homePage?.processSteps || [];
   const coreValues = siteSettings?.coreValues || [];
+  const hasTestimonials = testimonials && testimonials.length > 0;
 
   return (
     <div className="pt-32 pb-20 min-h-screen bg-slate-50 font-sans relative overflow-hidden">
@@ -207,6 +215,95 @@ export const About: React.FC = () => {
                 ))}
             </div>
           </div>
+        )}
+
+        {/* --- TESTIMONIALS (Interactive) --- */}
+        {hasTestimonials && (
+          <section className="py-24 bg-gradient-to-b from-white/0 to-zeven-surface/30 rounded-[3rem] -mx-6 px-6 relative mt-16">
+            <div className="container mx-auto px-0">
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.6, ease: "easeOut" }}
+                >
+                  <div className="flex justify-center items-end mb-16 text-center">
+                    <div>
+                        <h2 className="text-4xl font-bold text-zeven-dark">What Our <span className="text-zeven-blue">Clients Say</span></h2>
+                        <p className="text-sm text-zeven-gray mt-2">Real feedback from real partners.</p>
+                    </div>
+                  </div>
+                </motion.div>
+
+                <div className="bg-white rounded-[2.5rem] p-8 md:p-16 relative overflow-hidden shadow-2xl border border-zeven-surface max-w-5xl mx-auto">
+                  <div className="grid md:grid-cols-12 gap-12 items-center relative z-10">
+                      {/* Image */}
+                      <div className="md:col-span-5 lg:col-span-4">
+                        <AnimatePresence mode='wait'>
+                          <motion.div 
+                            key={currentTestimonial}
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: 20 }}
+                            transition={{ duration: 0.4 }}
+                            className="aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl border-4 border-white rotate-2 hover:rotate-0 transition-transform duration-500 bg-gray-100"
+                          >
+                              {testimonials[currentTestimonial].photoUrl ? (
+                                <img src={testimonials[currentTestimonial].photoUrl} alt="Client" className="w-full h-full object-cover" />
+                              ) : (
+                                <div className="w-full h-full flex flex-col items-center justify-center text-gray-400">
+                                  <Users size={64} className="mb-4 opacity-50" />
+                                  <p className="font-medium">No Image</p>
+                                </div>
+                              )}
+                          </motion.div>
+                        </AnimatePresence>
+                      </div>
+
+                      {/* Text */}
+                      <div className="md:col-span-7 lg:col-span-8">
+                        <Quote size={48} className="text-zeven-blue/20 mb-6" />
+                        <AnimatePresence mode='wait'>
+                          <motion.div
+                              key={currentTestimonial}
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -10 }}
+                          >
+                            <p className="text-2xl md:text-3xl font-medium text-zeven-dark leading-relaxed mb-8">"{testimonials[currentTestimonial].quote}"</p>
+                            <h4 className="text-zeven-blue font-bold text-2xl mb-1">{testimonials[currentTestimonial].author}</h4>
+                            <p className="text-zeven-gray font-medium">{testimonials[currentTestimonial].role}, {testimonials[currentTestimonial].company}</p>
+                          </motion.div>
+                        </AnimatePresence>
+
+                        {/* Thumbnails Control */}
+                        <div className="flex flex-wrap items-center gap-4 mt-12 pt-12 border-t border-zeven-gray/10">
+                            <button onClick={() => setCurrentTestimonial(prev => (prev - 1 + testimonials.length) % testimonials.length)} className="p-3 rounded-full border border-zeven-blue/20 hover:bg-zeven-blue hover:text-white text-zeven-blue transition-colors">
+                              <ChevronLeft size={20} />
+                            </button>
+                            <div className="flex gap-3">
+                              {testimonials.map((t: any, idx: number) => (
+                                  <button key={idx} onClick={() => setCurrentTestimonial(idx)} className={`w-14 h-14 rounded-full overflow-hidden border-2 transition-all bg-gray-100 flex items-center justify-center ${currentTestimonial === idx ? 'border-zeven-blue scale-110 ring-4 ring-zeven-blue/10' : 'border-transparent opacity-60 hover:opacity-100 grayscale hover:grayscale-0'}`}>
+                                    {t.photoUrl ? (
+                                      <img src={t.photoUrl} alt="thumb" className="w-full h-full object-cover" />
+                                    ) : (
+                                      <Users size={20} className="text-gray-400" />
+                                    )}
+                                  </button>
+                              ))}
+                            </div>
+                            <button onClick={() => setCurrentTestimonial(prev => (prev + 1) % testimonials.length)} className="p-3 rounded-full border border-zeven-blue/20 hover:bg-zeven-blue hover:text-white text-zeven-blue transition-colors">
+                              <ChevronRight size={20} />
+                            </button>
+                        </div>
+                      </div>
+                  </div>
+                  
+                  {/* Decor */}
+                  <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-b from-zeven-blue/5 to-transparent rounded-full blur-3xl pointer-events-none" />
+                </div>
+            </div>
+          </section>
         )}
       </div>
     </div>
