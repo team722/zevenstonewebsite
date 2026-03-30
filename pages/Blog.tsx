@@ -3,9 +3,11 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { sanityClient } from '../lib/sanity';
-import { BLOG_POSTS_QUERY } from '../lib/queries';
+import { BLOG_POSTS_QUERY, BLOG_PAGE_SEO_QUERY } from '../lib/queries';
+import { urlFor } from '../lib/sanity';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
 import { ErrorState } from '../components/ui/ErrorState';
+import { Helmet } from 'react-helmet-async';
 import { Button } from '../components/ui/Button';
 import { ArrowRight, Calendar, User } from 'lucide-react';
 
@@ -13,6 +15,11 @@ export const Blog: React.FC = () => {
   const { data: posts, isLoading, error } = useQuery({
     queryKey: ['blogPosts'],
     queryFn: () => sanityClient.fetch(BLOG_POSTS_QUERY),
+  });
+
+  const { data: blogPageSeo } = useQuery({
+    queryKey: ['blogPageSeo'],
+    queryFn: () => sanityClient.fetch(BLOG_PAGE_SEO_QUERY),
   });
 
   if (isLoading) return <LoadingSpinner />;
@@ -25,6 +32,11 @@ export const Blog: React.FC = () => {
 
   return (
     <div className="pt-32 pb-20 min-h-screen bg-slate-50 font-sans relative overflow-hidden">
+      <Helmet>
+        <title>{blogPageSeo?.seo?.metaTitle || 'Blog | Zevenstone – Digital Marketing Insights & Tips'}</title>
+        <meta name="description" content={blogPageSeo?.seo?.metaDescription || "Stay ahead with Zevenstone's blog. Expert articles on SEO, web design, digital marketing strategies, and industry trends."} />
+        {blogPageSeo?.seo?.ogImage && <meta property="og:image" content={urlFor(blogPageSeo.seo.ogImage).url()} />}
+      </Helmet>
       
       {/* Background */}
       <div className="fixed inset-0 pointer-events-none z-0">

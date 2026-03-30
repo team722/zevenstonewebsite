@@ -76,7 +76,8 @@ export const HOME_PAGE_QUERY = `
     stats, whyUsItems, processSteps, moreServicesTags,
     founderMessage {
       title, content, author, role, photo
-    }
+    },
+    seo
   }
 `;
 
@@ -85,6 +86,26 @@ export const SITE_SETTINGS_QUERY = `
     partnerLogos[]{ name, "logoUrl": logo.asset->url },
     coreValues, contactEmail, phoneNumber, address, linkedIn, instagram, twitter
   }
+`;
+
+export const ABOUT_PAGE_SEO_QUERY = `
+  *[_type == "aboutPage"][0] { seo }
+`;
+
+export const SERVICES_PAGE_SEO_QUERY = `
+  *[_type == "servicesPage"][0] { seo }
+`;
+
+export const PORTFOLIO_PAGE_SEO_QUERY = `
+  *[_type == "portfolioPage"][0] { seo }
+`;
+
+export const SUCCESS_STORIES_PAGE_SEO_QUERY = `
+  *[_type == "successStoriesPage"][0] { seo }
+`;
+
+export const BLOG_PAGE_SEO_QUERY = `
+  *[_type == "blogPage"][0] { seo }
 `;
 
 export const LANDING_PAGE_QUERY = `
