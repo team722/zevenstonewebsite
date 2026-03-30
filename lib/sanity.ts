@@ -1,11 +1,17 @@
 import { createClient } from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
 
+const token = import.meta.env.VITE_SANITY_TOKEN;
+
 export const sanityClient = createClient({
   projectId: import.meta.env.VITE_SANITY_PROJECT_ID,
   dataset: import.meta.env.VITE_SANITY_DATASET,
-  useCdn: true,          // Enable edge caching (fastest for users)
+  // CDN must be OFF when using a token (CDN doesn't support auth requests)
+  // CDN is ON when no token (faster for regular public users)
+  useCdn: !token,
+  token: token || undefined,
   apiVersion: '2024-01-01',
+  perspective: token ? 'previewDrafts' : 'published',
 });
 
 // Helper to generate optimized image URLs from Sanity image assets

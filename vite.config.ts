@@ -8,6 +8,13 @@ export default defineConfig(({ mode }) => {
       server: {
         port: 3000,
         host: true, // binds to both IPv4 and IPv6 to avoid localhost issues
+        headers: {
+          // Allow Sanity Studio (localhost:3333) to embed this app in an iframe
+          // for the Presentation Tool (live split-screen preview)
+          'Access-Control-Allow-Origin': '*',
+          'X-Frame-Options': 'ALLOWALL',
+          'Content-Security-Policy': "frame-ancestors 'self' http://localhost:3333 https://*.sanity.studio",
+        },
       },
       plugins: [react()],
       define: {
