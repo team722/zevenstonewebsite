@@ -3,9 +3,11 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { sanityClient } from '../lib/sanity';
-import { SERVICES_QUERY, HOME_PAGE_QUERY } from '../lib/queries';
+import { SERVICES_QUERY, HOME_PAGE_QUERY, SERVICES_PAGE_SEO_QUERY } from '../lib/queries';
+import { urlFor } from '../lib/sanity';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
 import { ErrorState } from '../components/ui/ErrorState';
+import { Helmet } from 'react-helmet-async';
 import { Check, ArrowRight, Zap, Code, Database, Layout, Smartphone, Globe, LineChart } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Link } from 'react-router-dom';
@@ -47,6 +49,11 @@ export const Services: React.FC = () => {
     queryFn: () => sanityClient.fetch(HOME_PAGE_QUERY),
   });
 
+  const { data: servicesPageSeo } = useQuery({
+    queryKey: ['servicesPageSeo'],
+    queryFn: () => sanityClient.fetch(SERVICES_PAGE_SEO_QUERY),
+  });
+
   const isLoading = loadingServices || loadingHome;
   const error = servicesError || homeError;
 
@@ -60,6 +67,11 @@ export const Services: React.FC = () => {
 
   return (
     <div className="pt-32 min-h-screen bg-white font-sans relative overflow-hidden selection:bg-zeven-blue selection:text-white">
+      <Helmet>
+        <title>{servicesPageSeo?.seo?.metaTitle || 'Our Services | Zevenstone – Digital Marketing & Web Solutions'}</title>
+        <meta name="description" content={servicesPageSeo?.seo?.metaDescription || "Explore Zevenstone's full suite of services: SEO, Web Development, App Development, Social Media Marketing, Video Production & AI Solutions."} />
+        {servicesPageSeo?.seo?.ogImage && <meta property="og:image" content={urlFor(servicesPageSeo.seo.ogImage).url()} />}
+      </Helmet>
 
       {/* --- BACKGROUND ENGINE --- */}
       <div className="fixed inset-0 pointer-events-none z-0">

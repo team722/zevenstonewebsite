@@ -3,9 +3,11 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { sanityClient } from '../lib/sanity';
-import { CASE_STUDIES_QUERY, TESTIMONIALS_QUERY } from '../lib/queries';
+import { CASE_STUDIES_QUERY, TESTIMONIALS_QUERY, SUCCESS_STORIES_PAGE_SEO_QUERY } from '../lib/queries';
+import { urlFor } from '../lib/sanity';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
 import { ErrorState } from '../components/ui/ErrorState';
+import { Helmet } from 'react-helmet-async';
 import { Button } from '../components/ui/Button';
 import { ArrowRight, Quote, TrendingUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -21,6 +23,11 @@ export const SuccessStories: React.FC = () => {
     queryFn: () => sanityClient.fetch(TESTIMONIALS_QUERY),
   });
 
+  const { data: successStoriesPageSeo } = useQuery({
+    queryKey: ['successStoriesPageSeo'],
+    queryFn: () => sanityClient.fetch(SUCCESS_STORIES_PAGE_SEO_QUERY),
+  });
+
   const isLoading = loadingCases || loadingTestimonials;
   const error = errorCases || errorTestimonials;
 
@@ -32,6 +39,11 @@ export const SuccessStories: React.FC = () => {
 
   return (
     <div className="pt-32 pb-20 min-h-screen bg-slate-50 font-sans relative overflow-hidden">
+      <Helmet>
+        <title>{successStoriesPageSeo?.seo?.metaTitle || 'Success Stories | Zevenstone – Real Results, Real Clients'}</title>
+        <meta name="description" content={successStoriesPageSeo?.seo?.metaDescription || 'Discover how Zevenstone helped businesses grow with measurable results. Read our client case studies and testimonials.'} />
+        {successStoriesPageSeo?.seo?.ogImage && <meta property="og:image" content={urlFor(successStoriesPageSeo.seo.ogImage).url()} />}
+      </Helmet>
       
       {/* Background */}
       <div className="fixed inset-0 pointer-events-none z-0">

@@ -3,9 +3,11 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { sanityClient } from '../lib/sanity';
-import { TEAM_MEMBERS_QUERY, HOME_PAGE_QUERY, SITE_SETTINGS_QUERY, TESTIMONIALS_QUERY } from '../lib/queries';
+import { TEAM_MEMBERS_QUERY, HOME_PAGE_QUERY, SITE_SETTINGS_QUERY, TESTIMONIALS_QUERY, ABOUT_PAGE_SEO_QUERY } from '../lib/queries';
+import { urlFor } from '../lib/sanity';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
 import { ErrorState } from '../components/ui/ErrorState';
+import { Helmet } from 'react-helmet-async';
 import { Card } from '../components/ui/Card';
 import { Target, Lightbulb, Users, Heart, Rocket, Shield, Quote, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -33,6 +35,11 @@ export const About: React.FC = () => {
     queryFn: () => sanityClient.fetch(TESTIMONIALS_QUERY),
   });
 
+  const { data: aboutPageSeo } = useQuery({
+    queryKey: ['aboutPageSeo'],
+    queryFn: () => sanityClient.fetch(ABOUT_PAGE_SEO_QUERY),
+  });
+
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
 
   const isLoading = loadingTeam || loadingHome || loadingSettings || loadingTestimonials;
@@ -47,6 +54,11 @@ export const About: React.FC = () => {
 
   return (
     <div className="pt-32 pb-20 min-h-screen bg-slate-50 font-sans relative overflow-hidden">
+      <Helmet>
+        <title>{aboutPageSeo?.seo?.metaTitle || 'About Us | Zevenstone – Who We Are & What We Stand For'}</title>
+        <meta name="description" content={aboutPageSeo?.seo?.metaDescription || 'Meet the Zevenstone team. We are a results-driven digital agency building brands, websites, and legacies that outlast trends.'} />
+        {aboutPageSeo?.seo?.ogImage && <meta property="og:image" content={urlFor(aboutPageSeo.seo.ogImage).url()} />}
+      </Helmet>
       
       {/* --- BACKGROUND ENGINE --- */}
       <div className="fixed inset-0 pointer-events-none z-0">

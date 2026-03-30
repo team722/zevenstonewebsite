@@ -3,9 +3,11 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { sanityClient } from '../lib/sanity';
-import { PORTFOLIO_PROJECTS_QUERY, PORTFOLIO_CATEGORIES_QUERY } from '../lib/queries';
+import { PORTFOLIO_PROJECTS_QUERY, PORTFOLIO_CATEGORIES_QUERY, PORTFOLIO_PAGE_SEO_QUERY } from '../lib/queries';
+import { urlFor } from '../lib/sanity';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
 import { ErrorState } from '../components/ui/ErrorState';
+import { Helmet } from 'react-helmet-async';
 import { Button } from '../components/ui/Button';
 import { ExternalLink, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -21,6 +23,11 @@ export const Portfolio: React.FC = () => {
   const { data: categoriesData, isLoading: loadingCategories, error: errorCategories } = useQuery({
     queryKey: ['portfolioCategories'],
     queryFn: () => sanityClient.fetch(PORTFOLIO_CATEGORIES_QUERY),
+  });
+
+  const { data: portfolioPageSeo } = useQuery({
+    queryKey: ['portfolioPageSeo'],
+    queryFn: () => sanityClient.fetch(PORTFOLIO_PAGE_SEO_QUERY),
   });
 
   const isLoading = loadingProjects || loadingCategories;
@@ -39,6 +46,11 @@ export const Portfolio: React.FC = () => {
 
   return (
     <div className="pt-32 pb-20 min-h-screen bg-slate-50 font-sans relative overflow-hidden">
+      <Helmet>
+        <title>{portfolioPageSeo?.seo?.metaTitle || 'Portfolio | Zevenstone – Our Work & Case Studies'}</title>
+        <meta name="description" content={portfolioPageSeo?.seo?.metaDescription || "Browse Zevenstone's portfolio of successful digital projects. From e-commerce to enterprise apps, see the results we deliver."} />
+        {portfolioPageSeo?.seo?.ogImage && <meta property="og:image" content={urlFor(portfolioPageSeo.seo.ogImage).url()} />}
+      </Helmet>
       
       {/* --- BACKGROUND ENGINE --- */}
       <div className="fixed inset-0 pointer-events-none z-0">

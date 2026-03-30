@@ -1,9 +1,10 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { sanityClient } from '../lib/sanity';
+import { sanityClient, urlFor } from '../lib/sanity';
 import { LANDING_PAGE_QUERY } from '../lib/queries';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
+import { Helmet } from 'react-helmet-async';
 
 import { HeroSection } from '../components/blocks/HeroSection';
 import { FeaturesGrid } from '../components/blocks/FeaturesGrid';
@@ -49,6 +50,12 @@ export const LandingPage: React.FC = () => {
 
   return (
     <div className="bg-white min-h-screen">
+      <Helmet>
+        <title>{page.seo?.metaTitle || page.title} | Zevenstone</title>
+        <meta name="description" content={page.seo?.metaDescription || `Zevenstone - ${page.title}`} />
+        {page.seo?.ogImage && <meta property="og:image" content={urlFor(page.seo.ogImage).url()} />}
+      </Helmet>
+
       {page.pageBlocks?.map((block: any, i: number) => {
         const BlockComponent = BLOCK_MAP[block._type];
         return BlockComponent ? <BlockComponent key={i} {...block} /> : null;

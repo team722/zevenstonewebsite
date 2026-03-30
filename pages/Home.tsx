@@ -11,6 +11,7 @@ import { HOME_PAGE_QUERY, SERVICES_QUERY, TESTIMONIALS_QUERY, FAQS_QUERY, SITE_S
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
 import { ErrorState } from '../components/ui/ErrorState';
 import { Code, Database, Layout, Smartphone, Globe, LineChart } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 
 
 const getWhyUsIcon = (index: number) => {
@@ -143,6 +144,11 @@ export const Home: React.FC = () => {
 
    return (
       <div className="flex flex-col min-h-screen bg-white font-sans overflow-x-hidden">
+         <Helmet>
+           <title>{homePage?.seo?.metaTitle || 'Zevenstone – Digital Marketing Agency | Web Design & SEO'}</title>
+           <meta name="description" content={homePage?.seo?.metaDescription || 'Zevenstone is a full-service digital marketing agency specialising in SEO, web development, social media, and AI-powered growth strategies.'} />
+           {homePage?.seo?.ogImage && <meta property="og:image" content={urlFor(homePage.seo.ogImage).url()} />}
+         </Helmet>
 
          {/* --- HERO SECTION --- */}
          <section className="relative min-h-[105vh] flex items-center pt-20 pb-40 overflow-hidden bg-white">
