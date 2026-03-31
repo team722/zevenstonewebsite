@@ -145,9 +145,9 @@ export const Home: React.FC = () => {
    return (
       <div className="flex flex-col min-h-screen bg-white font-sans overflow-x-hidden">
          <Helmet>
-           <title>{homePage?.seo?.metaTitle || 'Zevenstone – Digital Marketing Agency | Web Design & SEO'}</title>
-           <meta name="description" content={homePage?.seo?.metaDescription || 'Zevenstone is a full-service digital marketing agency specialising in SEO, web development, social media, and AI-powered growth strategies.'} />
-           {homePage?.seo?.ogImage && <meta property="og:image" content={urlFor(homePage.seo.ogImage).url()} />}
+           <title>{homePage?.seo?.title || homePage?.seo?.metaTitle || 'Zevenstone – Digital Marketing Agency | Web Design & SEO'}</title>
+           <meta name="description" content={homePage?.seo?.description || homePage?.seo?.metaDescription || 'Zevenstone is a full-service digital marketing agency specialising in SEO, web development, social media, and AI-powered growth strategies.'} />
+           {(homePage?.seo?.metaImage || homePage?.seo?.ogImage) && <meta property="og:image" content={urlFor(homePage.seo.metaImage || homePage.seo.ogImage).url()} />}
          </Helmet>
 
          {/* --- HERO SECTION --- */}

@@ -52,8 +52,8 @@ export const LandingPage: React.FC = () => {
     <div className="bg-white min-h-screen">
       <Helmet>
         <title>{page.seo?.metaTitle || page.title} | Zevenstone</title>
-        <meta name="description" content={page.seo?.metaDescription || `Zevenstone - ${page.title}`} />
-        {page.seo?.ogImage && <meta property="og:image" content={urlFor(page.seo.ogImage).url()} />}
+        <meta name="description" content={page.seo?.description || page.seo?.metaDescription || `Zevenstone - ${page.title}`} />
+        {(page.seo?.metaImage || page.seo?.ogImage) && <meta property="og:image" content={urlFor(page.seo.metaImage || page.seo.ogImage).url()} />}
       </Helmet>
 
       {page.pageBlocks?.map((block: any, i: number) => {

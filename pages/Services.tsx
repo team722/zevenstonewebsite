@@ -68,9 +68,9 @@ export const Services: React.FC = () => {
   return (
     <div className="pt-32 min-h-screen bg-white font-sans relative overflow-hidden selection:bg-zeven-blue selection:text-white">
       <Helmet>
-        <title>{servicesPageSeo?.seo?.metaTitle || 'Our Services | Zevenstone – Digital Marketing & Web Solutions'}</title>
-        <meta name="description" content={servicesPageSeo?.seo?.metaDescription || "Explore Zevenstone's full suite of services: SEO, Web Development, App Development, Social Media Marketing, Video Production & AI Solutions."} />
-        {servicesPageSeo?.seo?.ogImage && <meta property="og:image" content={urlFor(servicesPageSeo.seo.ogImage).url()} />}
+        <title>{servicesPageSeo?.seo?.title || servicesPageSeo?.seo?.metaTitle || 'Our Services | Zevenstone – Digital Marketing & Web Solutions'}</title>
+        <meta name="description" content={servicesPageSeo?.seo?.description || servicesPageSeo?.seo?.metaDescription || "Explore Zevenstone's full suite of services: SEO, Web Development, App Development, Social Media Marketing, Video Production & AI Solutions."} />
+        {(servicesPageSeo?.seo?.metaImage || servicesPageSeo?.seo?.ogImage) && <meta property="og:image" content={urlFor(servicesPageSeo.seo.metaImage || servicesPageSeo.seo.ogImage).url()} />}
       </Helmet>
 
       {/* --- BACKGROUND ENGINE --- */}

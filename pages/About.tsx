@@ -55,9 +55,9 @@ export const About: React.FC = () => {
   return (
     <div className="pt-32 pb-20 min-h-screen bg-slate-50 font-sans relative overflow-hidden">
       <Helmet>
-        <title>{aboutPageSeo?.seo?.metaTitle || 'About Us | Zevenstone – Who We Are & What We Stand For'}</title>
-        <meta name="description" content={aboutPageSeo?.seo?.metaDescription || 'Meet the Zevenstone team. We are a results-driven digital agency building brands, websites, and legacies that outlast trends.'} />
-        {aboutPageSeo?.seo?.ogImage && <meta property="og:image" content={urlFor(aboutPageSeo.seo.ogImage).url()} />}
+        <title>{aboutPageSeo?.seo?.title || aboutPageSeo?.seo?.metaTitle || 'About Us | Zevenstone – Who We Are & What We Stand For'}</title>
+        <meta name="description" content={aboutPageSeo?.seo?.description || aboutPageSeo?.seo?.metaDescription || 'Meet the Zevenstone team. We are a results-driven digital agency building brands, websites, and legacies that outlast trends.'} />
+        {(aboutPageSeo?.seo?.metaImage || aboutPageSeo?.seo?.ogImage) && <meta property="og:image" content={urlFor(aboutPageSeo.seo.metaImage || aboutPageSeo.seo.ogImage).url()} />}
       </Helmet>
       
       {/* --- BACKGROUND ENGINE --- */}

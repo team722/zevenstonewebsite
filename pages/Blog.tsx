@@ -34,9 +34,9 @@ export const Blog: React.FC = () => {
   return (
     <div className="pt-32 pb-20 min-h-screen bg-slate-50 font-sans relative overflow-hidden">
       <Helmet>
-        <title>{blogPageSeo?.seo?.metaTitle || 'Blog | Zevenstone – Digital Marketing Insights & Tips'}</title>
-        <meta name="description" content={blogPageSeo?.seo?.metaDescription || "Stay ahead with Zevenstone's blog. Expert articles on SEO, web design, digital marketing strategies, and industry trends."} />
-        {blogPageSeo?.seo?.ogImage && <meta property="og:image" content={urlFor(blogPageSeo.seo.ogImage).url()} />}
+        <title>{blogPageSeo?.seo?.title || blogPageSeo?.seo?.metaTitle || 'Blog | Zevenstone – Digital Marketing Insights & Tips'}</title>
+        <meta name="description" content={blogPageSeo?.seo?.description || blogPageSeo?.seo?.metaDescription || "Stay ahead with Zevenstone's blog. Expert articles on SEO, web design, digital marketing strategies, and industry trends."} />
+        {(blogPageSeo?.seo?.metaImage || blogPageSeo?.seo?.ogImage) && <meta property="og:image" content={urlFor(blogPageSeo.seo.metaImage || blogPageSeo.seo.ogImage).url()} />}
       </Helmet>
       
       {/* Background */}
