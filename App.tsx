@@ -12,6 +12,7 @@ import { Contact } from './pages/Contact';
 import { SuccessStories } from './pages/SuccessStories';
 import { CaseStudy } from './pages/CaseStudy';
 import { Blog } from './pages/Blog';
+import { BlogPost } from './pages/BlogPost';
 import { LandingPage } from './pages/LandingPage';
 
 const queryClient = new QueryClient({
@@ -48,6 +49,7 @@ const App: React.FC = () => {
                 <Route path="/success-stories" element={<SuccessStories />} />
                 <Route path="/case-study/:id" element={<CaseStudy />} />
                 <Route path="/blog" element={<Blog />} />
+                <Route path="/blog/:slug" element={<BlogPost />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/:slug" element={<LandingPage />} />
               </Routes>
