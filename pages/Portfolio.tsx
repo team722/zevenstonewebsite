@@ -47,9 +47,9 @@ export const Portfolio: React.FC = () => {
   return (
     <div className="pt-32 pb-20 min-h-screen bg-slate-50 font-sans relative overflow-hidden">
       <Helmet>
-        <title>{portfolioPageSeo?.seo?.metaTitle || 'Portfolio | Zevenstone – Our Work & Case Studies'}</title>
-        <meta name="description" content={portfolioPageSeo?.seo?.metaDescription || "Browse Zevenstone's portfolio of successful digital projects. From e-commerce to enterprise apps, see the results we deliver."} />
-        {portfolioPageSeo?.seo?.ogImage && <meta property="og:image" content={urlFor(portfolioPageSeo.seo.ogImage).url()} />}
+        <title>{portfolioPageSeo?.seo?.title || portfolioPageSeo?.seo?.metaTitle || 'Portfolio | Zevenstone – Our Work & Case Studies'}</title>
+        <meta name="description" content={portfolioPageSeo?.seo?.description || portfolioPageSeo?.seo?.metaDescription || "Browse Zevenstone's portfolio of successful digital projects. From e-commerce to enterprise apps, see the results we deliver."} />
+        {(portfolioPageSeo?.seo?.metaImage || portfolioPageSeo?.seo?.ogImage) && <meta property="og:image" content={urlFor(portfolioPageSeo.seo.metaImage || portfolioPageSeo.seo.ogImage).url()} />}
       </Helmet>
       
       {/* --- BACKGROUND ENGINE --- */}

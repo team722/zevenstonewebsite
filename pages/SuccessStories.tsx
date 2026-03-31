@@ -40,9 +40,9 @@ export const SuccessStories: React.FC = () => {
   return (
     <div className="pt-32 pb-20 min-h-screen bg-slate-50 font-sans relative overflow-hidden">
       <Helmet>
-        <title>{successStoriesPageSeo?.seo?.metaTitle || 'Success Stories | Zevenstone – Real Results, Real Clients'}</title>
-        <meta name="description" content={successStoriesPageSeo?.seo?.metaDescription || 'Discover how Zevenstone helped businesses grow with measurable results. Read our client case studies and testimonials.'} />
-        {successStoriesPageSeo?.seo?.ogImage && <meta property="og:image" content={urlFor(successStoriesPageSeo.seo.ogImage).url()} />}
+        <title>{successStoriesPageSeo?.seo?.title || successStoriesPageSeo?.seo?.metaTitle || 'Success Stories | Zevenstone – Real Results, Real Clients'}</title>
+        <meta name="description" content={successStoriesPageSeo?.seo?.description || successStoriesPageSeo?.seo?.metaDescription || 'Discover how Zevenstone helped businesses grow with measurable results. Read our client case studies and testimonials.'} />
+        {(successStoriesPageSeo?.seo?.metaImage || successStoriesPageSeo?.seo?.ogImage) && <meta property="og:image" content={urlFor(successStoriesPageSeo.seo.metaImage || successStoriesPageSeo.seo.ogImage).url()} />}
       </Helmet>
       
       {/* Background */}
