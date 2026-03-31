@@ -8,6 +8,7 @@ import { urlFor } from '../lib/sanity';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
 import { ErrorState } from '../components/ui/ErrorState';
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 import { Button } from '../components/ui/Button';
 import { ArrowRight, Calendar, User } from 'lucide-react';
 
@@ -88,7 +89,9 @@ export const Blog: React.FC = () => {
                </div>
                <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight group-hover:text-blue-100 transition-colors">{featuredPost.title}</h2>
                <p className="text-lg text-gray-200 mb-8 max-w-2xl line-clamp-2">{featuredPost.excerpt}</p>
-               <Button className="rounded-full bg-white text-zeven-dark hover:bg-zeven-blue hover:text-white border-none">Read Article</Button>
+               <Link to={`/blog/${featuredPost.slug}`}>
+                  <Button className="rounded-full bg-white text-zeven-dark hover:bg-zeven-blue hover:text-white border-none">Read Article</Button>
+               </Link>
             </div>
          </motion.div>
 
@@ -119,9 +122,9 @@ export const Blog: React.FC = () => {
                      {post.excerpt}
                   </p>
                   <div className="mt-auto">
-                     <button className="text-zeven-blue font-bold text-sm uppercase tracking-wider flex items-center gap-2 group-hover:gap-3 transition-all">
+                     <Link to={`/blog/${post.slug}`} className="text-zeven-blue font-bold text-sm uppercase tracking-wider flex items-center gap-2 group-hover:gap-3 transition-all">
                         Read More <ArrowRight size={16}/>
-                     </button>
+                     </Link>
                   </div>
                </motion.div>
             ))}
