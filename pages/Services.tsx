@@ -153,6 +153,14 @@ export const Services: React.FC = () => {
         )}
 
         {/* --- SERVICES GRID --- */}
+        {servicesPageData?.featuresHeading?.heading && (
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-zeven-dark mb-4" dangerouslySetInnerHTML={{ __html: servicesPageData.featuresHeading.heading }}></h2>
+            {servicesPageData?.featuresHeading?.description && (
+              <p className="text-xl text-zeven-gray max-w-2xl mx-auto font-light">{servicesPageData.featuresHeading.description}</p>
+            )}
+          </div>
+        )}
         {services && services.length > 0 && (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-32">
             {services.map((service: any, index: number) => {
@@ -209,7 +217,7 @@ export const Services: React.FC = () => {
         {moreServicesTags && moreServicesTags.length > 0 && (
           <div className="mb-32 overflow-hidden">
             <div className="text-center mb-10">
-              <h3 className="text-sm font-bold text-zeven-gray uppercase tracking-widest">Powered by Modern Tech</h3>
+              <h3 className="text-sm font-bold text-zeven-gray uppercase tracking-widest" dangerouslySetInnerHTML={{ __html: servicesPageData?.techStackHeading?.heading || `Powered by Modern Tech` }}></h3>
             </div>
 
             <div className="relative">
@@ -245,15 +253,14 @@ export const Services: React.FC = () => {
             />
 
             <div className="relative z-10">
-              <h2 className="text-4xl md:text-6xl font-extrabold mb-6 text-white tracking-tight leading-tight">
-                Not sure where to start?
+              <h2 className="text-4xl md:text-6xl font-extrabold mb-6 text-white tracking-tight leading-tight" dangerouslySetInnerHTML={{ __html: servicesPageData?.notSureWhereToStartCta?.heading || `Not sure where to start?` }}>
               </h2>
               <p className="text-xl text-blue-100 mb-12 max-w-2xl mx-auto font-light">
-                We understand that no two businesses are alike. Let's schedule a discovery call to tailor a strategy that fits your unique needs.
+                {servicesPageData?.notSureWhereToStartCta?.description || `We understand that no two businesses are alike. Let's schedule a discovery call to tailor a strategy that fits your unique needs.`}
               </p>
-              <Link to="/contact">
+              <Link to={servicesPageData?.notSureWhereToStartCta?.button?.url || "/contact"}>
                 <Button size="lg" className="bg-white text-zeven-blue hover:bg-blue-50 border-none shadow-xl shadow-zeven-dark/10 text-lg px-12 py-5 h-auto rounded-full font-bold">
-                  Book a Free Strategy Call
+                  {servicesPageData?.notSureWhereToStartCta?.button?.text || `Book a Free Strategy Call`}
                 </Button>
               </Link>
             </div>
