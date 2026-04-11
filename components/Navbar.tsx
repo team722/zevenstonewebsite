@@ -5,11 +5,22 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ArrowRight } from 'lucide-react';
 import { NAV_ITEMS } from '../constants';
 import { Logo } from './ui/Logo';
+import { useQuery } from '@tanstack/react-query';
+import { sanityClient } from '../lib/sanity';
+import { SITE_SETTINGS_QUERY } from '../lib/queries';
 
 export const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+
+  const { data: siteSettings } = useQuery({
+    queryKey: ['siteSettings'],
+    queryFn: () => sanityClient.fetch(SITE_SETTINGS_QUERY),
+  });
+
+  const navItems = siteSettings?.navigation || NAV_ITEMS;
+  const ctaBtn = siteSettings?.headerCta;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,23 +50,28 @@ export const Navbar: React.FC = () => {
         >
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group relative z-20">
-            <Logo className={`transition-all duration-300 w-auto ${isScrolled ? 'h-8' : 'h-10 md:h-12'}`} />
+            {siteSettings?.logoUrl 
+              ? <img src={siteSettings.logoUrl} alt="Logo" className={`transition-all duration-300 w-auto object-contain ${isScrolled ? 'h-8' : 'h-10 md:h-12'}`} />
+              : <Logo className={`transition-all duration-300 w-auto ${isScrolled ? 'h-8' : 'h-10 md:h-12'}`} />
+            }
           </Link>
 
           {/* Desktop Menu */}
           <div className={`hidden md:flex items-center gap-1 absolute left-1/2 -translate-x-1/2`}>
-            {NAV_ITEMS.map((item) => {
-              const isActive = location.pathname === item.path;
+            {navItems.map((item: any, idx: number) => {
+              const path = item.url || item.path;
+              const label = item.text || item.label;
+              const isActive = location.pathname === path;
               return (
                 <Link
-                  key={item.path}
-                  to={item.path}
+                  key={path || idx}
+                  to={path || '#'}
                   className="relative px-5 py-2 group"
                 >
                   <span className={`relative z-10 text-sm font-semibold transition-colors duration-300 ${
                     isActive ? 'text-zeven-blue' : 'text-zeven-gray group-hover:text-zeven-dark'
                   }`}>
-                    {item.label}
+                    {label}
                   </span>
                   {isActive && (
                     <motion.div
@@ -76,7 +92,7 @@ export const Navbar: React.FC = () => {
 
           {/* CTA */}
           <div className="hidden md:block relative z-20">
-            <Link to="/contact">
+            <Link to={ctaBtn?.url || "/contact"}>
               <button className={`
                 group relative px-6 py-2.5 rounded-full overflow-hidden font-semibold text-sm transition-all duration-300
                 ${isScrolled 
@@ -85,7 +101,7 @@ export const Navbar: React.FC = () => {
                 }
               `}>
                 <span className="relative z-10 flex items-center gap-2 group-hover:gap-3 transition-all">
-                  Let's Talk <ArrowRight size={14} />
+                  {ctaBtn?.text || "Let's Talk"} <ArrowRight size={14} />
                 </span>
                 {/* Shine Effect */}
                 <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12" />
@@ -117,34 +133,37 @@ export const Navbar: React.FC = () => {
             <div className="absolute top-0 right-0 w-64 h-64 bg-zeven-blue/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
             
             <div className="flex flex-col gap-6 relative z-10">
-              {NAV_ITEMS.map((item, idx) => (
+              {navItems.map((item: any, idx: number) => {
+                const path = item.url || item.path;
+                const label = item.text || item.label;
+                return (
                 <motion.div
-                  key={item.path}
+                  key={path || idx}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.1 + idx * 0.05 }}
                 >
                   <Link
-                    to={item.path}
+                    to={path || '#'}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="flex items-center justify-between text-3xl font-sans font-bold text-zeven-dark border-b border-zeven-surface pb-4 hover:text-zeven-blue transition-colors group"
                   >
-                    {item.label}
+                    {label}
                     <ArrowRight className="opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 transition-all text-zeven-blue" />
                   </Link>
                 </motion.div>
-              ))}
+              )})}
               <motion.div
                  initial={{ opacity: 0, y: 20 }}
                  animate={{ opacity: 1, y: 0 }}
                  transition={{ delay: 0.4 }}
               >
                 <Link
-                  to="/contact"
+                  to={ctaBtn?.url || "/contact"}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="mt-4 w-full py-4 bg-zeven-blue text-white flex items-center justify-center gap-2 rounded-xl font-bold text-lg shadow-xl shadow-zeven-blue/20 active:scale-95 transition-transform"
                 >
-                  Let's Build Something
+                  {ctaBtn?.text || "Let's Build Something"}
                 </Link>
               </motion.div>
             </div>
