@@ -100,8 +100,13 @@ export const SITE_SETTINGS_QUERY = `
 export const ABOUT_PAGE_QUERY = `
   *[_type == "aboutPage"][0] { 
     hero { heading, subheading, description, "backgroundImageUrl": backgroundImage.asset->url, ctaButton },
-    visionAndMission { heading, content },
+    "heroImagesUrl": heroImages[].asset->url,
+    visionSection { heading, description },
+    missionSection { heading, description },
     howWeWorkHeading { heading, description },
+    coreValuesHeading { heading, description },
+    teamHeading { heading, description },
+    testimonialsHeading { heading, description },
     seo 
   }
 `;
