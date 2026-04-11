@@ -3,7 +3,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { sanityClient } from '../lib/sanity';
-import { CASE_STUDIES_QUERY, TESTIMONIALS_QUERY, SUCCESS_STORIES_PAGE_SEO_QUERY } from '../lib/queries';
+import { CASE_STUDIES_QUERY, TESTIMONIALS_QUERY, SUCCESS_STORIES_PAGE_QUERY } from '../lib/queries';
 import { urlFor } from '../lib/sanity';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
 import { ErrorState } from '../components/ui/ErrorState';
@@ -23,9 +23,9 @@ export const SuccessStories: React.FC = () => {
     queryFn: () => sanityClient.fetch(TESTIMONIALS_QUERY),
   });
 
-  const { data: successStoriesPageSeo } = useQuery({
-    queryKey: ['successStoriesPageSeo'],
-    queryFn: () => sanityClient.fetch(SUCCESS_STORIES_PAGE_SEO_QUERY),
+  const { data: successStoriesPageData } = useQuery({
+    queryKey: ['successStoriesPage'],
+    queryFn: () => sanityClient.fetch(SUCCESS_STORIES_PAGE_QUERY),
   });
 
   const isLoading = loadingCases || loadingTestimonials;
@@ -40,9 +40,9 @@ export const SuccessStories: React.FC = () => {
   return (
     <div className="pt-32 pb-20 min-h-screen bg-slate-50 font-sans relative overflow-hidden">
       <Helmet>
-        <title>{successStoriesPageSeo?.seo?.title || successStoriesPageSeo?.seo?.metaTitle || 'Success Stories | Zevenstone – Real Results, Real Clients'}</title>
-        <meta name="description" content={successStoriesPageSeo?.seo?.description || successStoriesPageSeo?.seo?.metaDescription || 'Discover how Zevenstone helped businesses grow with measurable results. Read our client case studies and testimonials.'} />
-        {(successStoriesPageSeo?.seo?.metaImage || successStoriesPageSeo?.seo?.ogImage) && <meta property="og:image" content={urlFor(successStoriesPageSeo.seo.metaImage || successStoriesPageSeo.seo.ogImage).url()} />}
+        <title>{successStoriesPageData?.seo?.title || successStoriesPageData?.seo?.metaTitle || 'Success Stories | Zevenstone – Real Results, Real Clients'}</title>
+        <meta name="description" content={successStoriesPageData?.seo?.description || successStoriesPageData?.seo?.metaDescription || 'Discover how Zevenstone helped businesses grow with measurable results. Read our client case studies and testimonials.'} />
+        {(successStoriesPageData?.seo?.metaImage || successStoriesPageData?.seo?.ogImage) && <meta property="og:image" content={urlFor(successStoriesPageData.seo.metaImage || successStoriesPageData.seo.ogImage).url()} />}
       </Helmet>
       
       {/* Background */}
@@ -71,9 +71,9 @@ export const SuccessStories: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
             className="font-extrabold text-5xl md:text-7xl mb-8 text-zeven-dark tracking-tight"
+            dangerouslySetInnerHTML={{ __html: successStoriesPageData?.hero?.heading || `Growth That Is <br/>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-zeven-blue to-zeven-deep">Measurable</span>` }}
           >
-            Growth That Is <br/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-zeven-blue to-zeven-deep">Measurable</span>
           </motion.h1>
           <motion.p 
              initial={{ opacity: 0, y: 20 }}
@@ -81,7 +81,7 @@ export const SuccessStories: React.FC = () => {
              transition={{ delay: 0.2 }}
              className="text-xl text-zeven-gray max-w-2xl mx-auto font-light"
           >
-            Explore how we've helped ambitious brands transform their digital presence and achieve record-breaking results.
+            {successStoriesPageData?.hero?.description || `Explore how we've helped ambitious brands transform their digital presence and achieve record-breaking results.`}
           </motion.p>
         </div>
 

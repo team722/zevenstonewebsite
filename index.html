@@ -1,109 +1,120 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Zevenstone | Solutions That Scale</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['Poppins', 'sans-serif'],
-              signature: ['"Dancing Script"', 'cursive'],
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Dancing+Script:wght@400;700&display=swap"
+    rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Poppins', 'sans-serif'],
+            signature: ['"Dancing Script"', 'cursive'],
+          },
+          colors: {
+            zeven: {
+              blue: '#0099FF',
+              deep: '#0066CC',
+              light: '#33B5FF',
+              gray: '#8B8D91',
+              dark: '#2C2E33',
+              bg: '#FFFFFF',
+              surface: '#F5F6F8'
+            }
+          },
+          backgroundImage: {
+            'hero-pattern': 'radial-gradient(circle at 50% 50%, rgba(0, 153, 255, 0.05) 0%, rgba(255, 255, 255, 0) 50%)',
+            'grid-pattern': 'linear-gradient(to right, rgba(0,0,0,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.05) 1px, transparent 1px)',
+            'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+          },
+          animation: {
+            'float': 'float 6s ease-in-out infinite',
+            'blob': 'blob 7s infinite',
+            'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'marquee': 'scroll 60s linear infinite',
+            'marquee-reverse': 'scroll-reverse 60s linear infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-20px)' },
             },
-            colors: {
-              zeven: {
-                blue: '#0099FF',
-                deep: '#0066CC',
-                light: '#33B5FF',
-                gray: '#8B8D91',
-                dark: '#2C2E33',
-                bg: '#FFFFFF',
-                surface: '#F5F6F8'
-              }
+            blob: {
+              "0%": { transform: "translate(0px, 0px) scale(1)" },
+              "33%": { transform: "translate(30px, -50px) scale(1.1)" },
+              "66%": { transform: "translate(-20px, 20px) scale(0.9)" },
+              "100%": { transform: "translate(0px, 0px) scale(1)" },
             },
-            backgroundImage: {
-              'hero-pattern': 'radial-gradient(circle at 50% 50%, rgba(0, 153, 255, 0.05) 0%, rgba(255, 255, 255, 0) 50%)',
-              'grid-pattern': 'linear-gradient(to right, rgba(0,0,0,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.05) 1px, transparent 1px)',
-              'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+            scroll: {
+              '0%': { transform: 'translateX(0)' },
+              '100%': { transform: 'translateX(-50%)' },
             },
-            animation: {
-              'float': 'float 6s ease-in-out infinite',
-              'blob': 'blob 7s infinite',
-              'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-              'marquee': 'scroll 60s linear infinite',
-              'marquee-reverse': 'scroll-reverse 60s linear infinite',
-            },
-            keyframes: {
-              float: {
-                '0%, 100%': { transform: 'translateY(0)' },
-                '50%': { transform: 'translateY(-20px)' },
-              },
-              blob: {
-                "0%": { transform: "translate(0px, 0px) scale(1)" },
-                "33%": { transform: "translate(30px, -50px) scale(1.1)" },
-                "66%": { transform: "translate(-20px, 20px) scale(0.9)" },
-                "100%": { transform: "translate(0px, 0px) scale(1)" },
-              },
-              scroll: {
-                '0%': { transform: 'translateX(0)' },
-                '100%': { transform: 'translateX(-50%)' },
-              },
-              'scroll-reverse': {
-                '0%': { transform: 'translateX(-50%)' },
-                '100%': { transform: 'translateX(0)' },
-              }
+            'scroll-reverse': {
+              '0%': { transform: 'translateX(-50%)' },
+              '100%': { transform: 'translateX(0)' },
             }
           }
         }
       }
-    </script>
-    <style>
-      body {
-        background-color: #FFFFFF;
-        color: #2C2E33;
-        overflow-x: hidden;
-      }
-      /* Custom scrollbar */
-      ::-webkit-scrollbar {
-        width: 8px;
-      }
-      ::-webkit-scrollbar-track {
-        background: #F5F6F8;
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #8B8D91;
-        border-radius: 4px;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #0099FF;
-      }
-      .clip-geometric {
-        clip-path: polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%);
-      }
-      .glass-panel {
-        background: rgba(255, 255, 255, 0.7);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.5);
-      }
-      /* Animation Utilities */
-      .hover\:pause-animation:hover {
-        animation-play-state: paused;
-      }
-      .no-scrollbar::-webkit-scrollbar {
-        display: none;
-      }
-      .no-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-      }
-    </style>
+    }
+  </script>
+  <style>
+    body {
+      background-color: #FFFFFF;
+      color: #2C2E33;
+      overflow-x: hidden;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #F5F6F8;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #8B8D91;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #0099FF;
+    }
+
+    .clip-geometric {
+      clip-path: polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%);
+    }
+
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+
+    /* Animation Utilities */
+    .hover\:pause-animation:hover {
+      animation-play-state: paused;
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
   <script type="importmap">
 {
   "imports": {
@@ -116,10 +127,12 @@
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
+  <link rel="stylesheet" href="/index.css">
 </head>
-  <body>
-    <div id="root"></div>
+
+<body>
+  <div id="root"></div>
   <script type="module" src="/index.tsx"></script>
 </body>
+
 </html>

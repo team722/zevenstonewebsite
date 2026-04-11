@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { sanityClient } from '../lib/sanity';
-import { PORTFOLIO_PROJECTS_QUERY, PORTFOLIO_CATEGORIES_QUERY, PORTFOLIO_PAGE_SEO_QUERY } from '../lib/queries';
+import { PORTFOLIO_PROJECTS_QUERY, PORTFOLIO_CATEGORIES_QUERY, PORTFOLIO_PAGE_QUERY } from '../lib/queries';
 import { urlFor } from '../lib/sanity';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
 import { ErrorState } from '../components/ui/ErrorState';
@@ -25,9 +25,9 @@ export const Portfolio: React.FC = () => {
     queryFn: () => sanityClient.fetch(PORTFOLIO_CATEGORIES_QUERY),
   });
 
-  const { data: portfolioPageSeo } = useQuery({
-    queryKey: ['portfolioPageSeo'],
-    queryFn: () => sanityClient.fetch(PORTFOLIO_PAGE_SEO_QUERY),
+  const { data: portfolioPageData } = useQuery({
+    queryKey: ['portfolioPage'],
+    queryFn: () => sanityClient.fetch(PORTFOLIO_PAGE_QUERY),
   });
 
   const isLoading = loadingProjects || loadingCategories;
@@ -47,9 +47,9 @@ export const Portfolio: React.FC = () => {
   return (
     <div className="pt-32 pb-20 min-h-screen bg-slate-50 font-sans relative overflow-hidden">
       <Helmet>
-        <title>{portfolioPageSeo?.seo?.title || portfolioPageSeo?.seo?.metaTitle || 'Portfolio | Zevenstone – Our Work & Case Studies'}</title>
-        <meta name="description" content={portfolioPageSeo?.seo?.description || portfolioPageSeo?.seo?.metaDescription || "Browse Zevenstone's portfolio of successful digital projects. From e-commerce to enterprise apps, see the results we deliver."} />
-        {(portfolioPageSeo?.seo?.metaImage || portfolioPageSeo?.seo?.ogImage) && <meta property="og:image" content={urlFor(portfolioPageSeo.seo.metaImage || portfolioPageSeo.seo.ogImage).url()} />}
+        <title>{portfolioPageData?.seo?.title || portfolioPageData?.seo?.metaTitle || 'Portfolio | Zevenstone – Our Work & Case Studies'}</title>
+        <meta name="description" content={portfolioPageData?.seo?.description || portfolioPageData?.seo?.metaDescription || "Browse Zevenstone's portfolio of successful digital projects. From e-commerce to enterprise apps, see the results we deliver."} />
+        {(portfolioPageData?.seo?.metaImage || portfolioPageData?.seo?.ogImage) && <meta property="og:image" content={urlFor(portfolioPageData.seo.metaImage || portfolioPageData.seo.ogImage).url()} />}
       </Helmet>
       
       {/* --- BACKGROUND ENGINE --- */}
@@ -78,9 +78,8 @@ export const Portfolio: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
             className="font-extrabold text-5xl md:text-7xl mb-8 text-zeven-dark tracking-tight"
+            dangerouslySetInnerHTML={{ __html: portfolioPageData?.hero?.heading || `Results That <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-zeven-blue to-zeven-deep">Speak For Themselves</span>` }}
           >
-            Results That <br/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-zeven-blue to-zeven-deep">Speak For Themselves</span>
           </motion.h1>
           <motion.p 
              initial={{ opacity: 0, y: 20 }}
@@ -88,7 +87,7 @@ export const Portfolio: React.FC = () => {
              transition={{ delay: 0.2 }}
              className="text-xl text-zeven-gray max-w-2xl mx-auto font-light"
           >
-            Real challenges. Tailored solutions. Measurable impact.
+            {portfolioPageData?.hero?.description || `Real challenges. Tailored solutions. Measurable impact.`}
           </motion.p>
         </div>
 
