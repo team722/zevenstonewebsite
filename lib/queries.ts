@@ -111,6 +111,7 @@ export const SERVICES_PAGE_QUERY = `
     hero { heading, subheading, description, "backgroundImageUrl": backgroundImage.asset->url, ctaButton },
     notSureWhereToStartCta { heading, description, button },
     featuresHeading { heading, description },
+    techStackHeading { heading, description },
     seo 
   }
 `;
