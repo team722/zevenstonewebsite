@@ -80,7 +80,7 @@ export const About: React.FC = () => {
             transition={{ duration: 0.8 }}
           >
              <div className="inline-block px-4 py-1.5 rounded-full bg-zeven-blue/10 text-zeven-blue text-xs font-bold uppercase tracking-widest mb-6">
-               Who We Are
+               {aboutPageData?.hero?.subheading || 'Who We Are'}
              </div>
             <h1 className="font-extrabold text-5xl md:text-7xl mb-8 text-zeven-dark tracking-tight leading-[1.1]" dangerouslySetInnerHTML={{ __html: aboutPageData?.hero?.heading || `The Team Behind <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-zeven-blue to-zeven-deep">The Transformation</span>` }}>
             </h1>
@@ -97,8 +97,8 @@ export const About: React.FC = () => {
              {/* Image Grid with Glass effect */}
              <div className="relative z-10 p-4 bg-white/40 backdrop-blur-2xl rounded-[2.5rem] border border-white/50 shadow-2xl">
                 <div className="grid grid-cols-2 gap-4">
-                  <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop" className="rounded-3xl shadow-md w-full h-64 object-cover" alt="Team working" />
-                  <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2032&auto=format&fit=crop" className="rounded-3xl shadow-md w-full h-64 object-cover mt-8" alt="Meeting" />
+                  <img src={aboutPageData?.heroImagesUrl?.[0] || aboutPageData?.hero?.backgroundImageUrl || "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop"} className="rounded-3xl shadow-md w-full h-64 object-cover" alt="Team working" />
+                  <img src={aboutPageData?.heroImagesUrl?.[1] || "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2032&auto=format&fit=crop"} className="rounded-3xl shadow-md w-full h-64 object-cover mt-8" alt="Meeting" />
                 </div>
              </div>
              {/* Decor blobs */}
@@ -118,18 +118,18 @@ export const About: React.FC = () => {
               <div className="w-14 h-14 bg-zeven-blue rounded-2xl flex items-center justify-center text-white mb-8 shadow-lg shadow-zeven-blue/20">
                 <Lightbulb size={28} />
               </div>
-              <h2 className="font-bold text-3xl mb-4 text-zeven-dark">Our Vision</h2>
+              <h2 className="font-bold text-3xl mb-4 text-zeven-dark">{aboutPageData?.visionSection?.heading || "Our Vision"}</h2>
               <p className="text-zeven-gray text-lg leading-relaxed font-light">
-                To redefine digital excellence with a human-first approach — where technology, creativity, and empathy work hand in hand to create meaningful brand experiences.
+                {aboutPageData?.visionSection?.description || "To redefine digital excellence with a human-first approach — where technology, creativity, and empathy work hand in hand to create meaningful brand experiences."}
               </p>
             </div>
             <div>
                <div className="w-14 h-14 bg-zeven-dark rounded-2xl flex items-center justify-center text-white mb-8 shadow-lg">
                 <Target size={28} />
               </div>
-              <h2 className="font-bold text-3xl mb-4 text-zeven-dark">Our Mission</h2>
+              <h2 className="font-bold text-3xl mb-4 text-zeven-dark">{aboutPageData?.missionSection?.heading || "Our Mission"}</h2>
               <p className="text-zeven-gray text-lg leading-relaxed font-light">
-                To deliver meaningful results through smart, scalable solutions — tailored to each client's stage of growth, industry, and ambition.
+                {aboutPageData?.missionSection?.description || "To deliver meaningful results through smart, scalable solutions — tailored to each client's stage of growth, industry, and ambition."}
               </p>
             </div>
           </div>
@@ -139,8 +139,8 @@ export const About: React.FC = () => {
         {processSteps.length > 0 && (
           <div className="mb-32">
             <div className="text-center mb-16">
-              <h2 className="font-bold text-4xl md:text-5xl mb-6 text-zeven-dark">How We Work</h2>
-              <p className="text-zeven-gray text-xl font-light">A proven framework for digital success.</p>
+              <h2 className="font-bold text-4xl md:text-5xl mb-6 text-zeven-dark">{aboutPageData?.howWeWorkHeading?.heading || "How We Work"}</h2>
+              <p className="text-zeven-gray text-xl font-light">{aboutPageData?.howWeWorkHeading?.description || "A proven framework for digital success."}</p>
             </div>
             
             <div className="grid md:grid-cols-4 gap-6">
@@ -169,7 +169,9 @@ export const About: React.FC = () => {
         {/* Values Grid — from Sanity siteSettings.coreValues */}
         {coreValues.length > 0 && (
           <div className="mb-32">
-            <h2 className="font-bold text-4xl md:text-5xl mb-16 text-center text-zeven-dark">Core Values</h2>
+            <h2 className="font-bold text-4xl md:text-5xl mb-16 text-center text-zeven-dark">
+              {aboutPageData?.coreValuesHeading?.heading || "Core Values"}
+            </h2>
             <div className="grid md:grid-cols-3 gap-6">
               {coreValues.map((val: any, i: number) => {
                 const IconComponent = VALUE_ICONS[i % VALUE_ICONS.length];
@@ -199,9 +201,9 @@ export const About: React.FC = () => {
         {/* Team Section — from Sanity teamMembers */}
         {teamMembers && teamMembers.length > 0 && (
           <div className="text-center pb-20">
-            <h2 className="font-bold text-4xl md:text-5xl mb-6 text-zeven-dark">Meet the Minds</h2>
+            <h2 className="font-bold text-4xl md:text-5xl mb-6 text-zeven-dark">{aboutPageData?.teamHeading?.heading || "Meet the Minds"}</h2>
             <p className="text-zeven-gray text-xl max-w-2xl mx-auto mb-16 font-light">
-              Our team is a fusion of strategists, designers, technologists, marketers, and storytellers.
+              {aboutPageData?.teamHeading?.description || "Our team is a fusion of strategists, designers, technologists, marketers, and storytellers."}
             </p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                 {teamMembers.map((member: any, i: number) => (
@@ -239,8 +241,8 @@ export const About: React.FC = () => {
                 >
                   <div className="flex justify-center items-end mb-16 text-center">
                     <div>
-                        <h2 className="text-4xl font-bold text-zeven-dark">What Our <span className="text-zeven-blue">Clients Say</span></h2>
-                        <p className="text-sm text-zeven-gray mt-2">Real feedback from real partners.</p>
+                        <h2 className="text-4xl font-bold text-zeven-dark" dangerouslySetInnerHTML={{ __html: aboutPageData?.testimonialsHeading?.heading || `What Our <span class="text-zeven-blue">Clients Say</span>` }}></h2>
+                        <p className="text-sm text-zeven-gray mt-2">{aboutPageData?.testimonialsHeading?.description || "Real feedback from real partners."}</p>
                     </div>
                   </div>
                 </motion.div>

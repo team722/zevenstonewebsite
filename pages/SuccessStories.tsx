@@ -64,7 +64,7 @@ export const SuccessStories: React.FC = () => {
              animate={{ opacity: 1, y: 0 }}
              className="inline-block px-4 py-1.5 rounded-full bg-zeven-blue/10 text-zeven-blue text-xs font-bold uppercase tracking-widest mb-6"
           >
-            Success Stories
+            {successStoriesPageData?.hero?.subheading || 'Success Stories'}
           </motion.div>
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
@@ -134,7 +134,10 @@ export const SuccessStories: React.FC = () => {
         {/* Client Love (Testimonials restricted to top 3) */}
         {clientLove.length > 0 && (
           <div className="mb-20">
-            <h2 className="text-3xl font-bold text-zeven-dark mb-12 text-center">Words from our Partners</h2>
+            <h2 className="text-3xl font-bold text-zeven-dark mb-4 text-center">{successStoriesPageData?.storiesHeading?.heading || "Words from our Partners"}</h2>
+            {successStoriesPageData?.storiesHeading?.description && (
+              <p className="text-zeven-gray text-center max-w-2xl mx-auto mb-12">{successStoriesPageData.storiesHeading.description}</p>
+            )}
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                {clientLove.map((test: any, i: number) => (
                   <motion.div 
@@ -162,9 +165,14 @@ export const SuccessStories: React.FC = () => {
         {/* CTA */}
         <div className="bg-zeven-dark rounded-[3rem] p-12 text-center relative overflow-hidden">
            <div className="relative z-10">
-              <h2 className="text-3xl font-bold text-white mb-6">Ready to write your success story?</h2>
-              <Link to="/contact">
-                 <Button className="bg-white text-zeven-dark hover:bg-zeven-blue hover:text-white border-none shadow-xl">Start Your Project</Button>
+              <h2 className="text-3xl font-bold text-white mb-6" dangerouslySetInnerHTML={{ __html: successStoriesPageData?.readyToWriteCta?.heading || "Ready to write your success story?" }} />
+              {successStoriesPageData?.readyToWriteCta?.description && (
+                <p className="text-lg text-white/80 mb-8 max-w-2xl mx-auto">{successStoriesPageData.readyToWriteCta.description}</p>
+              )}
+              <Link to={successStoriesPageData?.readyToWriteCta?.button?.link || "/contact"}>
+                 <Button className="bg-white text-zeven-dark hover:bg-zeven-blue hover:text-white border-none shadow-xl">
+                   {successStoriesPageData?.readyToWriteCta?.button?.text || "Start Your Project"}
+                 </Button>
               </Link>
            </div>
            {/* Decor */}
