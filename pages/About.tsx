@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { sanityClient } from '../lib/sanity';
-import { TEAM_MEMBERS_QUERY, HOME_PAGE_QUERY, SITE_SETTINGS_QUERY, TESTIMONIALS_QUERY, ABOUT_PAGE_SEO_QUERY } from '../lib/queries';
+import { TEAM_MEMBERS_QUERY, HOME_PAGE_QUERY, SITE_SETTINGS_QUERY, TESTIMONIALS_QUERY, ABOUT_PAGE_QUERY } from '../lib/queries';
 import { urlFor } from '../lib/sanity';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
 import { ErrorState } from '../components/ui/ErrorState';
@@ -35,9 +35,9 @@ export const About: React.FC = () => {
     queryFn: () => sanityClient.fetch(TESTIMONIALS_QUERY),
   });
 
-  const { data: aboutPageSeo } = useQuery({
-    queryKey: ['aboutPageSeo'],
-    queryFn: () => sanityClient.fetch(ABOUT_PAGE_SEO_QUERY),
+  const { data: aboutPageData } = useQuery({
+    queryKey: ['aboutPage'],
+    queryFn: () => sanityClient.fetch(ABOUT_PAGE_QUERY),
   });
 
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
@@ -55,9 +55,9 @@ export const About: React.FC = () => {
   return (
     <div className="pt-32 pb-20 min-h-screen bg-slate-50 font-sans relative overflow-hidden">
       <Helmet>
-        <title>{aboutPageSeo?.seo?.title || aboutPageSeo?.seo?.metaTitle || 'About Us | Zevenstone – Who We Are & What We Stand For'}</title>
-        <meta name="description" content={aboutPageSeo?.seo?.description || aboutPageSeo?.seo?.metaDescription || 'Meet the Zevenstone team. We are a results-driven digital agency building brands, websites, and legacies that outlast trends.'} />
-        {(aboutPageSeo?.seo?.metaImage || aboutPageSeo?.seo?.ogImage) && <meta property="og:image" content={urlFor(aboutPageSeo.seo.metaImage || aboutPageSeo.seo.ogImage).url()} />}
+        <title>{aboutPageData?.seo?.title || aboutPageData?.seo?.metaTitle || 'About Us | Zevenstone – Who We Are & What We Stand For'}</title>
+        <meta name="description" content={aboutPageData?.seo?.description || aboutPageData?.seo?.metaDescription || 'Meet the Zevenstone team. We are a results-driven digital agency building brands, websites, and legacies that outlast trends.'} />
+        {(aboutPageData?.seo?.metaImage || aboutPageData?.seo?.ogImage) && <meta property="og:image" content={urlFor(aboutPageData.seo.metaImage || aboutPageData.seo.ogImage).url()} />}
       </Helmet>
       
       {/* --- BACKGROUND ENGINE --- */}
@@ -82,12 +82,10 @@ export const About: React.FC = () => {
              <div className="inline-block px-4 py-1.5 rounded-full bg-zeven-blue/10 text-zeven-blue text-xs font-bold uppercase tracking-widest mb-6">
                Who We Are
              </div>
-            <h1 className="font-extrabold text-5xl md:text-7xl mb-8 text-zeven-dark tracking-tight leading-[1.1]">
-              The Team Behind <br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-zeven-blue to-zeven-deep">The Transformation</span>
+            <h1 className="font-extrabold text-5xl md:text-7xl mb-8 text-zeven-dark tracking-tight leading-[1.1]" dangerouslySetInnerHTML={{ __html: aboutPageData?.hero?.heading || `The Team Behind <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-zeven-blue to-zeven-deep">The Transformation</span>` }}>
             </h1>
             <p className="text-xl text-zeven-gray leading-relaxed mb-8 font-light max-w-lg">
-              We're not another agency ticking boxes. We're a creative-tech powerhouse driven by strategy, inspired by innovation, and grounded in results.
+              {aboutPageData?.hero?.description || "We're not another agency ticking boxes. We're a creative-tech powerhouse driven by strategy, inspired by innovation, and grounded in results."}
             </p>
           </motion.div>
           <motion.div

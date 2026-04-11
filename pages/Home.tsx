@@ -77,7 +77,6 @@ export const Home: React.FC = () => {
       image: s.imageUrl,
    }));
 
-   console.log(SERVICES_LIST, 'serviceslist')
 
    // 2. PARTNERS
    const PARTNERS_LOGOS = (siteSettings?.partnerLogos || []).map((p: any) => p.logoUrl);
@@ -99,8 +98,10 @@ export const Home: React.FC = () => {
       content: homePage?.founderMessage?.content || '',
       author: homePage?.founderMessage?.author || 'James Zeven',
       role: homePage?.founderMessage?.role || 'Founder',
-      image: homePage?.founderMessage?.photo ? urlFor(homePage.founderMessage.photo).url() : ''
+      image: homePage?.founderMessage?.photoUrl || ''
    };
+
+   console.log(FOUNDER_MESSAGE, 'image')
 
    // 5. TESTIMONIALS & FAQS
    const TESTIMONIALS = (testimonialsData || []).map((t: any) => ({
@@ -145,13 +146,13 @@ export const Home: React.FC = () => {
    return (
       <div className="flex flex-col min-h-screen bg-white font-sans overflow-x-hidden">
          <Helmet>
-           <title>{homePage?.seo?.title || homePage?.seo?.metaTitle || 'Zevenstone – Digital Marketing Agency | Web Design & SEO'}</title>
-           <meta name="description" content={homePage?.seo?.description || homePage?.seo?.metaDescription || 'Zevenstone is a full-service digital marketing agency specialising in SEO, web development, social media, and AI-powered growth strategies.'} />
-           {(homePage?.seo?.metaImage || homePage?.seo?.ogImage) && <meta property="og:image" content={urlFor(homePage.seo.metaImage || homePage.seo.ogImage).url()} />}
+            <title>{homePage?.seo?.title || homePage?.seo?.metaTitle || 'Zevenstone – Digital Marketing Agency | Web Design & SEO'}</title>
+            <meta name="description" content={homePage?.seo?.description || homePage?.seo?.metaDescription || 'Zevenstone is a full-service digital marketing agency specialising in SEO, web development, social media, and AI-powered growth strategies.'} />
+            {(homePage?.seo?.metaImage || homePage?.seo?.ogImage) && <meta property="og:image" content={urlFor(homePage.seo.metaImage || homePage.seo.ogImage).url()} />}
          </Helmet>
 
          {/* --- HERO SECTION --- */}
-         <section className="relative min-h-[105vh] flex items-center pt-20 pb-40 overflow-hidden bg-white">
+         <section className="relative min-h-[105vh] flex items-center pt-20 pb-[550px]  lg:pb-80 overflow-hidden bg-white">
 
             {/* -- DYNAMIC BACKGROUND ENGINE -- */}
 
@@ -228,9 +229,8 @@ export const Home: React.FC = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3 }}
                         className="font-extrabold text-5xl md:text-7xl leading-[1.1] text-zeven-dark mb-8 tracking-tight"
+                        dangerouslySetInnerHTML={{ __html: homePage?.hero?.heading || `Solutions <span class="text-transparent bg-clip-text bg-gradient-to-r from-zeven-gray to-zeven-dark font-semibold">That Scale</span><br /><span class="bg-clip-text text-transparent bg-gradient-to-r from-zeven-blue to-zeven-deep drop-shadow-sm">With Your Growth</span>` }}
                      >
-                        Solutions <span className="text-transparent bg-clip-text bg-gradient-to-r from-zeven-gray to-zeven-dark font-semibold">That Scale</span><br />
-                        <span className="bg-clip-text text-transparent bg-gradient-to-r from-zeven-blue to-zeven-deep drop-shadow-sm">With Your Growth</span>
                      </motion.h1>
 
                      <motion.p
@@ -239,7 +239,7 @@ export const Home: React.FC = () => {
                         transition={{ delay: 0.4 }}
                         className="text-lg md:text-xl text-zeven-gray/90 mb-10 max-w-lg leading-relaxed font-light"
                      >
-                        Whether you're launching a bold idea or optimizing an existing business, Zevenstone delivers strategy, creativity, and execution built for every stage.
+                        {homePage?.hero?.description || `Whether you're launching a bold idea or optimizing an existing business, Zevenstone delivers strategy, creativity, and execution built for every stage.`}
                      </motion.p>
 
                      <motion.div
@@ -248,18 +248,18 @@ export const Home: React.FC = () => {
                         transition={{ delay: 0.5 }}
                         className="flex flex-col sm:flex-row gap-5"
                      >
-                        <Link to="/contact">
+                        <Link to={homePage?.hero?.ctaButton?.url || "/contact"}>
                            <div className="relative group inline-block">
                               {/* Pulse Effect */}
                               <div className="absolute -inset-1 bg-zeven-blue rounded-full blur opacity-20 group-hover:opacity-40 transition duration-500 animate-pulse"></div>
                               <Button size="lg" className="relative rounded-full px-10 shadow-xl shadow-zeven-blue/30 border border-white/10 text-lg group-hover:scale-105 transition-transform duration-300">
-                                 Discover More <ArrowRight size={18} className="ml-1 group-hover:translate-x-1 transition-transform" />
+                                 {homePage?.hero?.ctaButton?.text || "Discover More"} <ArrowRight size={18} className="ml-1 group-hover:translate-x-1 transition-transform" />
                               </Button>
                            </div>
                         </Link>
-                        <Link to="/contact">
+                        <Link to={homePage?.hero?.secondaryCtaButton?.url || "/contact"}>
                            <Button variant="outline" size="lg" className="rounded-full px-8 border-zeven-dark/10 text-zeven-dark hover:border-zeven-blue hover:text-zeven-blue bg-white/80 backdrop-blur-sm text-lg shadow-sm hover:shadow-md transition-all">
-                              Book Consultation
+                              {homePage?.hero?.secondaryCtaButton?.text || "Book Consultation"}
                            </Button>
                         </Link>
                      </motion.div>
@@ -281,7 +281,7 @@ export const Home: React.FC = () => {
 
                         {/* Main Visual */}
                         <img
-                           src="https://cdni.iconscout.com/illustration/premium/thumb/web-development-2974925-2477356.png"
+                           src={homePage?.hero?.backgroundImageUrl || "https://cdni.iconscout.com/illustration/premium/thumb/web-development-2974925-2477356.png"}
                            alt="Digital Growth"
                            className="w-full drop-shadow-2xl relative z-10 hover:scale-105 transition-transform duration-700"
                         />
@@ -324,7 +324,7 @@ export const Home: React.FC = () => {
             </div>
 
             {/* STATS STRIP OVERLAP - NEW GRADIENT STYLE */}
-            <div className="absolute bottom-12 left-0 right-0 z-30 px-6 pointer-events-none">
+            <div className="absolute bottom-0 lg:bottom-12 left-0 right-0 z-30 px-6 pointer-events-none">
                <div className="container mx-auto pointer-events-auto">
                   <motion.div
                      initial={{ y: 50, opacity: 0 }}
@@ -354,8 +354,8 @@ export const Home: React.FC = () => {
             <div className="container mx-auto px-6">
                <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
                   <ScrollReveal>
-                     <h2 className="text-4xl md:text-5xl font-bold text-zeven-dark mb-4">Our <span className="text-zeven-blue">Services</span></h2>
-                     <p className="text-zeven-gray max-w-xl text-lg">We offer comprehensive digital marketing solutions tailored to your business needs.</p>
+                     <h2 className="text-4xl md:text-5xl font-bold text-zeven-dark mb-4" dangerouslySetInnerHTML={{ __html: homePage?.servicesHeading?.heading || `Our <span class="text-zeven-blue">Services</span>` }}></h2>
+                     <p className="text-zeven-gray max-w-xl text-lg">{homePage?.servicesHeading?.description || `We offer comprehensive digital marketing solutions tailored to your business needs.`}</p>
                   </ScrollReveal>
                   <Link to="/contact" className="hidden md:block">
                      <Button variant="outline" className="rounded-full">Let's Talk Growth !</Button>
@@ -498,8 +498,8 @@ export const Home: React.FC = () => {
             <div className="container mx-auto px-6">
                <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-4">
                   <ScrollReveal>
-                     <h2 className="text-4xl font-bold text-zeven-dark mb-2">Why <span className="text-zeven-blue">Choose Us ?</span></h2>
-                     <p className="text-zeven-gray">Proven results driven by data and creativity.</p>
+                     <h2 className="text-4xl font-bold text-zeven-dark mb-2" dangerouslySetInnerHTML={{ __html: homePage?.whyChooseUsHeading?.heading || `Why <span class="text-zeven-blue">Choose Us ?</span>` }}></h2>
+                     <p className="text-zeven-gray">{homePage?.whyChooseUsHeading?.description || `Proven results driven by data and creativity.`}</p>
                   </ScrollReveal>
                   <Link to="/contact">
                      <Button variant="outline" className="rounded-full hidden md:flex">Let's Talk Growth !</Button>
@@ -525,7 +525,7 @@ export const Home: React.FC = () => {
          {/* --- PARTNERS --- */}
          <section className="py-16 bg-white overflow-hidden">
             <div className="container mx-auto px-6 mb-10 text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-4">
-               <h2 className="text-2xl font-bold text-zeven-dark">Trusted by <span className="text-zeven-blue">Innovative Brands</span></h2>
+               <h2 className="text-2xl font-bold text-zeven-dark" dangerouslySetInnerHTML={{ __html: homePage?.partnersHeading?.heading || `Trusted by <span class="text-zeven-blue">Innovative Brands</span>` }}></h2>
                <div className="h-px bg-zeven-surface flex-grow mx-8 hidden md:block"></div>
             </div>
             <div className="relative w-full overflow-hidden">
@@ -547,7 +547,10 @@ export const Home: React.FC = () => {
          <section className="py-32 bg-zeven-blue text-white text-center relative overflow-hidden">
             {/* Abstract Background */}
             <div className="absolute inset-0 bg-gradient-to-r from-zeven-deep to-zeven-light opacity-90" />
-            <div className="absolute top-0 left-0 w-full h-full opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+            <div
+               className="absolute top-0 left-0 w-full h-full opacity-20 bg-cover bg-center bg-no-repeat group-hover:scale-105 transition-transform duration-[20s]"
+               style={{ backgroundImage: `url('${homePage?.visionSection?.imageUrl || 'https://www.transparenttextures.com/patterns/cubes.png'}')` }}
+            ></div>
             <motion.div
                animate={{ scale: [1, 1.2, 1], rotate: [0, 90, 0] }}
                transition={{ duration: 20, repeat: Infinity }}
@@ -556,15 +559,15 @@ export const Home: React.FC = () => {
 
             <div className="container mx-auto px-6 relative z-10">
                <ScrollReveal>
-                  <h2 className="text-4xl md:text-6xl font-bold mb-8 tracking-tight">Your Vision, Amplified by <br /> Strategy, Story & Screens.</h2>
-                  <p className="text-blue-100 max-w-3xl mx-auto mb-12 text-xl font-light">We help brands and businesses to create their digital presence and connect with their audiences through creative and innovative solutions.</p>
-                  <Link to="/contact">
+                  <h2 className="text-4xl md:text-6xl font-bold mb-8 tracking-tight" dangerouslySetInnerHTML={{ __html: homePage?.visionSection?.heading || `Your Vision, Amplified by <br /> Strategy, Story & Screens.` }}></h2>
+                  <p className="text-blue-100 max-w-3xl mx-auto mb-12 text-xl font-light">{homePage?.visionSection?.description || `We help brands and businesses to create their digital presence and connect with their audiences through creative and innovative solutions.`}</p>
+                  <Link to={homePage?.visionSection?.button?.url || homePage?.visionSection?.ctaButton?.url || "/contact"}>
                      <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         className="bg-white text-zeven-blue px-10 py-4 rounded-full font-bold shadow-2xl hover:shadow-white/20 transition-all text-lg"
                      >
-                        Let's Talk Growth !
+                        {homePage?.visionSection?.button?.text || homePage?.visionSection?.ctaButton?.text || "Let's Talk Growth !"}
                      </motion.button>
                   </Link>
                </ScrollReveal>
@@ -576,8 +579,8 @@ export const Home: React.FC = () => {
             <div className="container mx-auto px-6">
                <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
                   <ScrollReveal>
-                     <h2 className="text-4xl font-bold text-zeven-dark">Our <span className="text-zeven-blue">Portfolio</span></h2>
-                     <p className="text-sm text-zeven-gray mt-2">Measurable impact across industries.</p>
+                     <h2 className="text-4xl font-bold text-zeven-dark" dangerouslySetInnerHTML={{ __html: homePage?.portfolioHeading?.heading || `Our <span class="text-zeven-blue">Portfolio</span>` }}></h2>
+                     <p className="text-sm text-zeven-gray mt-2">{homePage?.portfolioHeading?.description || `Measurable impact across industries.`}</p>
                   </ScrollReveal>
                   <Link to="/portfolio">
                      <Button variant="outline" className="rounded-full hidden md:flex">View All Work</Button>
@@ -664,8 +667,8 @@ export const Home: React.FC = () => {
                <ScrollReveal>
                   <div className="flex justify-between items-end mb-16">
                      <div>
-                        <h2 className="text-4xl font-bold text-zeven-dark">What Our <span className="text-zeven-blue">Clients Say</span></h2>
-                        <p className="text-sm text-zeven-gray mt-2">Real feedback from real partners.</p>
+                        <h2 className="text-4xl font-bold text-zeven-dark" dangerouslySetInnerHTML={{ __html: homePage?.testimonialsHeading?.heading || `What Our <span class="text-zeven-blue">Clients Say</span>` }}></h2>
+                        <p className="text-sm text-zeven-gray mt-2">{homePage?.testimonialsHeading?.description || `Real feedback from real partners.`}</p>
                      </div>
                   </div>
                </ScrollReveal>
@@ -757,7 +760,7 @@ export const Home: React.FC = () => {
          </section>
 
          {/* --- CONTACT SPLIT --- */}
-         <section className="py-24 bg-white">
+         <section className="py-24 bg-white" id="contact">
             <div className="container mx-auto px-6">
                <ScrollReveal>
                   <div className="bg-zeven-blue rounded-[3rem] overflow-hidden shadow-2xl flex flex-col lg:flex-row min-h-[600px]">
@@ -766,21 +769,21 @@ export const Home: React.FC = () => {
                         <div className="absolute inset-0 bg-gradient-to-b from-zeven-blue to-zeven-deep opacity-90" />
 
                         <div className="relative z-10">
-                           <h2 className="text-4xl font-bold mb-6">Let's Connect</h2>
-                           <p className="text-blue-100 mb-12 text-lg">Ready to transform your digital presence? We're here to help you scale.</p>
+                           <h2 className="text-4xl font-bold mb-6" dangerouslySetInnerHTML={{ __html: homePage?.contactFormSection?.heading || `Let's Connect` }}></h2>
+                           <p className="text-blue-100 mb-12 text-lg">{homePage?.contactFormSection?.description || `Ready to transform your digital presence? We're here to help you scale.`}</p>
 
                            <div className="space-y-10">
                               <div className="group">
                                  <div className="flex items-center gap-4 font-bold text-xl mb-1 group-hover:translate-x-2 transition-transform"><Mail size={24} /> Email Us</div>
-                                 <p className="text-blue-100/80 ml-10">hello@zevenstone.com</p>
+                                 <p className="text-blue-100/80 ml-10">{siteSettings?.contactEmail || 'hello@zevenstone.com'}</p>
                               </div>
                               <div className="group">
                                  <div className="flex items-center gap-4 font-bold text-xl mb-1 group-hover:translate-x-2 transition-transform"><Phone size={24} /> Call Us</div>
-                                 <p className="text-blue-100/80 ml-10">+1 (555) 123-4567</p>
+                                 <p className="text-blue-100/80 ml-10">{siteSettings?.phoneNumber || '+1 (555) 123-4567'}</p>
                               </div>
                               <div className="group">
                                  <div className="flex items-center gap-4 font-bold text-xl mb-1 group-hover:translate-x-2 transition-transform"><MapPin size={24} /> Visit Us</div>
-                                 <p className="text-blue-100/80 ml-10">123 Creative Street<br />New Delhi, India</p>
+                                 <p className="text-blue-100/80 ml-10 whitespace-pre-wrap">{siteSettings?.address || '123 Creative Street\\nNew Delhi, India'}</p>
                               </div>
                            </div>
                         </div>
@@ -822,8 +825,8 @@ export const Home: React.FC = () => {
             <div className="container mx-auto px-6 max-w-4xl">
                <ScrollReveal>
                   <div className="text-center mb-12">
-                     <h2 className="font-bold text-4xl text-zeven-dark mb-4">Frequently Asked <span className="text-zeven-blue">Questions</span></h2>
-                     <p className="text-zeven-gray">Everything you need to know about working with us.</p>
+                     <h2 className="font-bold text-4xl text-zeven-dark mb-4" dangerouslySetInnerHTML={{ __html: homePage?.faqHeading?.heading || `Frequently Asked <span class="text-zeven-blue">Questions</span>` }}></h2>
+                     <p className="text-zeven-gray">{homePage?.faqHeading?.description || `Everything you need to know about working with us.`}</p>
                   </div>
                </ScrollReveal>
                <div className="space-y-4">

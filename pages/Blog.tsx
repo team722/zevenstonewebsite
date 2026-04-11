@@ -3,7 +3,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { sanityClient } from '../lib/sanity';
-import { BLOG_POSTS_QUERY, BLOG_PAGE_SEO_QUERY } from '../lib/queries';
+import { BLOG_POSTS_QUERY, BLOG_PAGE_QUERY } from '../lib/queries';
 import { urlFor } from '../lib/sanity';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
 import { ErrorState } from '../components/ui/ErrorState';
@@ -18,9 +18,9 @@ export const Blog: React.FC = () => {
     queryFn: () => sanityClient.fetch(BLOG_POSTS_QUERY),
   });
 
-  const { data: blogPageSeo } = useQuery({
-    queryKey: ['blogPageSeo'],
-    queryFn: () => sanityClient.fetch(BLOG_PAGE_SEO_QUERY),
+  const { data: blogPageData } = useQuery({
+    queryKey: ['blogPage'],
+    queryFn: () => sanityClient.fetch(BLOG_PAGE_QUERY),
   });
 
   if (isLoading) return <LoadingSpinner />;
@@ -34,9 +34,9 @@ export const Blog: React.FC = () => {
   return (
     <div className="pt-32 pb-20 min-h-screen bg-slate-50 font-sans relative overflow-hidden">
       <Helmet>
-        <title>{blogPageSeo?.seo?.title || blogPageSeo?.seo?.metaTitle || 'Blog | Zevenstone – Digital Marketing Insights & Tips'}</title>
-        <meta name="description" content={blogPageSeo?.seo?.description || blogPageSeo?.seo?.metaDescription || "Stay ahead with Zevenstone's blog. Expert articles on SEO, web design, digital marketing strategies, and industry trends."} />
-        {(blogPageSeo?.seo?.metaImage || blogPageSeo?.seo?.ogImage) && <meta property="og:image" content={urlFor(blogPageSeo.seo.metaImage || blogPageSeo.seo.ogImage).url()} />}
+        <title>{blogPageData?.seo?.title || blogPageData?.seo?.metaTitle || 'Blog | Zevenstone – Digital Marketing Insights & Tips'}</title>
+        <meta name="description" content={blogPageData?.seo?.description || blogPageData?.seo?.metaDescription || "Stay ahead with Zevenstone's blog. Expert articles on SEO, web design, digital marketing strategies, and industry trends."} />
+        {(blogPageData?.seo?.metaImage || blogPageData?.seo?.ogImage) && <meta property="og:image" content={urlFor(blogPageData.seo.metaImage || blogPageData.seo.ogImage).url()} />}
       </Helmet>
       
       {/* Background */}
@@ -59,8 +59,8 @@ export const Blog: React.FC = () => {
                initial={{ opacity: 0, y: 20 }}
                animate={{ opacity: 1, y: 0 }}
                className="font-extrabold text-5xl md:text-7xl text-zeven-dark tracking-tight mb-6"
+               dangerouslySetInnerHTML={{ __html: blogPageData?.hero?.heading || `Thinking <span class="text-transparent bg-clip-text bg-gradient-to-r from-zeven-blue to-zeven-deep">Out Loud</span>` }}
             >
-               Thinking <span className="text-transparent bg-clip-text bg-gradient-to-r from-zeven-blue to-zeven-deep">Out Loud</span>
             </motion.h1>
             <motion.p 
                initial={{ opacity: 0, y: 20 }}
@@ -68,7 +68,7 @@ export const Blog: React.FC = () => {
                transition={{ delay: 0.1 }}
                className="text-xl text-zeven-gray font-light"
             >
-               Strategies, trends, and technical deep-dives from the team at Zevenstone.
+               {blogPageData?.hero?.description || `Strategies, trends, and technical deep-dives from the team at Zevenstone.`}
             </motion.p>
          </div>
 

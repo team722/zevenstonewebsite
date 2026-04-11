@@ -73,9 +73,18 @@ export const FAQS_QUERY = `
 
 export const HOME_PAGE_QUERY = `
   *[_type == "homePage"][0] {
+    hero { heading, subheading, description, "backgroundImageUrl": backgroundImage.asset->url, ctaButton, secondaryCtaButton },
+    visionSection { heading, description, "imageUrl": image.asset->url, button, ctaButton },
+    servicesHeading { heading, description },
+    testimonialsHeading { heading, description },
+    whyChooseUsHeading { heading, description },
+    partnersHeading {heading},
+    portfolioHeading { heading, description },
+    faqHeading { heading, description },
+    contactFormSection { heading, description },
     stats, whyUsItems, processSteps, moreServicesTags,
     founderMessage {
-      title, content, author, role, photo
+      title, content, author, role, "photoUrl": photo.asset->url
     },
     seo
   }
@@ -88,24 +97,54 @@ export const SITE_SETTINGS_QUERY = `
   }
 `;
 
-export const ABOUT_PAGE_SEO_QUERY = `
-  *[_type == "aboutPage"][0] { seo }
+export const ABOUT_PAGE_QUERY = `
+  *[_type == "aboutPage"][0] { 
+    hero { heading, subheading, description, "backgroundImageUrl": backgroundImage.asset->url, ctaButton },
+    visionAndMission { heading, content },
+    howWeWorkHeading { heading, description },
+    seo 
+  }
 `;
 
-export const SERVICES_PAGE_SEO_QUERY = `
-  *[_type == "servicesPage"][0] { seo }
+export const SERVICES_PAGE_QUERY = `
+  *[_type == "servicesPage"][0] { 
+    hero { heading, subheading, description, "backgroundImageUrl": backgroundImage.asset->url, ctaButton },
+    notSureWhereToStartCta { heading, description, button },
+    featuresHeading { heading, description },
+    seo 
+  }
 `;
 
-export const PORTFOLIO_PAGE_SEO_QUERY = `
-  *[_type == "portfolioPage"][0] { seo }
+export const PORTFOLIO_PAGE_QUERY = `
+  *[_type == "portfolioPage"][0] { 
+    hero { heading, subheading, description, "backgroundImageUrl": backgroundImage.asset->url, ctaButton },
+    likeWhatYouSeeCta { heading, description, button },
+    seo 
+  }
 `;
 
-export const SUCCESS_STORIES_PAGE_SEO_QUERY = `
-  *[_type == "successStoriesPage"][0] { seo }
+export const SUCCESS_STORIES_PAGE_QUERY = `
+  *[_type == "successStoriesPage"][0] { 
+    hero { heading, subheading, description, "backgroundImageUrl": backgroundImage.asset->url, ctaButton },
+    readyToWriteCta { heading, description, button },
+    storiesHeading { heading, description },
+    seo 
+  }
 `;
 
-export const BLOG_PAGE_SEO_QUERY = `
-  *[_type == "blogPage"][0] { seo }
+export const BLOG_PAGE_QUERY = `
+  *[_type == "blogPage"][0] { 
+    hero { heading, subheading, description, "backgroundImageUrl": backgroundImage.asset->url, ctaButton },
+    stayAheadCta { heading, description, button },
+    seo 
+  }
+`;
+
+export const CONTACT_PAGE_QUERY = `
+  *[_type == "contactPage"][0] {
+    contactHeader { heading, description },
+    seo
+  }
 `;
 
 export const LANDING_PAGE_QUERY = `

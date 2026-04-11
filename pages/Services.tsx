@@ -3,7 +3,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { sanityClient } from '../lib/sanity';
-import { SERVICES_QUERY, HOME_PAGE_QUERY, SERVICES_PAGE_SEO_QUERY } from '../lib/queries';
+import { SERVICES_QUERY, HOME_PAGE_QUERY, SERVICES_PAGE_QUERY } from '../lib/queries';
 import { urlFor } from '../lib/sanity';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
 import { ErrorState } from '../components/ui/ErrorState';
@@ -49,9 +49,9 @@ export const Services: React.FC = () => {
     queryFn: () => sanityClient.fetch(HOME_PAGE_QUERY),
   });
 
-  const { data: servicesPageSeo } = useQuery({
-    queryKey: ['servicesPageSeo'],
-    queryFn: () => sanityClient.fetch(SERVICES_PAGE_SEO_QUERY),
+  const { data: servicesPageData } = useQuery({
+    queryKey: ['servicesPage'],
+    queryFn: () => sanityClient.fetch(SERVICES_PAGE_QUERY),
   });
 
   const isLoading = loadingServices || loadingHome;
@@ -68,9 +68,9 @@ export const Services: React.FC = () => {
   return (
     <div className="pt-32 min-h-screen bg-white font-sans relative overflow-hidden selection:bg-zeven-blue selection:text-white">
       <Helmet>
-        <title>{servicesPageSeo?.seo?.title || servicesPageSeo?.seo?.metaTitle || 'Our Services | Zevenstone – Digital Marketing & Web Solutions'}</title>
-        <meta name="description" content={servicesPageSeo?.seo?.description || servicesPageSeo?.seo?.metaDescription || "Explore Zevenstone's full suite of services: SEO, Web Development, App Development, Social Media Marketing, Video Production & AI Solutions."} />
-        {(servicesPageSeo?.seo?.metaImage || servicesPageSeo?.seo?.ogImage) && <meta property="og:image" content={urlFor(servicesPageSeo.seo.metaImage || servicesPageSeo.seo.ogImage).url()} />}
+        <title>{servicesPageData?.seo?.title || servicesPageData?.seo?.metaTitle || 'Our Services | Zevenstone – Digital Marketing & Web Solutions'}</title>
+        <meta name="description" content={servicesPageData?.seo?.description || servicesPageData?.seo?.metaDescription || "Explore Zevenstone's full suite of services: SEO, Web Development, App Development, Social Media Marketing, Video Production & AI Solutions."} />
+        {(servicesPageData?.seo?.metaImage || servicesPageData?.seo?.ogImage) && <meta property="og:image" content={urlFor(servicesPageData.seo.metaImage || servicesPageData.seo.ogImage).url()} />}
       </Helmet>
 
       {/* --- BACKGROUND ENGINE --- */}
@@ -115,9 +115,9 @@ export const Services: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
             className="font-extrabold text-5xl md:text-7xl mb-8 text-zeven-dark tracking-tight leading-[1.1]"
+            dangerouslySetInnerHTML={{ __html: servicesPageData?.hero?.heading || `Capabilities Built for <br />
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-zeven-blue to-zeven-deep">Scale & Impact</span>` }}
           >
-            Capabilities Built for <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-zeven-blue to-zeven-deep">Scale & Impact</span>
           </motion.h1>
 
           <motion.p
@@ -126,7 +126,7 @@ export const Services: React.FC = () => {
             transition={{ delay: 0.3 }}
             className="text-xl text-zeven-gray max-w-2xl mx-auto font-light leading-relaxed"
           >
-            We blend creative storytelling with technical precision. From full-scale digital transformation to niche optimization, we provide the toolkit to grow.
+            {servicesPageData?.hero?.description || `We blend creative storytelling with technical precision. From full-scale digital transformation to niche optimization, we provide the toolkit to grow.` }
           </motion.p>
         </div>
 
