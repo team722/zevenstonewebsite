@@ -92,6 +92,14 @@ export const HOME_PAGE_QUERY = `
 
 export const SITE_SETTINGS_QUERY = `
   *[_type == "siteSettings"][0] {
+    "logoUrl": logo.asset->url,
+    navigation[] { text, url },
+    headerCta { text, url },
+    footerDescription,
+    footerNavigation[] { text, url },
+    footerServices[] { text, url },
+    legalLinks[] { text, url },
+    copyrightText,
     partnerLogos[]{ name, "logoUrl": logo.asset->url },
     coreValues, contactEmail, phoneNumber, address, linkedIn, instagram, twitter
   }

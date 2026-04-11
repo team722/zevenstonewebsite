@@ -1,10 +1,37 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Twitter, Linkedin, Instagram } from 'lucide-react';
 import { Logo } from './ui/Logo';
+import { useQuery } from '@tanstack/react-query';
+import { sanityClient } from '../lib/sanity';
+import { SITE_SETTINGS_QUERY } from '../lib/queries';
 
 export const Footer: React.FC = () => {
+  const { data: siteSettings } = useQuery({
+    queryKey: ['siteSettings'],
+    queryFn: () => sanityClient.fetch(SITE_SETTINGS_QUERY),
+  });
+
+  const defaultDescription = "We design digital experiences that captivate and convert. Your partner in digital evolution. Built for impact. Backed by data.";
+  const defaultQuickLinks = [
+    { text: 'About', url: '/about' },
+    { text: 'Services', url: '/services' },
+    { text: 'Portfolio', url: '/portfolio' },
+    { text: 'Contact', url: '/contact' }
+  ];
+  const defaultServices = [
+    { text: 'SEO & Growth', url: '/services' },
+    { text: 'Web Development', url: '/services' },
+    { text: 'Marketing Automation', url: '/services' },
+    { text: 'AI & Media', url: '/services' }
+  ];
+  
+  const quickLinks = siteSettings?.footerNavigation || defaultQuickLinks;
+  const servicesLinks = siteSettings?.footerServices || defaultServices;
+  const legalLinks = siteSettings?.legalLinks || [
+    { text: 'Privacy Policy', url: '#' },
+    { text: 'Terms of Service', url: '#' }
+  ];
   return (
     <footer className="bg-zeven-dark border-t border-white/5 pt-20 pb-10 text-white">
       <div className="container mx-auto px-6">
@@ -15,8 +42,8 @@ export const Footer: React.FC = () => {
                 {/* Use white version of the logo */}
                 <Logo white className="h-10 w-auto opacity-90" />
               </div>
-            <p className="text-slate-400 leading-relaxed text-sm">
-              We design digital experiences that captivate and convert. Your partner in digital evolution. Built for impact. Backed by data.
+            <p className="text-slate-400 leading-relaxed text-sm whitespace-pre-wrap">
+              {siteSettings?.footerDescription || defaultDescription}
             </p>
           </div>
 
@@ -24,10 +51,10 @@ export const Footer: React.FC = () => {
           <div>
             <h4 className="font-bold text-lg mb-6 text-white">Company</h4>
             <ul className="space-y-4">
-              {['About', 'Services', 'Portfolio', 'Contact'].map((item) => (
-                <li key={item}>
-                  <Link to={`/${item.toLowerCase()}`} className="text-slate-400 hover:text-zeven-blue transition-colors text-sm">
-                    {item}
+              {quickLinks.map((item: any, idx: number) => (
+                <li key={idx}>
+                  <Link to={item.url || '#'} className="text-slate-400 hover:text-zeven-blue transition-colors text-sm">
+                    {item.text}
                   </Link>
                 </li>
               ))}
@@ -38,10 +65,10 @@ export const Footer: React.FC = () => {
           <div>
             <h4 className="font-bold text-lg mb-6 text-white">Expertise</h4>
             <ul className="space-y-4">
-              {['SEO & Growth', 'Web Development', 'Marketing Automation', 'AI & Media'].map((item) => (
-                <li key={item}>
-                  <Link to="/services" className="text-slate-400 hover:text-zeven-blue transition-colors text-sm">
-                    {item}
+              {servicesLinks.map((item: any, idx: number) => (
+                <li key={idx}>
+                  <Link to={item.url || '#'} className="text-slate-400 hover:text-zeven-blue transition-colors text-sm">
+                    {item.text}
                   </Link>
                 </li>
               ))}
@@ -51,24 +78,48 @@ export const Footer: React.FC = () => {
           {/* Contact */}
           <div>
             <h4 className="font-bold text-lg mb-6 text-white">Connect</h4>
-            <p className="text-slate-400 mb-2 text-sm">hello@zevenstone.com</p>
-            <p className="text-slate-400 mb-6 text-sm">+91-9876-543-210</p>
+            <p className="text-slate-400 mb-2 text-sm">{siteSettings?.contactEmail || 'hello@zevenstone.com'}</p>
+            <p className="text-slate-400 mb-6 text-sm">{siteSettings?.phoneNumber || '+91-9876-543-210'}</p>
             <div className="flex gap-4">
-              {[<Twitter key="t" size={18}/>, <Linkedin key="l" size={18}/>, <Instagram key="i" size={18}/>].map((icon, i) => (
-                <a key={i} href="#" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-zeven-blue transition-all">
-                  {icon}
+              {siteSettings?.twitter && (
+                <a href={siteSettings.twitter} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-zeven-blue transition-all">
+                  <Twitter size={18} />
                 </a>
-              ))}
+              )}
+              {siteSettings?.linkedIn && (
+                <a href={siteSettings.linkedIn} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-zeven-blue transition-all">
+                  <Linkedin size={18} />
+                </a>
+              )}
+              {siteSettings?.instagram && (
+                <a href={siteSettings.instagram} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-zeven-blue transition-all">
+                  <Instagram size={18} />
+                </a>
+              )}
+              {(!siteSettings?.twitter && !siteSettings?.linkedIn && !siteSettings?.instagram) && (
+                [<Twitter key="t" size={18}/>, <Linkedin key="l" size={18}/>, <Instagram key="i" size={18}/>].map((icon, i) => (
+                  <a key={i} href="#" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-zeven-blue transition-all">
+                    {icon}
+                  </a>
+                ))
+              )}
             </div>
           </div>
         </div>
 
         {/* Bottom */}
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-slate-500 text-sm">© {new Date().getFullYear()} Zevenstone. All rights reserved.</p>
+          <p className="text-slate-500 text-sm">
+            {siteSettings?.copyrightText 
+              ? siteSettings.copyrightText.replace('{{year}}', new Date().getFullYear().toString())
+              : `© ${new Date().getFullYear()} Zevenstone. All rights reserved.`}
+          </p>
           <div className="flex gap-8">
-            <a href="#" className="text-slate-500 text-sm hover:text-white">Privacy Policy</a>
-            <a href="#" className="text-slate-500 text-sm hover:text-white">Terms of Service</a>
+            {legalLinks.map((item: any, idx: number) => (
+              <a key={idx} href={item.url || '#'} className="text-slate-500 text-sm hover:text-white">
+                {item.text}
+              </a>
+            ))}
           </div>
         </div>
       </div>
