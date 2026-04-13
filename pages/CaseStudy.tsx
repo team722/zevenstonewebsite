@@ -130,9 +130,9 @@ export const CaseStudy: React.FC = () => {
                   )}
 
                   {study.processImagesUrls && study.processImagesUrls.length > 0 && (
-                     <div className={`grid md:grid-cols-${study.processImagesUrls.length === 1 ? '1' : '2'} gap-6 my-12`}>
+                     <div className={`grid ${study.processImagesUrls.length === 1 ? 'md:grid-cols-1' : 'md:grid-cols-2'} gap-6 my-12`}>
                         {study.processImagesUrls.map((imgUrl: string, idx: number) => (
-                           <img key={idx} src={imgUrl} className="rounded-3xl shadow-lg w-full h-full object-cover" alt="Process" />
+                           <img key={idx} src={imgUrl} loading="lazy" className="rounded-3xl shadow-lg w-full h-full object-cover" alt="Process" />
                         ))}
                      </div>
                   )}
