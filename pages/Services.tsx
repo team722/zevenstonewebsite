@@ -63,7 +63,7 @@ export const Services: React.FC = () => {
   const processSteps = homePage?.processSteps || [];
   const moreServicesTags = homePage?.moreServicesTags || [];
 
-  console.log(processSteps, 'process')
+
 
   return (
     <div className="pt-32 min-h-screen bg-white font-sans relative overflow-hidden selection:bg-zeven-blue selection:text-white">
@@ -115,7 +115,8 @@ export const Services: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
             className="font-extrabold text-5xl md:text-7xl mb-8 text-zeven-dark tracking-tight leading-[1.1]"
-            dangerouslySetInnerHTML={{ __html: servicesPageData?.hero?.heading || `Capabilities Built for <br />
+            dangerouslySetInnerHTML={{
+              __html: servicesPageData?.hero?.heading || `Capabilities Built for <br />
             <span class="text-transparent bg-clip-text bg-gradient-to-r from-zeven-blue to-zeven-deep">Scale & Impact</span>` }}
           >
           </motion.h1>
@@ -126,7 +127,7 @@ export const Services: React.FC = () => {
             transition={{ delay: 0.3 }}
             className="text-xl text-zeven-gray max-w-2xl mx-auto font-light leading-relaxed"
           >
-            {servicesPageData?.hero?.description || `We blend creative storytelling with technical precision. From full-scale digital transformation to niche optimization, we provide the toolkit to grow.` }
+            {servicesPageData?.hero?.description || `We blend creative storytelling with technical precision. From full-scale digital transformation to niche optimization, we provide the toolkit to grow.`}
           </motion.p>
         </div>
 
@@ -134,7 +135,7 @@ export const Services: React.FC = () => {
         {processSteps && processSteps.length > 0 && (
           <div className="mb-32">
             <ScrollReveal>
-              <div className="grid md:grid-cols-4 gap-4 bg-white/40 backdrop-blur-xl border border-white/60 p-4 rounded-[2rem] shadow-sm">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-white/40 backdrop-blur-xl border border-white/60 p-4 rounded-[2rem] shadow-sm">
                 {processSteps.map((step: any, idx: number) => (
                   <div key={idx} className="relative group p-6 rounded-2xl bg-zeven-blue border border-white/10 shadow-lg hover:shadow-zeven-blue/40 hover:-translate-y-2 transition-all duration-300 overflow-hidden">
                     {/* Gradient Overlay */}
@@ -259,7 +260,7 @@ export const Services: React.FC = () => {
                 {servicesPageData?.notSureWhereToStartCta?.description || `We understand that no two businesses are alike. Let's schedule a discovery call to tailor a strategy that fits your unique needs.`}
               </p>
               <Link to={servicesPageData?.notSureWhereToStartCta?.button?.url || "/contact"}>
-                <Button size="lg" className="bg-white text-zeven-blue hover:bg-blue-50 border-none shadow-xl shadow-zeven-dark/10 text-lg px-12 py-5 h-auto rounded-full font-bold">
+                <Button size="lg" className="bg-white text-white hover:bg-blue-50 border-none shadow-xl shadow-zeven-dark/10 text-lg px-12 py-5 h-auto rounded-full font-bold">
                   {servicesPageData?.notSureWhereToStartCta?.button?.text || `Book a Free Strategy Call`}
                 </Button>
               </Link>

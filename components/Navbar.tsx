@@ -38,19 +38,19 @@ export const Navbar: React.FC = () => {
         transition={{ type: "spring", stiffness: 100, damping: 20 }}
         className="fixed top-0 left-0 right-0 z-50 flex justify-center px-4 pt-4 md:pt-6"
       >
-        <div 
+        <div
           className={`
             relative flex items-center justify-between
             transition-all duration-500 cubic-bezier(0.4, 0, 0.2, 1)
-            ${isScrolled 
-              ? 'w-full max-w-5xl bg-white/70 backdrop-blur-xl shadow-lg border border-white/40 py-2 px-6 rounded-full' 
+            ${isScrolled
+              ? 'w-full max-w-5xl bg-white/70 backdrop-blur-xl shadow-lg border border-white/40 py-2 px-6 rounded-full'
               : 'w-full max-w-7xl bg-transparent py-4 px-0'
             }
           `}
         >
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group relative z-20">
-            {siteSettings?.logoUrl 
+            {siteSettings?.logoUrl
               ? <img src={siteSettings.logoUrl} alt="Logo" className={`transition-all duration-300 w-auto object-contain ${isScrolled ? 'h-8' : 'h-10 md:h-12'}`} />
               : <Logo className={`transition-all duration-300 w-auto ${isScrolled ? 'h-8' : 'h-10 md:h-12'}`} />
             }
@@ -68,9 +68,8 @@ export const Navbar: React.FC = () => {
                   to={path || '#'}
                   className="relative px-5 py-2 group"
                 >
-                  <span className={`relative z-10 text-sm font-semibold transition-colors duration-300 ${
-                    isActive ? 'text-zeven-blue' : 'text-zeven-gray group-hover:text-zeven-dark'
-                  }`}>
+                  <span className={`relative z-10 text-sm font-semibold transition-colors duration-300 ${isActive ? 'text-zeven-blue' : 'text-zeven-gray group-hover:text-zeven-dark'
+                    }`}>
                     {label}
                   </span>
                   {isActive && (
@@ -95,8 +94,8 @@ export const Navbar: React.FC = () => {
             <Link to={ctaBtn?.url || "/contact"}>
               <button className={`
                 group relative px-6 py-2.5 rounded-full overflow-hidden font-semibold text-sm transition-all duration-300
-                ${isScrolled 
-                  ? 'bg-zeven-dark text-white hover:bg-zeven-blue shadow-lg shadow-zeven-dark/20' 
+                ${isScrolled
+                  ? 'bg-zeven-dark text-white hover:bg-zeven-blue shadow-lg shadow-zeven-dark/20'
                   : 'bg-white text-zeven-dark shadow-xl hover:shadow-2xl'
                 }
               `}>
@@ -110,7 +109,7 @@ export const Navbar: React.FC = () => {
           </div>
 
           {/* Mobile Toggle */}
-          <button 
+          <button
             className={`md:hidden p-2 rounded-full relative z-20 ${isScrolled ? 'bg-zeven-surface' : 'bg-white shadow-md'}`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
@@ -127,36 +126,37 @@ export const Navbar: React.FC = () => {
             animate={{ opacity: 1, clipPath: "circle(150% at 100% 0)" }}
             exit={{ opacity: 0, clipPath: "circle(0% at 100% 0)" }}
             transition={{ type: "spring", damping: 25, stiffness: 100 }}
-            className="fixed inset-0 z-40 bg-white pt-32 px-6 md:hidden overflow-hidden"
+            className="fixed inset-0 z-40 bg-white pt-32 pb-10 px-6 md:hidden overflow-x-hidden overflow-y-auto"
           >
             {/* Background elements for mobile menu */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-zeven-blue/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-            
+
             <div className="flex flex-col gap-6 relative z-10">
               {navItems.map((item: any, idx: number) => {
                 const path = item.url || item.path;
                 const label = item.text || item.label;
                 return (
-                <motion.div
-                  key={path || idx}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.1 + idx * 0.05 }}
-                >
-                  <Link
-                    to={path || '#'}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="flex items-center justify-between text-3xl font-sans font-bold text-zeven-dark border-b border-zeven-surface pb-4 hover:text-zeven-blue transition-colors group"
+                  <motion.div
+                    key={path || idx}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.1 + idx * 0.05 }}
                   >
-                    {label}
-                    <ArrowRight className="opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 transition-all text-zeven-blue" />
-                  </Link>
-                </motion.div>
-              )})}
+                    <Link
+                      to={path || '#'}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex items-center justify-between text-3xl font-sans font-bold text-zeven-dark border-b border-zeven-surface pb-4 hover:text-zeven-blue transition-colors group"
+                    >
+                      {label}
+                      <ArrowRight className="opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 transition-all text-zeven-blue" />
+                    </Link>
+                  </motion.div>
+                )
+              })}
               <motion.div
-                 initial={{ opacity: 0, y: 20 }}
-                 animate={{ opacity: 1, y: 0 }}
-                 transition={{ delay: 0.4 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
               >
                 <Link
                   to={ctaBtn?.url || "/contact"}

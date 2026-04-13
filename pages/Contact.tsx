@@ -62,7 +62,7 @@ export const Contact: React.FC = () => {
            className="bg-white/80 backdrop-blur-2xl border border-white/60 rounded-[3rem] shadow-2xl overflow-hidden flex flex-col lg:flex-row min-h-[700px]"
         >
            {/* Left Blue Panel */}
-           <div className="lg:w-2/5 p-12 lg:p-20 text-white flex flex-col justify-between relative overflow-hidden bg-zeven-blue">
+           <div className="lg:w-2/5 p-8 lg:p-20 text-white flex flex-col justify-between relative overflow-hidden bg-zeven-blue">
               {/* Texture/Gradient */}
               <div className="absolute inset-0 bg-gradient-to-b from-zeven-blue to-zeven-deep opacity-100" />
               <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 mix-blend-overlay" />

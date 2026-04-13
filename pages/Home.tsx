@@ -101,7 +101,7 @@ export const Home: React.FC = () => {
       image: homePage?.founderMessage?.photoUrl || ''
    };
 
-   console.log(FOUNDER_MESSAGE, 'image')
+
 
    // 5. TESTIMONIALS & FAQS
    const TESTIMONIALS = (testimonialsData || []).map((t: any) => ({
@@ -152,7 +152,7 @@ export const Home: React.FC = () => {
          </Helmet>
 
          {/* --- HERO SECTION --- */}
-         <section className="relative min-h-[105vh] flex items-center pt-20 pb-[550px]  lg:pb-80 overflow-hidden bg-white">
+         <section className="relative min-h-[105vh] flex items-center pt-32 pb-[420px] sm:pb-[350px] lg:pb-80 overflow-hidden bg-white">
 
             {/* -- DYNAMIC BACKGROUND ENGINE -- */}
 
@@ -333,14 +333,14 @@ export const Home: React.FC = () => {
                      className="grid grid-cols-2 lg:grid-cols-4 bg-gradient-to-r from-zeven-blue to-zeven-deep rounded-3xl shadow-2xl shadow-zeven-blue/20 overflow-hidden border border-white/10 backdrop-blur-sm"
                   >
                      {STATS_DATA.map((stat, i) => (
-                        <div key={i} className={`p-8 relative group overflow-hidden ${i !== STATS_DATA.length - 1 ? 'border-b sm:border-b-0 sm:border-r border-white/10' : ''}`}>
+                        <div key={i} className={`p-4 md:p-8 relative group overflow-hidden ${i !== STATS_DATA.length - 1 ? 'border-b sm:border-b-0 sm:border-r border-white/10' : ''}`}>
                            <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-5 transition-opacity duration-500" />
                            <div className="relative z-10">
                               <div className="flex items-end gap-2 mb-2">
-                                 <h3 className="text-4xl font-bold tracking-tight text-white">{stat.value}</h3>
+                                 <h3 className="text-2xl md:text-4xl font-bold tracking-tight text-white">{stat.value}</h3>
                               </div>
-                              <div className="text-sm font-bold text-white/90 uppercase tracking-wider mb-2">{stat.label}</div>
-                              <p className="text-xs text-blue-100 font-medium leading-relaxed opacity-80">{stat.desc}</p>
+                              <div className="text-xs md:text-sm font-bold text-white/90 uppercase tracking-wider mb-2">{stat.label}</div>
+                              <p className="text-[10px] md:text-xs text-blue-100 font-medium leading-relaxed opacity-80 hidden sm:block">{stat.desc}</p>
                            </div>
                         </div>
                      ))}
@@ -533,7 +533,7 @@ export const Home: React.FC = () => {
                <div className="flex animate-marquee whitespace-nowrap gap-20 items-center hover:pause-animation w-max">
                   {[...PARTNERS_LOGOS, ...PARTNERS_LOGOS, ...PARTNERS_LOGOS].map((logo, i) => (
                      <div key={i} className="opacity-50 hover:opacity-100 transition-opacity duration-300 cursor-pointer">
-                        <img src={logo} alt="Partner Logo" className="h-10 w-auto md:h-12 object-contain" />
+                        <img src={logo} alt="Partner Logo" loading="lazy" className="h-10 w-auto md:h-12 object-contain" />
                      </div>
                   ))}
                </div>
@@ -632,7 +632,7 @@ export const Home: React.FC = () => {
                                  key={item.id}
                                  className={`group relative rounded-[2rem] overflow-hidden bg-zeven-surface cursor-pointer shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 ${spanClass}`}
                               >
-                                 <img src={item.image} alt={item.client} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                                 <img src={item.image} alt={item.client} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
 
                                  {/* Gradient Overlay */}
                                  <div className="absolute inset-0 bg-gradient-to-t from-zeven-dark/90 via-zeven-dark/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
@@ -673,8 +673,8 @@ export const Home: React.FC = () => {
                   </div>
                </ScrollReveal>
 
-               <div className="bg-white rounded-[2.5rem] p-8 md:p-16 relative overflow-hidden shadow-2xl border border-zeven-surface">
-                  <div className="grid md:grid-cols-12 gap-12 items-center relative z-10">
+               <div className="bg-white rounded-[1.5rem] md:rounded-[2.5rem] p-5 sm:p-8 md:p-16 relative overflow-hidden shadow-2xl border border-zeven-surface">
+                  <div className="grid md:grid-cols-12 gap-6 md:gap-12 items-center relative z-10">
                      {/* Image */}
                      <div className="md:col-span-5 lg:col-span-4">
                         <AnimatePresence mode='wait'>
@@ -684,7 +684,7 @@ export const Home: React.FC = () => {
                               animate={{ opacity: 1, x: 0 }}
                               exit={{ opacity: 0, x: 20 }}
                               transition={{ duration: 0.4 }}
-                              className="aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl border-4 border-white rotate-2 hover:rotate-0 transition-transform duration-500"
+                              className="aspect-square sm:aspect-[4/3] md:aspect-[4/5] max-w-[200px] sm:max-w-[260px] md:max-w-none mx-auto md:mx-0 rounded-2xl overflow-hidden shadow-2xl border-4 border-white rotate-2 hover:rotate-0 transition-transform duration-500"
                            >
                               <img src={TESTIMONIALS[currentTestimonial].image} alt="Client" className="w-full h-full object-cover" />
                            </motion.div>
@@ -693,7 +693,7 @@ export const Home: React.FC = () => {
 
                      {/* Text */}
                      <div className="md:col-span-7 lg:col-span-8">
-                        <Quote size={48} className="text-zeven-blue/20 mb-6" />
+                        <Quote size={32} className="text-zeven-blue/20 mb-4 md:mb-6 md:w-12 md:h-12" />
                         <AnimatePresence mode='wait'>
                            <motion.div
                               key={currentTestimonial}
@@ -701,26 +701,26 @@ export const Home: React.FC = () => {
                               animate={{ opacity: 1, y: 0 }}
                               exit={{ opacity: 0, y: -10 }}
                            >
-                              <p className="text-2xl md:text-3xl font-medium text-zeven-dark leading-relaxed mb-8">"{TESTIMONIALS[currentTestimonial].quote}"</p>
-                              <h4 className="text-zeven-blue font-bold text-2xl mb-1">{TESTIMONIALS[currentTestimonial].author}</h4>
-                              <p className="text-zeven-gray font-medium">{TESTIMONIALS[currentTestimonial].role}, {TESTIMONIALS[currentTestimonial].company}</p>
+                              <p className="text-lg sm:text-xl md:text-3xl font-medium text-zeven-dark leading-relaxed mb-6 md:mb-8">"{TESTIMONIALS[currentTestimonial].quote}"</p>
+                              <h4 className="text-zeven-blue font-bold text-xl md:text-2xl mb-1">{TESTIMONIALS[currentTestimonial].author}</h4>
+                              <p className="text-zeven-gray font-medium text-sm md:text-base">{TESTIMONIALS[currentTestimonial].role}, {TESTIMONIALS[currentTestimonial].company}</p>
                            </motion.div>
                         </AnimatePresence>
 
                         {/* Thumbnails Control */}
-                        <div className="flex flex-wrap items-center gap-4 mt-12 pt-12 border-t border-zeven-gray/10">
-                           <button onClick={() => setCurrentTestimonial(prev => (prev - 1 + TESTIMONIALS.length) % TESTIMONIALS.length)} className="p-3 rounded-full border border-zeven-blue/20 hover:bg-zeven-blue hover:text-white text-zeven-blue transition-colors">
-                              <ChevronLeft size={20} />
+                        <div className="flex items-center gap-2 sm:gap-3 md:gap-4 mt-6 sm:mt-8 md:mt-12 pt-6 sm:pt-8 md:pt-12 border-t border-zeven-gray/10">
+                           <button onClick={() => setCurrentTestimonial(prev => (prev - 1 + TESTIMONIALS.length) % TESTIMONIALS.length)} className="p-2 md:p-3 rounded-full border border-zeven-blue/20 hover:bg-zeven-blue hover:text-white text-zeven-blue transition-colors flex-shrink-0">
+                              <ChevronLeft size={18} className="md:w-5 md:h-5" />
                            </button>
-                           <div className="flex gap-3">
+                           <div className="flex gap-2 md:gap-3 overflow-x-auto no-scrollbar">
                               {TESTIMONIALS.map((t, idx) => (
-                                 <button key={idx} onClick={() => setCurrentTestimonial(idx)} className={`w-14 h-14 rounded-full overflow-hidden border-2 transition-all ${currentTestimonial === idx ? 'border-zeven-blue scale-110 ring-4 ring-zeven-blue/10' : 'border-transparent opacity-60 hover:opacity-100 grayscale hover:grayscale-0'}`}>
+                                 <button key={idx} onClick={() => setCurrentTestimonial(idx)} className={`w-9 h-9 sm:w-11 sm:h-11 md:w-14 md:h-14 rounded-full overflow-hidden border-2 transition-all flex-shrink-0 ${currentTestimonial === idx ? 'border-zeven-blue scale-110 ring-2 md:ring-4 ring-zeven-blue/10' : 'border-transparent opacity-60 hover:opacity-100 grayscale hover:grayscale-0'}`}>
                                     <img src={t.image} alt="thumb" className="w-full h-full object-cover" />
                                  </button>
                               ))}
                            </div>
-                           <button onClick={() => setCurrentTestimonial(prev => (prev + 1) % TESTIMONIALS.length)} className="p-3 rounded-full border border-zeven-blue/20 hover:bg-zeven-blue hover:text-white text-zeven-blue transition-colors">
-                              <ChevronRight size={20} />
+                           <button onClick={() => setCurrentTestimonial(prev => (prev + 1) % TESTIMONIALS.length)} className="p-2 md:p-3 rounded-full border border-zeven-blue/20 hover:bg-zeven-blue hover:text-white text-zeven-blue transition-colors flex-shrink-0">
+                              <ChevronRight size={18} className="md:w-5 md:h-5" />
                            </button>
                         </div>
                      </div>
@@ -738,7 +738,7 @@ export const Home: React.FC = () => {
                <div className="grid md:grid-cols-2 gap-16 items-center">
                   <ScrollReveal>
                      <div className="relative group">
-                        <img src={FOUNDER_MESSAGE.image} alt="Founder" className="w-full max-w-md mx-auto relative z-10 drop-shadow-2xl rounded-2xl grayscale group-hover:grayscale-0 transition-all duration-700" style={{ maskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)' }} />
+                        <img src={FOUNDER_MESSAGE.image} alt="Founder" loading="lazy" className="w-full max-w-md mx-auto relative z-10 drop-shadow-2xl rounded-2xl grayscale group-hover:grayscale-0 transition-all duration-700" style={{ maskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)' }} />
                         <div className="absolute inset-0 bg-zeven-blue/10 rounded-full transform scale-90 translate-y-10 -z-0 blur-xl" />
                      </div>
                   </ScrollReveal>

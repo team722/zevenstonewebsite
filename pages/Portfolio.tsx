@@ -115,7 +115,7 @@ export const Portfolio: React.FC = () => {
         {/* Dynamic Bento Style Grid for Portfolio */}
         <motion.div
           layout
-          className="grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-[280px] lg:auto-rows-[350px] mb-32"
+          className="grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-[220px] md:auto-rows-[280px] lg:auto-rows-[350px] mb-32"
         >
           <LayoutGroup>
             <AnimatePresence mode="popLayout">
