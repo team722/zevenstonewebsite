@@ -1,6 +1,6 @@
 export const BLOG_POSTS_QUERY = `
   *[_type == "blogPost"] | order(publishedAt desc) {
-    _id, title, category, publishedAt,
+    _id, title, "category": coalesce(category->label, category), publishedAt,
     "slug": slug.current,
     excerpt,
     "imageUrl": mainImage.asset->url,
@@ -12,7 +12,7 @@ export const BLOG_POSTS_QUERY = `
 
 export const BLOG_POST_BY_SLUG_QUERY = `
   *[_type == "blogPost" && slug.current == $slug][0] {
-    _id, title, category, publishedAt, excerpt,
+    _id, title, "category": coalesce(category->label, category), publishedAt, excerpt,
     "slug": slug.current,
     "imageUrl": mainImage.asset->url,
     body,
@@ -38,7 +38,7 @@ export const TESTIMONIALS_QUERY = `
 
 export const PORTFOLIO_PROJECTS_QUERY = `
   *[_type == "portfolioProject"] | order(displayOrder asc) {
-    _id, client, headline, category,
+    _id, client, headline, "category": coalesce(category->label, category),
     tags,
     "imageUrl": image.asset->url
   }
@@ -60,8 +60,20 @@ export const SERVICES_QUERY = `
 
 export const CASE_STUDIES_QUERY = `
   *[_type == "caseStudy"] {
-    _id, client, headline, challenge, solution, impact, tags,
+    _id, client, headline, challenge, solution, impact, tags, "slug": slug.current,
     "imageUrl": image.asset->url
+  }
+`;
+
+export const CASE_STUDY_BY_SLUG_QUERY = `
+  *[_type == "caseStudy" && (slug.current == $slug || _id == $slug)][0] {
+    _id, client, headline, "slug": slug.current,
+    "imageUrl": image.asset->url,
+    challenge, solution, impact, tags,
+    keyResults, servicesProvided, 
+    "processImagesUrls": processImages[].asset->url,
+    solutionFeatures,
+    seo
   }
 `;
 
@@ -123,7 +135,7 @@ export const SERVICES_PAGE_QUERY = `
   *[_type == "servicesPage"][0] { 
     hero { heading, subheading, description, "backgroundImageUrl": backgroundImage.asset->url, ctaButton },
     notSureWhereToStartCta { heading, description, button },
-    featuresHeading { heading, description },
+  
     techStackHeading { heading, description },
     seo 
   }
