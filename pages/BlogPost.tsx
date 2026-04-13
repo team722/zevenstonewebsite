@@ -168,13 +168,13 @@ export const BlogPost: React.FC = () => {
          </motion.div>
          
          <div className="mt-20 pt-10 border-t border-slate-200">
-             <div className="bg-slate-50 rounded-3xl p-8 md:p-12 text-center md:text-left flex flex-col md:flex-row items-center gap-8 shadow-sm">
-                 <div className="flex-1">
+             <div className="bg-slate-50 rounded-3xl p-6 sm:p-8 md:p-12 text-center md:text-left flex flex-col md:flex-row items-center gap-8 shadow-sm overflow-hidden">
+                 <div className="flex-1 w-full min-w-0">
                      <h3 className="text-2xl font-bold text-zeven-dark mb-3">Enjoyed this article?</h3>
                      <p className="text-zeven-gray mb-6">Stay updated with our latest insights on web development, design, and marketing.</p>
-                     <div className="flex flex-col sm:flex-row gap-3">
-                        <input type="email" placeholder="Your email address" className="flex-1 px-5 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-zeven-blue focus:ring-1 focus:ring-zeven-blue transition-shadow" />
-                        <button className="px-6 py-3 bg-zeven-blue text-white font-bold rounded-xl hover:bg-zeven-deep transition-colors shadow-lg hover:shadow-zeven-blue/30 whitespace-nowrap">Subscribe</button>
+                     <div className="flex flex-col sm:flex-row gap-3 w-full">
+                        <input type="email" placeholder="Your email address" className="flex-1 w-full min-w-0 px-5 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-zeven-blue focus:ring-1 focus:ring-zeven-blue transition-shadow" />
+                        <button className="w-full sm:w-auto px-6 py-3 bg-zeven-blue text-white font-bold rounded-xl hover:bg-zeven-deep transition-colors shadow-lg hover:shadow-zeven-blue/30 whitespace-nowrap">Subscribe</button>
                      </div>
                  </div>
              </div>
