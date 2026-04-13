@@ -82,7 +82,7 @@ export const About: React.FC = () => {
             <div className="inline-block px-4 py-1.5 rounded-full bg-zeven-blue/10 text-zeven-blue text-xs font-bold uppercase tracking-widest mb-6">
               {aboutPageData?.hero?.subheading || 'Who We Are'}
             </div>
-            <h1 className="font-extrabold text-5xl md:text-7xl mb-8 text-zeven-dark tracking-tight leading-[1.1]" dangerouslySetInnerHTML={{ __html: aboutPageData?.hero?.heading || `The Team Behind <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-zeven-blue to-zeven-deep">The Transformation</span>` }}>
+            <h1 className="font-extrabold text-[36px] sm:text-4xl md:text-7xl mb-8 text-zeven-dark tracking-tight leading-[1.1]" dangerouslySetInnerHTML={{ __html: aboutPageData?.hero?.heading || `The Team Behind <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-zeven-blue to-zeven-deep">The Transformation</span>` }}>
             </h1>
             <p className="text-xl text-zeven-gray leading-relaxed mb-8 font-light max-w-lg">
               {aboutPageData?.hero?.description || "We're not another agency ticking boxes. We're a creative-tech powerhouse driven by strategy, inspired by innovation, and grounded in results."}
