@@ -354,8 +354,8 @@ export const Home: React.FC = () => {
             <div className="container mx-auto px-6">
                <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
                   <ScrollReveal>
-                     <h2 className="text-4xl md:text-5xl font-bold text-zeven-dark mb-4" dangerouslySetInnerHTML={{ __html: homePage?.servicesHeading?.heading || `Our <span class="text-zeven-blue">Services</span>` }}></h2>
-                     <p className="text-zeven-gray max-w-xl text-lg">{homePage?.servicesHeading?.description || `We offer comprehensive digital marketing solutions tailored to your business needs.`}</p>
+                     <h2 className="text-3xl md:text-5xl font-bold text-zeven-dark mb-4" dangerouslySetInnerHTML={{ __html: homePage?.servicesHeading?.heading || `Our <span class="text-zeven-blue">Services</span>` }}></h2>
+                     <p className="text-zeven-gray max-w-xl text-base md:text-lg">{homePage?.servicesHeading?.description || `We offer comprehensive digital marketing solutions tailored to your business needs.`}</p>
                   </ScrollReveal>
                   <Link to="/contact" className="hidden md:block">
                      <Button variant="outline" className="rounded-full">Let's Talk Growth !</Button>
@@ -424,8 +424,8 @@ export const Home: React.FC = () => {
                            {/* List Details */}
                            <div className="space-y-6 relative z-10 order-1 md:order-2">
                               <div>
-                                 <h3 className="font-bold text-4xl text-zeven-dark mb-4">{SERVICES_LIST[activeServiceTab].title}</h3>
-                                 <p className="text-zeven-gray text-lg leading-relaxed">{SERVICES_LIST[activeServiceTab].description}</p>
+                                 <h3 className="font-bold text-2xl md:text-4xl text-zeven-dark mb-4">{SERVICES_LIST[activeServiceTab].title}</h3>
+                                 <p className="text-zeven-gray text-base md:text-lg leading-relaxed">{SERVICES_LIST[activeServiceTab].description}</p>
                               </div>
 
                               <div className="grid gap-3">
@@ -498,7 +498,7 @@ export const Home: React.FC = () => {
             <div className="container mx-auto px-6">
                <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-4">
                   <ScrollReveal>
-                     <h2 className="text-4xl font-bold text-zeven-dark mb-2" dangerouslySetInnerHTML={{ __html: homePage?.whyChooseUsHeading?.heading || `Why <span class="text-zeven-blue">Choose Us ?</span>` }}></h2>
+                     <h2 className="text-3xl md:text-4xl font-bold text-zeven-dark mb-2" dangerouslySetInnerHTML={{ __html: homePage?.whyChooseUsHeading?.heading || `Why <span class="text-zeven-blue">Choose Us ?</span>` }}></h2>
                      <p className="text-zeven-gray">{homePage?.whyChooseUsHeading?.description || `Proven results driven by data and creativity.`}</p>
                   </ScrollReveal>
                   <Link to="/contact">
@@ -513,7 +513,7 @@ export const Home: React.FC = () => {
                            <div className="w-20 h-20 mx-auto bg-zeven-surface rounded-2xl rotate-3 flex items-center justify-center text-zeven-blue mb-8 group-hover:rotate-0 group-hover:bg-zeven-blue group-hover:text-white transition-all duration-300 shadow-inner">
                               <item.icon size={32} />
                            </div>
-                           <h3 className="font-bold text-lg text-zeven-dark mb-4">{item.title}</h3>
+                           <h3 className="font-bold text-base md:text-lg text-zeven-dark mb-4">{item.title}</h3>
                            <p className="text-sm text-zeven-gray leading-relaxed">{item.desc}</p>
                         </Card>
                      </ScrollReveal>
@@ -559,8 +559,8 @@ export const Home: React.FC = () => {
 
             <div className="container mx-auto px-6 relative z-10">
                <ScrollReveal>
-                  <h2 className="text-4xl md:text-6xl font-bold mb-8 tracking-tight" dangerouslySetInnerHTML={{ __html: homePage?.visionSection?.heading || `Your Vision, Amplified by <br /> Strategy, Story & Screens.` }}></h2>
-                  <p className="text-blue-100 max-w-3xl mx-auto mb-12 text-xl font-light">{homePage?.visionSection?.description || `We help brands and businesses to create their digital presence and connect with their audiences through creative and innovative solutions.`}</p>
+                  <h2 className="text-3xl md:text-6xl font-bold mb-8 tracking-tight" dangerouslySetInnerHTML={{ __html: homePage?.visionSection?.heading || `Your Vision, Amplified by <br /> Strategy, Story & Screens.` }}></h2>
+                  <p className="text-blue-100 max-w-3xl mx-auto mb-12 text-lg md:text-xl font-light">{homePage?.visionSection?.description || `We help brands and businesses to create their digital presence and connect with their audiences through creative and innovative solutions.`}</p>
                   <Link to={homePage?.visionSection?.button?.url || homePage?.visionSection?.ctaButton?.url || "/contact"}>
                      <motion.button
                         whileHover={{ scale: 1.05 }}
@@ -579,7 +579,7 @@ export const Home: React.FC = () => {
             <div className="container mx-auto px-6">
                <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
                   <ScrollReveal>
-                     <h2 className="text-4xl font-bold text-zeven-dark" dangerouslySetInnerHTML={{ __html: homePage?.portfolioHeading?.heading || `Our <span class="text-zeven-blue">Portfolio</span>` }}></h2>
+                     <h2 className="text-3xl md:text-4xl font-bold text-zeven-dark" dangerouslySetInnerHTML={{ __html: homePage?.portfolioHeading?.heading || `Our <span class="text-zeven-blue">Portfolio</span>` }}></h2>
                      <p className="text-sm text-zeven-gray mt-2">{homePage?.portfolioHeading?.description || `Measurable impact across industries.`}</p>
                   </ScrollReveal>
                   <Link to="/portfolio">
@@ -667,7 +667,7 @@ export const Home: React.FC = () => {
                <ScrollReveal>
                   <div className="flex justify-between items-end mb-16">
                      <div>
-                        <h2 className="text-4xl font-bold text-zeven-dark" dangerouslySetInnerHTML={{ __html: homePage?.testimonialsHeading?.heading || `What Our <span class="text-zeven-blue">Clients Say</span>` }}></h2>
+                        <h2 className="text-3xl md:text-4xl font-bold text-zeven-dark" dangerouslySetInnerHTML={{ __html: homePage?.testimonialsHeading?.heading || `What Our <span class="text-zeven-blue">Clients Say</span>` }}></h2>
                         <p className="text-sm text-zeven-gray mt-2">{homePage?.testimonialsHeading?.description || `Real feedback from real partners.`}</p>
                      </div>
                   </div>
@@ -746,7 +746,7 @@ export const Home: React.FC = () => {
                      <div>
                         <h2 className="text-3xl md:text-4xl font-bold text-zeven-dark mb-4">Founder <span className="text-zeven-blue">Message</span></h2>
                         {FOUNDER_MESSAGE.title && <h3 className="text-2xl font-bold text-zeven-blue mb-6">{FOUNDER_MESSAGE.title}</h3>}
-                        <p className="text-zeven-gray leading-relaxed mb-8 text-lg font-light whitespace-pre-wrap">
+                        <p className="text-zeven-gray leading-relaxed mb-8 text-base md:text-lg font-light whitespace-pre-wrap">
                            {FOUNDER_MESSAGE.content}
                         </p>
                         <div className="text-5xl font-signature text-zeven-blue opacity-80 rotate-[-2deg]">
@@ -769,8 +769,8 @@ export const Home: React.FC = () => {
                         <div className="absolute inset-0 bg-gradient-to-b from-zeven-blue to-zeven-deep opacity-90" />
 
                         <div className="relative z-10">
-                           <h2 className="text-4xl font-bold mb-6" dangerouslySetInnerHTML={{ __html: homePage?.contactFormSection?.heading || `Let's Connect` }}></h2>
-                           <p className="text-blue-100 mb-12 text-lg">{homePage?.contactFormSection?.description || `Ready to transform your digital presence? We're here to help you scale.`}</p>
+                           <h2 className="text-3xl md:text-4xl font-bold mb-6" dangerouslySetInnerHTML={{ __html: homePage?.contactFormSection?.heading || `Let's Connect` }}></h2>
+                           <p className="text-blue-100 mb-12 text-base md:text-lg">{homePage?.contactFormSection?.description || `Ready to transform your digital presence? We're here to help you scale.`}</p>
 
                            <div className="space-y-10">
                               <div className="group">
@@ -825,7 +825,7 @@ export const Home: React.FC = () => {
             <div className="container mx-auto px-6 max-w-4xl">
                <ScrollReveal>
                   <div className="text-center mb-12">
-                     <h2 className="font-bold text-4xl text-zeven-dark mb-4" dangerouslySetInnerHTML={{ __html: homePage?.faqHeading?.heading || `Frequently Asked <span class="text-zeven-blue">Questions</span>` }}></h2>
+                     <h2 className="font-bold text-3xl md:text-4xl text-zeven-dark mb-4" dangerouslySetInnerHTML={{ __html: homePage?.faqHeading?.heading || `Frequently Asked <span class="text-zeven-blue">Questions</span>` }}></h2>
                      <p className="text-zeven-gray">{homePage?.faqHeading?.description || `Everything you need to know about working with us.`}</p>
                   </div>
                </ScrollReveal>

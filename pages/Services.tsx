@@ -135,14 +135,14 @@ export const Services: React.FC = () => {
         {processSteps && processSteps.length > 0 && (
           <div className="mb-32">
             <ScrollReveal>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-white/40 backdrop-blur-xl border border-white/60 p-4 rounded-[2rem] shadow-sm">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 bg-white/40 backdrop-blur-xl border border-white/60 p-4 rounded-[2rem] shadow-sm">
                 {processSteps.map((step: any, idx: number) => (
                   <div key={idx} className="relative group p-6 rounded-2xl bg-zeven-blue border border-white/10 shadow-lg hover:shadow-zeven-blue/40 hover:-translate-y-2 transition-all duration-300 overflow-hidden">
                     {/* Gradient Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                     <div className="relative z-10">
-                      <div className="text-4xl font-bold text-white/30 mb-4 group-hover:text-white/50 transition-colors">0{idx + 1}</div>
+                      <div className="text-3xl md:text-4xl font-bold text-white/30 mb-4 group-hover:text-white/50 transition-colors">0{idx + 1}</div>
                       <h3 className="font-bold text-xl text-white mb-2">{step.title}</h3>
                       <p className="text-sm text-blue-50 leading-relaxed font-medium opacity-90">{step.description}</p>
                     </div>
@@ -156,7 +156,7 @@ export const Services: React.FC = () => {
         {/* --- SERVICES GRID --- */}
         {servicesPageData?.featuresHeading?.heading && (
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-zeven-dark mb-4" dangerouslySetInnerHTML={{ __html: servicesPageData.featuresHeading.heading }}></h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-zeven-dark mb-4" dangerouslySetInnerHTML={{ __html: servicesPageData.featuresHeading.heading }}></h2>
             {servicesPageData?.featuresHeading?.description && (
               <p className="text-xl text-zeven-gray max-w-2xl mx-auto font-light">{servicesPageData.featuresHeading.description}</p>
             )}
@@ -254,7 +254,7 @@ export const Services: React.FC = () => {
             />
 
             <div className="relative z-10">
-              <h2 className="text-4xl md:text-6xl font-extrabold mb-6 text-white tracking-tight leading-tight" dangerouslySetInnerHTML={{ __html: servicesPageData?.notSureWhereToStartCta?.heading || `Not sure where to start?` }}>
+              <h2 className="text-3xl md:text-6xl font-extrabold mb-6 text-white tracking-tight leading-tight" dangerouslySetInnerHTML={{ __html: servicesPageData?.notSureWhereToStartCta?.heading || `Not sure where to start?` }}>
               </h2>
               <p className="text-xl text-blue-100 mb-12 max-w-2xl mx-auto font-light">
                 {servicesPageData?.notSureWhereToStartCta?.description || `We understand that no two businesses are alike. Let's schedule a discovery call to tailor a strategy that fits your unique needs.`}

@@ -85,7 +85,7 @@ export const Portfolio: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-xl text-zeven-gray max-w-2xl mx-auto font-light"
+            className="text-lg md:text-xl text-zeven-gray max-w-2xl mx-auto font-light"
           >
             {portfolioPageData?.hero?.description || `Real challenges. Tailored solutions. Measurable impact.`}
           </motion.p>
@@ -96,7 +96,7 @@ export const Portfolio: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="flex gap-3 mb-16 overflow-x-auto pb-4 no-scrollbar justify-center no-scrollbar-hide"
+          className="flex gap-3 mb-16 overflow-x-auto pb-4 no-scrollbar justify-start sm:justify-center no-scrollbar-hide"
         >
           {categories.map((cat) => (
             <button
@@ -163,7 +163,7 @@ export const Portfolio: React.FC = () => {
                                 </div>
                               ))}
                             </div>
-                            <h3 className="text-white font-bold text-3xl md:text-4xl mb-2 leading-tight">{item.client}</h3>
+                            <h3 className="text-white font-bold text-2xl md:text-4xl mb-2 leading-tight">{item.client}</h3>
                             <p className="text-white/80 text-sm md:text-base line-clamp-2 font-light opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-75">{item.headline}</p>
                           </div>
                           <div className="bg-white text-zeven-dark w-12 h-12 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-4 group-hover:translate-x-0 flex-shrink-0 shadow-lg">
@@ -182,9 +182,9 @@ export const Portfolio: React.FC = () => {
         {/* Call to action */}
         <div className="text-center bg-white/60 backdrop-blur-xl border border-white/60 rounded-[3rem] p-12 md:p-20 shadow-[0_8px_30px_rgb(0,0,0,0.04)] mb-20 max-w-4xl mx-auto">
           <h2 className="text-3xl md:text-5xl font-bold text-zeven-dark mb-6 tracking-tight">{portfolioPageData?.likeWhatYouSeeCta?.heading || "Like What You See?"}</h2>
-          <p className="text-zeven-gray text-lg mb-10 font-light max-w-xl mx-auto">{portfolioPageData?.likeWhatYouSeeCta?.description || "These are just a few examples of how we've helped ambitious brands transform their digital presence and achieve record-breaking results."}</p>
+          <p className="text-zeven-gray text-base md:text-lg mb-10 font-light max-w-xl mx-auto">{portfolioPageData?.likeWhatYouSeeCta?.description || "These are just a few examples of how we've helped ambitious brands transform their digital presence and achieve record-breaking results."}</p>
           <Link to={portfolioPageData?.likeWhatYouSeeCta?.button?.url || portfolioPageData?.likeWhatYouSeeCta?.button?.link || "/contact"}>
-            <Button className="rounded-full shadow-lg shadow-zeven-blue/20 bg-zeven-blue text-white hover:bg-zeven-deep text-lg px-10 py-6 h-auto">
+            <Button className="rounded-full shadow-lg shadow-zeven-blue/20 bg-zeven-blue text-white hover:bg-zeven-deep text-lg sm:px-10 px-4 sm:py-6 py-4 h-auto">
               {portfolioPageData?.likeWhatYouSeeCta?.button?.text || "Let's Discuss Your Project"} <ArrowRight size={20} className="ml-2" />
             </Button>
           </Link>
