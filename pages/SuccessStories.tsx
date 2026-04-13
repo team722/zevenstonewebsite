@@ -119,8 +119,8 @@ export const SuccessStories: React.FC = () => {
                           </p>
                        </div>
                     </div>
-                    {/* Assuming dynamic routing for case studies */}
-                    <Link to={`/case-study/${study._id || idx}`}>
+                    {/* Routing using case study slug */}
+                    <Link to={`/case-study/${study.slug || study._id || idx}`}>
                       <Button variant="outline" className="rounded-full w-fit group-hover:bg-zeven-blue group-hover:text-white group-hover:border-transparent">
                          Read Full Story <ArrowRight size={16} className="ml-2" />
                       </Button>
