@@ -522,7 +522,7 @@ export const Home: React.FC = () => {
                <h2 className="text-2xl font-bold text-zeven-dark" dangerouslySetInnerHTML={{ __html: homePage?.partnersHeading?.heading || `Trusted by <span class="text-zeven-blue">Innovative Brands</span>` }}></h2>
                <div className="h-px bg-zeven-surface flex-grow mx-8 hidden md:block"></div>
             </div>
-            <div className="relative w-full overflow-hidden">
+            <div className="container relative w-full overflow-hidden">
                {/* Marquee with Logos */}
                <div className="flex animate-marquee whitespace-nowrap gap-20 items-center hover:pause-animation w-max">
                   {[...PARTNERS_LOGOS, ...PARTNERS_LOGOS, ...PARTNERS_LOGOS].map((logo, i) => (
@@ -731,7 +731,7 @@ export const Home: React.FC = () => {
             <div className="container mx-auto px-6">
                <div className="text-center mb-16">
                   <ScrollReveal>
-                     <h2 className="text-3xl md:text-4xl font-bold text-zeven-dark mb-4">Leadership <span className="text-zeven-blue">Messages</span></h2>
+                     <h2 className="text-3xl md:text-4xl font-bold text-zeven-dark mb-4">Founder <span className="text-zeven-blue">Messages</span></h2>
                   </ScrollReveal>
                </div>
 
