@@ -64,7 +64,7 @@ export const SuccessStories: React.FC = () => {
                   animate={{ opacity: 1, y: 0 }}
                   className="inline-block px-4 py-1.5 rounded-full bg-zeven-blue/10 text-zeven-blue text-xs font-bold uppercase tracking-widest mb-6"
                >
-                  {successStoriesPageData?.hero?.subheading || 'Success Stories'}
+                  {successStoriesPageData?.hero?.label || 'Success Stories'}
                </motion.div>
                <motion.h1
                   initial={{ opacity: 0, y: 20 }}
