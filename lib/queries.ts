@@ -95,7 +95,7 @@ export const HOME_PAGE_QUERY = `
     faqHeading { heading, description },
     contactFormSection { heading, description },
     stats, whyUsItems, processSteps, moreServicesTags,
-    founderMessage {
+    founderMessages[] {
       title, content, author, role, "photoUrl": photo.asset->url
     },
     seo
@@ -125,9 +125,19 @@ export const ABOUT_PAGE_QUERY = `
     missionSection { heading, description },
     howWeWorkHeading { heading, description },
     coreValuesHeading { heading, description },
+    foundersBioHeading { heading, description },
     teamHeading { heading, description },
     testimonialsHeading { heading, description },
     seo 
+  }
+`;
+
+export const FOUNDERS_BIO_QUERY = `
+  *[_type == "founderBio"] | order(displayOrder asc) {
+    _id, name, role, tagline,
+    "photoUrl": photo.asset->url,
+    quoteText, theStory, theJourney, theVision,
+    notableAchievements, beyondWork
   }
 `;
 

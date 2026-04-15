@@ -92,14 +92,8 @@ export const Home: React.FC = () => {
       image: p.imageUrl
    }));
 
-   // 4. FOUNDER
-   const FOUNDER_MESSAGE = {
-      title: homePage?.founderMessage?.title || '',
-      content: homePage?.founderMessage?.content || '',
-      author: homePage?.founderMessage?.author || 'James Zeven',
-      role: homePage?.founderMessage?.role || 'Founder',
-      image: homePage?.founderMessage?.photoUrl || ''
-   };
+   // 4. FOUNDERS
+   const FOUNDER_MESSAGES = homePage?.founderMessages || [];
 
 
 
@@ -732,29 +726,45 @@ export const Home: React.FC = () => {
             </div>
          </section>
 
-         {/* --- FOUNDER MESSAGE --- */}
+         {/* --- FOUNDER MESSAGES --- */}
          <section className="py-24 bg-white">
             <div className="container mx-auto px-6">
-               <div className="grid md:grid-cols-2 gap-16 items-center">
+               <div className="text-center mb-16">
                   <ScrollReveal>
-                     <div className="relative group">
-                        <img src={FOUNDER_MESSAGE.image} alt="Founder" loading="lazy" className="w-full max-w-md mx-auto relative z-10 drop-shadow-2xl rounded-2xl grayscale group-hover:grayscale-0 transition-all duration-700" style={{ maskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)' }} />
-                        <div className="absolute inset-0 bg-zeven-blue/10 rounded-full transform scale-90 translate-y-10 -z-0 blur-xl" />
-                     </div>
+                     <h2 className="text-3xl md:text-4xl font-bold text-zeven-dark mb-4">Leadership <span className="text-zeven-blue">Messages</span></h2>
                   </ScrollReveal>
-                  <ScrollReveal delay={0.2}>
-                     <div>
-                        <h2 className="text-3xl md:text-4xl font-bold text-zeven-dark mb-4">Founder <span className="text-zeven-blue">Message</span></h2>
-                        {FOUNDER_MESSAGE.title && <h3 className="text-2xl font-bold text-zeven-blue mb-6">{FOUNDER_MESSAGE.title}</h3>}
-                        <p className="text-zeven-gray leading-relaxed mb-8 text-base md:text-lg font-light whitespace-pre-wrap">
-                           {FOUNDER_MESSAGE.content}
-                        </p>
-                        <div className="text-5xl font-signature text-zeven-blue opacity-80 rotate-[-2deg]">
-                           {FOUNDER_MESSAGE.author}
+               </div>
+
+               <div className="space-y-24">
+                  {FOUNDER_MESSAGES.map((msg: any, index: number) => {
+                     const isEven = index % 2 === 0;
+                     return (
+                        <div key={index} className="grid md:grid-cols-2 gap-16 items-center">
+                           <div className={isEven ? '' : 'md:order-last'}>
+                              <ScrollReveal>
+                                 <div className="relative group">
+                                    <img src={msg.photoUrl} alt={msg.author} loading="lazy" className="w-full max-w-md h-[400px] md:h-[500px] object-cover object-top mx-auto relative z-10 drop-shadow-2xl rounded-2xl transition-all duration-700" />
+                                    <div className="absolute inset-0 bg-zeven-blue/10 rounded-full transform scale-90 translate-y-10 -z-0 blur-xl" />
+                                 </div>
+                              </ScrollReveal>
+                           </div>
+                           <div className={isEven ? '' : 'md:order-first'}>
+                              <ScrollReveal delay={0.2}>
+                                 <div>
+                                    {msg.title && <h3 className="text-2xl font-bold text-zeven-blue mb-6">{msg.title}</h3>}
+                                    <p className="text-zeven-gray leading-relaxed mb-8 text-base md:text-lg font-light whitespace-pre-wrap">
+                                       {msg.content}
+                                    </p>
+                                    <div className="text-5xl font-signature text-zeven-blue opacity-80 rotate-[-2deg]">
+                                       {msg.author}
+                                    </div>
+                                    {msg.role && <div className="text-sm font-bold text-zeven-gray mt-2 uppercase tracking-wider">{msg.role}</div>}
+                                 </div>
+                              </ScrollReveal>
+                           </div>
                         </div>
-                        {FOUNDER_MESSAGE.role && <div className="text-sm font-bold text-zeven-gray mt-2 uppercase tracking-wider">{FOUNDER_MESSAGE.role}</div>}
-                     </div>
-                  </ScrollReveal>
+                     );
+                  })}
                </div>
             </div>
          </section>
