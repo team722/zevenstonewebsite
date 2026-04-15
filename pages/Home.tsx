@@ -213,8 +213,8 @@ export const Home: React.FC = () => {
                         transition={{ delay: 0.2 }}
                         className="mb-8"
                      >
-                        <span className="font-semibold text-zeven-blue tracking-[0.2em] uppercase text-xs md:text-sm bg-white/60 px-5 py-2.5 rounded-full border border-zeven-blue/20 inline-block backdrop-blur-md shadow-sm">
-                           Creative Minds. Strategic Execution. Measurable Growth.
+                        <span dangerouslySetInnerHTML={{ __html: homePage?.hero?.label || `Creative Minds. Strategic Execution. Measurable Growth.` }} className="font-semibold text-zeven-blue tracking-[0.2em] uppercase text-xs md:text-sm bg-white/60 px-5 py-2.5 rounded-full border border-zeven-blue/20 inline-block backdrop-blur-md shadow-sm">
+
                         </span>
                      </motion.div>
 

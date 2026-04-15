@@ -52,8 +52,7 @@ export const Blog: React.FC = () => {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   className="inline-block px-4 py-1.5 rounded-full bg-zeven-blue/10 text-zeven-blue text-xs font-bold uppercase tracking-widest mb-6"
-               >
-                  Insights & Ideas
+                  dangerouslySetInnerHTML={{ __html: blogPageData?.hero?.label || "Insights & Ideas" }} >
                </motion.div>
                <motion.h1
                   initial={{ opacity: 0, y: 20 }}

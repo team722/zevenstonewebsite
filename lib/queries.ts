@@ -85,7 +85,7 @@ export const FAQS_QUERY = `
 
 export const HOME_PAGE_QUERY = `
   *[_type == "homePage"][0] {
-    hero { heading, subheading, description, "backgroundImageUrl": backgroundImage.asset->url, ctaButton, secondaryCtaButton },
+    hero { heading, subheading, description,label, "backgroundImageUrl": backgroundImage.asset->url, ctaButton, secondaryCtaButton },
     visionSection { heading, description, "imageUrl": image.asset->url, button, ctaButton },
     servicesHeading { heading, description },
     testimonialsHeading { heading, description },
@@ -119,7 +119,7 @@ export const SITE_SETTINGS_QUERY = `
 
 export const ABOUT_PAGE_QUERY = `
   *[_type == "aboutPage"][0] { 
-    hero { heading, subheading, description, "backgroundImageUrl": backgroundImage.asset->url, ctaButton },
+    hero { heading, subheading, description,label, "backgroundImageUrl": backgroundImage.asset->url, ctaButton },
     "heroImagesUrl": heroImages[].asset->url,
     visionSection { heading, description },
     missionSection { heading, description },
@@ -143,7 +143,7 @@ export const FOUNDERS_BIO_QUERY = `
 
 export const SERVICES_PAGE_QUERY = `
   *[_type == "servicesPage"][0] { 
-    hero { heading, subheading, description, "backgroundImageUrl": backgroundImage.asset->url, ctaButton },
+    hero { heading, subheading, description,label, "backgroundImageUrl": backgroundImage.asset->url, ctaButton },
     notSureWhereToStartCta { heading, description, button },
   
     techStackHeading { heading, description },
@@ -153,7 +153,7 @@ export const SERVICES_PAGE_QUERY = `
 
 export const PORTFOLIO_PAGE_QUERY = `
   *[_type == "portfolioPage"][0] { 
-    hero { heading, subheading, description, "backgroundImageUrl": backgroundImage.asset->url, ctaButton },
+    hero { heading, subheading, description,label, "backgroundImageUrl": backgroundImage.asset->url, ctaButton },
     likeWhatYouSeeCta { heading, description, button },
     seo 
   }
@@ -161,7 +161,7 @@ export const PORTFOLIO_PAGE_QUERY = `
 
 export const SUCCESS_STORIES_PAGE_QUERY = `
   *[_type == "successStoriesPage"][0] { 
-    hero { heading, subheading, description, "backgroundImageUrl": backgroundImage.asset->url, ctaButton },
+    hero { heading, subheading, description,label, "backgroundImageUrl": backgroundImage.asset->url, ctaButton },
     readyToWriteCta { heading, description, button },
     storiesHeading { heading, description },
     seo 
@@ -170,7 +170,7 @@ export const SUCCESS_STORIES_PAGE_QUERY = `
 
 export const BLOG_PAGE_QUERY = `
   *[_type == "blogPage"][0] { 
-    hero { heading, subheading, description, "backgroundImageUrl": backgroundImage.asset->url, ctaButton },
+    hero { heading, subheading, description,label, "backgroundImageUrl": backgroundImage.asset->url, ctaButton },
     stayAheadCta { heading, description, button },
     seo 
   }

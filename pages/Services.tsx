@@ -105,8 +105,8 @@ export const Services: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
           >
-            <span className="font-semibold text-zeven-blue tracking-[0.2em] uppercase text-xs md:text-sm bg-white/60 px-5 py-2.5 rounded-full border border-zeven-blue/20 inline-block backdrop-blur-md shadow-sm mb-6">
-              Our Capabilities
+            <span dangerouslySetInnerHTML={{ __html: servicesPageData?.hero?.label || "Our Capabilities" }} className="font-semibold text-zeven-blue tracking-[0.2em] uppercase text-xs md:text-sm bg-white/60 px-5 py-2.5 rounded-full border border-zeven-blue/20 inline-block backdrop-blur-md shadow-sm mb-6">
+
             </span>
           </motion.div>
 
