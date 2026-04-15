@@ -3,13 +3,13 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { sanityClient } from '../lib/sanity';
-import { TEAM_MEMBERS_QUERY, HOME_PAGE_QUERY, SITE_SETTINGS_QUERY, TESTIMONIALS_QUERY, ABOUT_PAGE_QUERY } from '../lib/queries';
+import { TEAM_MEMBERS_QUERY, HOME_PAGE_QUERY, SITE_SETTINGS_QUERY, TESTIMONIALS_QUERY, ABOUT_PAGE_QUERY, FOUNDERS_BIO_QUERY } from '../lib/queries';
 import { urlFor } from '../lib/sanity';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
 import { ErrorState } from '../components/ui/ErrorState';
 import { Helmet } from 'react-helmet-async';
 import { Card } from '../components/ui/Card';
-import { Target, Lightbulb, Users, Heart, Rocket, Shield, Quote, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Target, Lightbulb, Users, Heart, Rocket, Shield, Quote, ChevronLeft, ChevronRight, CheckCircle2, Award } from 'lucide-react';
 
 // Fallback icons for Core Values (Sanity doesn't store React components)
 const VALUE_ICONS = [Users, Rocket, Shield, Lightbulb, Heart, Target];
@@ -19,6 +19,8 @@ export const About: React.FC = () => {
     queryKey: ['teamMembers'],
     queryFn: () => sanityClient.fetch(TEAM_MEMBERS_QUERY),
   });
+
+  console.log(teamMembers, "teamMembers")
 
   const { data: homePage, isLoading: loadingHome, error: homeError } = useQuery({
     queryKey: ['homePage'],
@@ -40,7 +42,13 @@ export const About: React.FC = () => {
     queryFn: () => sanityClient.fetch(ABOUT_PAGE_QUERY),
   });
 
+  const { data: foundersBioData } = useQuery({
+    queryKey: ['foundersBio'],
+    queryFn: () => sanityClient.fetch(FOUNDERS_BIO_QUERY),
+  });
+
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [activeFounderId, setActiveFounderId] = useState<string | null>(null);
 
   const isLoading = loadingTeam || loadingHome || loadingSettings || loadingTestimonials;
   const error = teamError || homeError || settingsError || testimonialsError;
@@ -198,6 +206,188 @@ export const About: React.FC = () => {
           </div>
         )}
 
+        {/* --- FOUNDERS BIO SECTION --- */}
+        {foundersBioData && foundersBioData.length > 0 && (() => {
+          const founders: any[] = foundersBioData;
+          const activeId = activeFounderId || founders[0]?._id;
+          const activeFounder = founders.find((f: any) => f._id === activeId) || founders[0];
+          const inactiveFounders = founders.filter((f: any) => f._id !== activeId);
+
+          return (
+            <div className="mb-32">
+              {/* Section Heading */}
+              <div className="mb-12">
+                <h2 className="font-bold text-4xl md:text-5xl mb-3 text-zeven-dark">
+                  {aboutPageData?.foundersBioHeading?.heading
+                    ? <span dangerouslySetInnerHTML={{ __html: aboutPageData.foundersBioHeading.heading }} />
+                    : <><span>Founders </span><span className="text-zeven-blue">Bio</span></>
+                  }
+                </h2>
+                <p className="text-zeven-gray text-base font-light max-w-2xl">
+                  {aboutPageData?.foundersBioHeading?.description || 'We offer comprehensive digital marketing solutions tailored to your business needs.'}
+                </p>
+              </div>
+
+              <div className="flex flex-col lg:grid lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+
+                {/* LEFT: Active Card + Inactive Thumbnails */}
+                <div className="w-full lg:col-span-4 flex flex-col gap-5">
+
+                  {/* Active (Large) Founder Card */}
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={activeFounder._id + '-card'}
+                      initial={{ opacity: 0, scale: 0.97 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.97 }}
+                      transition={{ duration: 0.35 }}
+                      className="rounded-3xl overflow-hidden border-2 border-zeven-blue/30 shadow-xl bg-white"
+                    >
+                      <div className="relative">
+                        <img
+                          src={activeFounder.photoUrl}
+                          alt={activeFounder.name}
+                          className="w-full lg:h-[400px]  object-cover"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                      </div>
+                      <div className="p-5">
+                        <h3 className="font-bold text-xl text-zeven-dark">{activeFounder.name}</h3>
+                        <p className="text-zeven-gray text-sm">{activeFounder.role}</p>
+                        {activeFounder.tagline && (
+                          <div className="flex items-center gap-1.5 mt-2">
+                            <Heart size={13} className="text-zeven-blue" />
+                            <span className="text-zeven-blue text-xs font-semibold">{activeFounder.tagline}</span>
+                          </div>
+                        )}
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
+
+                  {/* Inactive Thumbnail Cards — horizontal scroll on mobile, grid on lg */}
+                  {inactiveFounders.length > 0 && (
+                    <div className="flex gap-4 overflow-x-auto pb-2 lg:grid lg:grid-cols-2 no-scrollbar">
+                      {inactiveFounders.map((f: any) => (
+                        <motion.button
+                          key={f._id}
+                          onClick={() => setActiveFounderId(f._id)}
+                          whileHover={{ scale: 1.03 }}
+                          whileTap={{ scale: 0.97 }}
+                          className="rounded-2xl overflow-hidden border-2 border-transparent hover:border-zeven-blue/40 bg-white shadow-md transition-all text-left flex-shrink-0 w-40 sm:w-48 lg:w-full"
+                        >
+                          <img
+                            src={f.photoUrl}
+                            alt={f.name}
+                            className="w-full h-28 sm:h-32 object-cover object-top grayscale hover:grayscale-0 transition-all duration-300"
+                          />
+                          <div className="p-3">
+                            <p className="font-bold text-sm text-zeven-dark truncate">{f.name}</p>
+                            <p className="text-xs text-zeven-gray truncate">{f.role}</p>
+                            {f.tagline && (
+                              <div className="flex items-center gap-1 mt-1">
+                                <Heart size={10} className="text-zeven-blue flex-shrink-0" />
+                                <span className="text-zeven-blue text-[10px] font-semibold truncate">{f.tagline}</span>
+                              </div>
+                            )}
+                          </div>
+                        </motion.button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* RIGHT: Animated Bio Detail Pane */}
+                <div className="w-full lg:col-span-8">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={activeFounder._id + '-bio'}
+                      initial={{ opacity: 0, y: 16 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -16 }}
+                      transition={{ duration: 0.4 }}
+                      className="flex flex-col gap-5"
+                    >
+                      {/* Quote Card */}
+                      {activeFounder.quoteText && (
+                        <div
+                          className="relative rounded-3xl p-8 overflow-hidden"
+                          style={{ background: 'linear-gradient(135deg, #2563eb 0%, #16a34a 100%)' }}
+                        >
+                          <span
+                            className="absolute top-2 right-6 text-white/15 font-serif select-none pointer-events-none"
+                            style={{ fontSize: '9rem', lineHeight: 1 }}
+                          >❝</span>
+                          <p className="text-white text-xl md:text-2xl font-semibold italic leading-relaxed relative z-10">
+                            "{activeFounder.quoteText}"
+                          </p>
+                          <p className="text-white/70 text-sm mt-4 relative z-10">— {activeFounder.name}</p>
+                        </div>
+                      )}
+
+                      {/* The Story */}
+                      {activeFounder.theStory && (
+                        <div className="bg-white rounded-2xl p-6 shadow-sm border border-zeven-surface">
+                          <div className="flex items-center gap-3 mb-3">
+                            <div className="w-8 h-8 rounded-lg bg-zeven-blue flex items-center justify-center flex-shrink-0">
+                              <Heart size={16} className="text-white" />
+                            </div>
+                            <h4 className="font-bold text-lg text-zeven-dark">The Story</h4>
+                          </div>
+                          <p className="text-zeven-gray text-sm leading-relaxed">{activeFounder.theStory}</p>
+                        </div>
+                      )}
+
+                      {/* The Journey */}
+                      {activeFounder.theJourney && (
+                        <div className="bg-white rounded-2xl p-6 shadow-sm border-l-4 border-zeven-blue border border-zeven-surface">
+                          <h4 className="font-bold text-lg text-zeven-dark mb-3">The Journey</h4>
+                          <p className="text-zeven-gray text-sm leading-relaxed">{activeFounder.theJourney}</p>
+                        </div>
+                      )}
+
+                      {/* The Vision */}
+                      {activeFounder.theVision && (
+                        <div className="bg-white rounded-2xl p-6 shadow-sm border-l-4 border-zeven-blue border border-zeven-surface">
+                          <h4 className="font-bold text-lg text-zeven-dark mb-3">The Vision</h4>
+                          <p className="text-zeven-gray text-sm leading-relaxed">{activeFounder.theVision}</p>
+                        </div>
+                      )}
+
+                      {/* Notable Achievements */}
+                      {activeFounder.notableAchievements && activeFounder.notableAchievements.length > 0 && (
+                        <div className="bg-blue-50 rounded-2xl p-6 border border-blue-100">
+                          <div className="flex items-center gap-3 mb-4">
+                            <Award size={20} className="text-zeven-blue flex-shrink-0" />
+                            <h4 className="font-bold text-lg text-zeven-dark">Notable Achievements</h4>
+                          </div>
+                          <ul className="space-y-2.5">
+                            {activeFounder.notableAchievements.map((item: string, idx: number) => (
+                              <li key={idx} className="flex items-start gap-3">
+                                <CheckCircle2 size={16} className="text-zeven-blue mt-0.5 flex-shrink-0" />
+                                <span className="text-zeven-blue text-sm font-medium">{item}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+
+                      {/* Beyond Work */}
+                      {activeFounder.beyondWork && (
+                        <div className="bg-white rounded-2xl p-6 shadow-sm border-l-4 border-zeven-blue border border-zeven-surface">
+                          <h4 className="font-bold text-lg text-zeven-dark mb-3">Beyond Work</h4>
+                          <p className="text-zeven-gray text-sm leading-relaxed">{activeFounder.beyondWork}</p>
+                        </div>
+                      )}
+
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+
+              </div>
+            </div>
+          );
+        })()}
+
         {/* Team Section — from Sanity teamMembers */}
         {teamMembers && teamMembers.length > 0 && (
           <div className="text-center pb-20">
@@ -205,7 +395,7 @@ export const About: React.FC = () => {
             <p className="text-zeven-gray text-xl max-w-2xl mx-auto mb-16 font-light">
               {aboutPageData?.teamHeading?.description || "Our team is a fusion of strategists, designers, technologists, marketers, and storytellers."}
             </p>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {teamMembers.map((member: any, i: number) => (
                 <motion.div
                   key={member._id || i}
@@ -215,13 +405,29 @@ export const About: React.FC = () => {
                   transition={{ delay: i * 0.1 }}
                   className="group"
                 >
-                  <div className="aspect-[3/4] rounded-[2rem] overflow-hidden relative mb-6 shadow-md border-4 border-white">
-                    <img src={member.photoUrl} alt={member.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 filter grayscale group-hover:grayscale-0" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-zeven-dark/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  {/* Card Image with Slide-Up Bio */}
+                  <div className="aspect-[3/4] rounded-[2rem] overflow-hidden relative mb-4 shadow-md border-4 border-white">
+                    {/* Image — slides up on hover */}
+                    <img
+                      src={member.photoUrl}
+                      alt={member.name}
+                      className="w-full h-full object-cover object-top transition-all duration-500 group-hover:scale-110 group-hover:-translate-y-6 filter grayscale group-hover:grayscale-0"
+                    />
 
-                    {/* Hover Socials or Info could go here */}
+                    {/* Persistent dark gradient at the bottom */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-zeven-dark/90 via-zeven-dark/20 to-transparent" />
+
+                    {/* Bio Panel — slides up from bottom on hover */}
+                    <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                      <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20">
+                        <p className="text-white text-xs leading-relaxed  text-left">
+                          {member.bio || 'A dedicated and passionate team member committed to delivering excellence.'}
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                  <h3 className="font-bold text-xl text-zeven-dark">{member.name}</h3>
+
+                  <h3 className="font-bold text-lg text-zeven-dark">{member.name}</h3>
                   <p className="text-sm text-zeven-blue font-semibold uppercase tracking-wider">{member.role}</p>
                 </motion.div>
               ))}
