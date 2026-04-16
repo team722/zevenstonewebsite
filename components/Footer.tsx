@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Twitter, Linkedin, Instagram } from 'lucide-react';
+import { Twitter, Linkedin, Instagram, Facebook } from 'lucide-react';
 import { Logo } from './ui/Logo';
 import { useQuery } from '@tanstack/react-query';
 import { sanityClient } from '../lib/sanity';
@@ -25,7 +25,7 @@ export const Footer: React.FC = () => {
     { text: 'Marketing Automation', url: '/services' },
     { text: 'AI & Media', url: '/services' }
   ];
-  
+
   const quickLinks = siteSettings?.footerNavigation || defaultQuickLinks;
   const servicesLinks = siteSettings?.footerServices || defaultServices;
   const legalLinks = siteSettings?.legalLinks || [
@@ -38,10 +38,10 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Brand */}
           <div className="space-y-6">
-             <div className="flex items-center gap-2">
-                {/* Use white version of the logo */}
-                <Logo white className="h-10 w-auto opacity-90" />
-              </div>
+            <div className="flex items-center gap-2">
+              {/* Use white version of the logo */}
+              <Logo white className="h-10 w-auto opacity-90" />
+            </div>
             <p className="text-slate-400 leading-relaxed text-sm whitespace-pre-wrap">
               {siteSettings?.footerDescription || defaultDescription}
             </p>
@@ -81,9 +81,9 @@ export const Footer: React.FC = () => {
             <p className="text-slate-400 mb-2 text-sm">{siteSettings?.contactEmail || 'hello@zevenstone.com'}</p>
             <p className="text-slate-400 mb-6 text-sm">{siteSettings?.phoneNumber || '+91-9876-543-210'}</p>
             <div className="flex gap-4">
-              {siteSettings?.twitter && (
-                <a href={siteSettings.twitter} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-zeven-blue transition-all">
-                  <Twitter size={18} />
+              {siteSettings?.facebook && (
+                <a href={siteSettings.facebook} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-zeven-blue transition-all">
+                  <Facebook size={18} />
                 </a>
               )}
               {siteSettings?.linkedIn && (
@@ -96,8 +96,8 @@ export const Footer: React.FC = () => {
                   <Instagram size={18} />
                 </a>
               )}
-              {(!siteSettings?.twitter && !siteSettings?.linkedIn && !siteSettings?.instagram) && (
-                [<Twitter key="t" size={18}/>, <Linkedin key="l" size={18}/>, <Instagram key="i" size={18}/>].map((icon, i) => (
+              {(!siteSettings?.facebook && !siteSettings?.linkedIn && !siteSettings?.instagram) && (
+                [<Facebook key="f" size={18} />, <Linkedin key="l" size={18} />, <Instagram key="i" size={18} />].map((icon, i) => (
                   <a key={i} href="#" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-zeven-blue transition-all">
                     {icon}
                   </a>
@@ -110,7 +110,7 @@ export const Footer: React.FC = () => {
         {/* Bottom */}
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-slate-500 text-sm">
-            {siteSettings?.copyrightText 
+            {siteSettings?.copyrightText
               ? siteSettings.copyrightText.replace('{{year}}', new Date().getFullYear().toString())
               : `© ${new Date().getFullYear()} Zevenstone. All rights reserved.`}
           </p>

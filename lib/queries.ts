@@ -113,7 +113,7 @@ export const SITE_SETTINGS_QUERY = `
     legalLinks[] { text, url },
     copyrightText,
     partnerLogos[]{ name, "logoUrl": logo.asset->url },
-    coreValues, contactEmail, phoneNumber, address, linkedIn, instagram, twitter
+    coreValues, contactEmail, phoneNumber, address, linkedIn, instagram, facebook
   }
 `;
 
