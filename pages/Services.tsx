@@ -135,7 +135,7 @@ export const Services: React.FC = () => {
         {processSteps && processSteps.length > 0 && (
           <div className="mb-32">
             <ScrollReveal>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 bg-white/40 backdrop-blur-xl border border-white/60 p-4 rounded-[2rem] shadow-sm">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4 bg-white/40 backdrop-blur-xl border border-white/60 p-4 rounded-[2rem] shadow-sm">
                 {processSteps.map((step: any, idx: number) => (
                   <div key={idx} className="relative group p-6 rounded-2xl bg-zeven-blue border border-white/10 shadow-lg hover:shadow-zeven-blue/40 hover:-translate-y-2 transition-all duration-300 overflow-hidden">
                     {/* Gradient Overlay */}
