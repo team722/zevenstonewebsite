@@ -806,19 +806,48 @@ export const Home: React.FC = () => {
                      {/* Right White Form */}
                      <div className="lg:w-3/5 bg-white p-12 lg:p-16 flex flex-col justify-center">
                         <form className="space-y-8">
-                           <div className="grid md:grid-cols-2 gap-8">
+                           <div className="grid md:grid-cols-1 gap-8">
                               <div className="space-y-2 group">
-                                 <label className="text-zeven-blue font-bold text-sm uppercase tracking-wider group-focus-within:text-zeven-deep">Full Name</label>
-                                 <input type="text" placeholder="John Doe" className="w-full p-4 bg-zeven-surface/30 rounded-xl border border-zeven-surface focus:border-zeven-blue focus:bg-white focus:outline-none transition-all focus:shadow-lg" />
+                                 <label className="text-zeven-blue font-bold text-xs uppercase tracking-wider group-focus-within:text-zeven-deep transition-colors">Title</label>
+                                 <select className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-zeven-dark focus:outline-none focus:border-zeven-blue focus:bg-white focus:shadow-lg transition-all">
+                                    <option value="">Select Title</option>
+                                    <option value="Mr">Mr</option>
+                                    <option value="Mrs">Mrs</option>
+                                    <option value="Miss">Miss</option>
+                                    <option value="Dr">Dr</option>
+                                 </select>
                               </div>
                               <div className="space-y-2 group">
-                                 <label className="text-zeven-blue font-bold text-sm uppercase tracking-wider group-focus-within:text-zeven-deep">Email Address</label>
-                                 <input type="email" placeholder="john@company.com" className="w-full p-4 bg-zeven-surface/30 rounded-xl border border-zeven-surface focus:border-zeven-blue focus:bg-white focus:outline-none transition-all focus:shadow-lg" />
+                                 <label className="text-zeven-blue font-bold text-xs uppercase tracking-wider group-focus-within:text-zeven-deep transition-colors">First Name</label>
+                                 <input type="text" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-zeven-dark focus:outline-none focus:border-zeven-blue focus:bg-white focus:shadow-lg transition-all" placeholder="John Doe" />
+                              </div>
+                              <div className="space-y-2 group">
+                                 <label className="text-zeven-blue font-bold text-xs uppercase tracking-wider group-focus-within:text-zeven-deep transition-colors">Last Name</label>
+                                 <input type="text" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-zeven-dark focus:outline-none focus:border-zeven-blue focus:bg-white focus:shadow-lg transition-all" placeholder="John Doe" />
+                              </div>
+                              <div className="space-y-2 group">
+                                 <label className="text-zeven-blue font-bold text-xs uppercase tracking-wider group-focus-within:text-zeven-deep transition-colors">Email Address</label>
+                                 <input type="email" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-zeven-dark focus:outline-none focus:border-zeven-blue focus:bg-white focus:shadow-lg transition-all" placeholder="john@example.com" />
                               </div>
                            </div>
-
                            <div className="space-y-2 group">
-                              <label className="text-zeven-blue font-bold text-sm uppercase tracking-wider group-focus-within:text-zeven-deep">Your Message</label>
+                              <label className="text-zeven-blue font-bold text-xs uppercase tracking-wider group-focus-within:text-zeven-deep transition-colors">Budget</label>
+                              <div className="relative">
+                                 <select className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-zeven-dark focus:outline-none focus:border-zeven-blue focus:bg-white focus:shadow-lg transition-all appearance-none cursor-pointer">
+                                    <option>Select a range</option>
+                                    <option>$50k+</option>
+                                    <option>$25k - $50k</option>
+                                    <option>$10k - $25k</option>
+                                    <option>$5k - $10k</option>
+                                    <option>$1k - $5k</option>
+                                 </select>
+                                 <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-zeven-gray">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 9l6 6 6-6" /></svg>
+                                 </div>
+                              </div>
+                           </div>
+                           <div className="space-y-2 group">
+                              <label className="text-zeven-blue font-bold text-sm uppercase tracking-wider group-focus-within:text-zeven-deep">Your Expectations</label>
                               <textarea rows={4} placeholder="Tell us about your project..." className="w-full p-4 bg-zeven-surface/30 rounded-xl border border-zeven-surface focus:border-zeven-blue focus:bg-white focus:outline-none transition-all focus:shadow-lg resize-none"></textarea>
                            </div>
 
