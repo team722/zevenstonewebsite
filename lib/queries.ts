@@ -31,7 +31,7 @@ export const TEAM_MEMBERS_QUERY = `
 
 export const TESTIMONIALS_QUERY = `
   *[_type == "testimonial"] | order(displayOrder asc) {
-    _id, quote, author, role, company,
+    _id, content, author, role, company,
     "photoUrl": photo.asset->url
   }
 `;
@@ -207,7 +207,7 @@ export const LANDING_PAGE_QUERY = `
       _type == "testimonialsSection" => {
         sectionTitle,
         testimonials[]->{
-          _id, quote, author, role, company, photo
+          _id, content, author, role, company, photo
         }
       },
       _type == "ctaBanner" => {
