@@ -99,7 +99,7 @@ export const Home: React.FC = () => {
 
    // 5. TESTIMONIALS & FAQS
    const TESTIMONIALS = (testimonialsData || []).map((t: any) => ({
-      quote: t.quote,
+      content: t.content,
       author: t.author,
       company: t.company,
       role: t.role,
@@ -695,7 +695,7 @@ export const Home: React.FC = () => {
                               animate={{ opacity: 1, y: 0 }}
                               exit={{ opacity: 0, y: -10 }}
                            >
-                              <p className="text-lg sm:text-xl md:text-3xl font-medium text-zeven-dark leading-relaxed mb-6 md:mb-8">"{TESTIMONIALS[currentTestimonial].quote}"</p>
+                              <p className="text-lg sm:text-xl md:text-2xl font-medium text-zeven-dark leading-relaxed mb-6 md:mb-8 whitespace-pre-wrap">{TESTIMONIALS[currentTestimonial].content}</p>
                               <h4 className="text-zeven-blue font-bold text-xl md:text-2xl mb-1">{TESTIMONIALS[currentTestimonial].author}</h4>
                               <p className="text-zeven-gray font-medium text-sm md:text-base">{TESTIMONIALS[currentTestimonial].role}, {TESTIMONIALS[currentTestimonial].company}</p>
                            </motion.div>

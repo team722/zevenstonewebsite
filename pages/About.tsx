@@ -488,7 +488,7 @@ export const About: React.FC = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                       >
-                        <p className="text-2xl md:text-3xl font-medium text-zeven-dark leading-relaxed mb-8">"{testimonials[currentTestimonial].quote}"</p>
+                        <p className="text-xl md:text-2xl font-medium text-zeven-dark leading-relaxed mb-8 whitespace-pre-wrap">{testimonials[currentTestimonial].content}</p>
                         <h4 className="text-zeven-blue font-bold text-2xl mb-1">{testimonials[currentTestimonial].author}</h4>
                         <p className="text-zeven-gray font-medium">{testimonials[currentTestimonial].role}, {testimonials[currentTestimonial].company}</p>
                       </motion.div>
