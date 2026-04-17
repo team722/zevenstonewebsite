@@ -143,11 +143,21 @@ export const FOUNDERS_BIO_QUERY = `
 
 export const SERVICES_PAGE_QUERY = `
   *[_type == "servicesPage"][0] { 
-    hero { heading, subheading, description,label, "backgroundImageUrl": backgroundImage.asset->url, ctaButton },
+    hero { heading, subheading, description, label, "backgroundImageUrl": backgroundImage.asset->url, ctaButton },
     notSureWhereToStartCta { heading, description, button },
-  
     techStackHeading { heading, description },
-    seo 
+    seo,
+    positioningIntro { heading, description, positioningLine },
+    problemSection { heading, items, closingLine },
+    pillars[] { pillarNumber, title, description, capabilities },
+    aiLayerSection { heading, items, closingLine },
+    howItWorksSection { heading, steps[]{ stepLabel, description } },
+    whoWeWorkWithSection { heading, partnerTypes, idealPartnerDescription },
+    resultsSection { heading, outcomes },
+    partnershipModelsSection { heading, subheading, models[]{ title, description } },
+    whatSetsUsApartSection { heading, points, closingLine },
+    serviceArchitectureTags,
+    bookStrategyCallCta { heading, description, button { text, url } }
   }
 `;
 
