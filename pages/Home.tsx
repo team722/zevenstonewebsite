@@ -731,7 +731,7 @@ export const Home: React.FC = () => {
             <div className="container mx-auto px-6">
                <div className="text-center mb-16">
                   <ScrollReveal>
-                     <h2 className="text-3xl md:text-4xl font-bold text-zeven-dark mb-4">Founder <span className="text-zeven-blue">Messages</span></h2>
+                     <h2 className="text-3xl md:text-4xl font-bold text-zeven-dark mb-4">Our <span className="text-zeven-blue">Why</span></h2>
                   </ScrollReveal>
                </div>
 
