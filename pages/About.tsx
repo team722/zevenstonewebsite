@@ -151,7 +151,7 @@ export const About: React.FC = () => {
               <p className="text-zeven-gray text-xl font-light">{aboutPageData?.howWeWorkHeading?.description || "A proven framework for digital success."}</p>
             </div>
 
-            <div className="grid md:grid-cols-4 gap-6">
+            <div className="grid lg:grid-cols-5 gap-6">
               {processSteps.map((step: any, i: number) => (
                 <motion.div
                   key={i}
