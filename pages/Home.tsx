@@ -460,7 +460,7 @@ export const Home: React.FC = () => {
                      <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-white to-transparent pointer-events-none z-10" />
 
                      {/* Row 1: Left */}
-                     <div className="flex animate-marquee whitespace-nowrap gap-4 mb-4 hover:pause-animation w-max">
+                     <div className="flex animate-marquee duration-300 whitespace-nowrap gap-4 mb-4 hover:pause-animation w-max">
                         {[...tagsRow1, ...tagsRow1, ...tagsRow1, ...tagsRow1].map((tag, i) => (
                            <div
                               key={`r1-${i}`}
