@@ -386,7 +386,7 @@ export const Home: React.FC = () => {
                                  <img
                                     src={SERVICES_LIST[activeServiceTab].image}
                                     alt={SERVICES_LIST[activeServiceTab].title}
-                                    className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
+                                    className="w-full h-full object-fill  transform hover:scale-105 transition-transform duration-700"
                                  />
                                  <div className="absolute inset-0 bg-gradient-to-t from-zeven-dark/60 via-transparent to-transparent opacity-60" />
                                  <div className="absolute bottom-6 left-6 text-white z-20">
