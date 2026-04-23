@@ -25,12 +25,13 @@ export const Portfolio: React.FC = () => {
     queryFn: () => sanityClient.fetch(PORTFOLIO_CATEGORIES_QUERY),
   });
 
-  const { data: portfolioPageData } = useQuery({
-    queryKey: ['portfolioPage'],
-    queryFn: () => sanityClient.fetch(PORTFOLIO_PAGE_QUERY),
-  });
+   const { data: portfolioPageData, isLoading: loadingPortfolioPage } = useQuery({
+     queryKey: ['portfolioPage'],
+     queryFn: () => sanityClient.fetch(PORTFOLIO_PAGE_QUERY),
+   });
 
-  const isLoading = loadingProjects || loadingCategories;
+
+  const isLoading = loadingProjects || loadingCategories || loadingPortfolioPage;
   const error = errorProjects || errorCategories;
 
   if (isLoading) return <LoadingSpinner />;
@@ -70,7 +71,7 @@ export const Portfolio: React.FC = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             className="inline-block px-4 py-1.5 rounded-full bg-zeven-blue/10 text-zeven-blue text-xs font-bold uppercase tracking-widest mb-6"
-            dangerouslySetInnerHTML={{ __html: portfolioPageData.hero?.label || "Selected Works" }}>
+            dangerouslySetInnerHTML={{ __html: portfolioPageData?.hero?.label || "Selected Works" }}>
 
           </motion.div>
           <motion.h1

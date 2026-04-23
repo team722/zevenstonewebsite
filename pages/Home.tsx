@@ -2,38 +2,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence, LayoutGroup } from 'framer-motion';
 import { ArrowRight, ChevronRight, ChevronLeft, Zap, Cpu, Palette, Target, Plus, Minus, Send, Star, Quote, CheckCircle2, TrendingUp, Mail, Phone, MapPin, Layers, ExternalLink, Search, Rocket, Lightbulb } from 'lucide-react';
-import { Button } from '../components/ui/Button';
-import { Card } from '../components/ui/Card';
+import { Button, Card, LoadingSpinner, ErrorState, ScrollReveal } from '../components/ui';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { sanityClient, urlFor } from '../lib/sanity';
 import { HOME_PAGE_QUERY, SERVICES_QUERY, TESTIMONIALS_QUERY, FAQS_QUERY, SITE_SETTINGS_QUERY, PORTFOLIO_PROJECTS_QUERY, PORTFOLIO_CATEGORIES_QUERY, CASE_STUDIES_QUERY } from '../lib/queries';
-import { LoadingSpinner } from '../components/ui/LoadingSpinner';
-import { ErrorState } from '../components/ui/ErrorState';
-import { Code, Database, Layout, Smartphone, Globe, LineChart } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
-
 
 const getWhyUsIcon = (index: number) => {
    const icons = [Search, Layers, Rocket, Lightbulb];
    return icons[index % icons.length];
 };
-
-interface ScrollRevealProps {
-   children: React.ReactNode;
-   delay?: number;
-}
-
-const ScrollReveal: React.FC<ScrollRevealProps> = ({ children, delay = 0 }) => (
-   <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.6, delay, ease: "easeOut" }}
-   >
-      {children}
-   </motion.div>
-);
 
 export const Home: React.FC = () => {
    const { data: homePage, isLoading: loadingHome, error: errorHome } = useQuery({ queryKey: ['homePage'], queryFn: () => sanityClient.fetch(HOME_PAGE_QUERY) });
@@ -75,6 +54,7 @@ export const Home: React.FC = () => {
       description: s.description,
       details: s.details,
       image: s.imageUrl,
+      slug: s.slug,
    }));
 
 
@@ -368,6 +348,7 @@ export const Home: React.FC = () => {
                                  }`}
                            >
                               {activeServiceTab === idx && (
+
                                  <motion.div
                                     layoutId="activeTab"
                                     className="absolute inset-0 bg-white shadow-sm rounded-xl md:rounded-full -z-10"
@@ -440,7 +421,7 @@ export const Home: React.FC = () => {
                               </div>
 
                               <div className="pt-4">
-                                 <Link to="/services">
+                                 <Link to={`/services/${SERVICES_LIST[activeServiceTab].slug}`}>
                                     <Button variant="primary" className="rounded-full shadow-lg shadow-zeven-blue/20">Learn more</Button>
                                  </Link>
                               </div>

@@ -52,7 +52,7 @@ export const PORTFOLIO_CATEGORIES_QUERY = `
 
 export const SERVICES_QUERY = `
   *[_type == "service"] | order(displayOrder asc) {
-    _id, title, description, details,
+    _id, title, description, details, "slug": slug.current,
     "imageUrl": image.asset->url,
     isFeatured
   }
@@ -145,7 +145,10 @@ export const SERVICES_PAGE_QUERY = `
   *[_type == "servicesPage"][0] { 
     hero { heading, subheading, description, label, "backgroundImageUrl": backgroundImage.asset->url, ctaButton },
     notSureWhereToStartCta { heading, description, button },
+    pillarsHeading { heading, description },
+    servicesGridHeading { heading, description },
     techStackHeading { heading, description },
+    processSteps,
     seo,
     positioningIntro { heading, description, positioningLine },
     problemSection { heading, items, closingLine },
@@ -218,5 +221,46 @@ export const LANDING_PAGE_QUERY = `
       }
     },
     seo
+  }
+`;
+
+export const SINGLE_SERVICE_QUERY = `
+  *[_type == "service" && slug.current == $slug][0] {
+    _id, title, "slug": slug.current, description,label,ctaButton, secondaryCtaButton,
+    "imageUrl": image.asset->url,
+    hero {
+      title, subtitle, stats[]{value, label},
+      "trustedLogosUrls": trustedLogos[].asset->url
+    },
+    featuredVideo {
+      title, description, videoUrl, "thumbnailUrl": thumbnail.asset->url
+    },
+    benefits {
+      title, benefitsList[]{"icon": icon.asset->url, title, description}
+    },
+    process {
+      title, subtitle, steps[]{title, description}
+    },
+    portfolio {
+      title, examples[]{title, category, objective, result, videoUrl, "thumbnailUrl": thumbnail.asset->url}
+    },
+    metrics {
+      title, list[]{value, label}
+    },
+    features {
+      title,subtitle,list[]{title,subTitle,inclusions}
+    },
+    testimonials {
+      title, list[]{rating, quote, author, company}
+    },
+    engagement {
+      title, subtitle,cardTitle, description, ctaText, ctaUrl
+    },
+    faqs {
+      title,description, list[]{question, answer}
+    },
+    bottomCta {
+      title, subtitle, buttonText, buttonUrl, note
+    }
   }
 `;
