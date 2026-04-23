@@ -179,7 +179,7 @@ export const Home: React.FC = () => {
 
             {/* -- END BACKGROUND -- */}
 
-            <div className="container mx-auto px-6 relative z-10">
+            <div className="container mx-auto px-2 sm:px-6 relative z-10">
                <div className="grid lg:grid-cols-2 gap-16 items-center">
 
                   {/* Text Content */}
@@ -202,7 +202,7 @@ export const Home: React.FC = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3 }}
-                        className="font-extrabold text-5xl md:text-7xl leading-[1.1] text-zeven-dark mb-8 tracking-tight"
+                        className="font-extrabold text-4xl sm:text-5xl md:text-7xl leading-[1.1] text-zeven-dark mb-8 tracking-tight"
                         dangerouslySetInnerHTML={{ __html: homePage?.hero?.heading || `Solutions <span class="text-transparent bg-clip-text bg-gradient-to-r from-zeven-gray to-zeven-dark font-semibold">That Scale</span><br /><span class="bg-clip-text text-transparent bg-gradient-to-r from-zeven-blue to-zeven-deep drop-shadow-sm">With Your Growth</span>` }}
                      >
                      </motion.h1>
@@ -220,7 +220,7 @@ export const Home: React.FC = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.5 }}
-                        className="flex flex-col sm:flex-row gap-5"
+                        className="flex flex-col sm:flex-row gap-4 sm:gap-5"
                      >
                         <Link to={homePage?.hero?.ctaButton?.url || "/contact"}>
                            <div className="relative group inline-block">
@@ -304,7 +304,7 @@ export const Home: React.FC = () => {
                      initial={{ y: 50, opacity: 0 }}
                      animate={{ y: 0, opacity: 1 }}
                      transition={{ delay: 0.8, duration: 0.8 }}
-                     className="grid grid-cols-2 lg:grid-cols-4 bg-gradient-to-r from-zeven-blue to-zeven-deep rounded-3xl shadow-2xl shadow-zeven-blue/20 overflow-hidden border border-white/10 backdrop-blur-sm"
+                     className="grid grid-cols-2 lg:grid-cols-4 bg-gradient-to-r from-zeven-blue to-zeven-deep rounded-2xl sm:rounded-3xl shadow-2xl shadow-zeven-blue/20 overflow-hidden border border-white/10 backdrop-blur-sm"
                   >
                      {STATS_DATA.map((stat, i) => (
                         <div key={i} className={`p-4 md:p-8 relative group overflow-hidden ${i !== STATS_DATA.length - 1 ? 'border-b sm:border-b-0 sm:border-r border-white/10' : ''}`}>
@@ -325,7 +325,7 @@ export const Home: React.FC = () => {
 
          {/* --- SERVICES INTERACTIVE --- */}
          <section className="pt-20 pb-20 bg-white relative">
-            <div className="container mx-auto px-6">
+            <div className="container mx-auto px-2 sm:px-6">
                <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
                   <ScrollReveal>
                      <h2 className="text-3xl md:text-5xl font-bold text-zeven-dark mb-4" dangerouslySetInnerHTML={{ __html: homePage?.servicesHeading?.heading || `Our <span class="text-zeven-blue">Services</span>` }}></h2>
@@ -370,7 +370,7 @@ export const Home: React.FC = () => {
                            animate={{ opacity: 1, y: 0 }}
                            exit={{ opacity: 0, y: -20 }}
                            transition={{ duration: 0.4 }}
-                           className="bg-gradient-to-br from-slate-50 to-white rounded-[2.5rem] p-8 md:p-12 border border-zeven-surface shadow-xl grid md:grid-cols-2 gap-12 items-center relative overflow-hidden min-h-[500px]"
+                           className="bg-gradient-to-br from-slate-50 to-white rounded-[1.5rem] sm:rounded-[2.5rem] p-6 sm:p-8 md:p-12 border border-zeven-surface shadow-xl grid md:grid-cols-2 gap-8 md:gap-12 items-center relative overflow-hidden min-h-[450px] md:min-h-[500px]"
                         >
                            {/* Background blob */}
                            <div className="absolute top-0 right-0 w-96 h-96 bg-zeven-blue/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
@@ -470,7 +470,7 @@ export const Home: React.FC = () => {
 
          {/* --- WHY CHOOSE US --- */}
          <section className="py-20 bg-zeven-surface/30">
-            <div className="container mx-auto px-6">
+            <div className="container mx-auto px-2 sm:px-6">
                <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-4">
                   <ScrollReveal>
                      <h2 className="text-3xl md:text-4xl font-bold text-zeven-dark mb-2" dangerouslySetInnerHTML={{ __html: homePage?.whyChooseUsHeading?.heading || `Why <span class="text-zeven-blue">Choose Us ?</span>` }}></h2>
@@ -551,7 +551,7 @@ export const Home: React.FC = () => {
 
          {/* --- PORTFOLIO (BENTO GRID) --- */}
          <section className="py-24 bg-white">
-            <div className="container mx-auto px-6">
+            <div className="container mx-auto px-2 sm:px-6">
                <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
                   <ScrollReveal>
                      <h2 className="text-3xl md:text-4xl font-bold text-zeven-dark" dangerouslySetInnerHTML={{ __html: homePage?.portfolioHeading?.heading || `Our <span class="text-zeven-blue">Portfolio</span>` }}></h2>
@@ -605,7 +605,7 @@ export const Home: React.FC = () => {
                                  exit={{ opacity: 0, scale: 0.9 }}
                                  transition={{ duration: 0.3 }}
                                  key={item.id}
-                                 className={`group relative rounded-[2rem] overflow-hidden bg-zeven-surface cursor-pointer shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 ${spanClass}`}
+                                 className={`group relative rounded-2xl sm:rounded-[2rem] overflow-hidden bg-zeven-surface cursor-pointer shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 ${spanClass}`}
                               >
                                  <img src={item.image} alt={item.client} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
 
@@ -638,7 +638,7 @@ export const Home: React.FC = () => {
 
          {/* --- TESTIMONIALS (Interactive) --- */}
          <section className="py-24 bg-gradient-to-b from-white to-zeven-surface/30">
-            <div className="container mx-auto px-6">
+            <div className="container mx-auto px-2 sm:px-6">
                <ScrollReveal>
                   <div className="flex justify-between items-end mb-16">
                      <div>
@@ -709,7 +709,7 @@ export const Home: React.FC = () => {
 
          {/* --- FOUNDER MESSAGES --- */}
          <section className="py-24 bg-white">
-            <div className="container mx-auto px-6">
+            <div className="container mx-auto px-2 sm:px-6">
                <div className="text-center mb-16">
                   <ScrollReveal>
                      <h2 className="text-3xl md:text-4xl font-bold text-zeven-dark mb-4">Our <span className="text-zeven-blue">Why</span></h2>
@@ -752,15 +752,15 @@ export const Home: React.FC = () => {
 
          {/* --- CONTACT SPLIT --- */}
          <section className="py-24 bg-white" id="contact">
-            <div className="container mx-auto px-6">
+            <div className="container mx-auto px-2 sm:px-6">
                <ScrollReveal>
-                  <div className="bg-zeven-blue rounded-[3rem] overflow-hidden shadow-2xl flex flex-col lg:flex-row min-h-[600px]">
+                  <div className="bg-zeven-blue rounded-2xl sm:rounded-[3rem] overflow-hidden shadow-2xl flex flex-col lg:flex-row min-h-[500px] md:min-h-[600px]">
                      {/* Left Blue Panel */}
-                     <div className="lg:w-2/5 p-12 lg:p-16 text-white flex flex-col justify-between relative overflow-hidden bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]">
+                     <div className="lg:w-2/5 p-8 sm:p-12 lg:p-16 text-white flex flex-col justify-between relative overflow-hidden bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]">
                         <div className="absolute inset-0 bg-gradient-to-b from-zeven-blue to-zeven-deep opacity-90" />
 
                         <div className="relative z-10">
-                           <h2 className="text-3xl md:text-4xl font-bold mb-6" dangerouslySetInnerHTML={{ __html: homePage?.contactFormSection?.heading || `Let's Connect` }}></h2>
+                           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6" dangerouslySetInnerHTML={{ __html: homePage?.contactFormSection?.heading || `Let's Connect` }}></h2>
                            <p className="text-blue-100 mb-12 text-base md:text-lg">{homePage?.contactFormSection?.description || `Ready to transform your digital presence? We're here to help you scale.`}</p>
 
                            <div className="space-y-10">
@@ -785,7 +785,7 @@ export const Home: React.FC = () => {
                      </div>
 
                      {/* Right White Form */}
-                     <div className="lg:w-3/5 bg-white p-12 lg:p-16 flex flex-col justify-center">
+                     <div className="lg:w-3/5 bg-white p-5 sm:p-12 lg:p-16 flex flex-col justify-center">
                         <form className="space-y-8">
                            <div className="grid md:grid-cols-1 gap-8">
                               <div className="space-y-2 group">
