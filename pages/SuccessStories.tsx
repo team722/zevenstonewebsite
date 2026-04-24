@@ -37,6 +37,8 @@ export const SuccessStories: React.FC = () => {
    const stories = caseStudies || [];
    const clientLove = (testimonials || []).slice(0, 3);
 
+   console.log(clientLove, 'clientlove')
+
    return (
       <div className="pt-32 pb-20 min-h-screen bg-slate-50 font-sans relative overflow-hidden">
          <Helmet>
@@ -149,7 +151,7 @@ export const SuccessStories: React.FC = () => {
                            className="bg-white/80 backdrop-blur p-8 rounded-[2rem] border border-white shadow-lg"
                         >
                            <Quote className="text-zeven-blue/30 mb-6" size={32} />
-                           <p className="text-zeven-gray mb-6 leading-relaxed">"{test.quote}"</p>
+                           <p className="text-zeven-gray mb-6 leading-relaxed">"{test.content}"</p>
                            <div className="flex items-center gap-4">
                               <img src={test.photoUrl} alt={test.author} className="w-12 h-12 rounded-full object-cover" />
                               <div>

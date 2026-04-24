@@ -1,9 +1,13 @@
 export const BLOG_POSTS_QUERY = `
   *[_type == "blogPost"] | order(publishedAt desc) {
-    _id, title, "category": coalesce(category->label, category), publishedAt,
+    _id, title,
+    "category": coalesce(category->label, category),
+    publishedAt,
     "slug": slug.current,
     excerpt,
+    readTime,
     "imageUrl": mainImage.asset->url,
+    "mainImage": mainImage { alt, "url": asset->url },
     "authorName": author->name,
     "authorPhoto": author->photo.asset->url,
     featured
@@ -12,12 +16,49 @@ export const BLOG_POSTS_QUERY = `
 
 export const BLOG_POST_BY_SLUG_QUERY = `
   *[_type == "blogPost" && slug.current == $slug][0] {
-    _id, title, "category": coalesce(category->label, category), publishedAt, excerpt,
+    _id, title,
+    "category": coalesce(category->label, category),
+    "categoryId": category._ref,
+    publishedAt, excerpt, readTime,
     "slug": slug.current,
     "imageUrl": mainImage.asset->url,
-    body,
+    "mainImage": mainImage { alt, caption, "url": asset->url },
+    showTableOfContents,
+    body[] {
+      ...,
+      _type == "image" => {
+        ...,
+        "url": asset->url,
+        alt, caption
+      },
+      _type == "stepsBlock" => {
+        heading,
+        steps[] {
+          title, description,
+          "iconUrl": icon.asset->url
+        }
+      }
+    },
+    ctaBanner { heading, description, buttonText, buttonUrl },
     seo,
-    "author": author->{ name, role, "photoUrl": photo.asset->url }
+    "author": author->{
+      name, role, linkedIn, twitter, facebook, instagram,
+      "photoUrl": photo.asset->url
+    }
+  }
+`;
+
+export const RELATED_POSTS_QUERY = `
+  *[
+    _type == "blogPost" &&
+    category._ref == $categoryId &&
+    _id != $currentId
+  ] | order(publishedAt desc) [0...3] {
+    _id, title, excerpt,
+    "slug": slug.current,
+    "imageUrl": mainImage.asset->url,
+    "category": coalesce(category->label, category),
+    publishedAt
   }
 `;
 
@@ -183,8 +224,10 @@ export const SUCCESS_STORIES_PAGE_QUERY = `
 
 export const BLOG_PAGE_QUERY = `
   *[_type == "blogPage"][0] { 
-    hero { heading, subheading, description,label, "backgroundImageUrl": backgroundImage.asset->url, ctaButton },
+    hero { heading, subheading, description, label, "backgroundImageUrl": backgroundImage.asset->url, ctaButton },
     stayAheadCta { heading, description, button },
+    defaultCtaBanner { heading, description, buttonText, buttonUrl },
+    newsletterSection { heading, description, buttonText, placeholder },
     seo 
   }
 `;
