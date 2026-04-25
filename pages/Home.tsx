@@ -339,7 +339,7 @@ export const Home: React.FC = () => {
                <div className="grid lg:grid-cols-12 gap-12 mb-20">
                   {/* Top: Segmented Tabs */}
                   <div className="lg:col-span-12">
-                     <div className="flex flex-wrap gap-2 p-1.5 bg-zeven-surface rounded-2xl md:rounded-full w-full md:w-fit overflow-hidden">
+                     <div className="flex flex-wrap gap-2 p-8 bg-zeven-surface rounded-2xl md:rounded-full w-full md:w-fit overflow-hidden">
                         {SERVICES_LIST.map((service, idx) => (
                            <button
                               key={idx}
