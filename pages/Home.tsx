@@ -505,10 +505,10 @@ export const Home: React.FC = () => {
             </div>
             <div className="container relative w-full overflow-hidden">
                {/* Marquee with Logos */}
-               <div className="flex animate-marquee-faster whitespace-nowrap gap-20 items-center hover:pause-animation w-max">
+               <div className="flex animate-marquee-faster whitespace-nowrap gap-10 md:gap-20 items-center hover:pause-animation w-max">
                   {[...PARTNERS_LOGOS, ...PARTNERS_LOGOS, ...PARTNERS_LOGOS].map((logo, i) => (
                      <div key={i} className="opacity-50 hover:opacity-100 transition-opacity duration-300 cursor-pointer">
-                        <img src={logo} alt="Partner Logo" loading="lazy" className="h-10 w-auto md:h-12 object-contain" />
+                        <img src={logo} alt="Partner Logo" loading="lazy" className="h-20 w-40 md:w-60 md:h-24 object-contain" />
                      </div>
                   ))}
                </div>
