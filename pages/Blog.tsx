@@ -44,14 +44,14 @@ export const Blog: React.FC = () => {
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:24px_24px]"></div>
          </div>
 
-         <div className="container mx-auto px-6 relative z-10">
+         <div className="container mx-auto pt-12 px-6 relative z-10">
 
             {/* Header */}
             <div className="max-w-3xl mb-20">
                <motion.div
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  className="inline-block px-4 py-1.5 rounded-full bg-zeven-blue/10 text-zeven-blue text-xs font-bold uppercase tracking-widest mb-6"
+                  className="hidden inline-block px-4 py-1.5 rounded-full bg-zeven-blue/10 text-zeven-blue text-xs font-bold uppercase tracking-widest mb-6"
                   dangerouslySetInnerHTML={{ __html: blogPageData?.hero?.label || "Insights & Ideas" }} >
                </motion.div>
                <motion.h1
