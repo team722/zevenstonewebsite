@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 interface BlogCtaBannerProps {
   heading: string;
@@ -9,6 +10,9 @@ interface BlogCtaBannerProps {
 }
 
 export const BlogCtaBanner: React.FC<BlogCtaBannerProps> = ({ heading, description, buttonText, buttonUrl }) => {
+  // Ensure the URL starts with a slash if it's an internal link
+  const formattedUrl = buttonUrl.startsWith('http') ? buttonUrl : (buttonUrl.startsWith('/') ? buttonUrl : `/${buttonUrl}`);
+
   return (
     <div className="my-16">
       <motion.div 
@@ -24,12 +28,12 @@ export const BlogCtaBanner: React.FC<BlogCtaBannerProps> = ({ heading, descripti
           <p className="text-blue-100 text-lg md:text-xl mb-10 leading-relaxed max-w-xl mx-auto">
             {description}
           </p>
-          <a 
-            href={buttonUrl}
+          <Link 
+            to={formattedUrl}
             className="inline-flex items-center justify-center bg-white text-blue-600 font-bold px-10 py-4 rounded-xl hover:bg-slate-50 transition-colors shadow-sm"
           >
             {buttonText}
-          </a>
+          </Link>
         </div>
       </motion.div>
     </div>
