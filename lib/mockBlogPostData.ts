@@ -116,6 +116,34 @@ export const mockPost = {
         'Needs continuous maintenance, versioning, and governance',
         'Can feel restrictive to some designers if not implemented flexibly'
       ]
+    },
+    {
+      _key: 'comparison-1',
+      _type: 'comparisonTable',
+      title: 'Design System vs. Component Library',
+      headers: ['Aspect', 'Component Library', 'Design System'],
+      rows: [
+        {
+          feature: 'Visual Assets',
+          values: ['UI Components only', 'Tokens, Assets, & UI'],
+          isCheckmark: [false, false]
+        },
+        {
+          feature: 'Documentation',
+          values: ['Implementation only', 'Usage, Design & Implementation'],
+          isCheckmark: [false, false]
+        },
+        {
+          feature: 'Governance',
+          values: ['None', 'Formal Process'],
+          isCheckmark: [false, true]
+        },
+        {
+          feature: 'Scalability',
+          values: ['Limited', 'High'],
+          isCheckmark: [false, true]
+        }
+      ]
     }
   ]
 };
