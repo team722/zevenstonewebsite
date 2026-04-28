@@ -16,6 +16,7 @@ import { CalloutBox } from '../components/blog/CalloutBox';
 import { StepsBlock } from '../components/blog/StepsBlock';
 import { PullQuote } from '../components/blog/PullQuote';
 import { ProsConsBlock } from '../components/blog/ProsConsBlock';
+import { ComparisonTable } from '../components/blog/ComparisonTable';
 import { BlogCtaBanner } from '../components/blog/BlogCtaBanner';
 import { RelatedPosts } from '../components/blog/RelatedPosts';
 import { NewsletterBar } from '../components/blog/NewsletterBar';
@@ -101,7 +102,8 @@ export const BlogPost: React.FC = () => {
       stepsBlock: ({ value }: any) => <StepsBlock heading={value.heading} steps={value.steps} />,
       statsStrip: ({ value }: any) => <StatsStrip stats={value.stats} />,
       pullQuote: ({ value }: any) => <PullQuote quote={value.quote} attribution={value.attribution} role={value.role} />,
-      prosConsBlock: ({ value }: any) => <ProsConsBlock heading={value.heading} pros={value.pros} cons={value.cons} />
+      prosConsBlock: ({ value }: any) => <ProsConsBlock heading={value.heading} pros={value.pros} cons={value.cons} />,
+      comparisonTable: ({ value }: any) => <ComparisonTable title={value.title} headers={value.headers} rows={value.rows} />
     },
     block: {
       h2: ({ children, value }: any) => <h2 id={value._key} className="text-3xl font-bold mt-12 mb-6 text-zeven-dark scroll-mt-32">{children}</h2>,
