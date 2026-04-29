@@ -304,7 +304,7 @@ export const Home: React.FC = () => {
                      initial={{ y: 50, opacity: 0 }}
                      animate={{ y: 0, opacity: 1 }}
                      transition={{ delay: 0.8, duration: 0.8 }}
-                     className="grid grid-cols-2 lg:grid-cols-4 bg-gradient-to-r from-zeven-blue to-zeven-deep rounded-2xl sm:rounded-3xl shadow-2xl shadow-zeven-blue/20 overflow-hidden border border-white/10 backdrop-blur-sm"
+                     className="grid grid-cols-2 lg:grid-cols-3 bg-gradient-to-r from-zeven-blue to-zeven-deep rounded-2xl sm:rounded-3xl shadow-2xl shadow-zeven-blue/20 overflow-hidden border border-white/10 backdrop-blur-sm"
                   >
                      {STATS_DATA.map((stat, i) => (
                         <div key={i} className={`p-4 md:p-8 relative group overflow-hidden ${i !== STATS_DATA.length - 1 ? 'border-b sm:border-b-0 sm:border-r border-white/10' : ''}`}>
