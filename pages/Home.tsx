@@ -179,7 +179,7 @@ export const Home: React.FC = () => {
 
             {/* -- END BACKGROUND -- */}
 
-            <div className="container mx-auto px-2 sm:px-6 relative z-10">
+            <div className="max-w-[1400px] mx-auto px-2 sm:px-6 relative z-10">
                <div className="grid lg:grid-cols-2 gap-16 items-center">
 
                   {/* Text Content */}
