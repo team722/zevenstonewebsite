@@ -65,13 +65,16 @@ export const Contact: React.FC = () => {
             method: 'POST',
             headers: {
                'Content-Type': 'application/json',
+               'Accept': 'application/json',
             },
             body: JSON.stringify(formData),
          });
 
-         if (response.ok) {
+         const contentType = response.headers.get('content-type');
+         if (response.ok && contentType && contentType.includes('application/json')) {
             setSubmitStatus('success');
          } else {
+            console.error('Server returned an unexpected response. Expected JSON API response.');
             setSubmitStatus('error');
          }
       } catch (err) {
