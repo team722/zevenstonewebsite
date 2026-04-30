@@ -152,12 +152,12 @@ export const BlogPost: React.FC = () => {
       />
 
       {post.imageUrl && (
-        <div className="container mx-auto px-6 mb-16 relative z-10 max-w-5xl">
+        <div className="container mx-auto px-6 mb-1 relative z-10 max-w-5xl">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="rounded-[24px] overflow-hidden bg-slate-100 aspect-video md:aspect-[21/9]"
+            className="rounded-[24px] overflow-hidden bg-slate-100 aspect-video "
           >
             <img src={post.imageUrl} alt={post.mainImage?.alt || post.title} className="w-full h-full object-cover" />
           </motion.div>
