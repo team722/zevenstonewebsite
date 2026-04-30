@@ -11,6 +11,8 @@ import { ErrorState } from '../components/ui/ErrorState';
 import { Helmet } from 'react-helmet-async';
 import { urlFor } from '../lib/sanity';
 
+import { useState } from 'react';
+
 export const Contact: React.FC = () => {
 
    const { data: contactPageData, isLoading: loadingContact, error: errorContact } = useQuery({
@@ -22,6 +24,19 @@ export const Contact: React.FC = () => {
       queryKey: ['siteSettings'],
       queryFn: () => sanityClient.fetch(SITE_SETTINGS_QUERY),
    });
+
+   const [formData, setFormData] = useState({
+      title: '',
+      firstName: '',
+      lastName: '',
+      email: '',
+      budget: '',
+      expectations: '',
+      botField: '', // Honeypot
+   });
+
+   const [isSubmitting, setIsSubmitting] = useState(false);
+   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
    const isLoading = loadingContact || loadingSettings;
    const error = errorContact || errorSettings;
@@ -35,6 +50,37 @@ export const Contact: React.FC = () => {
    const email = siteSettings?.contactEmail || "hello@zevenstone.com";
    const phone = siteSettings?.phoneNumber || "+91-9876-543-210";
    const address = siteSettings?.address || "Tech Park, Sector 5\nNew Delhi, India";
+
+   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+   };
+
+   const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
+      setIsSubmitting(true);
+      setSubmitStatus('idle');
+
+      try {
+         const response = await fetch('/api/contact', {
+            method: 'POST',
+            headers: {
+               'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+         });
+
+         if (response.ok) {
+            setSubmitStatus('success');
+         } else {
+            setSubmitStatus('error');
+         }
+      } catch (err) {
+         console.error('Submission error:', err);
+         setSubmitStatus('error');
+      } finally {
+         setIsSubmitting(false);
+      }
+   };
 
    return (
       <div className="pt-32 pb-20 min-h-screen bg-slate-50 font-sans relative overflow-hidden flex items-center">
@@ -97,57 +143,101 @@ export const Contact: React.FC = () => {
                </div>
 
                {/* Right White Form */}
-               <div className="lg:w-3/5 p-12 lg:p-20 flex flex-col justify-center bg-white/50">
-                  <form className="space-y-8">
-                     <div className="grid md:grid-cols-1 gap-8">
-                        <div className="space-y-2 group">
-                           <label className="text-zeven-blue font-bold text-xs uppercase tracking-wider group-focus-within:text-zeven-deep transition-colors">Title</label>
-                           <select className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-zeven-dark focus:outline-none focus:border-zeven-blue focus:bg-white focus:shadow-lg transition-all">
-                              <option value="">Select Title</option>
-                              <option value="Mr">Mr</option>
-                              <option value="Mrs">Mrs</option>
-                              <option value="Miss">Miss</option>
-                              <option value="Dr">Dr</option>
-                           </select>
+               <div className="lg:w-3/5 p-12 lg:p-20 flex flex-col justify-center bg-white/50 relative">
+                  {submitStatus === 'success' ? (
+                     <motion.div 
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="text-center py-20"
+                     >
+                        <div className="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
+                           <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
                         </div>
-                        <div className="space-y-2 group">
-                           <label className="text-zeven-blue font-bold text-xs uppercase tracking-wider group-focus-within:text-zeven-deep transition-colors">First Name</label>
-                           <input type="text" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-zeven-dark focus:outline-none focus:border-zeven-blue focus:bg-white focus:shadow-lg transition-all" placeholder="John Doe" />
+                        <h3 className="text-3xl font-bold text-zeven-dark mb-4">Message Sent!</h3>
+                        <p className="text-zeven-gray text-lg">Thank you for reaching out. We've received your details and will get back to you shortly.</p>
+                        <Button className="mt-8 rounded-xl" onClick={() => {
+                           setSubmitStatus('idle');
+                           setFormData({
+                              title: '',
+                              firstName: '',
+                              lastName: '',
+                              email: '',
+                              budget: '',
+                              expectations: '',
+                              botField: '',
+                           });
+                        }}>Send Another Message</Button>
+                     </motion.div>
+                  ) : (
+                     <form className="space-y-8" onSubmit={handleSubmit}>
+                        {submitStatus === 'error' && (
+                           <div className="p-4 bg-red-50 text-red-600 rounded-xl border border-red-100 text-sm font-medium">
+                              Oops! Something went wrong while sending your message. Please try again.
+                           </div>
+                        )}
+                        
+                        {/* Honeypot field (hidden from users, traps bots) */}
+                        <div className="absolute opacity-0 -z-10 pointer-events-none" aria-hidden="true">
+                           <input type="text" name="botField" value={formData.botField} onChange={handleChange} tabIndex={-1} autoComplete="off" />
                         </div>
-                        <div className="space-y-2 group">
-                           <label className="text-zeven-blue font-bold text-xs uppercase tracking-wider group-focus-within:text-zeven-deep transition-colors">Last Name</label>
-                           <input type="text" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-zeven-dark focus:outline-none focus:border-zeven-blue focus:bg-white focus:shadow-lg transition-all" placeholder="John Doe" />
-                        </div>
-                        <div className="space-y-2 group">
-                           <label className="text-zeven-blue font-bold text-xs uppercase tracking-wider group-focus-within:text-zeven-deep transition-colors">Email Address</label>
-                           <input type="email" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-zeven-dark focus:outline-none focus:border-zeven-blue focus:bg-white focus:shadow-lg transition-all" placeholder="john@example.com" />
-                        </div>
-                     </div>
 
-                     <div className="space-y-2 group">
-                        <label className="text-zeven-blue font-bold text-xs uppercase tracking-wider group-focus-within:text-zeven-deep transition-colors">Budget</label>
-                        <div className="relative">
-                           <select className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-zeven-dark focus:outline-none focus:border-zeven-blue focus:bg-white focus:shadow-lg transition-all appearance-none cursor-pointer">
-                              <option>Select a range</option>
-                              <option>$50k+</option>
-                              <option>$25k - $50k</option>
-                              <option>$10k - $25k</option>
-                              <option>$5k - $10k</option>
-                              <option>$1k - $5k</option>
-                           </select>
-                           <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-zeven-gray">
-                              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 9l6 6 6-6" /></svg>
+                        <div className="grid md:grid-cols-1 gap-8">
+                           <div className="space-y-2 group">
+                              <label className="text-zeven-blue font-bold text-xs uppercase tracking-wider group-focus-within:text-zeven-deep transition-colors">Title</label>
+                              <select name="title" value={formData.title} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-zeven-dark focus:outline-none focus:border-zeven-blue focus:bg-white focus:shadow-lg transition-all">
+                                 <option value="">Select Title</option>
+                                 <option value="Mr">Mr</option>
+                                 <option value="Mrs">Mrs</option>
+                                 <option value="Miss">Miss</option>
+                                 <option value="Dr">Dr</option>
+                              </select>
+                           </div>
+                           <div className="space-y-2 group">
+                              <label className="text-zeven-blue font-bold text-xs uppercase tracking-wider group-focus-within:text-zeven-deep transition-colors">First Name *</label>
+                              <input required name="firstName" value={formData.firstName} onChange={handleChange} type="text" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-zeven-dark focus:outline-none focus:border-zeven-blue focus:bg-white focus:shadow-lg transition-all" placeholder="John" />
+                           </div>
+                           <div className="space-y-2 group">
+                              <label className="text-zeven-blue font-bold text-xs uppercase tracking-wider group-focus-within:text-zeven-deep transition-colors">Last Name *</label>
+                              <input required name="lastName" value={formData.lastName} onChange={handleChange} type="text" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-zeven-dark focus:outline-none focus:border-zeven-blue focus:bg-white focus:shadow-lg transition-all" placeholder="Doe" />
+                           </div>
+                           <div className="space-y-2 group">
+                              <label className="text-zeven-blue font-bold text-xs uppercase tracking-wider group-focus-within:text-zeven-deep transition-colors">Email Address *</label>
+                              <input required name="email" value={formData.email} onChange={handleChange} type="email" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-zeven-dark focus:outline-none focus:border-zeven-blue focus:bg-white focus:shadow-lg transition-all" placeholder="john@example.com" />
                            </div>
                         </div>
-                     </div>
 
-                     <div className="space-y-2 group">
-                        <label className="text-zeven-blue font-bold text-xs uppercase tracking-wider group-focus-within:text-zeven-deep transition-colors">Your Expectations</label>
-                        <textarea rows={4} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-zeven-dark focus:outline-none focus:border-zeven-blue focus:bg-white focus:shadow-lg transition-all resize-none" placeholder="Tell us about your project..."></textarea>
-                     </div>
+                        <div className="space-y-2 group">
+                           <label className="text-zeven-blue font-bold text-xs uppercase tracking-wider group-focus-within:text-zeven-deep transition-colors">Budget</label>
+                           <div className="relative">
+                              <select name="budget" value={formData.budget} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-zeven-dark focus:outline-none focus:border-zeven-blue focus:bg-white focus:shadow-lg transition-all appearance-none cursor-pointer">
+                                 <option value="">Select a range</option>
+                                 <option value="$50k+">$50k+</option>
+                                 <option value="$25k - $50k">$25k - $50k</option>
+                                 <option value="$10k - $25k">$10k - $25k</option>
+                                 <option value="$5k - $10k">$5k - $10k</option>
+                                 <option value="$1k - $5k">$1k - $5k</option>
+                              </select>
+                              <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-zeven-gray">
+                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 9l6 6 6-6" /></svg>
+                              </div>
+                           </div>
+                        </div>
 
-                     <Button type="submit" className="w-full rounded-xl py-4 bg-zeven-dark hover:bg-zeven-blue text-white shadow-xl text-lg font-bold" icon={<Send size={20} />}>Send Message</Button>
-                  </form>
+                        <div className="space-y-2 group">
+                           <label className="text-zeven-blue font-bold text-xs uppercase tracking-wider group-focus-within:text-zeven-deep transition-colors">Your Expectations *</label>
+                           <textarea required name="expectations" value={formData.expectations} onChange={handleChange} rows={4} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-zeven-dark focus:outline-none focus:border-zeven-blue focus:bg-white focus:shadow-lg transition-all resize-none" placeholder="Tell us about your project..."></textarea>
+                        </div>
+
+                        <Button 
+                           type="submit" 
+                           disabled={isSubmitting}
+                           className="w-full rounded-xl py-4 bg-zeven-dark hover:bg-zeven-blue text-white shadow-xl text-lg font-bold disabled:opacity-70" 
+                           icon={!isSubmitting && <Send size={20} />}
+                        >
+                           {isSubmitting ? 'Sending Message...' : 'Send Message'}
+                        </Button>
+                     </form>
+                  )}
                </div>
             </motion.div>
          </div>
