@@ -38,7 +38,7 @@ export const Home: React.FC = () => {
       email: '',
       budget: '',
       expectations: '',
-      botField: '', // Honeypot
+      website_url: '',
    });
 
    const [isSubmitting, setIsSubmitting] = useState(false);
@@ -866,9 +866,16 @@ export const Home: React.FC = () => {
                                  </div>
                               )}
 
-                              {/* Honeypot field */}
-                              <div className="absolute opacity-0 -z-10 pointer-events-none" aria-hidden="true">
-                                 <input type="text" name="botField" value={formData.botField} onChange={handleChange} tabIndex={-1} autoComplete="off" />
+                              {/* Improved Honeypot field (hidden from users & extensions) */}
+                              <div style={{ position: 'absolute', opacity: 0, top: 0, left: 0, height: 0, width: 0, zIndex: -1, pointerEvents: 'none' }} aria-hidden="true">
+                                 <input 
+                                    type="text" 
+                                    name="website_url" 
+                                    value={formData.website_url} 
+                                    onChange={handleChange} 
+                                    tabIndex={-1} 
+                                    autoComplete="new-password" 
+                                 />
                               </div>
 
                               <div className="grid md:grid-cols-1 gap-8">
