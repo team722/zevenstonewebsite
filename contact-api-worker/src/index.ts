@@ -25,9 +25,15 @@ export default {
     try {
       const data: any = await request.json();
 
-      // Honeypot check for basic spam protection
-      if (data.botField) {
-        return new Response(JSON.stringify({ success: true, message: 'Message sent!' }), {
+      // 0. Improved Spam Protection (Honeypot)
+      // We look for 'website_url' which bots love but humans won't see.
+      if (data.website_url && data.website_url.trim() !== "") {
+        console.warn('Spam detected via honeypot');
+        return new Response(JSON.stringify({ 
+          success: true, 
+          message: 'Submission successful',
+          note: 'Filtered as spam' 
+        }), {
           status: 200,
           headers: { 'Content-Type': 'application/json', ...corsHeaders },
         });
