@@ -61,7 +61,13 @@ export const Contact: React.FC = () => {
       setSubmitStatus('idle');
 
       try {
-         const response = await fetch('/api/contact', {
+         // For local dev, this uses the relative '/api/contact' handled by Cloudflare Pages proxy.
+         // In production (Hostinger), it uses the absolute URL of the deployed standalone Cloudflare Worker.
+         const API_URL = import.meta.env.VITE_CONTACT_API_URL || '/api/contact';
+
+         console.log(API_URL, 'api_url', JSON.stringify(formData))
+
+         const response = await fetch(API_URL, {
             method: 'POST',
             headers: {
                'Content-Type': 'application/json',
@@ -148,7 +154,7 @@ export const Contact: React.FC = () => {
                {/* Right White Form */}
                <div className="lg:w-3/5 p-12 lg:p-20 flex flex-col justify-center bg-white/50 relative">
                   {submitStatus === 'success' ? (
-                     <motion.div 
+                     <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         className="text-center py-20"
@@ -178,7 +184,7 @@ export const Contact: React.FC = () => {
                               Oops! Something went wrong while sending your message. Please try again.
                            </div>
                         )}
-                        
+
                         {/* Honeypot field (hidden from users, traps bots) */}
                         <div className="absolute opacity-0 -z-10 pointer-events-none" aria-hidden="true">
                            <input type="text" name="botField" value={formData.botField} onChange={handleChange} tabIndex={-1} autoComplete="off" />
@@ -231,10 +237,10 @@ export const Contact: React.FC = () => {
                            <textarea required name="expectations" value={formData.expectations} onChange={handleChange} rows={4} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-zeven-dark focus:outline-none focus:border-zeven-blue focus:bg-white focus:shadow-lg transition-all resize-none" placeholder="Tell us about your project..."></textarea>
                         </div>
 
-                        <Button 
-                           type="submit" 
+                        <Button
+                           type="submit"
                            disabled={isSubmitting}
-                           className="w-full rounded-xl py-4 bg-zeven-dark hover:bg-zeven-blue text-white shadow-xl text-lg font-bold disabled:opacity-70" 
+                           className="w-full rounded-xl py-4 bg-zeven-dark hover:bg-zeven-blue text-white shadow-xl text-lg font-bold disabled:opacity-70"
                            icon={!isSubmitting && <Send size={20} />}
                         >
                            {isSubmitting ? 'Sending Message...' : 'Send Message'}
