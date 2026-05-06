@@ -145,7 +145,7 @@ export const Navbar: React.FC = () => {
                     <Link
                       to={path || '#'}
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="flex items-center justify-between text-3xl font-sans font-bold text-zeven-dark border-b border-zeven-surface pb-4 hover:text-zeven-blue transition-colors group"
+                      className="flex items-center justify-between text-2xl md:text-3xl font-sans font-bold text-zeven-dark border-b border-zeven-surface pb-4 hover:text-zeven-blue transition-colors group"
                     >
                       {label}
                       <ArrowRight className="opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 transition-all text-zeven-blue" />
