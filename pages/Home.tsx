@@ -185,7 +185,7 @@ export const Home: React.FC = () => {
          </Helmet>
 
          {/* --- HERO SECTION --- */}
-         <section className="relative min-h-[105vh] flex items-center pt-32 pb-[420px] sm:pb-[350px] lg:pb-80 overflow-hidden bg-white">
+         <section className="relative min-h-[105vh] flex items-center pt-32 pb-[320px] sm:pb-[350px] lg:pb-80 overflow-hidden bg-white">
 
             {/* -- DYNAMIC BACKGROUND ENGINE -- */}
 
@@ -303,7 +303,7 @@ export const Home: React.FC = () => {
                      initial={{ opacity: 0, scale: 0.8, x: 50 }}
                      animate={{ opacity: 1, scale: 1, x: 0 }}
                      transition={{ duration: 1, type: "spring", delay: 0.2 }}
-                     className="hidden lg:block relative z-20 perspective-1000"
+                     className="block relative z-20 perspective-1000 mt-12 lg:mt-0"
                   >
                      <motion.div
                         animate={{ rotateY: [-2, 2, -2], rotateX: [1, -1, 1] }}
@@ -323,7 +323,7 @@ export const Home: React.FC = () => {
                         <motion.div
                            animate={{ y: [0, -15, 0] }}
                            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                           className="absolute -top-6 -right-6 bg-white/90 backdrop-blur-xl p-5 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-white/60 z-30 max-w-[180px]"
+                           className="hidden md:block absolute -top-6 -right-6 bg-white/90 backdrop-blur-xl p-5 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-white/60 z-30 max-w-[180px]"
                         >
                            <div className="flex items-center gap-3 mb-3">
                               <div className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-500 shadow-sm"><TrendingUp size={20} /></div>
@@ -341,7 +341,7 @@ export const Home: React.FC = () => {
                         <motion.div
                            animate={{ y: [0, 20, 0] }}
                            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                           className="absolute bottom-12 -left-12 bg-white/90 backdrop-blur-xl p-5 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-white/60 z-30 flex items-center gap-4"
+                           className="hidden md:flex absolute bottom-12 -left-12 bg-white/90 backdrop-blur-xl p-5 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-white/60 z-30 items-center gap-4"
                         >
                            <div className="flex -space-x-3">
                               {[1, 2, 3].map(i => <div key={i} className="w-10 h-10 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 border-2 border-white shadow-sm" />)}
@@ -435,7 +435,7 @@ export const Home: React.FC = () => {
                            <div className="absolute top-0 right-0 w-96 h-96 bg-zeven-blue/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
 
                            {/* Visual (Real Image) */}
-                           <div className="relative z-10 order-2 md:order-1 h-full max-h-1 md:max-h-fit min-h-[400px] md:min-h-[450px]">
+                           <div className="relative z-10  md:order-1 h-full max-h-1 md:max-h-fit min-h-[400px] md:min-h-[450px]">
                               <motion.div
                                  className="w-full h-full rounded-3xl overflow-hidden shadow-2xl relative"
                                  initial={{ scale: 0.9, opacity: 0, rotate: 2 }}
@@ -523,7 +523,7 @@ export const Home: React.FC = () => {
                         ))}
                      </div>
                      {/* Row 3: Right */}
-                     <div className="flex sm:hidden animate-marquee-reverse whitespace-nowrap gap-4 hover:pause-animation w-max">
+                     <div className="flex sm:hidden animate-marquee whitespace-nowrap gap-4 hover:pause-animation w-max">
                         {[...tagsRow2, ...tagsRow2, ...tagsRow2, ...tagsRow2].map((tag, i) => (
                            <div
                               key={`r2-${i}`}
@@ -540,7 +540,7 @@ export const Home: React.FC = () => {
          </section>
 
          {/* --- WHY CHOOSE US --- */}
-         <section className="py-0 md:py-20 bg-zeven-surface/30">
+         <section className="py-0 pt-12 md:pt-0 md:py-20 bg-zeven-surface/30">
             <div className="container mx-auto px-5 md:px-8">
                <div className="flex flex-col md:flex-row justify-between items-start lg:items-end mb-16 gap-4">
                   <ScrollReveal>
@@ -961,7 +961,7 @@ export const Home: React.FC = () => {
                </ScrollReveal>
                <div className="space-y-4">
                   {FAQS.map((faq, index) => (
-                     <motion.div
+                     <div
                         key={index}
                         initial={{ opacity: 0, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -979,7 +979,7 @@ export const Home: React.FC = () => {
                         </button>
                         <AnimatePresence>
                            {openFaq === index && (
-                              <motion.div
+                              <div
                                  initial={{ height: 0, opacity: 0 }}
                                  animate={{ height: "auto", opacity: 1 }}
                                  exit={{ height: 0, opacity: 0 }}
@@ -988,10 +988,10 @@ export const Home: React.FC = () => {
                                  <div className="p-6 pt-0 text-zeven-gray leading-relaxed pl-6 border-t border-zeven-gray/5 mt-2">
                                     {faq.answer}
                                  </div>
-                              </motion.div>
+                              </div>
                            )}
                         </AnimatePresence>
-                     </motion.div>
+                     </div>
                   ))}
                </div>
             </div>
