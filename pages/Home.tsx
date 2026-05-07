@@ -472,7 +472,7 @@ export const Home: React.FC = () => {
                                        className="group p-4 rounded-xl bg-white border border-zeven-surface hover:border-zeven-blue/30 hover:shadow-lg transition-all cursor-default flex items-center justify-between"
                                     >
                                        <span className="text-md font-medium text-zeven-dark group-hover:text-zeven-blue transition-colors">{detail}</span>
-                                       <div className="w-6 h-6 rounded-full bg-zeven-surface flex items-center justify-center text-zeven-gray group-hover:bg-zeven-blue group-hover:text-white transition-all">
+                                       <div className="hidden w-6 h-6 rounded-full bg-zeven-surface flex items-center justify-center text-zeven-gray group-hover:bg-zeven-blue group-hover:text-white transition-all">
                                           <ArrowRight size={14} />
                                        </div>
                                     </motion.div>
@@ -783,7 +783,7 @@ export const Home: React.FC = () => {
             <div className="container mx-auto px-5 md:px-8">
                <div className="text-center mb-16">
                   <ScrollReveal>
-                     <h2 className="text-3xl md:text-4xl font-bold text-zeven-dark mb-4">Our <span className="text-zeven-blue">Why</span></h2>
+                     <h2 className="text-3xl md:text-4xl font-bold text-zeven-dark mb-4">Why <span className="text-zeven-blue">Zevenstone</span></h2>
                   </ScrollReveal>
                </div>
 
