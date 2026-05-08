@@ -75,6 +75,8 @@ export const Services: React.FC = () => {
 
   const pillars = servicesPageData?.pillars?.length ? servicesPageData.pillars : DEFAULT_PILLARS;
 
+  console.log(pillars, 'pillars')
+
   return (
     <div className="pt-32 min-h-screen bg-white font-sans relative overflow-hidden selection:bg-zeven-blue selection:text-white">
       <Helmet>
@@ -189,21 +191,21 @@ export const Services: React.FC = () => {
                   shadow: 'shadow-blue-500/30',
                   text: 'text-blue-600',
                   dot: 'bg-blue-600',
-                  subtitle: pillar.subtitle || 'VISUAL STORIES THAT RESONATE'
+                  label: pillar.pillarNumber || 'VISUAL STORIES THAT RESONATE'
                 },
                 {
                   gradient: 'from-purple-600 to-purple-400',
                   shadow: 'shadow-purple-500/30',
                   text: 'text-purple-600',
                   dot: 'bg-purple-600',
-                  subtitle: pillar.subtitle || 'TECHNOLOGY THAT PERFORMS'
+                  label: pillar.pillarNumber || 'TECHNOLOGY THAT PERFORMS'
                 },
                 {
                   gradient: 'from-emerald-500 to-emerald-400',
                   shadow: 'shadow-emerald-500/30',
                   text: 'text-emerald-500',
                   dot: 'bg-emerald-500',
-                  subtitle: pillar.subtitle || 'STRATEGIES THAT CONVERT'
+                  label: pillar.pillarNumber || 'STRATEGIES THAT CONVERT'
                 }
               ];
 
@@ -216,15 +218,12 @@ export const Services: React.FC = () => {
                     <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${theme.gradient} flex items-center justify-center mb-10 ${theme.shadow} shadow-2xl relative`}>
                       <PillarIcon size={36} className="text-white" strokeWidth={1.5} />
                     </div>
-
+                    <span className={`text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] mb-6 ${theme.text}`}>
+                      {theme.label}
+                    </span>
                     <h3 className="text-2xl md:text-3xl font-bold text-zeven-dark mb-2">
                       {pillar.title}
                     </h3>
-
-                    <span className={`text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] mb-6 ${theme.text}`}>
-                      {theme.subtitle}
-                    </span>
-
                     <p className="text-zeven-gray leading-relaxed text-sm md:text-base font-light mb-10">
                       {pillar.description}
                     </p>
