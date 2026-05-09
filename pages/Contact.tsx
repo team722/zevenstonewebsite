@@ -5,13 +5,13 @@ import { Button } from '../components/ui/Button';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { sanityClient } from '../lib/sanity';
-import { SITE_SETTINGS_QUERY, CONTACT_PAGE_QUERY } from '../lib/queries';
+import { SITE_SETTINGS_QUERY, CONTACT_PAGE_QUERY, HOME_PAGE_QUERY } from '../lib/queries';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
 import { ErrorState } from '../components/ui/ErrorState';
 import { Helmet } from 'react-helmet-async';
 import { urlFor } from '../lib/sanity';
 
-import { useState } from 'react';
+import { ContactForm } from '../components/ContactForm';
 
 export const Contact: React.FC = () => {
 
@@ -25,18 +25,7 @@ export const Contact: React.FC = () => {
       queryFn: () => sanityClient.fetch(SITE_SETTINGS_QUERY),
    });
 
-   const [formData, setFormData] = useState({
-      title: '',
-      firstName: '',
-      lastName: '',
-      email: '',
-      budget: '',
-      expectations: '',
-      botField: '', // Honeypot
-   });
-
-   const [isSubmitting, setIsSubmitting] = useState(false);
-   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+   const { data: homePage, isLoading: loadingHome, error: errorHome } = useQuery({ queryKey: ['homePage'], queryFn: () => sanityClient.fetch(HOME_PAGE_QUERY) });
 
    const isLoading = loadingContact || loadingSettings;
    const error = errorContact || errorSettings;
@@ -44,52 +33,14 @@ export const Contact: React.FC = () => {
    if (isLoading) return <LoadingSpinner />;
    if (error) return <ErrorState />;
 
-   const headerHeading = contactPageData?.contactHeader?.heading || "Let's Build Something <br/>Amazing.";
-   const headerDescription = contactPageData?.contactHeader?.description || "Have a project in mind or just want to say hi? Fill out the form and let’s start a conversation about your growth.";
+   console.log(contactPageData, 'contactPageData')
+
+   const headerHeading = homePage?.contactFormSection?.heading || "Let's Connect";
+   const headerDescription = homePage?.contactFormSection?.description || "Tell us what you’re working on. We’ll be honest about how we can help — and whether we’re the right fit.";
 
    const email = siteSettings?.contactEmail || "hello@zevenstone.com";
    const phone = siteSettings?.phoneNumber || "+91-9876-543-210";
    const address = siteSettings?.address || "Tech Park, Sector 5\nNew Delhi, India";
-
-   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-      setFormData({ ...formData, [e.target.name]: e.target.value });
-   };
-
-   const handleSubmit = async (e: React.FormEvent) => {
-      e.preventDefault();
-      setIsSubmitting(true);
-      setSubmitStatus('idle');
-
-      try {
-         // For local dev, this uses the relative '/api/contact' handled by Cloudflare Pages proxy.
-         // In production (Hostinger), it uses the absolute URL of the deployed standalone Cloudflare Worker.
-         const API_URL = import.meta.env.VITE_CONTACT_API_URL || '/api/contact';
-
-         console.log(API_URL, 'api_url', JSON.stringify(formData))
-
-         const response = await fetch(API_URL, {
-            method: 'POST',
-            headers: {
-               'Content-Type': 'application/json',
-               'Accept': 'application/json',
-            },
-            body: JSON.stringify(formData),
-         });
-
-         const contentType = response.headers.get('content-type');
-         if (response.ok && contentType && contentType.includes('application/json')) {
-            setSubmitStatus('success');
-         } else {
-            console.error('Server returned an unexpected response. Expected JSON API response.');
-            setSubmitStatus('error');
-         }
-      } catch (err) {
-         console.error('Submission error:', err);
-         setSubmitStatus('error');
-      } finally {
-         setIsSubmitting(false);
-      }
-   };
 
    return (
       <div className="pt-32 pb-20 min-h-screen bg-slate-50 font-sans relative overflow-hidden flex items-center">
@@ -146,114 +97,14 @@ export const Contact: React.FC = () => {
                      </div>
                   </div>
 
-                  <div className="relative z-10 mt-12">
+                  <div className="hidden relative z-10 mt-12">
                      <div className="text-blue-200 text-xs font-medium uppercase tracking-widest">Built for the World. Tuned for Your Market.</div>
                   </div>
                </div>
 
                {/* Right White Form */}
-               <div className="lg:w-3/5 p-12 lg:p-20 flex flex-col justify-center bg-white/50 relative">
-                  {submitStatus === 'success' ? (
-                     <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        className="text-center py-20"
-                     >
-                        <div className="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
-                           <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
-                        </div>
-                        <h3 className="text-3xl font-bold text-zeven-dark mb-4">Message Sent!</h3>
-                        <p className="text-zeven-gray text-lg">Thank you for reaching out. We've received your details and will get back to you shortly.</p>
-                        <Button className="mt-8 rounded-xl" onClick={() => {
-                           setSubmitStatus('idle');
-                           setFormData({
-                              title: '',
-                              firstName: '',
-                              lastName: '',
-                              email: '',
-                              budget: '',
-                              expectations: '',
-                              website_url: '',
-                           });
-                        }}>Send Another Message</Button>
-                     </motion.div>
-                  ) : (
-                     <form className="space-y-8" onSubmit={handleSubmit}>
-                        {submitStatus === 'error' && (
-                           <div className="p-4 bg-red-50 text-red-600 rounded-xl border border-red-100 text-sm font-medium">
-                              Oops! Something went wrong while sending your message. Please try again.
-                           </div>
-                        )}
-
-                        {/* Improved Honeypot field (hidden from users & extensions) */}
-                        <div style={{ position: 'absolute', opacity: 0, top: 0, left: 0, height: 0, width: 0, zIndex: -1, pointerEvents: 'none' }} aria-hidden="true">
-                           <input 
-                              type="text" 
-                              name="website_url" 
-                              value={formData.website_url} 
-                              onChange={handleChange} 
-                              tabIndex={-1} 
-                              autoComplete="new-password" 
-                           />
-                        </div>
-
-                        <div className="grid md:grid-cols-1 gap-8">
-                           <div className="space-y-2 group">
-                              <label className="text-zeven-blue font-bold text-xs uppercase tracking-wider group-focus-within:text-zeven-deep transition-colors">Title</label>
-                              <select name="title" value={formData.title} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-zeven-dark focus:outline-none focus:border-zeven-blue focus:bg-white focus:shadow-lg transition-all">
-                                 <option value="">Select Title</option>
-                                 <option value="Mr">Mr</option>
-                                 <option value="Mrs">Mrs</option>
-                                 <option value="Miss">Miss</option>
-                                 <option value="Dr">Dr</option>
-                              </select>
-                           </div>
-                           <div className="space-y-2 group">
-                              <label className="text-zeven-blue font-bold text-xs uppercase tracking-wider group-focus-within:text-zeven-deep transition-colors">First Name *</label>
-                              <input required name="firstName" value={formData.firstName} onChange={handleChange} type="text" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-zeven-dark focus:outline-none focus:border-zeven-blue focus:bg-white focus:shadow-lg transition-all" placeholder="John" />
-                           </div>
-                           <div className="space-y-2 group">
-                              <label className="text-zeven-blue font-bold text-xs uppercase tracking-wider group-focus-within:text-zeven-deep transition-colors">Last Name *</label>
-                              <input required name="lastName" value={formData.lastName} onChange={handleChange} type="text" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-zeven-dark focus:outline-none focus:border-zeven-blue focus:bg-white focus:shadow-lg transition-all" placeholder="Doe" />
-                           </div>
-                           <div className="space-y-2 group">
-                              <label className="text-zeven-blue font-bold text-xs uppercase tracking-wider group-focus-within:text-zeven-deep transition-colors">Email Address *</label>
-                              <input required name="email" value={formData.email} onChange={handleChange} type="email" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-zeven-dark focus:outline-none focus:border-zeven-blue focus:bg-white focus:shadow-lg transition-all" placeholder="john@example.com" />
-                           </div>
-                        </div>
-
-                        <div className="space-y-2 group">
-                           <label className="text-zeven-blue font-bold text-xs uppercase tracking-wider group-focus-within:text-zeven-deep transition-colors">Budget</label>
-                           <div className="relative">
-                              <select name="budget" value={formData.budget} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-zeven-dark focus:outline-none focus:border-zeven-blue focus:bg-white focus:shadow-lg transition-all appearance-none cursor-pointer">
-                                 <option value="">Select a range</option>
-                                 <option value="$50k+">$50k+</option>
-                                 <option value="$25k - $50k">$25k - $50k</option>
-                                 <option value="$10k - $25k">$10k - $25k</option>
-                                 <option value="$5k - $10k">$5k - $10k</option>
-                                 <option value="$1k - $5k">$1k - $5k</option>
-                              </select>
-                              <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-zeven-gray">
-                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 9l6 6 6-6" /></svg>
-                              </div>
-                           </div>
-                        </div>
-
-                        <div className="space-y-2 group">
-                           <label className="text-zeven-blue font-bold text-xs uppercase tracking-wider group-focus-within:text-zeven-deep transition-colors">Your Expectations *</label>
-                           <textarea required name="expectations" value={formData.expectations} onChange={handleChange} rows={4} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-zeven-dark focus:outline-none focus:border-zeven-blue focus:bg-white focus:shadow-lg transition-all resize-none" placeholder="Tell us about your project..."></textarea>
-                        </div>
-
-                        <Button
-                           type="submit"
-                           disabled={isSubmitting}
-                           className="w-full rounded-xl py-4 bg-zeven-dark hover:bg-zeven-blue text-white shadow-xl text-lg font-bold disabled:opacity-70"
-                           icon={!isSubmitting && <Send size={20} />}
-                        >
-                           {isSubmitting ? 'Sending Message...' : 'Send Message'}
-                        </Button>
-                     </form>
-                  )}
+               <div className="lg:w-3/5 p-6 sm:p-10 lg:p-12 flex flex-col justify-center bg-white/50 relative">
+                  <ContactForm />
                </div>
             </motion.div>
          </div>

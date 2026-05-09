@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform, AnimatePresence, LayoutGroup } from 'f
 import { ArrowRight, ChevronRight, ChevronLeft, Zap, Cpu, Palette, Target, Plus, Minus, Send, Star, Quote, CheckCircle2, TrendingUp, Mail, Phone, MapPin, Layers, ExternalLink, Search, Rocket, Lightbulb } from 'lucide-react';
 import { Button, Card, LoadingSpinner, ErrorState, ScrollReveal } from '../components/ui';
 import { Link } from 'react-router-dom';
+import { ContactForm } from '../components/ContactForm';
 import { useQuery } from '@tanstack/react-query';
 import { sanityClient, urlFor } from '../lib/sanity';
 import { HOME_PAGE_QUERY, SERVICES_QUERY, TESTIMONIALS_QUERY, FAQS_QUERY, SITE_SETTINGS_QUERY, PORTFOLIO_PROJECTS_QUERY, PORTFOLIO_CATEGORIES_QUERY, CASE_STUDIES_QUERY } from '../lib/queries';
@@ -30,65 +31,6 @@ export const Home: React.FC = () => {
 
    const isLoading = loadingHome || loadingServices || loadingTestimonials || loadingFaqs || loadingSettings || loadingProjects || loadingCategories || loadingCase;
    const error = errorHome || errorServices || errorTestimonials || errorFaqs || errorSettings || errorProjects || errorCategories || errorCase;
-
-   const [formData, setFormData] = useState({
-      title: '',
-      firstName: '',
-      lastName: '',
-      email: '',
-      budget: '',
-      expectations: '',
-      website_url: '',
-   });
-
-   const [isSubmitting, setIsSubmitting] = useState(false);
-   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-
-   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-      setFormData({ ...formData, [e.target.name]: e.target.value });
-   };
-
-   const handleSubmit = async (e: React.FormEvent) => {
-      e.preventDefault();
-      setIsSubmitting(true);
-      setSubmitStatus('idle');
-
-      try {
-         const API_URL = import.meta.env.VITE_CONTACT_API_URL || '/api/contact';
-
-         const response = await fetch(API_URL, {
-            method: 'POST',
-            headers: {
-               'Content-Type': 'application/json',
-               'Accept': 'application/json',
-            },
-            body: JSON.stringify(formData),
-         });
-
-         const result = await response.json();
-         console.log('Worker Result:', result);
-
-         if (response.ok && result.success) {
-            setSubmitStatus('success');
-            setFormData({
-               title: '',
-               firstName: '',
-               lastName: '',
-               email: '',
-               budget: '',
-               expectations: '',
-               botField: '',
-            });
-         } else {
-            setSubmitStatus('error');
-         }
-      } catch (err) {
-         console.error('Submission error:', err);
-         setSubmitStatus('error');
-      } finally {
-         setIsSubmitting(false);
-      }
-   };
 
    const [activeCategory, setActiveCategory] = useState("All");
    const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -825,14 +767,14 @@ export const Home: React.FC = () => {
          <section className="py-12 md:py-24 bg-white" id="contact">
             <div className="container mx-auto px-5 md:px-8">
                <ScrollReveal>
-                  <div className="bg-zeven-blue rounded-2xl sm:rounded-[3rem] overflow-hidden shadow-2xl flex flex-col-reverse lg:flex-row min-h-[500px] md:min-h-[600px]">
+                  <div className=" rounded-2xl sm:rounded-[3rem] overflow-hidden shadow-2xl flex flex-col-reverse lg:flex-row min-h-[500px] md:min-h-[600px]">
                      {/* Left Blue Panel */}
                      <div className="lg:w-2/5 p-8 sm:p-12 lg:p-16 text-white flex flex-col justify-between relative overflow-hidden bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]">
                         <div className="absolute inset-0 bg-gradient-to-b from-zeven-blue to-zeven-deep opacity-90" />
 
                         <div className="relative z-10">
                            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6" dangerouslySetInnerHTML={{ __html: homePage?.contactFormSection?.heading || `Let's Connect` }}></h2>
-                           <p className="text-blue-100 mb-12 text-base md:text-lg">{homePage?.contactFormSection?.description || `Ready to transform your digital presence? We're here to help you scale.`}</p>
+                           <p className="text-blue-100 mb-12 text-base md:text-lg">{homePage?.contactFormSection?.description || `Tell us what you’re working on. We’ll be honest about how we can help — and whether we’re the right fit.`}</p>
 
                            <div className="space-y-10">
                               <div className="group">
@@ -856,94 +798,8 @@ export const Home: React.FC = () => {
                      </div>
 
                      {/* Right White Form */}
-                     <div className="lg:w-3/5 bg-white pb-11 p-5 sm:p-12 lg:p-16 flex flex-col justify-center relative">
-                        {submitStatus === 'success' ? (
-                           <motion.div
-                              initial={{ opacity: 0, scale: 0.9 }}
-                              animate={{ opacity: 1, scale: 1 }}
-                              className="text-center py-20"
-                           >
-                              <div className="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
-                                 <CheckCircle2 size={40} />
-                              </div>
-                              <h3 className="text-3xl font-bold text-zeven-dark mb-4">Message Sent!</h3>
-                              <p className="text-zeven-gray text-lg">Thank you for reaching out. We've received your details and will get back to you shortly.</p>
-                              <Button className="mt-8 rounded-xl" onClick={() => setSubmitStatus('idle')}>Send Another Message</Button>
-                           </motion.div>
-                        ) : (
-                           <form className="space-y-8" onSubmit={handleSubmit}>
-                              {submitStatus === 'error' && (
-                                 <div className="p-4 bg-red-50 text-red-600 rounded-xl border border-red-100 text-sm font-medium">
-                                    Oops! Something went wrong. Please try again.
-                                 </div>
-                              )}
-
-                              {/* Improved Honeypot field (hidden from users & extensions) */}
-                              <div style={{ position: 'absolute', opacity: 0, top: 0, left: 0, height: 0, width: 0, zIndex: -1, pointerEvents: 'none' }} aria-hidden="true">
-                                 <input
-                                    type="text"
-                                    name="website_url"
-                                    value={formData.website_url}
-                                    onChange={handleChange}
-                                    tabIndex={-1}
-                                    autoComplete="new-password"
-                                 />
-                              </div>
-
-                              <div className="grid md:grid-cols-1 gap-8">
-                                 <div className="space-y-2 group">
-                                    <label className="text-zeven-blue font-bold text-xs uppercase tracking-wider group-focus-within:text-zeven-deep transition-colors">Title</label>
-                                    <select name="title" value={formData.title} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-zeven-dark focus:outline-none focus:border-zeven-blue focus:bg-white focus:shadow-lg transition-all">
-                                       <option value="">Select Title</option>
-                                       <option value="Mr">Mr</option>
-                                       <option value="Mrs">Mrs</option>
-                                       <option value="Miss">Miss</option>
-                                       <option value="Dr">Dr</option>
-                                    </select>
-                                 </div>
-                                 <div className="space-y-2 group">
-                                    <label className="text-zeven-blue font-bold text-xs uppercase tracking-wider group-focus-within:text-zeven-deep transition-colors">First Name</label>
-                                    <input required name="firstName" value={formData.firstName} onChange={handleChange} type="text" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-zeven-dark focus:outline-none focus:border-zeven-blue focus:bg-white focus:shadow-lg transition-all" placeholder="John" />
-                                 </div>
-                                 <div className="space-y-2 group">
-                                    <label className="text-zeven-blue font-bold text-xs uppercase tracking-wider group-focus-within:text-zeven-deep transition-colors">Last Name</label>
-                                    <input required name="lastName" value={formData.lastName} onChange={handleChange} type="text" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-zeven-dark focus:outline-none focus:border-zeven-blue focus:bg-white focus:shadow-lg transition-all" placeholder="Doe" />
-                                 </div>
-                                 <div className="space-y-2 group">
-                                    <label className="text-zeven-blue font-bold text-xs uppercase tracking-wider group-focus-within:text-zeven-deep transition-colors">Email Address</label>
-                                    <input required name="email" value={formData.email} onChange={handleChange} type="email" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-zeven-dark focus:outline-none focus:border-zeven-blue focus:bg-white focus:shadow-lg transition-all" placeholder="john@example.com" />
-                                 </div>
-                              </div>
-                              <div className="space-y-2 group">
-                                 <label className="text-zeven-blue font-bold text-xs uppercase tracking-wider group-focus-within:text-zeven-deep transition-colors">Budget</label>
-                                 <div className="relative">
-                                    <select name="budget" value={formData.budget} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-zeven-dark focus:outline-none focus:border-zeven-blue focus:bg-white focus:shadow-lg transition-all appearance-none cursor-pointer">
-                                       <option value="">Select a range</option>
-                                       <option value="$50k+">$50k+</option>
-                                       <option value="$25k - $50k">$25k - $50k</option>
-                                       <option value="$10k - $25k">$10k - $25k</option>
-                                       <option value="$5k - $10k">$5k - $10k</option>
-                                       <option value="$1k - $5k">$1k - $5k</option>
-                                    </select>
-                                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-zeven-gray">
-                                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 9l6 6 6-6" /></svg>
-                                    </div>
-                                 </div>
-                              </div>
-                              <div className="space-y-2 group">
-                                 <label className="text-zeven-blue font-bold text-sm uppercase tracking-wider group-focus-within:text-zeven-deep">Your Expectations</label>
-                                 <textarea required name="expectations" value={formData.expectations} onChange={handleChange} rows={4} placeholder="Tell us about your project..." className="w-full p-4 bg-zeven-surface/30 rounded-xl border border-zeven-surface focus:border-zeven-blue focus:bg-white focus:outline-none transition-all focus:shadow-lg resize-none"></textarea>
-                              </div>
-
-                              <Button
-                                 type="submit"
-                                 disabled={isSubmitting}
-                                 className="w-full rounded-xl py-4 border-none bg-zeven-blue hover:bg-zeven-deep shadow-lg hover:shadow-zeven-blue/40 text-lg font-bold disabled:opacity-70"
-                              >
-                                 {isSubmitting ? 'Sending...' : 'Send Message'} {!isSubmitting && <Send size={20} />}
-                              </Button>
-                           </form>
-                        )}
+                     <div className="lg:w-3/5 bg-white p-6 sm:p-10 lg:p-12 flex flex-col justify-center relative">
+                        <ContactForm />
                      </div>
                   </div>
                </ScrollReveal>
