@@ -539,7 +539,7 @@ export const Home: React.FC = () => {
                <div className="flex animate-marquee whitespace-nowrap gap-8 md:gap-16 items-center hover:pause-animation w-max">
                   {[...partnerRow1, ...partnerRow1, ...partnerRow1, ...partnerRow1, ...partnerRow1, ...partnerRow1, ...partnerRow1, ...partnerRow1, ...partnerRow1, ...partnerRow1, ...partnerRow1, ...partnerRow1].map((logo, i) => (
                      <div key={`p1-${i}`} className="group relative">
-                        <div className="absolute -inset-4 bg-zeven-surface rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-500 scale-90 group-hover:scale-100 -z-10" />
+                        <div className="absolute -inset-4 bg-zeven-surface rounded-2xl  transition-all duration-500 scale-90 group-hover:scale-100 -z-10" />
                         <img
                            src={logo}
                            alt="Partner Logo"
@@ -554,7 +554,7 @@ export const Home: React.FC = () => {
                <div className="flex animate-marquee-slow-reverse whitespace-nowrap gap-8 md:gap-16 items-center hover:pause-animation w-max">
                   {[...partnerRow2, ...partnerRow2, ...partnerRow2, ...partnerRow2, ...partnerRow2, ...partnerRow2, ...partnerRow2, ...partnerRow2, ...partnerRow2, ...partnerRow2, ...partnerRow2, ...partnerRow2].map((logo, i) => (
                      <div key={`p2-${i}`} className="group relative">
-                        <div className="absolute -inset-4 bg-zeven-surface rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-500 scale-90 group-hover:scale-100 -z-10" />
+                        <div className="absolute -inset-4 bg-zeven-surface rounded-2xl transition-all duration-500 scale-90 group-hover:scale-100 -z-10" />
                         <img
                            src={logo}
                            alt="Partner Logo"
@@ -569,7 +569,7 @@ export const Home: React.FC = () => {
                <div className="flex animate-marquee whitespace-nowrap gap-8 md:gap-16 items-center hover:pause-animation w-max">
                   {[...partnerRow3, ...partnerRow3, ...partnerRow3, ...partnerRow3, ...partnerRow3, ...partnerRow3, ...partnerRow3, ...partnerRow3, ...partnerRow3, ...partnerRow3, ...partnerRow3, ...partnerRow3].map((logo, i) => (
                      <div key={`p3-${i}`} className="group relative">
-                        <div className="absolute -inset-4 bg-zeven-surface rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-500 scale-90 group-hover:scale-100 -z-10" />
+                        <div className="absolute -inset-4 bg-zeven-surface rounded-2xl transition-all duration-500 scale-90 group-hover:scale-100 -z-10" />
                         <img
                            src={logo}
                            alt="Partner Logo"
