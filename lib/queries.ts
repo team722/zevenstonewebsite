@@ -126,8 +126,8 @@ export const FAQS_QUERY = `
 
 export const HOME_PAGE_QUERY = `
   *[_type == "homePage"][0] {
-    hero { heading, subheading, description,label, "backgroundImageUrl": backgroundImage.asset->url, ctaButton, secondaryCtaButton },
-    visionSection { heading, description, "imageUrl": image.asset->url, button, ctaButton },
+    hero { heading, subheading, description,label,revenueLabel,activeUsersLabel, "backgroundImageUrl": backgroundImage.asset->url, ctaButton, secondaryCtaButton },
+    visionSection { heading, description, smallHeading, "imageUrl": image.asset->url, button, ctaButton },
     servicesHeading { heading, description },
     testimonialsHeading { heading, description },
     whyChooseUsHeading { heading, description },
@@ -154,7 +154,7 @@ export const SITE_SETTINGS_QUERY = `
     legalLinks[] { text, url },
     copyrightText,
     partnerLogos[]{ name, "logoUrl": logo.asset->url },
-    coreValues, contactEmail, phoneNumber, address, linkedIn, instagram, facebook
+    coreValues, contactEmail, phoneNumber, address, address1, address2, address3, linkedIn, instagram, facebook
   }
 `;
 

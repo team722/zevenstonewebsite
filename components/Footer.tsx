@@ -106,6 +106,30 @@ export const Footer: React.FC = () => {
             </div>
           </div>
         </div>
+        
+        {/* Locations Section */}
+        {(siteSettings?.address1 || siteSettings?.address2 || siteSettings?.address3) && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pb-12 border-t border-white/5 pt-12">
+            {siteSettings?.address1 && (
+              <div>
+                <h4 className="font-bold text-sm uppercase tracking-widest text-zeven-blue mb-4">USA Office</h4>
+                <p className="text-slate-400 text-sm leading-relaxed whitespace-pre-wrap">{siteSettings.address1}</p>
+              </div>
+            )}
+            {siteSettings?.address2 && (
+              <div>
+                <h4 className="font-bold text-sm uppercase tracking-widest text-zeven-blue mb-4">Thirunelveli Office</h4>
+                <p className="text-slate-400 text-sm leading-relaxed whitespace-pre-wrap">{siteSettings.address2}</p>
+              </div>
+            )}
+            {siteSettings?.address3 && (
+              <div>
+                <h4 className="font-bold text-sm uppercase tracking-widest text-zeven-blue mb-4">Chennai Office</h4>
+                <p className="text-slate-400 text-sm leading-relaxed whitespace-pre-wrap">{siteSettings.address3}</p>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Bottom */}
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
