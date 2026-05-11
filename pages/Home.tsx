@@ -528,13 +528,11 @@ export const Home: React.FC = () => {
 
             <div className="container mx-auto px-5 md:px-8 mb-16 text-center">
                <ScrollReveal>
-                  <span className="text-zeven-blue font-bold tracking-[0.2em] uppercase text-xs mb-4 inline-block">Our Ecosystem</span>
                   <h2 className="text-3xl md:text-5xl font-extrabold text-zeven-dark mb-6" dangerouslySetInnerHTML={{ __html: homePage?.partnersHeading?.heading || `Trusted by <span class="text-zeven-blue">Growing & Ambitious Brands</span>` }}></h2>
-                  <p className="text-zeven-gray max-w-2xl mx-auto text-base md:text-lg">We collaborate with visionary companies to build digital experiences that scale and succeed.</p>
                </ScrollReveal>
             </div>
 
-            <div className="relative w-full space-y-8 md:space-y-12">
+            <div className="container mx-auto overflow-hiddenrelative w-full space-y-8 md:space-y-12">
                {/* Row 1: Left (Fast) */}
                <div className="flex animate-marquee whitespace-nowrap gap-8 md:gap-16 items-center hover:pause-animation w-max">
                   {[...partnerRow1, ...partnerRow1, ...partnerRow1, ...partnerRow1, ...partnerRow1, ...partnerRow1, ...partnerRow1, ...partnerRow1, ...partnerRow1, ...partnerRow1, ...partnerRow1, ...partnerRow1].map((logo, i) => (
