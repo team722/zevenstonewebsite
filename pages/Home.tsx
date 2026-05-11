@@ -129,6 +129,7 @@ export const Home: React.FC = () => {
    const tagsRow2 = MORE_SERVICES_TAGS?.slice(midPoint) || [];
 
 
+
    return (
       <div className="flex flex-col min-h-screen bg-white font-sans overflow-x-hidden">
          <Helmet>
@@ -138,7 +139,7 @@ export const Home: React.FC = () => {
          </Helmet>
 
          {/* --- HERO SECTION --- */}
-         <section className="relative min-h-[105vh] flex items-center pt-32 pb-[320px] sm:pb-[350px] lg:pb-80 overflow-hidden bg-white">
+         <section className="relative flex items-center pt-48 pb-[320px] sm:pb-[350px] lg:pb-80 overflow-hidden bg-white">
 
             {/* -- DYNAMIC BACKGROUND ENGINE -- */}
 
@@ -532,7 +533,7 @@ export const Home: React.FC = () => {
                </ScrollReveal>
             </div>
 
-            <div className="container mx-auto overflow-hiddenrelative w-full space-y-8 md:space-y-12">
+            <div className="container mx-auto overflow-hidden relative w-full space-y-8 md:space-y-12">
                {/* Row 1: Left (Fast) */}
                <div className="flex animate-marquee whitespace-nowrap gap-8 md:gap-16 items-center hover:pause-animation w-max">
                   {[...partnerRow1, ...partnerRow1, ...partnerRow1, ...partnerRow1, ...partnerRow1, ...partnerRow1, ...partnerRow1, ...partnerRow1, ...partnerRow1, ...partnerRow1, ...partnerRow1, ...partnerRow1].map((logo, i) => (
@@ -579,8 +580,8 @@ export const Home: React.FC = () => {
                </div>
 
                {/* Fade Edges */}
-               <div className="absolute inset-y-0 left-0 w-32 md:w-64 bg-gradient-to-r from-white via-white/80 to-transparent pointer-events-none z-20" />
-               <div className="absolute inset-y-0 right-0 w-32 md:w-64 bg-gradient-to-l from-white via-white/80 to-transparent pointer-events-none z-20" />
+               <div className="5xl:hidden absolute inset-y-0 left-0 w-32 md:w-64 bg-gradient-to-r from-white via-white/80 to-transparent pointer-events-none z-20" />
+               <div className="5xl:hidden absolute inset-y-0 right-0 w-32 md:w-64 bg-gradient-to-l from-white via-white/80 to-transparent pointer-events-none z-20" />
             </div>
          </section>
 

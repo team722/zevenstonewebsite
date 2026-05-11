@@ -11,17 +11,22 @@
     href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Dancing+Script:wght@400;700&display=swap"
     rel="stylesheet">
   <script>
+    const screens = {
+      sm: '640px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1280px',
+      '2xl': '1400px',
+      '4xl': '1536px',
+      '5xl': '1600px',
+    };
+
     tailwind.config = {
       theme: {
+        screens,
         container: {
           center: true,
-          screens: {
-            sm: '640px',
-            md: '768px',
-            lg: '1024px',
-            xl: '1280px',
-            '2xl': '1280px',
-          },
+          screens,
         },
         extend: {
           fontFamily: {
