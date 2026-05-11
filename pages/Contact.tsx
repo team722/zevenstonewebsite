@@ -92,7 +92,29 @@ export const Contact: React.FC = () => {
                         </div>
                         <div className="group">
                            <div className="flex items-center gap-4 font-bold text-xl mb-1 group-hover:translate-x-2 transition-transform"><MapPin size={24} /> Visit Us</div>
-                           <p className="text-blue-100/80 ml-10 text-sm whitespace-pre-line">{address}</p>
+                           <div className="ml-10 space-y-4">
+                              {siteSettings?.address1 && (
+                                 <div>
+                                    <div className="text-[10px] uppercase tracking-widest text-blue-200/60 font-bold mb-1">USA</div>
+                                    <p className="text-blue-100/80 text-sm whitespace-pre-wrap">{siteSettings.address1}</p>
+                                 </div>
+                              )}
+                              {siteSettings?.address2 && (
+                                 <div>
+                                    <div className="text-[10px] uppercase tracking-widest text-blue-200/60 font-bold mb-1">Thirunelveli</div>
+                                    <p className="text-blue-100/80 text-sm whitespace-pre-wrap">{siteSettings.address2}</p>
+                                 </div>
+                              )}
+                              {siteSettings?.address3 && (
+                                 <div>
+                                    <div className="text-[10px] uppercase tracking-widest text-blue-200/60 font-bold mb-1">Chennai</div>
+                                    <p className="text-blue-100/80 text-sm whitespace-pre-wrap">{siteSettings.address3}</p>
+                                 </div>
+                              )}
+                              {!siteSettings?.address1 && !siteSettings?.address2 && !siteSettings?.address3 && (
+                                 <p className="text-blue-100/80 text-sm whitespace-pre-wrap">{siteSettings?.address || 'Tech Park, Sector 5\nNew Delhi, India'}</p>
+                              )}
+                           </div>
                         </div>
                      </div>
                   </div>

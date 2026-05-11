@@ -62,6 +62,16 @@ export const Home: React.FC = () => {
    // 2. PARTNERS
    const PARTNERS_LOGOS = (siteSettings?.partnerLogos || []).map((p: any) => p.logoUrl);
 
+   // Distribute logos into 3 rows for variety
+   const row1 = PARTNERS_LOGOS.filter((_, i) => i % 3 === 0);
+   const row2 = PARTNERS_LOGOS.filter((_, i) => i % 3 === 1);
+   const row3 = PARTNERS_LOGOS.filter((_, i) => i % 3 === 2);
+
+   // Fallback if rows are empty (e.g. if only 1-2 logos exist)
+   const partnerRow1 = row1.length > 0 ? row1 : PARTNERS_LOGOS;
+   const partnerRow2 = row2.length > 0 ? row2 : PARTNERS_LOGOS;
+   const partnerRow3 = row3.length > 0 ? row3 : PARTNERS_LOGOS;
+
    // 3. PORTFOLIO
    const PORTFOLIO_CATEGORIES = ["All", ...(categoriesData?.map((c: any) => c.label) || [])];
    const PORTFOLIO_SHOWCASE = (portfolioProjects || []).map((p: any) => ({
@@ -117,6 +127,7 @@ export const Home: React.FC = () => {
    const midPoint = Math.max(1, Math.ceil((MORE_SERVICES_TAGS?.length || 0) / 2));
    const tagsRow1 = MORE_SERVICES_TAGS?.slice(0, midPoint) || [];
    const tagsRow2 = MORE_SERVICES_TAGS?.slice(midPoint) || [];
+
 
    return (
       <div className="flex flex-col min-h-screen bg-white font-sans overflow-x-hidden">
@@ -270,8 +281,8 @@ export const Home: React.FC = () => {
                            <div className="flex items-center gap-3 mb-3">
                               <div className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-500 shadow-sm"><TrendingUp size={20} /></div>
                               <div>
-                                 <div className="font-bold text-zeven-dark text-sm">Revenue</div>
-                                 <div className="font-bold text-xs text-green-500">+145%</div>
+                                 <div className="font-bold text-zeven-dark text-sm">{homePage?.hero?.revenueLabel || "+357M"}</div>
+                                 <div className="font-bold text-xs text-green-500">Revenue</div>
                               </div>
                            </div>
                            <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
@@ -289,7 +300,7 @@ export const Home: React.FC = () => {
                               {[1, 2, 3].map(i => <div key={i} className="w-10 h-10 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 border-2 border-white shadow-sm" />)}
                            </div>
                            <div>
-                              <div className="text-lg font-bold text-zeven-dark">12k+</div>
+                              <div className="text-lg font-bold text-zeven-dark">{homePage?.hero?.activeUsersLabel || "10M+"}</div>
                               <div className="text-xs text-zeven-gray font-medium uppercase tracking-wide">Active Users</div>
                            </div>
                         </motion.div>
@@ -511,23 +522,67 @@ export const Home: React.FC = () => {
          </section>
 
          {/* --- PARTNERS --- */}
-         <section className="py-16 md:py-16 bg-white overflow-hidden">
-            <div className="container mx-auto px-5 md:px-8 mb-10 text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-4">
-               <h2 className="text-2xl font-bold text-zeven-dark" dangerouslySetInnerHTML={{ __html: homePage?.partnersHeading?.heading || `Trusted by <span class="text-zeven-blue">Innovative Brands</span>` }}></h2>
-               <div className="h-px bg-zeven-surface flex-grow mx-8 hidden md:block"></div>
+         <section className="py-20 md:py-32 overflow-hidden relative">
+            {/* Subtle background glow */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[300px] bg-zeven-blue/5 rounded-full blur-[120px] pointer-events-none" />
+
+            <div className="container mx-auto px-5 md:px-8 mb-16 text-center">
+               <ScrollReveal>
+                  <span className="text-zeven-blue font-bold tracking-[0.2em] uppercase text-xs mb-4 inline-block">Our Ecosystem</span>
+                  <h2 className="text-3xl md:text-5xl font-extrabold text-zeven-dark mb-6" dangerouslySetInnerHTML={{ __html: homePage?.partnersHeading?.heading || `Trusted by <span class="text-zeven-blue">Growing & Ambitious Brands</span>` }}></h2>
+                  <p className="text-zeven-gray max-w-2xl mx-auto text-base md:text-lg">We collaborate with visionary companies to build digital experiences that scale and succeed.</p>
+               </ScrollReveal>
             </div>
-            <div className="container relative w-full overflow-hidden">
-               {/* Marquee with Logos */}
-               <div className="flex animate-marquee-faster whitespace-nowrap gap-4 md:gap-6 items-center hover:pause-animation w-max">
-                  {[...PARTNERS_LOGOS, ...PARTNERS_LOGOS, ...PARTNERS_LOGOS].map((logo, i) => (
-                     <div key={i} className="opacity-50 hover:opacity-100 transition-opacity duration-300 cursor-pointer">
-                        <img src={logo} alt="Partner Logo" loading="lazy" className="w-40 md:w-60 md:h-24 object-contain" />
+
+            <div className="relative w-full space-y-8 md:space-y-12">
+               {/* Row 1: Left (Fast) */}
+               <div className="flex animate-marquee whitespace-nowrap gap-8 md:gap-16 items-center hover:pause-animation w-max">
+                  {[...partnerRow1, ...partnerRow1, ...partnerRow1, ...partnerRow1, ...partnerRow1, ...partnerRow1, ...partnerRow1, ...partnerRow1, ...partnerRow1, ...partnerRow1, ...partnerRow1, ...partnerRow1].map((logo, i) => (
+                     <div key={`p1-${i}`} className="group relative">
+                        <div className="absolute -inset-4 bg-zeven-surface rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-500 scale-90 group-hover:scale-100 -z-10" />
+                        <img
+                           src={logo}
+                           alt="Partner Logo"
+                           loading="lazy"
+                           className="h-20 w-auto object-contain  transition-all duration-500 transform group-hover:scale-110"
+                        />
                      </div>
                   ))}
                </div>
+
+               {/* Row 2: Right (Normal) */}
+               <div className="flex animate-marquee-slow-reverse whitespace-nowrap gap-8 md:gap-16 items-center hover:pause-animation w-max">
+                  {[...partnerRow2, ...partnerRow2, ...partnerRow2, ...partnerRow2, ...partnerRow2, ...partnerRow2, ...partnerRow2, ...partnerRow2, ...partnerRow2, ...partnerRow2, ...partnerRow2, ...partnerRow2].map((logo, i) => (
+                     <div key={`p2-${i}`} className="group relative">
+                        <div className="absolute -inset-4 bg-zeven-surface rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-500 scale-90 group-hover:scale-100 -z-10" />
+                        <img
+                           src={logo}
+                           alt="Partner Logo"
+                           loading="lazy"
+                           className="h-20 w-auto object-contain transition-all duration-500 transform group-hover:scale-110"
+                        />
+                     </div>
+                  ))}
+               </div>
+
+               {/* Row 3: Left (Fast) */}
+               <div className="flex animate-marquee whitespace-nowrap gap-8 md:gap-16 items-center hover:pause-animation w-max">
+                  {[...partnerRow3, ...partnerRow3, ...partnerRow3, ...partnerRow3, ...partnerRow3, ...partnerRow3, ...partnerRow3, ...partnerRow3, ...partnerRow3, ...partnerRow3, ...partnerRow3, ...partnerRow3].map((logo, i) => (
+                     <div key={`p3-${i}`} className="group relative">
+                        <div className="absolute -inset-4 bg-zeven-surface rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-500 scale-90 group-hover:scale-100 -z-10" />
+                        <img
+                           src={logo}
+                           alt="Partner Logo"
+                           loading="lazy"
+                           className="h-20 w-auto object-contain transition-all duration-500 transform group-hover:scale-110"
+                        />
+                     </div>
+                  ))}
+               </div>
+
                {/* Fade Edges */}
-               <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-white to-transparent pointer-events-none" />
-               <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-white to-transparent pointer-events-none" />
+               <div className="absolute inset-y-0 left-0 w-32 md:w-64 bg-gradient-to-r from-white via-white/80 to-transparent pointer-events-none z-20" />
+               <div className="absolute inset-y-0 right-0 w-32 md:w-64 bg-gradient-to-l from-white via-white/80 to-transparent pointer-events-none z-20" />
             </div>
          </section>
 
@@ -547,7 +602,8 @@ export const Home: React.FC = () => {
 
             <div className="container mx-auto px-5 md:px-8 relative z-10">
                <ScrollReveal>
-                  <h2 className="text-3xl md:text-6xl font-bold mb-8 tracking-tight" dangerouslySetInnerHTML={{ __html: homePage?.visionSection?.heading || `Your Vision, Amplified by <br /> Strategy, Story & Screens.` }}></h2>
+                  <h2 className="text-3xl md:text-4xl font-medium mb-4 tracking-tight" dangerouslySetInnerHTML={{ __html: homePage?.visionSection?.heading || `Your Growth Doesn’t Need More Agencies. ` }}></h2>
+                  <h3 className="text-3xl md:text-7xl font-bold mb-8 tracking-tight" dangerouslySetInnerHTML={{ __html: homePage?.visionSection?.smallHeading || `It Needs One Team That Gets It.` }}></h3>
                   <p className="text-blue-100 max-w-3xl mx-auto mb-12 text-lg md:text-xl font-light">{homePage?.visionSection?.description || `We help brands and businesses to create their digital presence and connect with their audiences through creative and innovative solutions.`}</p>
                   <Link to={homePage?.visionSection?.button?.url || homePage?.visionSection?.ctaButton?.url || "/contact"}>
                      <motion.button
@@ -787,7 +843,29 @@ export const Home: React.FC = () => {
                               </div>
                               <div className="group">
                                  <div className="flex items-center gap-4 font-bold text-xl mb-1 group-hover:translate-x-2 transition-transform"><MapPin size={24} /> Visit Us</div>
-                                 <p className="text-blue-100/80 ml-10 whitespace-pre-wrap">{siteSettings?.address || '123 Creative Street\nNew Delhi, India'}</p>
+                                 <div className="ml-10 space-y-4">
+                                    {siteSettings?.address1 && (
+                                       <div>
+                                          <div className="text-[10px] uppercase tracking-widest text-blue-200/60 font-bold mb-1">USA</div>
+                                          <p className="text-blue-100/80 text-sm whitespace-pre-wrap">{siteSettings.address1}</p>
+                                       </div>
+                                    )}
+                                    {siteSettings?.address2 && (
+                                       <div>
+                                          <div className="text-[10px] uppercase tracking-widest text-blue-200/60 font-bold mb-1">Thirunelveli</div>
+                                          <p className="text-blue-100/80 text-sm whitespace-pre-wrap">{siteSettings.address2}</p>
+                                       </div>
+                                    )}
+                                    {siteSettings?.address3 && (
+                                       <div>
+                                          <div className="text-[10px] uppercase tracking-widest text-blue-200/60 font-bold mb-1">Chennai</div>
+                                          <p className="text-blue-100/80 text-sm whitespace-pre-wrap">{siteSettings.address3}</p>
+                                       </div>
+                                    )}
+                                    {!siteSettings?.address1 && !siteSettings?.address2 && !siteSettings?.address3 && (
+                                       <p className="text-blue-100/80 text-sm whitespace-pre-wrap">{siteSettings?.address || '123 Creative Street\nNew Delhi, India'}</p>
+                                    )}
+                                 </div>
                               </div>
                            </div>
                         </div>
