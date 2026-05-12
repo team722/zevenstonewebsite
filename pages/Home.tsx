@@ -755,7 +755,7 @@ export const Home: React.FC = () => {
                            <button onClick={() => setCurrentTestimonial(prev => (prev - 1 + TESTIMONIALS.length) % TESTIMONIALS.length)} className="p-2 md:p-3 rounded-full border border-zeven-blue/20 hover:bg-zeven-blue hover:text-white text-zeven-blue transition-colors flex-shrink-0">
                               <ChevronLeft size={18} className="md:w-5 md:h-5" />
                            </button>
-                           <div className="flex gap-2 md:gap-3 overflow-x-auto no-scrollbar">
+                           <div className="flex gap-2 md:gap-3 overflow-x-auto flex-wrap justify-center no-scrollbar">
                               {TESTIMONIALS.map((t, idx) => (
                                  <button key={idx} onClick={() => setCurrentTestimonial(idx)} className={`w-9 h-9 sm:w-11 sm:h-11 md:w-14 md:h-14 rounded-full overflow-hidden border-2 transition-all flex-shrink-0 ${currentTestimonial === idx ? 'border-zeven-blue scale-110 ring-2 md:ring-4 ring-zeven-blue/10' : 'border-transparent opacity-60 hover:opacity-100 grayscale hover:grayscale-0'}`}>
                                     <img src={t.image} alt="thumb" className="w-full h-full object-cover" />
