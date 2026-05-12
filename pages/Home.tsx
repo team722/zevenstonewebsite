@@ -580,8 +580,8 @@ export const Home: React.FC = () => {
                </div>
 
                {/* Fade Edges */}
-               <div className="5xl:hidden absolute inset-y-0 left-0 w-32 md:w-64 bg-gradient-to-r from-white via-white/80 to-transparent pointer-events-none z-20" />
-               <div className="5xl:hidden absolute inset-y-0 right-0 w-32 md:w-64 bg-gradient-to-l from-white via-white/80 to-transparent pointer-events-none z-20" />
+               <div className="hidden xl:block 5-xl:hidden absolute inset-y-0 left-0 w-32 md:w-64 bg-gradient-to-r from-white via-white/80 to-transparent pointer-events-none z-20" />
+               <div className="hidden xl:block 5-xl:hidden absolute inset-y-0 right-0 w-32 md:w-64 bg-gradient-to-l from-white via-white/80 to-transparent pointer-events-none z-20" />
             </div>
          </section>
 
