@@ -18,10 +18,10 @@ export default function LandingPage() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 25);
       // Show floating form after 50% scroll
       const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-      setShowFloatingForm(scrollPercent > 50 && !formSubmitted);
+      setShowFloatingForm(scrollPercent > 25 && !formSubmitted);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -866,7 +866,7 @@ export default function LandingPage() {
 
       {/* Floating Sticky Form - Hidden on mobile, shown on tablet+ */}
       {showFloatingForm && (
-        <div className="hidden md:block fixed bottom-8 right-8 z-50 max-w-sm w-full animate-slide-up">
+        <div className="hidden md:block fixed bottom-40 right-8 z-50 max-w-sm w-full animate-slide-up">
           <div className="bg-white rounded-3xl shadow-2xl border border-blue-100 overflow-hidden shadow-blue-200/50">
             <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 relative">
               <button
