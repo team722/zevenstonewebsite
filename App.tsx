@@ -15,7 +15,10 @@ import { SuccessStories } from './pages/SuccessStories';
 import { CaseStudy } from './pages/CaseStudy';
 import { Blog } from './pages/Blog';
 import { BlogPost } from './pages/BlogPost';
-import { LandingPage } from './pages/LandingPage';
+import { LandingPage as LandingPageOriginal } from './pages/LandingPage';
+// New Modular Landing Page Components
+import ZstoneLandingPageV1 from './modules/landing-pages/zstone-v1/components/LandingPage';
+
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -34,32 +37,50 @@ const ScrollToTop = () => {
   return null;
 };
 
+const AppContent: React.FC = () => {
+  const location = useLocation();
+  const isLandingPage = location.pathname.startsWith('/landing-page') || location.pathname.startsWith('/v1');
+
+  return (
+    <div className="min-h-screen bg-zeven-bg text-zeven-dark selection:bg-zeven-blue selection:text-white font-sans antialiased">
+      {!isLandingPage && <Navbar />}
+      <main>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/services/:slug" element={<SingleService />} />
+          <Route path="/portfolio" element={<Portfolio />} />
+          <Route path="/success-stories" element={<SuccessStories />} />
+          <Route path="/case-study/:id" element={<CaseStudy />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/:slug" element={<LandingPageOriginal />} />
+
+          {/* New Modular Landing Page Routes (Phase 2) */}
+          <Route path="/landing-page" element={<ZstoneLandingPageV1 />} />
+          {/* <Route path="/landing-page/services" element={<ZstoneServicesPageV1 />} />
+          <Route path="/landing-page/video-production" element={<ZstoneVideoProductionV1 />} />
+          <Route path="/landing-page/stories" element={<ZstoneStoriesPageV1 />} />
+          <Route path="/landing-page/story/:id" element={<ZstoneStoryDetailV1 />} />
+          <Route path="/landing-page/blog" element={<ZstoneBlogHubV1 />} />
+          <Route path="/landing-page/blog/:id" element={<ZstoneBlogPostV1 />} /> */}
+        </Routes>
+      </main>
+      {!isLandingPage && <Footer />}
+      <ScrollToTopButton />
+    </div>
+  );
+};
+
 const App: React.FC = () => {
   return (
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
         <Router>
           <ScrollToTop />
-          <div className="min-h-screen bg-zeven-bg text-zeven-dark selection:bg-zeven-blue selection:text-white font-sans antialiased">
-            <Navbar />
-            <main>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/services" element={<Services />} />
-                <Route path="/services/:slug" element={<SingleService />} />
-                <Route path="/portfolio" element={<Portfolio />} />
-                <Route path="/success-stories" element={<SuccessStories />} />
-                <Route path="/case-study/:id" element={<CaseStudy />} />
-                <Route path="/blog" element={<Blog />} />
-                <Route path="/blog/:slug" element={<BlogPost />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/:slug" element={<LandingPage />} />
-              </Routes>
-            </main>
-            <Footer />
-            <ScrollToTopButton />
-          </div>
+          <AppContent />
         </Router>
       </QueryClientProvider>
     </HelmetProvider>
