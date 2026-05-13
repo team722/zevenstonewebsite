@@ -2,8 +2,7 @@ export interface Env {
   SANITY_WRITE_TOKEN: string;
   SANITY_PROJECT_ID: string;
   SANITY_DATASET: string;
-  BIGIN_PUBLIC_KEY: string;
-  BIGIN_FORM_ID: string;
+  ZOHO_FORM_ACTION_URL: string;
 }
 
 const corsHeaders = {
@@ -88,49 +87,47 @@ export default {
         sanityError = 'Missing Sanity Token';
       }
 
-      // 2. Forward to Zoho Bigin
-      let biginError = null;
-      let biginSuccess = false;
+      // 2. Forward to Zoho Forms
+      let zohoError = null;
+      let zohoSuccess = false;
 
-      if (env.BIGIN_PUBLIC_KEY && env.BIGIN_FORM_ID) {
-        const biginForm = new FormData();
-        biginForm.append('xnQsjsdp', env.BIGIN_PUBLIC_KEY);
-        biginForm.append('xmIwtLD', env.BIGIN_FORM_ID);
-        biginForm.append('actionType', 'Q29udGFjdHM=');
-        biginForm.append('rmsg', 'true');
-        biginForm.append('zc_gad', '');
-        biginForm.append('returnURL', 'null');
+      if (env.ZOHO_FORM_ACTION_URL) {
+        const zohoForm = new FormData();
         
-        biginForm.append('CONTACTCF2', data.title || '-None-'); // Title (Company ID: CF2)
-        biginForm.append('First Name', data.firstName || '');
-        biginForm.append('Last Name', data.lastName || '');
-        biginForm.append('Email', data.email || '');
-        biginForm.append('CONTACTCF1', data.budget || '-None-'); // Budget (Stays CF1)
-        biginForm.append('CONTACTCF3', data.expectations || ''); // Expectations (Company ID: CF3)
+        // Field Mapping based on Zoho Forms dashboard
+        zohoForm.append('Dropdown1', data.title || ''); // Title
+        zohoForm.append('SingleLine', data.firstName || ''); // First Name
+        zohoForm.append('SingleLine1', data.lastName || ''); // Last Name
+        zohoForm.append('Email', data.email || ''); // Email
+        zohoForm.append('Dropdown', data.budget || ''); // Budget
+        zohoForm.append('MultiLine', data.expectations || ''); // Expectations
 
-        const biginUrl = 'https://bigin.zoho.in/crm/WebForm';
+        try {
+          const zohoResponse = await fetch(env.ZOHO_FORM_ACTION_URL, {
+            method: 'POST',
+            body: zohoForm,
+          });
 
-        const biginResponse = await fetch(biginUrl, {
-          method: 'POST',
-          body: biginForm,
-        });
-
-        biginSuccess = biginResponse.ok;
-        if (!biginSuccess) {
-          biginError = await biginResponse.text();
-          console.error('Bigin Error:', biginError);
+          zohoSuccess = zohoResponse.ok;
+          if (!zohoSuccess) {
+            zohoError = await zohoResponse.text();
+            console.error('Zoho Error:', zohoError);
+          }
+        } catch (e: any) {
+          zohoError = e.message;
+          console.error('Zoho Fetch Error:', e);
         }
       } else {
-        biginError = 'Missing Bigin configuration';
+        zohoError = 'Missing Zoho configuration';
       }
 
       // Return status of both
       return new Response(JSON.stringify({ 
-        success: sanitySuccess || biginSuccess, 
+        success: sanitySuccess || zohoSuccess, 
         sanity: { success: sanitySuccess, error: sanityError },
-        bigin: { success: biginSuccess, error: biginError }
+        zoho: { success: zohoSuccess, error: zohoError }
       }), {
-        status: (sanitySuccess || biginSuccess) ? 200 : 500,
+        status: (sanitySuccess || zohoSuccess) ? 200 : 500,
         headers: { 'Content-Type': 'application/json', ...corsHeaders },
       });
     } catch (error: any) {
