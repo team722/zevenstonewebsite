@@ -60,29 +60,29 @@ export default function LandingPage() {
       {/* Sticky Header */}
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/95 backdrop-blur-lg shadow-md' : 'bg-transparent'
         }`}>
-        <div className="max-w-7xl mx-auto px-6 py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
           <div className="flex items-center justify-between">
-            <img src={imgLinkLogo} alt="Zevenstone" className="h-8" />
+            <img src={imgLinkLogo} alt="Zevenstone" className="h-6 sm:h-8" />
             <button
               onClick={scrollToCTA}
-              className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all"
+              className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 sm:px-8 py-2 sm:py-3 rounded-lg sm:rounded-xl text-sm sm:text-base font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all"
             >
-              <a href="#form-cta-section">Book Free Strategy Call</a>
+              <a href="#form-cta-section">Book Free Call</a>
             </button>
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 px-6 bg-gradient-to-br from-blue-50 via-white to-purple-50 overflow-hidden">
+      <section className="relative pt-24 sm:pt-32 lg:pt-40 pb-12 sm:pb-20 lg:pb-32 px-4 sm:px-6 bg-gradient-to-br from-blue-50 via-white to-purple-50 overflow-hidden">
         {/* Background Elements */}
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-3xl" />
+        <div className="absolute top-0 right-0 w-[300px] sm:w-[600px] h-[300px] sm:h-[600px] bg-blue-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-[250px] sm:w-[500px] h-[250px] sm:h-[500px] bg-purple-500/10 rounded-full blur-3xl" />
 
-        <div className="max-w-6xl mx-auto relative z-10">
+        <div className="max-w-4xl mx-auto relative z-10">
           <div className="text-center max-w-4xl mx-auto">
             {/* Main Headline */}
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-[#2c2e33] mb-6 leading-[1.1] tracking-tight">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-[#2c2e33] mb-4 sm:mb-6 leading-[1.1] tracking-tight">
               Your Agency Deserves a Delivery Partner That{' '}
               <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 Actually Delivers
@@ -90,24 +90,24 @@ export default function LandingPage() {
             </h1>
 
             {/* Subheadline */}
-            <p className="text-xl md:text-2xl text-gray-600 mb-10 leading-relaxed">
+            <p className="text-lg sm:text-xl md:text-2xl text-gray-600 mb-8 sm:mb-10 leading-relaxed px-2">
               Zevenstone LLC is the white-label growth system behind America's fastest-scaling agencies —
               powering digital marketing, automation, and creative production{' '}
               <span className="font-bold text-[#2c2e33]">under your brand, invisibly.</span>
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-6 px-4">
               <button
                 onClick={scrollToCTA}
-                className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-10 py-5 rounded-xl font-bold text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all inline-flex items-center justify-center gap-3"
+                className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 sm:px-10 py-4 sm:py-5 rounded-xl font-bold text-base sm:text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all inline-flex items-center justify-center gap-3 w-full sm:w-auto"
               >
-                <a href="#form-cta-section"> Book Your Free Strategy Call</a>
-                <ArrowRight className="w-6 h-6" />
+                <a href="#form-cta-section">Book Your Strategy Call</a>
+                <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6" />
               </button>
               <a
                 href="#how-it-works"
-                className="border-2 border-gray-300 text-gray-700 px-10 py-5 rounded-xl font-bold text-lg hover:bg-gray-50 transition-all inline-flex items-center justify-center gap-3"
+                className="border-2 border-gray-300 text-gray-700 px-6 sm:px-10 py-4 sm:py-5 rounded-xl font-bold text-base sm:text-lg hover:bg-gray-50 transition-all inline-flex items-center justify-center gap-3 w-full sm:w-auto"
               >
                 See How It Works
               </a>
@@ -122,50 +122,59 @@ export default function LandingPage() {
       </section>
 
       {/* Social Proof Bar */}
-      <section className="bg-[#2c2e33] text-white py-8 px-6">
+      <section className="bg-[#2c2e33] text-white py-8 sm:py-12 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-6 text-center">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 sm:gap-8 text-center">
             <div>
-              <div className="text-3xl font-extrabold text-blue-400 mb-1">$1M+</div>
-              <div className="text-xs text-gray-400">Monthly Revenue Per Partner</div>
+              <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-blue-400 mb-1">$1M+</div>
+              <div className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider">Monthly Revenue Per Partner</div>
             </div>
             <div>
-              <div className="text-3xl font-extrabold text-blue-400 mb-1">1,000+</div>
-              <div className="text-xs text-gray-400">Projects Delivered</div>
+              <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-blue-400 mb-1">1,000+</div>
+              <div className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider">Projects Delivered</div>
             </div>
             <div>
-              <div className="text-3xl font-extrabold text-blue-400 mb-1">100%</div>
-              <div className="text-xs text-gray-400">Client Satisfaction</div>
+              <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-blue-400 mb-1">100%</div>
+              <div className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider">Client Satisfaction</div>
             </div>
-            <div>
-              <div className="text-3xl font-extrabold text-blue-400 mb-1">$100M+</div>
-              <div className="text-xs text-gray-400">Client Revenue Generated</div>
+            <div className="sm:hidden lg:block">
+              <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-blue-400 mb-1">$100M+</div>
+              <div className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider">Client Revenue Generated</div>
             </div>
-            <div>
-              <div className="text-3xl font-extrabold text-blue-400 mb-1">100+</div>
-              <div className="text-xs text-gray-400">Agency Endorsements</div>
+            <div className="sm:hidden lg:block">
+              <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-blue-400 mb-1">100+</div>
+              <div className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider">Agency Endorsements</div>
+            </div>
+            {/* Hidden items on mobile sm grid to keep 3 columns balanced */}
+            <div className="hidden sm:block lg:hidden">
+              <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-blue-400 mb-1">$100M+</div>
+              <div className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider">Revenue Generated</div>
+            </div>
+            <div className="hidden sm:block lg:hidden">
+              <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-blue-400 mb-1">100+</div>
+              <div className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider">Endorsements</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Problem Section */}
-      <section className="py-20 px-6">
+      <section className="py-12 sm:py-20 lg:py-32 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <div className="inline-block bg-red-100 text-red-600 px-5 py-2 rounded-full text-sm font-bold uppercase tracking-wider mb-4">
+          <div className="text-center mb-10 sm:mb-16">
+            <div className="inline-block bg-red-100 text-red-600 px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider mb-4">
               The Problem
             </div>
-            <h2 className="text-4xl md:text-5xl font-extrabold text-[#2c2e33] mb-6">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#2c2e33] mb-4 sm:mb-6">
               Is Your Agency Leaving Revenue on the Table?
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               You have the clients. You have the relationships. But somewhere between the brief and the delivery — things break down.
             </p>
           </div>
 
           {/* Pain Points Grid */}
-          <div className="grid md:grid-cols-2 gap-6 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-10 sm:mb-12">
             {[
               "You're turning away clients because your team is at capacity",
               "You're juggling multiple subcontractors with inconsistent quality",
@@ -175,37 +184,38 @@ export default function LandingPage() {
             ].map((point, idx) => (
               <div
                 key={idx}
-                className="bg-red-50 border-l-4 border-red-500 p-6 rounded-r-2xl hover:shadow-lg transition-shadow"
+                className="bg-red-50 border-l-4 border-red-500 p-4 sm:p-6 rounded-r-2xl hover:shadow-lg transition-shadow"
               >
-                <div className="flex items-start gap-4">
-                  <div className="bg-red-500 text-white rounded-full p-2 shrink-0">
-                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <div className="bg-red-500 text-white rounded-full p-1.5 sm:p-2 shrink-0 mt-0.5">
+                    <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                   </div>
-                  <p className="text-gray-700 leading-relaxed font-medium pt-1">{point}</p>
+                  <p className="text-sm sm:text-base md:text-lg text-gray-700 leading-relaxed font-medium">{point}</p>
                 </div>
               </div>
             ))}
           </div>
 
           {/* Urgency Message */}
-          <div className="bg-gradient-to-r from-red-600 to-red-700 text-white rounded-3xl p-10 text-center">
-            <p className="text-2xl font-bold">
+          <div className="bg-gradient-to-r from-red-600 to-red-700 text-white rounded-2xl sm:rounded-3xl p-6 sm:p-10 text-center shadow-lg">
+            <p className="text-lg sm:text-xl md:text-2xl font-bold leading-relaxed">
               Every month this continues is revenue your agency will never get back.
             </p>
           </div>
 
           {/* Lead Magnet CTA */}
-          <div className="mt-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-3xl p-10 text-white text-center">
-            <Download className="w-12 h-12 mx-auto mb-4" />
-            <h3 className="text-3xl font-bold mb-4">Download: The White-Label Growth Playbook</h3>
-            <p className="text-lg text-blue-100 mb-6 max-w-2xl mx-auto">
+          <div className="mt-10 sm:mt-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl sm:rounded-3xl p-6 sm:p-12 text-white text-center relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-white/20 transition-all duration-700" />
+            <Download className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-4 sm:mb-6" />
+            <h3 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">Download: The White-Label Growth Playbook</h3>
+            <p className="text-base sm:text-lg text-blue-100 mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed">
               See exactly how 3 agencies scaled from $200K to $1M+ ARR using our delivery system — without hiring a single employee.
             </p>
             <button
               onClick={() => setShowLeadMagnet(true)}
-              className="bg-white text-blue-600 px-8 py-4 rounded-xl font-bold text-lg shadow-xl hover:scale-105 transition-all inline-flex items-center gap-2"
+              className="bg-white text-blue-600 px-6 sm:px-10 py-4 sm:py-5 rounded-xl font-bold text-base sm:text-lg shadow-xl hover:scale-105 transition-all inline-flex items-center gap-2 w-full sm:w-auto justify-center"
             >
               Get Free Case Study
               <ArrowRight className="w-5 h-5" />
@@ -215,129 +225,96 @@ export default function LandingPage() {
       </section>
 
       {/* Solution Section */}
-      <section className="py-20 px-6 bg-gradient-to-b from-blue-50 to-white">
+      <section className="py-12 sm:py-20 lg:py-32 px-4 sm:px-6 bg-gradient-to-b from-blue-50 to-white">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <div className="inline-block bg-blue-100 text-blue-700 px-5 py-2 rounded-full text-sm font-bold uppercase tracking-wider mb-4">
+          <div className="text-center mb-10 sm:mb-16">
+            <div className="inline-block bg-blue-100 text-blue-700 px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider mb-4">
               The Solution
             </div>
-            <h2 className="text-4xl md:text-5xl font-extrabold text-[#2c2e33] mb-6">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#2c2e33] mb-4 sm:mb-6">
               One System. Every Scope. Zero Overhead.
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Zevenstone operates as your invisible delivery engine — handling everything your clients need,{' '}
               <span className="font-bold text-[#2c2e33]">under your brand</span>, at the quality and consistency your reputation demands.
             </p>
           </div>
 
           {/* Services Grid */}
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-10 sm:mb-12">
             {/* Digital Marketing */}
-            <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100 hover:shadow-2xl hover:scale-105 transition-all">
-              <div className="bg-gradient-to-br from-blue-500 to-blue-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
-                <TrendingUp className="w-8 h-8 text-white" />
+            <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-xl border border-gray-100 hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 flex flex-col">
+              <div className="bg-gradient-to-br from-blue-500 to-blue-600 w-12 h-12 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-blue-200">
+                <TrendingUp className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
               </div>
-              <h3 className="text-2xl font-bold text-[#2c2e33] mb-4">Digital Marketing</h3>
-              <ul className="space-y-2 text-gray-600">
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-blue-500 shrink-0" />
-                  <span>SEO · PPC · SEM</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-blue-500 shrink-0" />
-                  <span>Social Media Advertising</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-blue-500 shrink-0" />
-                  <span>Email Marketing</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-blue-500 shrink-0" />
-                  <span>Content Marketing</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-blue-500 shrink-0" />
-                  <span>Lead Generation</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-blue-500 shrink-0" />
-                  <span>Analytics & Reporting</span>
-                </li>
+              <h3 className="text-xl sm:text-2xl font-bold text-[#2c2e33] mb-4">Digital Marketing</h3>
+              <ul className="space-y-2.5 text-sm sm:text-base text-gray-600 flex-grow">
+                {[
+                  "SEO · PPC · SEM",
+                  "Social Media Advertising",
+                  "Email Marketing",
+                  "Content Marketing",
+                  "Lead Generation",
+                  "Analytics & Reporting"
+                ].map((item, idx) => (
+                  <li key={idx} className="flex items-center gap-3">
+                    <CheckCircle className="w-4 h-4 text-blue-500 shrink-0" />
+                    <span>{item}</span>
+                  </li>
+                ))}
               </ul>
             </div>
 
             {/* Marketing Automation */}
-            <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100 hover:shadow-2xl hover:scale-105 transition-all">
-              <div className="bg-gradient-to-br from-purple-500 to-purple-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
-                <Zap className="w-8 h-8 text-white" />
+            <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-xl border border-gray-100 hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 flex flex-col">
+              <div className="bg-gradient-to-br from-purple-500 to-purple-600 w-12 h-12 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-purple-200">
+                <Zap className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
               </div>
-              <h3 className="text-2xl font-bold text-[#2c2e33] mb-4">Marketing Automation</h3>
-              <ul className="space-y-2 text-gray-600">
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-purple-500 shrink-0" />
-                  <span>CRM Architecture</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-purple-500 shrink-0" />
-                  <span>Workflow Automation</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-purple-500 shrink-0" />
-                  <span>Lifecycle Sequences</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-purple-500 shrink-0" />
-                  <span>Lead Nurturing</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-purple-500 shrink-0" />
-                  <span>AI-Assisted Operations</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-purple-500 shrink-0" />
-                  <span>Martech Integration</span>
-                </li>
+              <h3 className="text-xl sm:text-2xl font-bold text-[#2c2e33] mb-4">Marketing Automation</h3>
+              <ul className="space-y-2.5 text-sm sm:text-base text-gray-600 flex-grow">
+                {[
+                  "CRM Architecture",
+                  "Workflow Automation",
+                  "Lifecycle Sequences",
+                  "Lead Nurturing",
+                  "AI-Assisted Operations",
+                  "Martech Integration"
+                ].map((item, idx) => (
+                  <li key={idx} className="flex items-center gap-3">
+                    <CheckCircle className="w-4 h-4 text-purple-500 shrink-0" />
+                    <span>{item}</span>
+                  </li>
+                ))}
               </ul>
             </div>
 
             {/* Creative Production */}
-            <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100 hover:shadow-2xl hover:scale-105 transition-all">
-              <div className="bg-gradient-to-br from-indigo-500 to-indigo-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
-                <Target className="w-8 h-8 text-white" />
+            <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-xl border border-gray-100 hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 flex flex-col sm:col-span-2 lg:col-span-1">
+              <div className="bg-gradient-to-br from-indigo-500 to-indigo-600 w-12 h-12 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-indigo-200">
+                <Target className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
               </div>
-              <h3 className="text-2xl font-bold text-[#2c2e33] mb-4">Creative Production</h3>
-              <ul className="space-y-2 text-gray-600">
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-indigo-500 shrink-0" />
-                  <span>Brand Identity</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-indigo-500 shrink-0" />
-                  <span>Graphic Design</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-indigo-500 shrink-0" />
-                  <span>UI/UX Design</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-indigo-500 shrink-0" />
-                  <span>Motion Graphics</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-indigo-500 shrink-0" />
-                  <span>Video Editing</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-indigo-500 shrink-0" />
-                  <span>Web Design & Development</span>
-                </li>
+              <h3 className="text-xl sm:text-2xl font-bold text-[#2c2e33] mb-4">Creative Production</h3>
+              <ul className="space-y-2.5 text-sm sm:text-base text-gray-600 flex-grow">
+                {[
+                  "Brand Identity",
+                  "Graphic Design",
+                  "UI/UX Design",
+                  "Motion Graphics",
+                  "Video Editing",
+                  "Web Design & Development"
+                ].map((item, idx) => (
+                  <li key={idx} className="flex items-center gap-3">
+                    <CheckCircle className="w-4 h-4 text-indigo-500 shrink-0" />
+                    <span>{item}</span>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
 
           {/* Key Message */}
-          <div className="text-center">
-            <p className="text-2xl font-bold text-[#2c2e33]">
+          <div className="text-center px-4">
+            <p className="text-lg sm:text-2xl font-bold text-[#2c2e33] leading-relaxed">
               One partner. Every scope. Delivered under your brand.
             </p>
           </div>
@@ -345,63 +322,63 @@ export default function LandingPage() {
       </section>
 
       {/* How It Works */}
-      <section id="how-it-works" className="py-20 px-6">
+      <section id="how-it-works" className="py-12 pb-24 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <div className="inline-block bg-green-100 text-green-700 px-5 py-2 rounded-full text-sm font-bold uppercase tracking-wider mb-4">
+          <div className="text-center mb-12 sm:mb-16">
+            <div className="inline-block bg-green-100 text-green-700 px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider mb-4">
               How It Works
             </div>
-            <h2 className="text-4xl md:text-5xl font-extrabold text-[#2c2e33] mb-6">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#2c2e33] mb-4 sm:mb-6">
               Simple to Start. Built to Scale.
             </h2>
           </div>
 
           {/* Steps */}
-          <div className="space-y-8">
+          <div className="space-y-6 sm:space-y-8">
             {[
               {
                 step: '01',
                 title: 'Discovery Call',
                 description: 'We understand your agency, your clients, and your gaps. No generic proposals. No assumptions.',
-                icon: <Users className="w-8 h-8" />
+                icon: <Users className="w-6 h-6 sm:w-8 sm:h-8" />
               },
               {
                 step: '02',
                 title: 'System Design',
                 description: 'We build a delivery framework tailored to exactly how your agency operates.',
-                icon: <Target className="w-8 h-8" />
+                icon: <Target className="w-6 h-6 sm:w-8 sm:h-8" />
               },
               {
                 step: '03',
                 title: 'Seamless Onboarding',
                 description: 'NDA signed. Brand guidelines absorbed. Tools connected. Ready to deliver in days — not months.',
-                icon: <Rocket className="w-8 h-8" />
+                icon: <Rocket className="w-6 h-6 sm:w-8 sm:h-8" />
               },
               {
                 step: '04',
                 title: 'White-Label Delivery',
                 description: 'We execute under your brand. Your clients never know we exist. You take the credit.',
-                icon: <Shield className="w-8 h-8" />
+                icon: <Shield className="w-6 h-6 sm:w-8 sm:h-8" />
               },
               {
                 step: '05',
                 title: 'Scale Together',
                 description: 'As your agency grows, our system grows with you. More clients. More revenue. Zero added overhead.',
-                icon: <TrendingUp className="w-8 h-8" />
+                icon: <TrendingUp className="w-6 h-6 sm:w-8 sm:h-8" />
               }
             ].map((item, idx) => (
               <div
                 key={idx}
-                className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100 hover:shadow-2xl transition-all group"
+                className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-lg border border-gray-100 hover:shadow-2xl transition-all group"
               >
-                <div className="flex items-start gap-8">
-                  <div className="bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-2xl w-20 h-20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-8">
+                  <div className="bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-xl sm:rounded-2xl w-14 h-14 sm:w-20 sm:h-20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform shadow-lg shadow-blue-200">
                     {item.icon}
                   </div>
                   <div className="flex-1">
-                    <div className="text-sm font-bold text-blue-500 mb-2">STEP {item.step}</div>
-                    <h3 className="text-2xl font-bold text-[#2c2e33] mb-3">{item.title}</h3>
-                    <p className="text-lg text-gray-600 leading-relaxed">{item.description}</p>
+                    <div className="text-[10px] sm:text-xs font-bold text-blue-500 mb-1 sm:mb-2 uppercase tracking-widest">STEP {item.step}</div>
+                    <h3 className="text-xl sm:text-2xl font-bold text-[#2c2e33] mb-2 sm:mb-3">{item.title}</h3>
+                    <p className="text-base sm:text-lg text-gray-600 leading-relaxed">{item.description}</p>
                   </div>
                 </div>
               </div>
@@ -411,15 +388,18 @@ export default function LandingPage() {
       </section>
 
       {/* The Numbers */}
-      <section className="py-20 px-6 bg-gradient-to-br from-green-600 to-green-700 text-white">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-extrabold mb-4">
+      <section className="py-12 sm:py-20 lg:py-32 px-4 sm:px-6 bg-gradient-to-br from-green-600 to-green-700 text-white relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
+          <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+        </div>
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="text-center mb-10 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 leading-tight">
               Built for Agencies That Think in Millions
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
             {[
               { value: '$1.6M+', label: 'Monthly revenue generated for a single agency partner through the Zevenstone delivery system' },
               { value: '1,200+', label: 'Projects delivered across digital marketing, automation, and creative — without a single missed deadline' },
@@ -429,10 +409,10 @@ export default function LandingPage() {
             ].map((stat, idx) => (
               <div
                 key={idx}
-                className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-3xl p-8 text-center hover:bg-white/20 transition-all"
+                className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl sm:rounded-3xl p-6 sm:p-10 text-center hover:bg-white/20 transition-all duration-300"
               >
-                <div className="text-5xl font-extrabold mb-4">{stat.value}</div>
-                <p className="text-green-100 leading-relaxed">{stat.label}</p>
+                <div className="text-4xl sm:text-5xl font-extrabold mb-3 sm:mb-4">{stat.value}</div>
+                <p className="text-sm sm:text-base text-green-50 leading-relaxed font-medium">{stat.label}</p>
               </div>
             ))}
           </div>
@@ -440,46 +420,46 @@ export default function LandingPage() {
       </section>
 
       {/* Differentiation */}
-      <section className="py-20 px-6">
+      <section className="py-12 sm:py-20 lg:py-32 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-extrabold text-[#2c2e33] mb-6">
+          <div className="text-center mb-10 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#2c2e33] mb-4 sm:mb-6">
               We Are Not a Vendor. We Are Your Growth Partner.
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-4">
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-4">
               Most white-label providers take briefs and return deliverables.
             </p>
-            <p className="text-2xl font-bold text-blue-600">
+            <p className="text-xl sm:text-2xl font-bold text-blue-600 uppercase tracking-wide">
               Zevenstone installs a system.
             </p>
           </div>
 
-          <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl p-10 mb-12">
-            <p className="text-xl text-gray-700 leading-relaxed text-center mb-8">
+          <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl sm:rounded-3xl p-6 sm:p-12 mb-10 sm:mb-12 shadow-inner border border-blue-100/50">
+            <p className="text-lg sm:text-xl text-gray-700 leading-relaxed text-center font-medium">
               We work from the root — understanding your clients' businesses, building strategies that drive real outcomes,
               and delivering with a consistency that makes your agency look like the most capable team in the room.
             </p>
           </div>
 
           {/* Key Differentiators */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {[
-              { icon: <Target className="w-6 h-6" />, text: 'Solution givers — not task doers' },
-              { icon: <TrendingUp className="w-6 h-6" />, text: 'Growth partners — not outsourcing vendors' },
-              { icon: <Shield className="w-6 h-6" />, text: 'Brand-invisible — your clients, your credit' },
-              { icon: <CheckCircle className="w-6 h-6" />, text: 'Scope-complete — marketing, automation, and creative unified' },
-              { icon: <Clock className="w-6 h-6" />, text: 'Always on — US onsite team in Ohio backed by offshore India team' },
-              { icon: <Award className="w-6 h-6" />, text: 'System-driven — built for consistency, quality, and scale' }
+              { icon: <Target className="w-5 h-5 sm:w-6 sm:h-6" />, text: 'Solution givers — not task doers' },
+              { icon: <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6" />, text: 'Growth partners — not outsourcing vendors' },
+              { icon: <Shield className="w-5 h-5 sm:w-6 sm:h-6" />, text: 'Brand-invisible — your clients, your credit' },
+              { icon: <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6" />, text: 'Scope-complete — marketing, automation, creative unified' },
+              { icon: <Clock className="w-5 h-5 sm:w-6 sm:h-6" />, text: 'US onsite team backed by global execution' },
+              { icon: <Award className="w-5 h-5 sm:w-6 sm:h-6" />, text: 'System-driven — built for quality & scale' }
             ].map((item, idx) => (
               <div
                 key={idx}
-                className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-xl hover:scale-105 transition-all"
+                className="bg-white rounded-xl sm:rounded-2xl p-5 sm:p-6 shadow-md border border-gray-100 hover:shadow-xl hover:scale-[1.03] transition-all duration-300"
               >
                 <div className="flex items-center gap-4">
-                  <div className="bg-blue-100 text-blue-600 rounded-xl p-3 shrink-0">
+                  <div className="bg-blue-100 text-blue-600 rounded-lg sm:rounded-xl p-2.5 sm:p-3 shrink-0">
                     {item.icon}
                   </div>
-                  <p className="font-semibold text-gray-700">{item.text}</p>
+                  <p className="font-bold text-sm sm:text-base text-gray-700 leading-tight">{item.text}</p>
                 </div>
               </div>
             ))}
@@ -488,103 +468,103 @@ export default function LandingPage() {
       </section>
 
       {/* Partnership Models */}
-      <section className="py-20 px-6 bg-gray-50">
+      <section className="py-12 sm:py-20 lg:py-32 px-4 sm:px-6 bg-gray-50">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-extrabold text-[#2c2e33] mb-6">
+          <div className="text-center mb-10 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#2c2e33] mb-4 sm:mb-6">
               An Engagement Model Built Around Your Agency
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
             {[
               {
                 title: 'Project-Based',
                 description: 'Pay per project. No long-term commitment. Perfect for overflow and one-time client needs.',
-                icon: <Target className="w-8 h-8" />
+                icon: <Target className="w-6 h-6 sm:w-8 sm:h-8" />
               },
               {
                 title: 'Monthly Retainer',
                 description: 'Dedicated delivery capacity every month. Predictable output. Predictable growth.',
-                icon: <Clock className="w-8 h-8" />
+                icon: <Clock className="w-6 h-6 sm:w-8 sm:h-8" />
               },
               {
                 title: 'Time & Materials (T&M)',
                 description: 'Flexible billing based on actual time and resources. Ideal for complex or evolving projects.',
-                icon: <BarChart3 className="w-8 h-8" />
+                icon: <BarChart3 className="w-6 h-6 sm:w-8 sm:h-8" />
               },
               {
                 title: 'Growth Partnership',
-                description: 'Deep strategic alignment — where Zevenstone becomes a true extension of your agency and shares in building your long-term commercial growth.',
-                icon: <Rocket className="w-8 h-8" />
+                description: 'Deep strategic alignment where Zevenstone becomes an extension of your agency and shares in building long-term growth.',
+                icon: <Rocket className="w-6 h-6 sm:w-8 sm:h-8" />
               }
             ].map((model, idx) => (
               <div
                 key={idx}
-                className="bg-white rounded-3xl p-10 shadow-xl border-2 border-gray-100 hover:border-blue-500 hover:shadow-2xl transition-all group"
+                className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-10 shadow-xl border-2 border-transparent hover:border-blue-500 hover:shadow-2xl transition-all group flex flex-col items-center sm:items-start text-center sm:text-left"
               >
-                <div className="bg-gradient-to-br from-blue-500 to-blue-600 text-white w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <div className="bg-gradient-to-br from-blue-500 to-blue-600 text-white w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg shadow-blue-100">
                   {model.icon}
                 </div>
-                <h3 className="text-2xl font-bold text-[#2c2e33] mb-4">{model.title}</h3>
-                <p className="text-lg text-gray-600 leading-relaxed">{model.description}</p>
+                <h3 className="text-xl sm:text-2xl font-bold text-[#2c2e33] mb-4">{model.title}</h3>
+                <p className="text-base sm:text-lg text-gray-600 leading-relaxed">{model.description}</p>
               </div>
             ))}
           </div>
 
-          <div className="mt-12 text-center">
-            <p className="text-gray-600 font-medium">
-              All models include NDA protection and brand-invisible white-label delivery.
+          <div className="mt-10 sm:mt-12 text-center px-4">
+            <p className="text-sm sm:text-base text-gray-600 font-bold uppercase tracking-widest opacity-60">
+              All models include NDA protection & white-label delivery.
             </p>
           </div>
         </div>
       </section>
 
       {/* Case Studies */}
-      <section className="py-20 px-6">
+      <section className="py-12 sm:py-20 lg:py-32 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <div className="inline-block bg-blue-100 text-blue-700 px-5 py-2 rounded-full text-sm font-bold uppercase tracking-wider mb-4">
+          <div className="text-center mb-10 sm:mb-16">
+            <div className="inline-block bg-blue-100 text-blue-700 px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider mb-4">
               Results
             </div>
-            <h2 className="text-4xl md:text-5xl font-extrabold text-[#2c2e33] mb-6">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#2c2e33] mb-4 sm:mb-6">
               Agencies That Partner With Zevenstone Scale Faster
             </h2>
           </div>
 
-          <div className="space-y-8">
+          <div className="space-y-6 sm:space-y-8">
             {[
               {
                 title: 'From Overflow to $1M+ Monthly',
-                description: 'A US digital agency was turning away clients at capacity. After integrating Zevenstone as their white-label backend across 12 client accounts — revenue scaled from $180K to $1.2M per month within 14 months. Zero new hires.',
+                description: 'A US digital agency was turning away clients at capacity. After integrating Zevenstone as their white-label backend — revenue scaled from $180K to $1.2M monthly within 14 months. Zero new hires.',
                 metric: '+567%',
                 label: 'Revenue Growth'
               },
               {
                 title: 'Organic Traffic That Compounds',
-                description: 'A B2B SaaS brand spending 60% of revenue on paid ads built an SEO and content system with Zevenstone. Within 12 months, organic became their number one acquisition channel — at a fraction of the cost.',
+                description: 'A B2B SaaS brand built an SEO and content system with Zevenstone. Within 12 months, organic became their number one acquisition channel — at a fraction of the cost of paid ads.',
                 metric: '#1',
-                label: 'Acquisition Channel'
+                label: 'Growth Engine'
               },
               {
                 title: 'A Complete Brand in 90 Days',
-                description: 'A professional services firm with zero digital presence got a full brand identity, website, SEO foundation, and CRM — live in 90 days. Page one Google rankings within 6 months.',
+                description: 'A professional firm got a full brand identity, website, SEO foundation, and CRM — live in 90 days. Page one Google rankings within 6 months of launch.',
                 metric: '90 Days',
                 label: 'To Full Launch'
               }
             ].map((story, idx) => (
               <div
                 key={idx}
-                className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl p-10 border border-blue-100 hover:shadow-xl transition-all"
+                className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl sm:rounded-3xl p-6 sm:p-10 border border-blue-100 hover:shadow-xl transition-all duration-300 shadow-sm"
               >
-                <div className="flex flex-col md:flex-row gap-8 items-start">
-                  <div className="bg-white rounded-2xl p-8 text-center shadow-lg shrink-0">
-                    <div className="text-4xl font-extrabold text-blue-600 mb-2">{story.metric}</div>
-                    <div className="text-sm text-gray-600 font-semibold">{story.label}</div>
+                <div className="flex flex-col md:flex-row gap-6 sm:gap-8 items-center md:items-start text-center md:text-left">
+                  <div className="bg-white rounded-xl sm:rounded-2xl p-6 sm:p-8 text-center shadow-lg shrink-0 w-full sm:w-48">
+                    <div className="text-3xl sm:text-4xl font-extrabold text-blue-600 mb-1 sm:mb-2">{story.metric}</div>
+                    <div className="text-[10px] sm:text-xs text-gray-500 font-bold uppercase tracking-widest">{story.label}</div>
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-[#2c2e33] mb-4">{story.title}</h3>
-                    <p className="text-lg text-gray-700 leading-relaxed">{story.description}</p>
+                    <h3 className="text-xl sm:text-2xl font-bold text-[#2c2e33] mb-3 sm:mb-4">{story.title}</h3>
+                    <p className="text-base sm:text-lg text-gray-700 leading-relaxed">{story.description}</p>
                   </div>
                 </div>
               </div>
@@ -594,15 +574,18 @@ export default function LandingPage() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-20 px-6 bg-gradient-to-br from-blue-600 to-blue-800 text-white">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-extrabold mb-4">
+      <section className="py-12 sm:py-20 lg:py-32 px-4 sm:px-6 bg-gradient-to-br from-blue-600 to-blue-800 text-white relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
+          <div className="absolute top-0 left-0 w-full h-full" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
+        </div>
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="text-center mb-10 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 leading-tight">
               What Our Agency Partners Say
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
             {[
               {
                 quote: 'Zevenstone is not a vendor — they are genuinely part of our team. The quality, consistency, and speed of delivery transformed what our agency is able to offer.',
@@ -627,17 +610,17 @@ export default function LandingPage() {
             ].map((testimonial, idx) => (
               <div
                 key={idx}
-                className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-3xl p-8 hover:bg-white/20 transition-all"
+                className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl sm:rounded-3xl p-6 sm:p-10 hover:bg-white/20 transition-all duration-300 flex flex-col h-full"
               >
-                <div className="flex items-center gap-2 mb-6">
+                <div className="flex items-center gap-1.5 mb-6">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                    <Star key={i} className="w-4 h-4 sm:w-5 sm:h-5 fill-yellow-400 text-yellow-400" />
                   ))}
                 </div>
-                <p className="text-lg italic mb-6 leading-relaxed">"{testimonial.quote}"</p>
-                <div className="border-t border-white/20 pt-4">
-                  <div className="font-bold">{testimonial.author}</div>
-                  <div className="text-sm text-blue-200">{testimonial.role}</div>
+                <p className="text-base sm:text-lg italic mb-6 leading-relaxed flex-grow">"{testimonial.quote}"</p>
+                <div className="border-t border-white/20 pt-6">
+                  <div className="font-bold text-base sm:text-lg">{testimonial.author}</div>
+                  <div className="text-sm text-blue-200 uppercase tracking-widest font-semibold">{testimonial.role}</div>
                 </div>
               </div>
             ))}
@@ -646,18 +629,18 @@ export default function LandingPage() {
       </section>
 
       {/* Qualifier Section */}
-      <section className="py-20 px-6 bg-gray-50">
+      <section className="py-12 sm:py-20 lg:py-32 px-4 sm:px-6 bg-gray-50">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-extrabold text-[#2c2e33] mb-4">
+          <div className="text-center mb-10 sm:mb-12">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#2c2e33] mb-4 sm:mb-6 leading-tight">
               Is Zevenstone Right for Your Agency?
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-lg sm:text-xl text-gray-600">
               We're the perfect fit if you check 3 or more of these boxes:
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6 mb-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-10 sm:mb-12">
             {[
               "You're turning away clients because you're at capacity",
               "You want to offer more services without hiring full-time",
@@ -668,53 +651,51 @@ export default function LandingPage() {
             ].map((item, idx) => (
               <div
                 key={idx}
-                className="bg-white rounded-2xl p-6 shadow-md border-2 border-gray-100 hover:border-blue-500 hover:shadow-xl transition-all cursor-pointer group"
+                className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-md border-2 border-transparent hover:border-blue-500 hover:shadow-xl transition-all cursor-pointer group"
               >
-                <div className="flex items-center gap-4">
-                  <div className="bg-blue-50 group-hover:bg-blue-500 text-blue-500 group-hover:text-white w-8 h-8 rounded-full flex items-center justify-center transition-all shrink-0">
-                    <CheckCircle className="w-5 h-5" />
+                <div className="flex items-center gap-3 sm:gap-4">
+                  <div className="bg-blue-50 group-hover:bg-blue-500 text-blue-500 group-hover:text-white w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all shrink-0">
+                    <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
-                  <p className="text-gray-700 group-hover:text-gray-900 font-medium transition-colors">{item}</p>
+                  <p className="text-sm sm:text-base text-gray-700 group-hover:text-[#2c2e33] font-bold transition-colors">{item}</p>
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-10 text-white text-center">
-            <p className="text-2xl font-bold mb-6">
+          <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl sm:rounded-3xl p-6 sm:p-12 text-white text-center shadow-2xl relative overflow-hidden">
+            <div className="absolute inset-0 bg-white/5 animate-pulse" />
+            <p className="text-xl sm:text-2xl md:text-3xl font-bold mb-6 sm:mb-8 relative z-10">
               Checked 3 or more? Let's talk about your growth roadmap.
             </p>
             <button
               onClick={scrollToCTA}
-              className="bg-white text-blue-600 px-10 py-4 rounded-xl font-bold text-lg shadow-xl hover:scale-105 transition-all inline-flex items-center gap-3"
+              className="bg-white text-blue-600 px-6 sm:px-12 py-4 sm:py-5 rounded-xl font-bold text-base sm:text-xl shadow-xl hover:scale-105 transition-all inline-flex items-center gap-3 relative z-10 w-full sm:w-auto justify-center"
             >
               <a href="#form-cta-section">Book Your Strategy Call</a>
-              <ArrowRight className="w-6 h-6" />
+              <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
           </div>
         </div>
       </section>
 
       {/* About Section */}
-      <section className="py-20 px-6">
+      <section className="py-12 sm:py-20 lg:py-32 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-[#2c2e33] mb-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#2c2e33] mb-4 sm:mb-8 leading-tight">
             Built in Ohio. Powered Globally.
           </h2>
-          <p className="text-xl text-gray-600 leading-relaxed mb-6">
-            Zevenstone LLC is headquartered in <span className="font-bold text-[#2c2e33]">Ohio, USA</span> — with a world-class
-            delivery team operating from India. This dual-model gives our agency partners the strategic oversight and time-zone
-            alignment of a North American operation, backed by the execution depth, creative capacity, and around-the-clock delivery
-            of a globally distributed specialist team.
-          </p>
-          <p className="text-2xl font-bold text-blue-600 mb-4">
-            We cover every scope your clients will ever need.
-          </p>
-          <p className="text-xl text-gray-600">
-            We deliver it all under your brand. We grow when you grow.
-          </p>
-          <div className="mt-8">
-            <p className="text-3xl font-bold text-[#2c2e33] italic">
+          <div className="space-y-6 text-gray-600">
+            <p className="text-lg sm:text-xl leading-relaxed">
+              Zevenstone LLC is headquartered in <span className="font-bold text-[#2c2e33]">Ohio, USA</span> — with a world-class
+              delivery team operating from India. This dual-model gives our agency partners the strategic oversight of a North American operation, backed by around-the-clock delivery.
+            </p>
+            <p className="text-xl sm:text-2xl font-bold text-blue-600 leading-tight">
+              We cover every scope your clients will ever need — delivered entirely under your brand.
+            </p>
+          </div>
+          <div className="mt-10 sm:mt-12">
+            <p className="text-2xl sm:text-4xl font-extrabold text-[#2c2e33] italic tracking-tight uppercase opacity-90">
               Insight. Execution. Impact.
             </p>
           </div>
@@ -722,32 +703,27 @@ export default function LandingPage() {
       </section>
 
       {/* Final CTA Section */}
-      <section className="py-20 px-6 bg-gradient-to-br from-blue-600 via-blue-700 to-purple-700 text-white relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: 'radial-gradient(circle, white 2px, transparent 2px)',
-            backgroundSize: '50px 50px'
-          }} />
+      <section className="py-12 sm:py-20 lg:py-32 px-4 sm:px-6 bg-gradient-to-br from-blue-600 via-blue-700 to-purple-700 text-white relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
+          <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle, white 2px, transparent 2px)', backgroundSize: '50px 50px' }} />
         </div>
 
         <div id="form-cta-section" className="max-w-4xl mx-auto text-center relative z-10">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight px-2">
             Ready to Scale Your Agency Without Scaling Your Overhead?
           </h2>
-          <p className="text-xl md:text-2xl mb-12 leading-relaxed">
-            Book a free 30-minute strategy call with the Zevenstone team. We'll map exactly how our system can plug
-            into your agency and start delivering from day one.
+          <p className="text-lg sm:text-xl md:text-2xl mb-10 sm:mb-12 leading-relaxed opacity-90 px-4">
+            Book a free 30-minute strategy call. We'll map exactly how our system can plug into your agency and start delivering from day one.
           </p>
 
           {!formSubmitted ? (
-            <>
-              {/* Contact Form */}
-              <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-10 mb-8 border border-white/20">
-                <form onSubmit={handleFormSubmit} className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-6">
+            <div className="px-2 sm:px-0">
+              <div className="bg-white/10 backdrop-blur-lg rounded-2xl sm:rounded-3xl p-6 sm:p-12 mb-8 border border-white/20 shadow-2xl">
+                <form onSubmit={handleFormSubmit} className="space-y-5 sm:space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
                     <div className="text-left">
-                      <label className="block text-sm font-semibold mb-2 text-blue-100">
-                        <User className="w-4 h-4 inline mr-2" />
+                      <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest">
+                        <User className="w-3.5 h-3.5 sm:w-4 sm:h-4 inline mr-2" />
                         Your Name *
                       </label>
                       <input
@@ -756,13 +732,13 @@ export default function LandingPage() {
                         value={formData.name}
                         onChange={handleInputChange}
                         required
-                        className="w-full px-5 py-4 rounded-xl bg-white/90 text-gray-900 placeholder-gray-500 border-2 border-transparent focus:border-blue-400 focus:outline-none transition-all font-medium"
+                        className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 placeholder-gray-400 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium text-sm sm:text-base"
                         placeholder="John Smith"
                       />
                     </div>
                     <div className="text-left">
-                      <label className="block text-sm font-semibold mb-2 text-blue-100">
-                        <Mail className="w-4 h-4 inline mr-2" />
+                      <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest">
+                        <Mail className="w-3.5 h-3.5 sm:w-4 sm:h-4 inline mr-2" />
                         Work Email *
                       </label>
                       <input
@@ -771,16 +747,16 @@ export default function LandingPage() {
                         value={formData.email}
                         onChange={handleInputChange}
                         required
-                        className="w-full px-5 py-4 rounded-xl bg-white/90 text-gray-900 placeholder-gray-500 border-2 border-transparent focus:border-blue-400 focus:outline-none transition-all font-medium"
+                        className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 placeholder-gray-400 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium text-sm sm:text-base"
                         placeholder="john@agency.com"
                       />
                     </div>
                   </div>
 
-                  <div className="grid md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
                     <div className="text-left">
-                      <label className="block text-sm font-semibold mb-2 text-blue-100">
-                        <Building2 className="w-4 h-4 inline mr-2" />
+                      <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest">
+                        <Building2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 inline mr-2" />
                         Agency Name *
                       </label>
                       <input
@@ -789,20 +765,20 @@ export default function LandingPage() {
                         value={formData.company}
                         onChange={handleInputChange}
                         required
-                        className="w-full px-5 py-4 rounded-xl bg-white/90 text-gray-900 placeholder-gray-500 border-2 border-transparent focus:border-blue-400 focus:outline-none transition-all font-medium"
+                        className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 placeholder-gray-400 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium text-sm sm:text-base"
                         placeholder="Your Agency"
                       />
                     </div>
                     <div className="text-left">
-                      <label className="block text-sm font-semibold mb-2 text-blue-100">
-                        <DollarSign className="w-4 h-4 inline mr-2" />
-                        Current Monthly Revenue
+                      <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest">
+                        <DollarSign className="w-3.5 h-3.5 sm:w-4 sm:h-4 inline mr-2" />
+                        Monthly Revenue
                       </label>
                       <select
                         name="revenue"
                         value={formData.revenue}
                         onChange={handleInputChange}
-                        className="w-full px-5 py-4 rounded-xl bg-white/90 text-gray-900 border-2 border-transparent focus:border-blue-400 focus:outline-none transition-all font-medium"
+                        className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium text-sm sm:text-base cursor-pointer appearance-none"
                       >
                         <option value="">Select range</option>
                         <option value="under-50k">Under $50K</option>
@@ -816,94 +792,91 @@ export default function LandingPage() {
                   </div>
 
                   <div className="text-left">
-                    <label className="block text-sm font-semibold mb-2 text-blue-100">
-                      What's your biggest growth challenge right now?
+                    <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest">
+                      Your biggest growth challenge?
                     </label>
                     <textarea
                       name="challenge"
                       value={formData.challenge}
                       onChange={handleInputChange}
                       rows={3}
-                      className="w-full px-5 py-4 rounded-xl bg-white/90 text-gray-900 placeholder-gray-500 border-2 border-transparent focus:border-blue-400 focus:outline-none transition-all font-medium resize-none"
-                      placeholder="e.g., Turning away clients due to capacity, quality inconsistencies, can't offer full service suite..."
+                      className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 placeholder-gray-400 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium resize-none text-sm sm:text-base"
+                      placeholder="e.g., Turning away clients due to capacity..."
                     />
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full md:w-auto bg-white text-blue-600 px-12 py-5 rounded-2xl font-bold text-xl shadow-2xl hover:shadow-3xl hover:scale-105 transition-all inline-flex items-center justify-center gap-4"
+                    className="w-full bg-white text-blue-700 px-8 sm:px-12 py-4 sm:py-5 rounded-xl sm:rounded-2xl font-extrabold text-lg sm:text-xl shadow-2xl hover:shadow-3xl hover:scale-[1.02] active:scale-95 transition-all inline-flex items-center justify-center gap-4 group"
                   >
-                    Book Your Free Strategy Call
-                    <Calendar className="w-6 h-6" />
+                    <span>Book Your Free Strategy Call</span>
+                    <Calendar className="w-5 h-5 sm:w-6 sm:h-6 shrink-0 group-hover:rotate-12 transition-transform" />
                   </button>
                 </form>
               </div>
-
-              <p className="text-blue-100 mb-8">
-                No commitment. No sales pitch. Just a real conversation about what's possible.
-              </p>
-            </>
+            </div>
           ) : (
-            <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-12 mb-8 border-2 border-white/40">
-              <CheckCircle className="w-20 h-20 mx-auto mb-6 text-green-400" />
-              <h3 className="text-3xl font-bold mb-4">Thank You!</h3>
-              <p className="text-xl text-blue-100 mb-6">
-                We've received your request. Our team will reach out within 24 hours to schedule your strategy call.
+            <div className="bg-white/10 backdrop-blur-lg rounded-2xl sm:rounded-3xl p-8 sm:p-12 mb-8 border-2 border-white/40 shadow-2xl">
+              <CheckCircle className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-6 text-green-400 animate-bounce" />
+              <h3 className="text-2xl sm:text-3xl font-extrabold mb-4 uppercase tracking-wider">Success!</h3>
+              <p className="text-lg sm:text-xl text-blue-100 mb-6">
+                We'll reach out within 24 hours to schedule your strategy call.
               </p>
-              <p className="text-blue-200">
-                In the meantime, check your email for our White-Label Growth Playbook.
+              <p className="text-sm sm:text-base text-blue-200 font-medium">
+                Check your email for your White-Label Growth Playbook.
               </p>
             </div>
           )}
 
-          <div className="flex flex-wrap items-center justify-center gap-8 text-sm">
-            <div className="flex items-center gap-2">
-              <CheckCircle className="w-5 h-5" />
+          <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-4 sm:gap-10 text-xs sm:text-sm font-bold uppercase tracking-widest opacity-80">
+            <div className="flex items-center gap-2.5">
+              <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-400" />
               <span>30-minute free call</span>
             </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle className="w-5 h-5" />
-              <span>No pressure, no pitch</span>
+            <div className="flex items-center gap-2.5">
+              <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-400" />
+              <span>No sales pressure</span>
             </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle className="w-5 h-5" />
-              <span>Custom growth roadmap</span>
+            <div className="flex items-center gap-2.5">
+              <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-400" />
+              <span>Custom roadmap</span>
             </div>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-[#2c2e33] text-white py-12 px-6">
+      <footer className="bg-[#2c2e33] text-white py-12 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto text-center">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <div className="bg-gradient-to-br from-blue-500 to-blue-600 p-2 rounded-lg">
+          <div className="flex items-center justify-center gap-2.5 mb-6">
+            <div className="bg-gradient-to-br from-blue-500 to-blue-600 p-2 rounded-lg shadow-lg">
               <div className="grid grid-cols-3 gap-0.5">
                 {[...Array(9)].map((_, i) => (
                   <div key={i} className="w-1.5 h-1.5 bg-white rounded-sm" />
                 ))}
               </div>
             </div>
-            <span className="font-bold text-xl">ZEVENSTONE LLC</span>
+            <span className="font-extrabold text-xl tracking-tight">ZEVENSTONE LLC</span>
           </div>
-          <p className="text-gray-400 mb-4">Ohio, USA · zevenstone.com</p>
-          <p className="text-gray-500 text-sm">© 2026 Zevenstone LLC. All rights reserved.</p>
+          <p className="text-gray-400 mb-4 font-medium text-sm sm:text-base">Ohio, USA · zevenstone.com</p>
+          <div className="w-12 h-1 bg-blue-500 mx-auto mb-6 rounded-full opacity-50" />
+          <p className="text-gray-500 text-xs sm:text-sm tracking-wide uppercase font-bold opacity-40">© 2026 Zevenstone LLC. All rights reserved.</p>
         </div>
       </footer>
 
       {/* Floating Sticky Form - Hidden on mobile, shown on tablet+ */}
       {showFloatingForm && (
-        <div className="hidden md:block fixed bottom-8 right-8 z-50 max-w-md animate-slide-up">
-          <div className="bg-white rounded-2xl shadow-2xl border-2 border-blue-500 overflow-hidden">
+        <div className="hidden md:block fixed bottom-8 right-8 z-50 max-w-sm w-full animate-slide-up">
+          <div className="bg-white rounded-3xl shadow-2xl border border-blue-100 overflow-hidden shadow-blue-200/50">
             <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 relative">
               <button
                 onClick={() => setShowFloatingForm(false)}
-                className="absolute top-4 right-4 text-white/80 hover:text-white transition-colors"
+                className="absolute top-4 right-4 text-white/80 hover:text-white hover:rotate-90 transition-all duration-300"
               >
                 <X className="w-5 h-5" />
               </button>
-              <h3 className="text-2xl font-bold mb-2">Ready to Scale?</h3>
-              <p className="text-blue-100 text-sm">Book your free strategy call now</p>
+              <h3 className="text-xl font-bold mb-1 tracking-tight">Ready to Scale?</h3>
+              <p className="text-blue-100 text-xs font-medium uppercase tracking-widest">Free Strategy Call</p>
             </div>
             <div className="p-6">
               <form onSubmit={handleFormSubmit} className="space-y-4">
@@ -914,7 +887,7 @@ export default function LandingPage() {
                   onChange={handleInputChange}
                   required
                   placeholder="Your Name"
-                  className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium"
                 />
                 <input
                   type="email"
@@ -923,7 +896,7 @@ export default function LandingPage() {
                   onChange={handleInputChange}
                   required
                   placeholder="Work Email"
-                  className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium"
                 />
                 <input
                   type="text"
@@ -932,16 +905,16 @@ export default function LandingPage() {
                   onChange={handleInputChange}
                   required
                   placeholder="Agency Name"
-                  className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium"
                 />
                 <button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-bold hover:shadow-xl hover:scale-105 transition-all"
+                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 rounded-xl font-bold hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-sm shadow-lg shadow-blue-100"
                 >
                   Book Free Call →
                 </button>
               </form>
-              <p className="text-xs text-gray-500 mt-3 text-center">No commitment required</p>
+              <p className="text-[10px] text-gray-400 mt-4 text-center font-bold uppercase tracking-widest opacity-60">No commitment required</p>
             </div>
           </div>
         </div>
@@ -949,59 +922,61 @@ export default function LandingPage() {
 
       {/* Lead Magnet Modal */}
       {showLeadMagnet && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/50 backdrop-blur-sm">
-          <div className="bg-white rounded-3xl max-w-lg w-full shadow-2xl relative animate-scale-up">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-md transition-all duration-500">
+          <div className="bg-white rounded-2xl sm:rounded-[2.5rem] max-w-lg w-full shadow-2xl relative animate-scale-up overflow-hidden">
             <button
               onClick={() => setShowLeadMagnet(false)}
-              className="absolute top-6 right-6 text-gray-400 hover:text-gray-600 transition-colors"
+              className="absolute top-5 right-5 sm:top-8 sm:right-8 text-gray-400 hover:text-gray-900 hover:rotate-90 transition-all duration-300 z-10"
             >
-              <X className="w-6 h-6" />
+              <X className="w-6 h-6 sm:w-7 sm:h-7" />
             </button>
 
             {!leadMagnetSubmitted ? (
-              <div className="p-10">
-                <div className="bg-gradient-to-br from-blue-500 to-purple-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
-                  <Download className="w-8 h-8 text-white" />
+              <div className="p-8 sm:p-14">
+                <div className="bg-gradient-to-br from-blue-500 to-purple-600 w-14 h-14 sm:w-20 sm:h-20 rounded-2xl sm:rounded-3xl flex items-center justify-center mb-6 sm:mb-8 shadow-xl shadow-blue-200">
+                  <Download className="w-6 h-6 sm:w-10 sm:h-10 text-white" />
                 </div>
-                <h3 className="text-3xl font-bold text-gray-900 mb-4">
-                  Get The White-Label Growth Playbook
+                <h3 className="text-2xl sm:text-4xl font-extrabold text-gray-900 mb-4 leading-tight tracking-tight">
+                  Get The White-Label <span className="text-blue-600">Growth Playbook</span>
                 </h3>
-                <p className="text-gray-600 mb-6 leading-relaxed">
-                  Enter your email to instantly download our complete case study showing how agencies scaled to $1M+ ARR without hiring.
+                <p className="text-sm sm:text-lg text-gray-600 mb-8 sm:mb-10 leading-relaxed font-medium">
+                  Instant download: See the exact system used to scale 3 agencies to $1M+ ARR without hiring.
                 </p>
 
-                <form onSubmit={handleLeadMagnetSubmit} className="space-y-4">
+                <form onSubmit={handleLeadMagnetSubmit} className="space-y-4 sm:space-y-5">
                   <input
                     type="email"
                     required
                     placeholder="Your work email"
-                    className="w-full px-5 py-4 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:outline-none transition-colors text-lg"
+                    className="w-full px-5 py-4 sm:py-5 rounded-xl sm:rounded-2xl border-2 border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-base sm:text-xl font-medium shadow-sm"
                   />
                   <button
                     type="submit"
-                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all"
+                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 sm:py-5 rounded-xl sm:rounded-2xl font-extrabold text-base sm:text-xl shadow-xl shadow-blue-100 hover:shadow-2xl hover:scale-[1.02] active:scale-95 transition-all"
                   >
-                    Download Free Case Study
+                    Send My Free Playbook →
                   </button>
                 </form>
 
-                <div className="mt-6 flex items-center gap-4 text-sm text-gray-500">
+                <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 text-[10px] sm:text-xs text-gray-400 font-bold uppercase tracking-widest">
                   <div className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-green-500" />
-                    <span>Instant download</span>
+                    <span>Instant PDF Access</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-green-500" />
-                    <span>No spam ever</span>
+                    <span>Zero Spam Policy</span>
                   </div>
                 </div>
               </div>
             ) : (
-              <div className="p-10 text-center">
-                <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-6" />
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Check Your Email!</h3>
-                <p className="text-gray-600">
-                  We've sent the White-Label Growth Playbook to your inbox. It should arrive within 2 minutes.
+              <div className="p-8 sm:p-20 text-center">
+                <div className="w-20 h-20 sm:w-24 sm:h-24 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-8">
+                  <CheckCircle className="w-12 h-12 sm:w-16 sm:h-16 text-green-500 animate-pulse" />
+                </div>
+                <h3 className="text-2xl sm:text-4xl font-extrabold text-gray-900 mb-4 tracking-tight">Check Your Inbox!</h3>
+                <p className="text-base sm:text-xl text-gray-600 font-medium leading-relaxed">
+                  We've sent the White-Label Growth Playbook. It will arrive within 2 minutes.
                 </p>
               </div>
             )}
