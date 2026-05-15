@@ -1,4 +1,4 @@
-
+﻿
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence, LayoutGroup } from 'framer-motion';
 import { ArrowRight, ChevronRight, ChevronLeft, Zap, Cpu, Palette, Target, Plus, Minus, Send, Star, Quote, CheckCircle2, TrendingUp, Mail, Phone, MapPin, Layers, ExternalLink, Search, Rocket, Lightbulb } from 'lucide-react';
@@ -133,7 +133,7 @@ export const Home: React.FC = () => {
    return (
       <div className="flex flex-col min-h-screen bg-white font-sans overflow-x-hidden">
          <Helmet>
-            <title>{homePage?.seo?.title || homePage?.seo?.metaTitle || 'Zevenstone – Digital Marketing Agency | Web Design & SEO'}</title>
+            <title>{homePage?.seo?.title || homePage?.seo?.metaTitle || 'Zevenstone â€“ Digital Marketing Agency | Web Design & SEO'}</title>
             <meta name="description" content={homePage?.seo?.description || homePage?.seo?.metaDescription || 'Zevenstone is a full-service digital marketing agency specialising in SEO, web development, social media, and AI-powered growth strategies.'} />
             {(homePage?.seo?.metaImage || homePage?.seo?.ogImage) && <meta property="og:image" content={urlFor(homePage.seo.metaImage || homePage.seo.ogImage).url()} />}
          </Helmet>
@@ -204,7 +204,7 @@ export const Home: React.FC = () => {
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2 }}
-                        className="mb-8"
+                        className="mb-8 hidden"
                      >
                         <span dangerouslySetInnerHTML={{ __html: homePage?.hero?.label || `Creative Minds. Strategic Execution. Measurable Growth.` }} className="font-semibold text-zeven-blue tracking-[0.2em] uppercase text-xs md:text-sm bg-white/60 px-5 py-2.5 rounded-full border border-zeven-blue/20 inline-block backdrop-blur-md shadow-sm">
 
@@ -216,10 +216,18 @@ export const Home: React.FC = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3 }}
                         className="font-extrabold text-4xl sm:text-5xl md:text-7xl leading-[1.1] text-zeven-dark mb-8 tracking-tight"
-                        dangerouslySetInnerHTML={{ __html: homePage?.hero?.heading || `Solutions <span class="text-transparent bg-clip-text bg-gradient-to-r from-zeven-gray to-zeven-dark font-semibold">That Scale</span><br /><span class="bg-clip-text text-transparent bg-gradient-to-r from-zeven-blue to-zeven-deep drop-shadow-sm">With Your Growth</span>` }}
+                        dangerouslySetInnerHTML={{ __html: homePage?.hero?.heading1 || `Series <span class="text-transparent bg-clip-text bg-gradient-to-r from-zeven-gray to-zeven-dark font-semibold">About</span><br /><span class="bg-clip-text text-transparent bg-gradient-to-r from-zeven-blue to-zeven-deep drop-shadow-sm">Growth</span>` }}
                      >
                      </motion.h1>
 
+                     <motion.h1
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 }}
+                        className="font-extrabold text-4xl sm:text-5xl md:text-7xl leading-[1.1] text-zeven-dark mb-8 tracking-tight"
+                        dangerouslySetInnerHTML={{ __html: homePage?.hero?.heading || `Solutions <span class="text-transparent bg-clip-text bg-gradient-to-r from-zeven-gray to-zeven-dark font-semibold">That Scale</span><br /><span class="bg-clip-text text-transparent bg-gradient-to-r from-zeven-blue to-zeven-deep drop-shadow-sm">With Your Growth</span>` }}
+                     >
+                     </motion.h1>
                      <motion.p
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -298,7 +306,13 @@ export const Home: React.FC = () => {
                            className="hidden md:flex absolute bottom-12 -left-12 bg-white/90 backdrop-blur-xl p-5 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-white/60 z-30 items-center gap-4"
                         >
                            <div className="flex -space-x-3">
-                              {[1].map(i => <div key={i} className="w-10 h-10 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 border-2 border-white shadow-sm" />)}
+                              {[
+                                 "https://cdn.sanity.io/images/h79epwt4/production/ffe1651b8bac723a6fc35272beb9c586ebc26d1e-505x634.png",
+                                 "https://cdn.sanity.io/images/h79epwt4/production/3957c3eaf868ed2f0971e6e56f218d982b4d7388-600x600.png",
+                                 "https://cdn.sanity.io/images/h79epwt4/production/268f7f0c8c92867c77942e2441c5a2e52712b5ac-505x634.png"
+                              ].map((src, i) => (
+                                 <img key={i} src={src} alt="Client" className="w-10 h-10 rounded-full object-cover object-top border-2 border-white shadow-sm" />
+                              ))}
 
                            </div>
                            <div>
@@ -602,7 +616,7 @@ export const Home: React.FC = () => {
 
             <div className="container mx-auto px-5 md:px-8 relative z-10">
                <ScrollReveal>
-                  <h2 className="text-3xl md:text-4xl font-medium mb-4 tracking-tight" dangerouslySetInnerHTML={{ __html: homePage?.visionSection?.heading || `Your Growth Doesn’t Need More Agencies. ` }}></h2>
+                  <h2 className="text-3xl md:text-4xl font-medium mb-4 tracking-tight" dangerouslySetInnerHTML={{ __html: homePage?.visionSection?.heading || `Your Growth Doesnâ€™t Need More Agencies. ` }}></h2>
                   <h3 className="text-3xl md:text-7xl font-bold mb-8 tracking-tight" dangerouslySetInnerHTML={{ __html: homePage?.visionSection?.smallHeading || `It Needs One Team That Gets It.` }}></h3>
                   <p className="text-blue-100 max-w-3xl mx-auto mb-12 text-lg md:text-xl font-light">{homePage?.visionSection?.description || `We help brands and businesses to create their digital presence and connect with their audiences through creative and innovative solutions.`}</p>
                   <Link to={homePage?.visionSection?.button?.url || homePage?.visionSection?.ctaButton?.url || "/contact"}>
@@ -830,7 +844,7 @@ export const Home: React.FC = () => {
 
                         <div className="relative z-10">
                            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6" dangerouslySetInnerHTML={{ __html: homePage?.contactFormSection?.heading || `Let's Connect` }}></h2>
-                           <p className="text-blue-100 mb-12 text-base md:text-lg">{homePage?.contactFormSection?.description || `Tell us what you’re working on. We’ll be honest about how we can help — and whether we’re the right fit.`}</p>
+                           <p className="text-blue-100 mb-12 text-base md:text-lg">{homePage?.contactFormSection?.description || `Tell us what youâ€™re working on. Weâ€™ll be honest about how we can help â€” and whether weâ€™re the right fit.`}</p>
 
                            <div className="space-y-10">
                               <div className="group">
@@ -918,3 +932,4 @@ export const Home: React.FC = () => {
       </div>
    );
 };
+
