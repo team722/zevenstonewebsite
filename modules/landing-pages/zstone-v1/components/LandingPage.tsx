@@ -123,15 +123,13 @@ export default function LandingPage() {
         const playbookUrl = '/assets/Zevenstone Website Case Studies.pdf';
         try {
           const pdfResponse = await fetch(playbookUrl);
-
-          // Validate: ensure the server returned an actual PDF, not an HTML error page
-          const contentType = pdfResponse.headers.get('content-type') || '';
-          if (!pdfResponse.ok || !contentType.includes('pdf')) {
-            throw new Error(`PDF not found or invalid. Status: ${pdfResponse.status}, Content-Type: ${contentType}`);
+          if (!pdfResponse.ok) {
+            throw new Error(`PDF fetch failed. Status: ${pdfResponse.status}`);
           }
-
+          // Force blob type to application/pdf to ensure browser treats it as a download
           const blob = await pdfResponse.blob();
-          const objectUrl = URL.createObjectURL(blob);
+          const pdfBlob = new Blob([blob], { type: 'application/pdf' });
+          const objectUrl = URL.createObjectURL(pdfBlob);
           const link = document.createElement('a');
           link.href = objectUrl;
           link.setAttribute('download', 'Zevenstone-Website-Case-Studies.pdf');
@@ -141,7 +139,6 @@ export default function LandingPage() {
           URL.revokeObjectURL(objectUrl);
         } catch (pdfError) {
           console.error('PDF download error:', pdfError);
-          // Fallback: open in new tab
           window.open(playbookUrl, '_blank');
         }
 
