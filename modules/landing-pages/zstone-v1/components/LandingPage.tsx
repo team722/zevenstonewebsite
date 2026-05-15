@@ -208,7 +208,7 @@ export default function LandingPage() {
 
             {/* Subheadline */}
             <p className="text-lg sm:text-xl md:text-2xl text-gray-600 mb-8 sm:mb-10 leading-relaxed px-2">
-              Zevenstone LLC is the white-label growth system behind America's fastest-scaling agencies —
+              Zevenstone is the white-label growth system behind America's fastest-scaling agencies —
               powering digital marketing, automation, and creative production{' '}
               <span className="font-bold text-[#2c2e33]">under your brand, invisibly.</span>
             </p>
@@ -243,7 +243,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 sm:gap-8 text-center">
             <div>
-              <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-blue-400 mb-1">$1M+</div>
+              <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-blue-400 mb-1">1M+</div>
               <div className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider">Monthly Revenue Per Partner</div>
             </div>
             <div>
@@ -251,15 +251,15 @@ export default function LandingPage() {
               <div className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider">Projects Delivered</div>
             </div>
             <div>
-              <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-blue-400 mb-1">100%</div>
+              <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-blue-400 mb-1">98.9%</div>
               <div className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider">Client Satisfaction</div>
             </div>
             <div className="sm:hidden lg:block">
-              <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-blue-400 mb-1">$100M+</div>
+              <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-blue-400 mb-1">$50M+</div>
               <div className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider">Client Revenue Generated</div>
             </div>
             <div className="sm:hidden lg:block">
-              <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-blue-400 mb-1">100+</div>
+              <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-blue-400 mb-1">25+</div>
               <div className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider">Agency Endorsements</div>
             </div>
             {/* Hidden items on mobile sm grid to keep 3 columns balanced */}
@@ -367,12 +367,12 @@ export default function LandingPage() {
               <h3 className="text-xl sm:text-2xl font-bold text-[#2c2e33] mb-4">Digital Marketing</h3>
               <ul className="space-y-2.5 text-sm sm:text-base text-gray-600 flex-grow">
                 {[
-                  "SEO · PPC · SEM",
+                  "Search Engine Optimisation",
+                  "Paid Search · Google Ads",
                   "Social Media Advertising",
-                  "Email Marketing",
                   "Content Marketing",
                   "Lead Generation",
-                  "Analytics & Reporting"
+                  "CRO Audit"
                 ].map((item, idx) => (
                   <li key={idx} className="flex items-center gap-3">
                     <CheckCircle className="w-4 h-4 text-blue-500 shrink-0" />
@@ -390,12 +390,12 @@ export default function LandingPage() {
               <h3 className="text-xl sm:text-2xl font-bold text-[#2c2e33] mb-4">Marketing Automation</h3>
               <ul className="space-y-2.5 text-sm sm:text-base text-gray-600 flex-grow">
                 {[
-                  "CRM Architecture",
-                  "Workflow Automation",
-                  "Lifecycle Sequences",
+                  "CRM Setup and Management",
+                  "Lead Management System",
+                  "Sales Pipeline Management",
                   "Lead Nurturing",
-                  "AI-Assisted Operations",
-                  "Martech Integration"
+                  "Email and Lifecycle Sequences",
+                  "AI Solutions"
                 ].map((item, idx) => (
                   <li key={idx} className="flex items-center gap-3">
                     <CheckCircle className="w-4 h-4 text-purple-500 shrink-0" />
@@ -410,15 +410,15 @@ export default function LandingPage() {
               <div className="bg-gradient-to-br from-indigo-500 to-indigo-600 w-12 h-12 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-indigo-200">
                 <Target className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
               </div>
-              <h3 className="text-xl sm:text-2xl font-bold text-[#2c2e33] mb-4">Creative Production</h3>
+              <h3 className="text-xl sm:text-2xl font-bold text-[#2c2e33] mb-4">Creative Services</h3>
               <ul className="space-y-2.5 text-sm sm:text-base text-gray-600 flex-grow">
                 {[
-                  "Brand Identity",
-                  "Graphic Design",
+                  "Brand Strategy",
+                  "Graphic Design · Motion Graphics",
                   "UI/UX Design",
-                  "Motion Graphics",
                   "Video Editing",
-                  "Web Design & Development"
+                  "UI/UX Design",
+                  "Web & Digital Experience"
                 ].map((item, idx) => (
                   <li key={idx} className="flex items-center gap-3">
                     <CheckCircle className="w-4 h-4 text-indigo-500 shrink-0" />
@@ -461,15 +461,15 @@ export default function LandingPage() {
               },
               {
                 step: '02',
-                title: 'System Design',
-                description: 'We build a delivery framework tailored to exactly how your agency operates.',
-                icon: <Target className="w-6 h-6 sm:w-8 sm:h-8" />
+                title: 'Seamless Onboarding',
+                description: 'Contract signed. Brand guidelines absorbed. Tools connected. Ready to deliver in days — not months.',
+                icon: <Rocket className="w-6 h-6 sm:w-8 sm:h-8" />
               },
               {
                 step: '03',
-                title: 'Seamless Onboarding',
-                description: 'NDA signed. Brand guidelines absorbed. Tools connected. Ready to deliver in days — not months.',
-                icon: <Rocket className="w-6 h-6 sm:w-8 sm:h-8" />
+                title: 'System Design',
+                description: 'We build a delivery framework tailored to exactly how your agency operates.',
+                icon: <Target className="w-6 h-6 sm:w-8 sm:h-8" />
               },
               {
                 step: '04',
@@ -705,25 +705,25 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
             {[
               {
-                quote: 'Zevenstone is not a vendor — they are genuinely part of our team. The quality, consistency, and speed of delivery transformed what our agency is able to offer.',
-                author: 'Agency Partner',
-                role: 'United States'
+                quote: "I needed more than a vendor. I needed a team I could trust — and I found that in Zevenstone. From SEO and automations to design and video, they delivered with consistency, creativity, and clarity. More than a service provider, they became a true growth partner.",
+                author: 'Dr. Reggie Wright Jr',
+                role: 'Founder, Reggie Wright Enterprise'
               },
               {
                 quote: "What sets Zevenstone apart is that they actually understand the business behind the brief. They don't just execute — they think.",
-                author: 'Founder, SaaS Company',
-                role: 'North America'
+                author: 'Jeb Rajan',
+                role: 'Founder, Bezhominds'
               },
-              {
-                quote: "The white-label delivery is flawless. Our clients have no idea they exist — and that's exactly what we needed.",
-                author: 'Creative Director',
-                role: 'Boutique Agency, United States'
-              },
-              {
-                quote: 'Working with Zevenstone feels like having an entire agency on call — except they already know our standards and our brand.',
-                author: 'Managing Director',
-                role: 'Professional Services, Ohio'
-              }
+              // {
+              //   quote: "The white-label delivery is flawless. Our clients have no idea they exist — and that's exactly what we needed.",
+              //   author: 'Creative Director',
+              //   role: 'Boutique Agency, United States'
+              // },
+              // {
+              //   quote: 'Working with Zevenstone feels like having an entire agency on call — except they already know our standards and our brand.',
+              //   author: 'Managing Director',
+              //   role: 'Professional Services, Ohio'
+              // }
             ].map((testimonial, idx) => (
               <div
                 key={idx}
@@ -804,7 +804,7 @@ export default function LandingPage() {
           </h2>
           <div className="space-y-6 text-gray-600">
             <p className="text-lg sm:text-xl leading-relaxed">
-              Zevenstone LLC is headquartered in <span className="font-bold text-[#2c2e33]">Ohio, USA</span> — with a world-class
+              Zevenstone is headquartered in <span className="font-bold text-[#2c2e33]">Ohio, USA</span> — with a world-class
               delivery team operating from India. This dual-model gives our agency partners the strategic oversight of a North American operation, backed by around-the-clock delivery.
             </p>
             <p className="text-xl sm:text-2xl font-bold text-blue-600 leading-tight">
@@ -992,18 +992,14 @@ export default function LandingPage() {
       <footer className="bg-[#2c2e33] text-white py-12 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto text-center">
           <div className="flex items-center justify-center gap-2.5 mb-6">
-            <div className="bg-gradient-to-br from-blue-500 to-blue-600 p-2 rounded-lg shadow-lg">
-              <div className="grid grid-cols-3 gap-0.5">
-                {[...Array(9)].map((_, i) => (
-                  <div key={i} className="w-1.5 h-1.5 bg-white rounded-sm" />
-                ))}
-              </div>
+            <div className="bg-gradient-to-br from-blue-500 p-2 rounded-lg shadow-lg">
+              <img src={imgLinkLogo} alt="Zevenstone" className="h-6 sm:h-8" />
             </div>
-            <span className="font-extrabold text-xl tracking-tight">ZEVENSTONE LLC</span>
+            <span className="font-extrabold text-xl tracking-tight">ZEVENSTONE</span>
           </div>
-          <p className="text-gray-400 mb-4 font-medium text-sm sm:text-base">Ohio, USA · zevenstone.com</p>
+          <p className="text-gray-400 mb-4 font-medium text-sm sm:text-base">Ohio, USA · info@zevenstone.com</p>
           <div className="w-12 h-1 bg-blue-500 mx-auto mb-6 rounded-full opacity-50" />
-          <p className="text-gray-500 text-xs sm:text-sm tracking-wide uppercase font-bold opacity-40">© 2026 Zevenstone LLC. All rights reserved.</p>
+          <p className="text-gray-500 text-xs sm:text-sm tracking-wide uppercase font-bold opacity-40">© 2026 Zevenstone. All rights reserved.</p>
         </div>
       </footer>
 
