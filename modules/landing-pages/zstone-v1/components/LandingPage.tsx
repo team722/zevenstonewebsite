@@ -120,10 +120,10 @@ export default function LandingPage() {
         setShowLeadMagnet(false);
 
         // 2. Trigger automatic PDF download
-        const playbookUrl = '/assets/white-label-playbook.pdf'; // Update this path to your actual PDF location
+        const playbookUrl = '/assets/Zevenstone Website Case Studies.pdf'; // Update this path to your actual PDF location
         const link = document.createElement('a');
         link.href = playbookUrl;
-        link.setAttribute('download', 'Zevenstone-White-Label-Playbook.pdf');
+        link.setAttribute('download', 'Zevenstone-Website-Case-Studies.pdf');
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
