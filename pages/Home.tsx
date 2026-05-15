@@ -298,7 +298,8 @@ export const Home: React.FC = () => {
                            className="hidden md:flex absolute bottom-12 -left-12 bg-white/90 backdrop-blur-xl p-5 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-white/60 z-30 items-center gap-4"
                         >
                            <div className="flex -space-x-3">
-                              {[1, 2, 3].map(i => <div key={i} className="w-10 h-10 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 border-2 border-white shadow-sm" />)}
+                              {[1].map(i => <div key={i} className="w-10 h-10 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 border-2 border-white shadow-sm" />)}
+
                            </div>
                            <div>
                               <div className="text-lg font-bold text-zeven-dark">{homePage?.hero?.activeUsersLabel || "98.9%"}</div>
