@@ -120,11 +120,16 @@ export default function LandingPage() {
         setShowLeadMagnet(false);
 
         // 2. Trigger automatic PDF download
-        // Fetch as blob to ensure the file downloads correctly on all hosts (including Firebase Hosting)
-        // which may not set the correct Content-Disposition headers for direct links.
         const playbookUrl = '/assets/Zevenstone Website Case Studies.pdf';
         try {
           const pdfResponse = await fetch(playbookUrl);
+
+          // Validate: ensure the server returned an actual PDF, not an HTML error page
+          const contentType = pdfResponse.headers.get('content-type') || '';
+          if (!pdfResponse.ok || !contentType.includes('pdf')) {
+            throw new Error(`PDF not found or invalid. Status: ${pdfResponse.status}, Content-Type: ${contentType}`);
+          }
+
           const blob = await pdfResponse.blob();
           const objectUrl = URL.createObjectURL(blob);
           const link = document.createElement('a');
@@ -133,10 +138,10 @@ export default function LandingPage() {
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
-          URL.revokeObjectURL(objectUrl); // Clean up the object URL
+          URL.revokeObjectURL(objectUrl);
         } catch (pdfError) {
           console.error('PDF download error:', pdfError);
-          // Fallback: open the PDF in a new tab if fetch fails
+          // Fallback: open in new tab
           window.open(playbookUrl, '_blank');
         }
 
