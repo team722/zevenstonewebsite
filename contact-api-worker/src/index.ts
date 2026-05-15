@@ -2,7 +2,13 @@ export interface Env {
   SANITY_WRITE_TOKEN: string;
   SANITY_PROJECT_ID: string;
   SANITY_DATASET: string;
-  ZOHO_FORM_ACTION_URL: string;
+  // Zoho OAuth2 credentials (from Zoho API Console)
+  ZOHO_CLIENT_ID: string;
+  ZOHO_CLIENT_SECRET: string;
+  ZOHO_REFRESH_TOKEN: string;
+  // Zoho Forms identifiers
+  ZOHO_FORM_LINK_NAME: string; // e.g. "websiteform"
+  ZOHO_PORTAL_NAME: string;    // e.g. "zevenstone"
 }
 
 const corsHeaders = {
@@ -39,20 +45,34 @@ export default {
       }
 
       // 1. Save to Sanity
+      const isLandingPage = !!data.formType;
+      const sanityDocumentType = isLandingPage ? 'landingPageSubmission' : 'contactSubmission';
+
+      const sanityDocument: any = {
+        _type: sanityDocumentType,
+        title: data.title || '',
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        status: 'New',
+        submittedAt: new Date().toISOString(),
+      };
+
+      // Map specific fields based on document type
+      if (isLandingPage) {
+        sanityDocument.formType = data.formType;
+        sanityDocument.phone = data.phone || '';
+        sanityDocument.agencyName = data.agencyName || '';
+        sanityDocument.challenge = data.challenge || '';
+      } else {
+        sanityDocument.budget = data.budget || '';
+        sanityDocument.expectations = data.expectations || '';
+      }
+
       const mutation = {
         mutations: [
           {
-            create: {
-              _type: 'contactSubmission',
-              title: data.title || '',
-              firstName: data.firstName,
-              lastName: data.lastName,
-              email: data.email,
-              budget: data.budget || '',
-              expectations: data.expectations,
-              status: 'New',
-              submittedAt: new Date().toISOString(),
-            },
+            create: sanityDocument,
           },
         ],
       };
@@ -87,38 +107,79 @@ export default {
         sanityError = 'Missing Sanity Token';
       }
 
-      // 2. Forward to Zoho Forms
+      // 2. Submit to Zoho Forms via Official REST API (OAuth2)
       let zohoError = null;
       let zohoSuccess = false;
 
-      if (env.ZOHO_FORM_ACTION_URL) {
-        const zohoForm = new FormData();
-        
-        // Field Mapping based on Zoho Forms dashboard
-        zohoForm.append('Dropdown1', data.title || ''); // Title
-        zohoForm.append('SingleLine', data.firstName || ''); // First Name
-        zohoForm.append('SingleLine1', data.lastName || ''); // Last Name
-        zohoForm.append('Email', data.email || ''); // Email
-        zohoForm.append('Dropdown', data.budget || ''); // Budget
-        zohoForm.append('MultiLine', data.expectations || ''); // Expectations
-
+      if (env.ZOHO_CLIENT_ID && env.ZOHO_CLIENT_SECRET && env.ZOHO_REFRESH_TOKEN) {
         try {
-          const zohoResponse = await fetch(env.ZOHO_FORM_ACTION_URL, {
-            method: 'POST',
-            body: zohoForm,
+          // Step 2a: Exchange Refresh Token for Access Token
+          const tokenParams = new URLSearchParams({
+            refresh_token: env.ZOHO_REFRESH_TOKEN,
+            client_id: env.ZOHO_CLIENT_ID,
+            client_secret: env.ZOHO_CLIENT_SECRET,
+            grant_type: 'refresh_token',
           });
 
-          zohoSuccess = zohoResponse.ok;
-          if (!zohoSuccess) {
-            zohoError = await zohoResponse.text();
-            console.error('Zoho Error:', zohoError);
+          // Using .com instead of .in for broader compatibility
+          const tokenResponse = await fetch('https://accounts.zoho.com/oauth/v2/token', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: tokenParams.toString(),
+          });
+
+          const tokenData: any = await tokenResponse.json();
+
+          if (!tokenData.access_token) {
+            zohoError = `Token error: ${JSON.stringify(tokenData)}`;
+            console.error('Zoho token error:', zohoError);
+          } else {
+            // Step 2b: Add entry via Zoho Forms REST API
+            const entryPayload: any = {
+              data: {
+                Dropdown1: data.title || '',        // Title
+                SingleLine: data.firstName || '',    // First Name
+                SingleLine1: data.lastName || '',    // Last Name
+                Email: data.email || '',             // Email
+              },
+            };
+
+            // Dynamic mapping for both form types
+            if (isLandingPage) {
+              entryPayload.data.SingleLine2 = data.agencyName || ''; // Agency Name
+              entryPayload.data.PhoneNumber = data.phone || '';     // Phone Number
+              entryPayload.data.MultiLine1 = data.challenge || '';   // Challenge
+              entryPayload.data.SingleLine3 = data.formType || '';   // Form Type
+            } else {
+              entryPayload.data.Dropdown = data.budget || '';        // Budget
+              entryPayload.data.MultiLine = data.expectations || ''; // Expectations
+            }
+
+            const apiUrl = `https://forms.zoho.com/api/v1/${env.ZOHO_PORTAL_NAME}/forms/${env.ZOHO_FORM_LINK_NAME}/entries`;
+
+            const zohoApiResponse = await fetch(apiUrl, {
+              method: 'POST',
+              headers: {
+                'Authorization': `Zoho-oauthtoken ${tokenData.access_token}`,
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(entryPayload),
+            });
+
+            const zohoApiResult: any = await zohoApiResponse.json();
+            zohoSuccess = zohoApiResponse.ok;
+
+            if (!zohoSuccess) {
+              zohoError = JSON.stringify(zohoApiResult);
+              console.error('Zoho API Error:', zohoError);
+            }
           }
         } catch (e: any) {
           zohoError = e.message;
           console.error('Zoho Fetch Error:', e);
         }
       } else {
-        zohoError = 'Missing Zoho configuration';
+        zohoError = 'Missing Zoho OAuth2 configuration';
       }
 
       // Return status of both

@@ -6,4 +6,11 @@ compatibility_date = "2024-04-30"
 SANITY_PROJECT_ID = "h79epwt4"
 SANITY_DATASET = "production"
 SANITY_WRITE_TOKEN = "skFWn2ogh2ytjdOXwi3VegmHKtb5gAz7c7JgUNEQiB74SpSzRy3H83LOudohcxyaXFrckhaxqwrW0R0IqUntuRnGWLnYdp4WF3JHxChCwvCjnxLensWsmPx20GM5sUdhfTqZkzzYKtsiT0qBv4RHcYPKhwrU9AeIBUYGSsFFoBF6WLuVz9jc"
-ZOHO_FORM_ACTION_URL = "https://forms.zohopublic.in/zevenstone/form/websiteform/submit"
+
+# --- Zoho Forms REST API (OAuth2) ---
+# Fill these in after completing the Zoho API Console setup (see instructions below)
+ZOHO_CLIENT_ID = "1000.T8NVXCDGUZE4HYTP7LYSUKGL9ELPXF"
+ZOHO_CLIENT_SECRET = "d69912b8acea12c545fdd6ca5c21bfe37e60ddc544"
+ZOHO_REFRESH_TOKEN = "1000.66eb1e265699d6863750fa7f87658aed.dd1bef5f1eb975eed8c8ae0ef8cdfc73"
+ZOHO_PORTAL_NAME = "zevenstone"
+ZOHO_FORM_LINK_NAME = "websiteform"

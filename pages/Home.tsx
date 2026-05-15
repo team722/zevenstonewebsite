@@ -301,8 +301,8 @@ export const Home: React.FC = () => {
                               {[1, 2, 3].map(i => <div key={i} className="w-10 h-10 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 border-2 border-white shadow-sm" />)}
                            </div>
                            <div>
-                              <div className="text-lg font-bold text-zeven-dark">{homePage?.hero?.activeUsersLabel || "10M+"}</div>
-                              <div className="text-xs text-zeven-gray font-medium uppercase tracking-wide">Active Users</div>
+                              <div className="text-lg font-bold text-zeven-dark">{homePage?.hero?.activeUsersLabel || "98.9%"}</div>
+                              <div className="text-xs text-zeven-gray font-medium uppercase tracking-wide">Client Satisfaction</div>
                            </div>
                         </motion.div>
                      </motion.div>
@@ -432,10 +432,10 @@ export const Home: React.FC = () => {
                                     </motion.div>
                                  ))}
                               </div>
-
+                              {/* `/services/${SERVICES_LIST[activeServiceTab].slug}` */}
                               <div className="pt-4">
-                                 <Link to={`/services/${SERVICES_LIST[activeServiceTab].slug}`}>
-                                    <Button variant="primary" className="rounded-full border-none shadow-lg shadow-zeven-blue/20">Learn more</Button>
+                                 <Link to='/contact'>
+                                    <Button variant="primary" className="rounded-full border-none shadow-lg shadow-zeven-blue/20">Know More</Button>
                                  </Link>
                               </div>
                            </div>

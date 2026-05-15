@@ -33,8 +33,6 @@ export const Contact: React.FC = () => {
    if (isLoading) return <LoadingSpinner />;
    if (error) return <ErrorState />;
 
-   console.log(contactPageData, 'contactPageData')
-
    const headerHeading = homePage?.contactFormSection?.heading || "Let's Connect";
    const headerDescription = homePage?.contactFormSection?.description || "Tell us what you’re working on. We’ll be honest about how we can help — and whether we’re the right fit.";
 
