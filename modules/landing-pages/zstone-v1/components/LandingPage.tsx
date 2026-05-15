@@ -9,10 +9,12 @@ export default function LandingPage() {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [leadMagnetSubmitted, setLeadMagnetSubmitted] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
+    title: '',
+    firstName: '',
+    lastName: '',
     email: '',
-    company: '',
-    revenue: '',
+    phone: '',
+    agencyName: '',
     challenge: ''
   });
 
@@ -28,24 +30,125 @@ export default function LandingPage() {
   }, [formSubmitted]);
 
   const scrollToCTA = () => {
-    document.getElementById('cta-section')?.scrollIntoView({ behavior: 'smooth' });
+    const section = document.getElementById('form-cta-section');
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  const handleFormSubmit = async (e: React.FormEvent, formType: string = 'Strategy Call') => {
     e.preventDefault();
-    // In production, this would send to your CRM/backend
-    console.log('Form submitted:', formData);
-    setFormSubmitted(true);
-    setShowFloatingForm(false);
-    // Could integrate with Calendly, HubSpot, etc.
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    const submissionData = {
+      ...formData,
+      formType,
+      submittedAt: new Date().toISOString(),
+    };
+
+    try {
+      const API_URL = import.meta.env.VITE_CONTACT_API_URL || 'https://zevenstone-contact-api.zevenstone7.workers.dev';
+
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify(submissionData),
+      });
+
+      if (response.ok) {
+        setFormSubmitted(true);
+        setSubmitStatus('success');
+        setShowFloatingForm(false);
+
+        // Reset form after 3 seconds
+        setTimeout(() => {
+          setFormSubmitted(false);
+          setSubmitStatus('idle');
+          setFormData({
+            title: '',
+            firstName: '',
+            lastName: '',
+            email: '',
+            phone: '',
+            agencyName: '',
+            challenge: ''
+          });
+        }, 3000);
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch (err) {
+      console.error('Submission error:', err);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const handleLeadMagnetSubmit = (e: React.FormEvent) => {
+  const handleLeadMagnetSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // In production, this would trigger case study download + email capture
-    console.log('Lead magnet requested');
-    setLeadMagnetSubmitted(true);
-    setTimeout(() => setShowLeadMagnet(false), 2000);
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    const submissionData = {
+      ...formData,
+      formType: 'Case Study',
+      submittedAt: new Date().toISOString(),
+    };
+
+    try {
+      const API_URL = import.meta.env.VITE_CONTACT_API_URL || 'https://zevenstone-contact-api.zevenstone7.workers.dev';
+
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify(submissionData),
+      });
+
+      if (response.ok) {
+        // 1. Close modal immediately
+        setShowLeadMagnet(false);
+
+        // 2. Trigger automatic PDF download
+        const playbookUrl = '/assets/white-label-playbook.pdf'; // Update this path to your actual PDF location
+        const link = document.createElement('a');
+        link.href = playbookUrl;
+        link.setAttribute('download', 'Zevenstone-White-Label-Playbook.pdf');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        // 3. Reset states for next time
+        setFormData({
+          title: '',
+          firstName: '',
+          lastName: '',
+          email: '',
+          phone: '',
+          agencyName: '',
+          challenge: ''
+        });
+        setSubmitStatus('idle');
+        setLeadMagnetSubmitted(false); // No need for success view anymore
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch (err) {
+      console.error('Lead magnet error:', err);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -209,9 +312,9 @@ export default function LandingPage() {
           <div className="mt-10 sm:mt-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl sm:rounded-3xl p-6 sm:p-12 text-white text-center relative overflow-hidden group">
             <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-white/20 transition-all duration-700" />
             <Download className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-4 sm:mb-6" />
-            <h3 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">Download: The White-Label Growth Playbook</h3>
+            <h3 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">Download: The Growth System Case Study</h3>
             <p className="text-base sm:text-lg text-blue-100 mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed">
-              See exactly how 3 agencies scaled from $200K to $1M+ ARR using our delivery system — without hiring a single employee.
+              One partner. Every scope. See exactly how we built the brand, systems, and infrastructure that took one business from early-stage to fully scalable.
             </p>
             <button
               onClick={() => setShowLeadMagnet(true)}
@@ -719,21 +822,53 @@ export default function LandingPage() {
           {!formSubmitted ? (
             <div className="px-2 sm:px-0">
               <div className="bg-white/10 backdrop-blur-lg rounded-2xl sm:rounded-3xl p-6 sm:p-12 mb-8 border border-white/20 shadow-2xl">
-                <form onSubmit={handleFormSubmit} className="space-y-5 sm:space-y-6">
+                <form onSubmit={(e) => handleFormSubmit(e, 'Strategy Call')} className="space-y-5 sm:space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
                     <div className="text-left">
                       <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest">
+                        Title
+                      </label>
+                      <select
+                        name="title"
+                        value={formData.title}
+                        onChange={handleInputChange}
+                        className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium text-sm sm:text-base cursor-pointer appearance-none"
+                      >
+                        <option value="">Title</option>
+                        <option value="Mr.">Mr.</option>
+                        <option value="Mrs.">Mrs.</option>
+                        <option value="Ms.">Ms.</option>
+                        <option value="Dr.">Dr.</option>
+                      </select>
+                    </div>
+                    <div className="text-left">
+                      <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest">
                         <User className="w-3.5 h-3.5 sm:w-4 sm:h-4 inline mr-2" />
-                        Your Name *
+                        First Name *
                       </label>
                       <input
                         type="text"
-                        name="name"
-                        value={formData.name}
+                        name="firstName"
+                        value={formData.firstName}
                         onChange={handleInputChange}
                         required
                         className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 placeholder-gray-400 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium text-sm sm:text-base"
-                        placeholder="John Smith"
+                        placeholder="John"
+                      />
+                    </div>
+                    <div className="text-left">
+                      <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest">
+                        <User className="w-3.5 h-3.5 sm:w-4 sm:h-4 inline mr-2" />
+                        Last Name *
+                      </label>
+                      <input
+                        type="text"
+                        name="lastName"
+                        value={formData.lastName}
+                        onChange={handleInputChange}
+                        required
+                        className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 placeholder-gray-400 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium text-sm sm:text-base"
+                        placeholder="Smith"
                       />
                     </div>
                     <div className="text-left">
@@ -751,9 +886,6 @@ export default function LandingPage() {
                         placeholder="john@agency.com"
                       />
                     </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
                     <div className="text-left">
                       <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest">
                         <Building2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 inline mr-2" />
@@ -761,8 +893,8 @@ export default function LandingPage() {
                       </label>
                       <input
                         type="text"
-                        name="company"
-                        value={formData.company}
+                        name="agencyName"
+                        value={formData.agencyName}
                         onChange={handleInputChange}
                         required
                         className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 placeholder-gray-400 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium text-sm sm:text-base"
@@ -771,45 +903,44 @@ export default function LandingPage() {
                     </div>
                     <div className="text-left">
                       <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest">
-                        <DollarSign className="w-3.5 h-3.5 sm:w-4 sm:h-4 inline mr-2" />
-                        Monthly Revenue
+                        <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 inline mr-2" />
+                        Phone Number
                       </label>
-                      <select
-                        name="revenue"
-                        value={formData.revenue}
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
                         onChange={handleInputChange}
-                        className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium text-sm sm:text-base cursor-pointer appearance-none"
-                      >
-                        <option value="">Select range</option>
-                        <option value="under-50k">Under $50K</option>
-                        <option value="50k-100k">$50K - $100K</option>
-                        <option value="100k-250k">$100K - $250K</option>
-                        <option value="250k-500k">$250K - $500K</option>
-                        <option value="500k-1m">$500K - $1M</option>
-                        <option value="1m-plus">$1M+</option>
-                      </select>
+                        className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 placeholder-gray-400 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium text-sm sm:text-base"
+                        placeholder="+1 (555) 000-0000"
+                      />
+                    </div>
+                    <div className="text-left md:col-span-2">
+                      <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest">
+                        Your biggest growth challenge?
+                      </label>
+                      <textarea
+                        name="challenge"
+                        value={formData.challenge}
+                        onChange={handleInputChange}
+                        rows={3}
+                        className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 placeholder-gray-400 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium resize-none text-sm sm:text-base"
+                        placeholder="e.g., Turning away clients due to capacity..."
+                      />
                     </div>
                   </div>
 
-                  <div className="text-left">
-                    <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest">
-                      Your biggest growth challenge?
-                    </label>
-                    <textarea
-                      name="challenge"
-                      value={formData.challenge}
-                      onChange={handleInputChange}
-                      rows={3}
-                      className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 placeholder-gray-400 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium resize-none text-sm sm:text-base"
-                      placeholder="e.g., Turning away clients due to capacity..."
-                    />
-                  </div>
-
+                  {submitStatus === 'error' && (
+                    <div className="mb-4 p-4 bg-white/20 text-white rounded-xl border border-white/30 text-sm font-medium animate-shake">
+                      Oops! Something went wrong. Please try again.
+                    </div>
+                  )}
                   <button
                     type="submit"
-                    className="w-full bg-white text-blue-700 px-8 sm:px-12 py-4 sm:py-5 rounded-xl sm:rounded-2xl font-extrabold text-lg sm:text-xl shadow-2xl hover:shadow-3xl hover:scale-[1.02] active:scale-95 transition-all inline-flex items-center justify-center gap-4 group"
+                    disabled={isSubmitting}
+                    className="w-full bg-white text-blue-700 px-8 sm:px-12 py-4 sm:py-5 rounded-xl sm:rounded-2xl font-extrabold text-lg sm:text-xl shadow-2xl hover:shadow-3xl hover:scale-[1.02] active:scale-95 transition-all inline-flex items-center justify-center gap-4 group disabled:opacity-70 disabled:cursor-not-allowed"
                   >
-                    <span>Book Your Free Strategy Call</span>
+                    <span>{isSubmitting ? 'Sending...' : 'Book Your Free Strategy Call'}</span>
                     <Calendar className="w-5 h-5 sm:w-6 sm:h-6 shrink-0 group-hover:rotate-12 transition-transform" />
                   </button>
                 </form>
@@ -822,24 +953,21 @@ export default function LandingPage() {
               <p className="text-lg sm:text-xl text-blue-100 mb-6">
                 We'll reach out within 24 hours to schedule your strategy call.
               </p>
-              <p className="text-sm sm:text-base text-blue-200 font-medium">
-                Check your email for your White-Label Growth Playbook.
-              </p>
             </div>
           )}
 
           <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-4 sm:gap-10 text-xs sm:text-sm font-bold uppercase tracking-widest opacity-80">
             <div className="flex items-center gap-2.5">
               <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-400" />
-              <span>30-minute free call</span>
+              <span>30-minutes free call</span>
             </div>
             <div className="flex items-center gap-2.5">
               <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-400" />
-              <span>No sales pressure</span>
+              <span>No pressure, no pitch</span>
             </div>
             <div className="flex items-center gap-2.5">
               <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-400" />
-              <span>Custom roadmap</span>
+              <span>Custom growth roadmap</span>
             </div>
           </div>
         </div>
@@ -866,7 +994,7 @@ export default function LandingPage() {
 
       {/* Floating Sticky Form - Hidden on mobile, shown on tablet+ */}
       {showFloatingForm && (
-        <div className="hidden md:block fixed bottom-40 right-8 z-50 max-w-sm w-full animate-slide-up">
+        <div className="hidden md:block fixed bottom-10 right-8 z-50 max-w-sm w-full animate-slide-up">
           <div className="bg-white rounded-3xl shadow-2xl border border-blue-100 overflow-hidden shadow-blue-200/50">
             <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 relative">
               <button
@@ -879,39 +1007,76 @@ export default function LandingPage() {
               <p className="text-blue-100 text-xs font-medium uppercase tracking-widest">Free Strategy Call</p>
             </div>
             <div className="p-6">
-              <form onSubmit={handleFormSubmit} className="space-y-4">
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  required
-                  placeholder="Your Name"
-                  className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium"
-                />
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  required
-                  placeholder="Work Email"
-                  className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium"
-                />
-                <input
-                  type="text"
-                  name="company"
-                  value={formData.company}
-                  onChange={handleInputChange}
-                  required
-                  placeholder="Agency Name"
-                  className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium"
-                />
+              <form onSubmit={(e) => handleFormSubmit(e, 'Ready to Scale')} className="space-y-4">
+                <div className="space-y-4">
+                  <select
+                    name="title"
+                    value={formData.title}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium cursor-pointer"
+                  >
+                    <option value="">Title</option>
+                    <option value="Mr.">Mr.</option>
+                    <option value="Mrs.">Mrs.</option>
+                    <option value="Ms.">Ms.</option>
+                    <option value="Dr.">Dr.</option>
+                  </select>
+                  <input
+                    type="text"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleInputChange}
+                    required
+                    placeholder="First Name"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium"
+                  />
+                  <input
+                    type="text"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleInputChange}
+                    required
+                    placeholder="Last Name"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium"
+                  />
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    required
+                    placeholder="Work Email"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium"
+                  />
+                  <input
+                    type="text"
+                    name="agencyName"
+                    value={formData.agencyName}
+                    onChange={handleInputChange}
+                    required
+                    placeholder="Agency Name"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium"
+                  />
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    placeholder="Phone Number"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium"
+                  />
+                </div>
+                {submitStatus === 'error' && (
+                  <div className="mb-4 p-4 bg-red-50 text-red-600 rounded-xl border border-red-100 text-sm font-medium animate-shake">
+                    Oops! Something went wrong. Please try again.
+                  </div>
+                )}
                 <button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 rounded-xl font-bold hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-sm shadow-lg shadow-blue-100"
+                  disabled={isSubmitting}
+                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 rounded-xl font-bold hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-sm shadow-lg shadow-blue-100 disabled:opacity-70 disabled:cursor-not-allowed"
                 >
-                  Book Free Call →
+                  {isSubmitting ? 'Sending...' : 'Book Free Call →'}
                 </button>
               </form>
               <p className="text-[10px] text-gray-400 mt-4 text-center font-bold uppercase tracking-widest opacity-60">No commitment required</p>
@@ -932,29 +1097,102 @@ export default function LandingPage() {
             </button>
 
             {!leadMagnetSubmitted ? (
-              <div className="p-8 sm:p-14">
-                <div className="bg-gradient-to-br from-blue-500 to-purple-600 w-14 h-14 sm:w-20 sm:h-20 rounded-2xl sm:rounded-3xl flex items-center justify-center mb-6 sm:mb-8 shadow-xl shadow-blue-200">
-                  <Download className="w-6 h-6 sm:w-10 sm:h-10 text-white" />
+              <div className="p-6 sm:p-10 md:p-14 max-h-[90vh] overflow-y-auto custom-scrollbar">
+                <div className="bg-gradient-to-br from-blue-500 to-purple-600 w-12 h-12 sm:w-16 md:w-20 rounded-xl sm:rounded-2xl md:rounded-3xl flex items-center justify-center mb-4 sm:mb-6 md:mb-8 shadow-xl shadow-blue-200">
+                  <Download className="w-5 h-5 sm:w-8 md:w-10 text-white" />
                 </div>
-                <h3 className="text-2xl sm:text-4xl font-extrabold text-gray-900 mb-4 leading-tight tracking-tight">
-                  Get The White-Label <span className="text-blue-600">Growth Playbook</span>
+                <h3 className="text-xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 mb-3 md:mb-4 leading-tight tracking-tight">
+                  Growth System <span className="text-blue-600">Case Study</span>
                 </h3>
-                <p className="text-sm sm:text-lg text-gray-600 mb-8 sm:mb-10 leading-relaxed font-medium">
-                  Instant download: See the exact system used to scale 3 agencies to $1M+ ARR without hiring.
-                </p>
 
-                <form onSubmit={handleLeadMagnetSubmit} className="space-y-4 sm:space-y-5">
-                  <input
-                    type="email"
-                    required
-                    placeholder="Your work email"
-                    className="w-full px-5 py-4 sm:py-5 rounded-xl sm:rounded-2xl border-2 border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-base sm:text-xl font-medium shadow-sm"
-                  />
+                <form onSubmit={handleLeadMagnetSubmit} className="space-y-4 sm:space-y-5 text-left">
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-xs font-bold mb-2 text-gray-400 uppercase tracking-widest px-1">Title</label>
+                      <select
+                        name="title"
+                        value={formData.title}
+                        onChange={handleInputChange}
+                        className="w-full px-5 py-3 sm:py-4 rounded-xl border-2 border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-base font-medium shadow-sm cursor-pointer"
+                      >
+                        <option value="">Title</option>
+                        <option value="Mr.">Mr.</option>
+                        <option value="Mrs.">Mrs.</option>
+                        <option value="Ms.">Ms.</option>
+                        <option value="Dr.">Dr.</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold mb-2 text-gray-400 uppercase tracking-widest px-1">First Name *</label>
+                      <input
+                        type="text"
+                        name="firstName"
+                        value={formData.firstName}
+                        onChange={handleInputChange}
+                        required
+                        placeholder="John"
+                        className="w-full px-5 py-3 sm:py-4 rounded-xl border-2 border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-base font-medium shadow-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold mb-2 text-gray-400 uppercase tracking-widest px-1">Last Name *</label>
+                      <input
+                        type="text"
+                        name="lastName"
+                        value={formData.lastName}
+                        onChange={handleInputChange}
+                        required
+                        placeholder="Smith"
+                        className="w-full px-5 py-3 sm:py-4 rounded-xl border-2 border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-base font-medium shadow-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold mb-2 text-gray-400 uppercase tracking-widest px-1">Work Email *</label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        required
+                        placeholder="john@agency.com"
+                        className="w-full px-5 py-3 sm:py-4 rounded-xl border-2 border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-base font-medium shadow-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold mb-2 text-gray-400 uppercase tracking-widest px-1">Agency Name *</label>
+                      <input
+                        type="text"
+                        name="agencyName"
+                        value={formData.agencyName}
+                        onChange={handleInputChange}
+                        required
+                        placeholder="Your Agency Name"
+                        className="w-full px-5 py-3 sm:py-4 rounded-xl border-2 border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-base font-medium shadow-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold mb-2 text-gray-400 uppercase tracking-widest px-1">Phone Number</label>
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                        placeholder="+1 (555) 000-0000"
+                        className="w-full px-5 py-3 sm:py-4 rounded-xl border-2 border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-base font-medium shadow-sm"
+                      />
+                    </div>
+                  </div>
+                  {submitStatus === 'error' && (
+                    <div className="p-4 bg-red-50 text-red-600 rounded-xl border border-red-100 text-sm font-medium animate-shake">
+                      Oops! Something went wrong. Please try again.
+                    </div>
+                  )}
                   <button
                     type="submit"
-                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 sm:py-5 rounded-xl sm:rounded-2xl font-extrabold text-base sm:text-xl shadow-xl shadow-blue-100 hover:shadow-2xl hover:scale-[1.02] active:scale-95 transition-all"
+                    disabled={isSubmitting || !formData.firstName || !formData.lastName || !formData.email || !formData.agencyName || !formData.phone}
+                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 sm:py-5 rounded-xl sm:rounded-2xl font-extrabold text-base sm:text-xl shadow-xl shadow-blue-100 hover:shadow-2xl hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100"
                   >
-                    Send My Free Playbook →
+                    {isSubmitting ? 'Sending...' : 'Get Your Free Case Study →'}
                   </button>
                 </form>
 
@@ -970,12 +1208,12 @@ export default function LandingPage() {
                 </div>
               </div>
             ) : (
-              <div className="p-8 sm:p-20 text-center">
-                <div className="w-20 h-20 sm:w-24 sm:h-24 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-8">
-                  <CheckCircle className="w-12 h-12 sm:w-16 sm:h-16 text-green-500 animate-pulse" />
+              <div className="p-10 sm:p-16 md:p-20 text-center">
+                <div className="w-16 h-16 sm:w-20 md:w-24 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6 md:mb-8">
+                  <CheckCircle className="w-10 h-10 sm:w-14 md:w-16 text-green-500 animate-pulse" />
                 </div>
-                <h3 className="text-2xl sm:text-4xl font-extrabold text-gray-900 mb-4 tracking-tight">Check Your Inbox!</h3>
-                <p className="text-base sm:text-xl text-gray-600 font-medium leading-relaxed">
+                <h3 className="text-xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 mb-3 md:mb-4 tracking-tight">Check Your Inbox!</h3>
+                <p className="text-sm sm:text-lg md:text-xl text-gray-600 font-medium leading-relaxed">
                   We've sent the White-Label Growth Playbook. It will arrive within 2 minutes.
                 </p>
               </div>

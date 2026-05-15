@@ -117,10 +117,10 @@ export const ContactForm: React.FC = () => {
                <label className="text-zeven-blue font-bold text-xs uppercase tracking-wider group-focus-within:text-zeven-deep transition-colors">Title</label>
                <select name="title" value={formData.title} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-zeven-dark focus:outline-none focus:border-zeven-blue focus:bg-white focus:shadow-lg transition-all">
                   <option value="">Select Title</option>
-                  <option value="Mr">Mr</option>
-                  <option value="Mrs">Mrs</option>
-                  <option value="Miss">Miss</option>
-                  <option value="Dr">Dr</option>
+                  <option value="Mr.">Mr.</option>
+                  <option value="Mrs.">Mrs.</option>
+                  <option value="Ms.">Ms.</option>
+                  <option value="Dr.">Dr.</option>
                </select>
             </div>
             <div className="space-y-1.5 group">
@@ -142,11 +142,10 @@ export const ContactForm: React.FC = () => {
             <div className="relative">
                <select name="budget" value={formData.budget} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-zeven-dark focus:outline-none focus:border-zeven-blue focus:bg-white focus:shadow-lg transition-all appearance-none cursor-pointer">
                   <option value="">Select a range</option>
-                  <option value="$50k+">$50k+</option>
-                  <option value="$25k - $50k">$25k - $50k</option>
-                  <option value="$10k - $25k">$10k - $25k</option>
-                  <option value="$5k - $10k">$5k - $10k</option>
-                  <option value="$1k - $5k">$1k - $5k</option>
+                  <option value="5K-10K">5K-10K</option>
+                  <option value="10K-50K">10K-50K</option>
+                  <option value="50K-100K">50K-100K</option>
+                  <option value="100K-500K">100K-500K</option>
                </select>
                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-zeven-gray">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 9l6 6 6-6" /></svg>
