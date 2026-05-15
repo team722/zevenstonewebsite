@@ -120,13 +120,25 @@ export default function LandingPage() {
         setShowLeadMagnet(false);
 
         // 2. Trigger automatic PDF download
-        const playbookUrl = '/assets/Zevenstone Website Case Studies.pdf'; // Update this path to your actual PDF location
-        const link = document.createElement('a');
-        link.href = playbookUrl;
-        link.setAttribute('download', 'Zevenstone-Website-Case-Studies.pdf');
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        // Fetch as blob to ensure the file downloads correctly on all hosts (including Firebase Hosting)
+        // which may not set the correct Content-Disposition headers for direct links.
+        const playbookUrl = '/assets/Zevenstone Website Case Studies.pdf';
+        try {
+          const pdfResponse = await fetch(playbookUrl);
+          const blob = await pdfResponse.blob();
+          const objectUrl = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = objectUrl;
+          link.setAttribute('download', 'Zevenstone-Website-Case-Studies.pdf');
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(objectUrl); // Clean up the object URL
+        } catch (pdfError) {
+          console.error('PDF download error:', pdfError);
+          // Fallback: open the PDF in a new tab if fetch fails
+          window.open(playbookUrl, '_blank');
+        }
 
         // 3. Reset states for next time
         setFormData({
