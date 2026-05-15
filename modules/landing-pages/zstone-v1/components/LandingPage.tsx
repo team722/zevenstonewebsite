@@ -1,6 +1,7 @@
 import { ArrowRight, CheckCircle, TrendingUp, Zap, Users, Target, Clock, Shield, Award, Star, DollarSign, BarChart3, Rocket, X, Download, Mail, Building2, User, Calendar } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import imgLinkLogo from "figma:asset/landingpageLogo.png";
+import imgWhiteLogo from "figma:asset/Logo-White.webp";
 
 export default function LandingPage() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -358,7 +359,7 @@ export default function LandingPage() {
           </div>
 
           {/* Services Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-10 sm:mb-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-10 sm:mb-12">
             {/* Digital Marketing */}
             <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-xl border border-gray-100 hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 flex flex-col">
               <div className="bg-gradient-to-br from-blue-500 to-blue-600 w-12 h-12 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-blue-200">
@@ -370,7 +371,6 @@ export default function LandingPage() {
                   "Search Engine Optimisation",
                   "Paid Search · Google Ads",
                   "Social Media Advertising",
-                  "Content Marketing",
                   "Lead Generation",
                   "CRO Audit"
                 ].map((item, idx) => (
@@ -393,7 +393,6 @@ export default function LandingPage() {
                   "CRM Setup and Management",
                   "Lead Management System",
                   "Sales Pipeline Management",
-                  "Lead Nurturing",
                   "Email and Lifecycle Sequences",
                   "AI Solutions"
                 ].map((item, idx) => (
@@ -415,7 +414,6 @@ export default function LandingPage() {
                 {[
                   "Brand Strategy",
                   "Graphic Design · Motion Graphics",
-                  "UI/UX Design",
                   "Video Editing",
                   "UI/UX Design",
                   "Web & Digital Experience"
@@ -427,11 +425,33 @@ export default function LandingPage() {
                 ))}
               </ul>
             </div>
+            {/* Tech Solutions */}
+            <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-xl border border-gray-100 hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 flex flex-col sm:col-span-2 lg:col-span-1">
+              <div className="bg-gradient-to-br from-indigo-500 to-indigo-600 w-12 h-12 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-indigo-200">
+                <Target className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+              </div>
+              <h3 className="text-xl sm:text-2xl font-bold text-[#2c2e33] mb-4">Tech Solutions</h3>
+              <ul className="space-y-2.5 text-sm sm:text-base text-gray-600 flex-grow">
+                {[
+                  "Custom Web Development",
+                  "E-Commerce Solutions",
+                  "Web App Development",
+                  "Customer Journey Design",
+                  "App Development"
+                ].map((item, idx) => (
+                  <li key={idx} className="flex items-center gap-3">
+                    <CheckCircle className="w-4 h-4 text-indigo-500 shrink-0" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
           </div>
 
           {/* Key Message */}
-          <div className="text-center px-4">
-            <p className="text-lg sm:text-2xl font-bold text-[#2c2e33] leading-relaxed">
+          <div className="text-center px-4 bg-[#2c2e33] text-white py-12 rounded-md">
+            <p className="text-lg sm:text-2xl font-bold text-white leading-relaxed">
               One partner. Every scope. Delivered under your brand.
             </p>
           </div>
@@ -992,10 +1012,10 @@ export default function LandingPage() {
       <footer className="bg-[#2c2e33] text-white py-12 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto text-center">
           <div className="flex items-center justify-center gap-2.5 mb-6">
-            <div className="bg-gradient-to-br from-blue-500 p-2 rounded-lg shadow-lg">
-              <img src={imgLinkLogo} alt="Zevenstone" className="h-6 sm:h-8" />
+            <div className="p-2 rounded-lg">
+              <img src={imgWhiteLogo} alt="Zevenstone" className="h-16 sm:h-20" />
             </div>
-            <span className="font-extrabold text-xl tracking-tight">ZEVENSTONE</span>
+            <span className="hidden font-extrabold text-xl tracking-tight">ZEVENSTONE</span>
           </div>
           <p className="text-gray-400 mb-4 font-medium text-sm sm:text-base">Ohio, USA · info@zevenstone.com</p>
           <div className="w-12 h-1 bg-blue-500 mx-auto mb-6 rounded-full opacity-50" />
