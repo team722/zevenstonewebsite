@@ -904,13 +904,14 @@ export default function LandingPage() {
                     <div className="text-left">
                       <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest">
                         <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 inline mr-2" />
-                        Phone Number
+                        Phone Number *
                       </label>
                       <input
                         type="tel"
                         name="phone"
                         value={formData.phone}
                         onChange={handleInputChange}
+                        required
                         className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 placeholder-gray-400 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium text-sm sm:text-base"
                         placeholder="+1 (555) 000-0000"
                       />
@@ -1062,7 +1063,8 @@ export default function LandingPage() {
                     name="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    placeholder="Phone Number"
+                    required
+                    placeholder="Phone Number *"
                     className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium"
                   />
                 </div>
@@ -1171,12 +1173,13 @@ export default function LandingPage() {
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-bold mb-2 text-gray-400 uppercase tracking-widest px-1">Phone Number</label>
+                      <label className="block text-xs font-bold mb-2 text-gray-400 uppercase tracking-widest px-1">Phone Number *</label>
                       <input
                         type="tel"
                         name="phone"
                         value={formData.phone}
                         onChange={handleInputChange}
+                        required
                         placeholder="+1 (555) 000-0000"
                         className="w-full px-5 py-3 sm:py-4 rounded-xl border-2 border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-base font-medium shadow-sm"
                       />
