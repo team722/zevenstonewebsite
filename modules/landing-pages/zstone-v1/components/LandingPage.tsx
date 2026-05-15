@@ -609,7 +609,7 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-10 sm:mb-16">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#2c2e33] mb-4 sm:mb-6">
-              An Engagement Model Built Around Your Agency
+              An Engagement Model Built Around <br /> Your Agency
             </h2>
           </div>
 
@@ -665,7 +665,7 @@ export default function LandingPage() {
               Results
             </div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#2c2e33] mb-4 sm:mb-6">
-              Agencies That Partner With Zevenstone Scale Faster
+              Agencies That Partner With Zevenstone <br /> Scale Faster
             </h2>
           </div>
 
@@ -770,7 +770,7 @@ export default function LandingPage() {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-10 sm:mb-12">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#2c2e33] mb-4 sm:mb-6 leading-tight">
-              Is Zevenstone Right for Your Agency?
+              Is Zevenstone Right for <br /> Your Agency?
             </h2>
             <p className="text-lg sm:text-xl text-gray-600">
               We're the perfect fit if you check 3 or more of these boxes:
@@ -803,7 +803,7 @@ export default function LandingPage() {
           <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl sm:rounded-3xl p-6 sm:p-12 text-white text-center shadow-2xl relative overflow-hidden">
             <div className="absolute inset-0 bg-white/5 animate-pulse" />
             <p className="text-xl sm:text-2xl md:text-3xl font-bold mb-6 sm:mb-8 relative z-10">
-              Checked 3 or more? Let's talk about your growth roadmap.
+              Checked 3 or more? <br /> Let's talk about your growth roadmap.
             </p>
             <button
               onClick={scrollToCTA}
