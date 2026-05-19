@@ -369,9 +369,6 @@ export default function PrivacyPage() {
                       By using Zevenstone's services, you acknowledge that you have read and understood this Privacy
                       Policy and agree to the collection, use, and disclosure of your information as described herein.
                     </p>
-                    <div className="text-sm text-gray-600">
-                      <span className="font-bold">Effective Date:</span> May 19, 2026
-                    </div>
                   </div>
                 </div>
               </div>
