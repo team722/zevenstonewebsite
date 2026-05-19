@@ -18,7 +18,8 @@ import { BlogPost } from './pages/BlogPost';
 import { LandingPage as LandingPageOriginal } from './pages/LandingPage';
 // New Modular Landing Page Components
 import ZstoneLandingPageV1 from './modules/landing-pages/zstone-v1/components/LandingPage';
-
+import TermsPage from './pages/TermsPage';
+import PrivacyPage from './pages/Privacy';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -56,7 +57,9 @@ const AppContent: React.FC = () => {
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/:slug" element={<LandingPageOriginal />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/terms-and-conditions" element={<TermsPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPage />} />
 
           {/* New Modular Landing Page Routes (Phase 2) */}
           <Route path="/landing-page" element={<ZstoneLandingPageV1 />} />
