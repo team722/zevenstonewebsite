@@ -29,9 +29,10 @@ export const Footer: React.FC = () => {
   const quickLinks = siteSettings?.footerNavigation || defaultQuickLinks;
   const servicesLinks = siteSettings?.footerServices || defaultServices;
   const legalLinks = siteSettings?.legalLinks || [
-    { text: 'Privacy Policy', url: '#' },
-    { text: 'Terms of Service', url: '#' }
+    { text: 'Privacy Policy', url: '/privacy-policy' },
+    { text: 'Terms of Service', url: '/terms-and-conditions' }
   ];
+
   return (
     <footer className="bg-zeven-dark border-t border-white/5 pt-20 pb-10 text-white">
       <div className="container mx-auto px-6">
