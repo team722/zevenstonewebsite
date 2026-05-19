@@ -273,7 +273,7 @@ export const SINGLE_SERVICE_QUERY = `
     "imageUrl": image.asset->url,
     hero {
       title, subtitle, stats[]{value, label},
-      "trustedLogosUrls": trustedLogos[].asset->url
+      trustedBrands
     },
     featuredVideo {
       title, description, videoUrl, "thumbnailUrl": thumbnail.asset->url
