@@ -141,9 +141,9 @@ export const Footer: React.FC = () => {
           </p>
           <div className="flex gap-8">
             {legalLinks.map((item: any, idx: number) => (
-              <a key={idx} href={item.url || '#'} className="text-slate-500 text-sm hover:text-white">
+              <Link key={idx} to={item.url || '#'} className="text-slate-500 text-sm hover:text-white">
                 {item.text}
-              </a>
+              </Link>
             ))}
           </div>
         </div>

@@ -514,9 +514,6 @@ export default function TermsPage() {
                       By using Zevenstone's services, you acknowledge that you have read, understood, and agree to
                       be bound by these Terms and Conditions in their entirety.
                     </p>
-                    <div className="text-sm text-gray-600">
-                                          <span className="font-bold">Effective Date:</span> May 19, 2026
-                    </div>
                   </div>
                 </div>
               </div>

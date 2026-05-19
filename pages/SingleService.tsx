@@ -81,7 +81,7 @@ export const SingleService: React.FC = () => {
               {service.ctaButton?.text && (
                 <Link
                   to={service.ctaButton.url?.startsWith('http') ? service.ctaButton.url : `/${service.ctaButton.url?.replace(/^\//, '') || ''}`}
-                  className="bg-zeven-blue text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-blue-700 transition duration-300 shadow-xl shadow-blue-500/20 text-center"
+                  className="bg-zeven-blue text-white px-10 py-4 rounded-xl font-bold text-lg hover:bg-blue-700 transition duration-300 shadow-xl shadow-blue-500/20 text-center"
                 >
                   {service.ctaButton.text}
                 </Link>
@@ -91,7 +91,7 @@ export const SingleService: React.FC = () => {
                   href={service.secondaryCtaButton.url || '#'}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-white text-zeven-dark border-2 border-gray-100 px-10 py-4 rounded-full font-bold text-lg hover:border-zeven-blue hover:text-zeven-blue transition duration-300 text-center"
+                  className="bg-white text-zeven-dark border-2 border-gray-100 px-10 py-4 rounded-xl font-bold text-lg hover:border-zeven-blue hover:text-zeven-blue transition duration-300 text-center"
                 >
                   {service.secondaryCtaButton.text}
                 </a>
@@ -100,7 +100,7 @@ export const SingleService: React.FC = () => {
                 <>
                   <Link
                     to="/contact"
-                    className="bg-zeven-blue text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-blue-700 transition duration-300 shadow-xl shadow-blue-500/20 text-center"
+                    className="bg-zeven-blue text-white px-10 py-4 rounded-xl font-bold text-lg hover:bg-blue-700 transition duration-300 shadow-xl shadow-blue-500/20 text-center"
                   >
                     👉 Book a Strategy Call
                   </Link>
@@ -108,7 +108,7 @@ export const SingleService: React.FC = () => {
                     href={service.secondaryCtaButton?.url || '#'}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-white text-zeven-dark border-2 border-gray-100 px-10 py-4 rounded-full font-bold text-lg hover:border-zeven-blue hover:text-zeven-blue transition duration-300 text-center"
+                    className="bg-white text-zeven-dark border-2 border-gray-100 px-10 py-4 rounded-xl font-bold text-lg hover:border-zeven-blue hover:text-zeven-blue transition duration-300 text-center"
                   >
                     Watch Showreel
                   </a>
@@ -153,37 +153,54 @@ export const SingleService: React.FC = () => {
                 href={service.featuredVideo.videoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="max-w-5xl mx-auto relative rounded-[2rem] md:rounded-[3rem] overflow-hidden aspect-[16/10] md:aspect-video bg-[#1a1f2e] group cursor-pointer border border-white/5 shadow-2xl block text-left"
+                className="max-w-5xl mx-auto block group cursor-pointer text-left"
               >
-                {service.featuredVideo.thumbnailUrl ? (
-                  <img src={service.featuredVideo.thumbnailUrl} alt="Video Thumbnail" className="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition duration-1000 group-hover:scale-105" />
-                ) : (
+                {/* Video Container */}
+                <div className="relative rounded-[2rem] md:rounded-[3rem] overflow-hidden aspect-[16/10] md:aspect-video bg-[#1a1f2e] border border-white/5 shadow-2xl">
+                  {service.featuredVideo.thumbnailUrl ? (
+                    <img src={service.featuredVideo.thumbnailUrl} alt="Video Thumbnail" className="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition duration-1000 group-hover:scale-105" />
+                  ) : (
                     <div className="w-full h-full bg-[#1a1f2e]" />
-                )}
+                  )}
 
-                {/* Play Button */}
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <div className="w-16 h-16 md:w-24 md:h-24 bg-white rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-500 shadow-xl pointer-events-auto">
-                    <Play className="w-6 h-6 md:w-10 md:h-10 text-blue-500 ml-1 md:ml-2" fill="currentColor" />
+                  {/* Play Button */}
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div className="w-16 h-16 md:w-24 md:h-24 bg-white rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-500 shadow-xl pointer-events-auto">
+                      <Play className="w-6 h-6 md:w-10 md:h-10 text-blue-500 ml-1 md:ml-2" fill="currentColor" />
+                    </div>
+                  </div>
+
+                  {/* Decorative dark gradient for text legibility at bottom (Desktop Only) */}
+                  <div className="hidden md:block absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-[#0A0F1C] via-[#0A0F1C]/40 to-transparent pointer-events-none opacity-90" />
+
+                  {/* Desktop Overlay Content (Hidden on Mobile) */}
+                  <div className="hidden md:flex absolute bottom-8 left-8 right-8 items-end justify-between gap-6 pointer-events-none">
+                    {/* Info Overlay */}
+                    <div>
+                      <p className="text-xs font-bold text-gray-300 uppercase tracking-widest mb-2">{service.featuredVideo.overlay?.badge || 'Featured Showreel'}</p>
+                      <p className="text-3xl font-extrabold text-white mb-2 leading-tight">{service.featuredVideo.overlay?.title || 'Zevenstone Video Production 2026'}</p>
+                      <p className="text-sm text-gray-400">{service.featuredVideo.overlay?.description || 'Award-winning video content that drives growth'}</p>
+                    </div>
+
+                    {/* Portfolio View Counter Box */}
+                    <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl px-6 py-4 text-left min-w-[200px] pointer-events-auto">
+                      <p className="text-xs text-gray-300 mb-1">{service.featuredVideo.overlay?.counter?.label || 'Total Portfolio Views'}</p>
+                      <p className="text-3xl font-bold text-white tracking-tight">{service.featuredVideo.overlay?.counter?.value || '12.4M+'}</p>
+                    </div>
                   </div>
                 </div>
 
-                {/* Decorative dark gradient for text legibility at bottom */}
-                <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-[#0A0F1C] via-[#0A0F1C]/40 to-transparent pointer-events-none opacity-90" />
-
-                {/* Overlay Content */}
-                <div className="absolute bottom-6 md:bottom-8 left-6 md:left-8 right-6 md:right-8 flex flex-col md:flex-row md:items-end justify-between gap-6 pointer-events-none">
-                  {/* Info Overlay */}
+                {/* Mobile Info & Counter (Below Video, Hidden on Desktop) */}
+                <div className="md:hidden mt-6 flex flex-col gap-5 px-2">
                   <div>
-                    <p className="text-[10px] md:text-xs font-bold text-gray-300 uppercase tracking-widest mb-1.5 md:mb-2">Featured Showreel</p>
-                    <p className="text-xl md:text-3xl font-extrabold text-white mb-1.5 md:mb-2 leading-tight">Zevenstone Video Production 2026</p>
-                    <p className="text-xs md:text-sm text-gray-400">Award-winning video content that drives growth</p>
+                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">{service.featuredVideo.overlay?.badge || 'Featured Showreel'}</p>
+                    <p className="text-2xl font-extrabold text-white mb-1.5 leading-tight">{service.featuredVideo.overlay?.title || 'Zevenstone Video Production 2026'}</p>
+                    <p className="text-sm text-gray-400">{service.featuredVideo.overlay?.description || 'Award-winning video content that drives growth'}</p>
                   </div>
 
-                  {/* Portfolio View Counter Box */}
-                  <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl md:rounded-2xl px-5 py-4 md:px-6 md:py-4 text-left min-w-[200px]">
-                    <p className="text-[10px] md:text-xs text-gray-300 mb-1">Total Portfolio Views</p>
-                    <p className="text-2xl md:text-3xl font-bold text-white tracking-tight">12.4M+</p>
+                  <div className="bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-left inline-block w-max">
+                    <p className="text-[10px] text-gray-400 mb-1">{service.featuredVideo.overlay?.counter?.label || 'Total Portfolio Views'}</p>
+                    <p className="text-2xl font-bold text-white tracking-tight">{service.featuredVideo.overlay?.counter?.value || '12.4M+'}</p>
                   </div>
                 </div>
               </a>
@@ -208,7 +225,7 @@ export const SingleService: React.FC = () => {
                   <div className="bg-white p-8 md:p-10 rounded-[2.5rem] border border-slate-100 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.08)] transition-all duration-500 hover:-translate-y-2 h-full flex flex-col">
                     <div className="w-16 h-16 bg-blue-50 text-zeven-blue rounded-2xl flex items-center justify-center mb-8 shadow-sm">
                       {benefit.icon ? (
-                        <img src={benefit.icon} alt={benefit.title} className="w-8 h-8 object-contain" />
+                        <img src={benefit.icon} alt={benefit.title} className="object-contain" />
                       ) : (
                         <span className="font-bold text-2xl">{index + 1}</span>
                       )}
@@ -225,7 +242,7 @@ export const SingleService: React.FC = () => {
 
       {/* Process Strip */}
       {service.process && (
-        <section className="py-24 md:py-32 bg-white overflow-hidden">
+        <section className="py-12  bg-white overflow-hidden">
           <div className="container mx-auto px-6 lg:px-12">
             <ScrollReveal>
               <div className="text-center mb-20 max-w-3xl mx-auto">
@@ -429,7 +446,7 @@ export const SingleService: React.FC = () => {
                   <p className="text-slate-500 mb-12 max-w-2xl mx-auto text-lg md:text-xl font-light leading-relaxed">{service.engagement.description}</p>
                   <Link
                     to={service.engagement.ctaUrl?.startsWith('http') ? service.engagement.ctaUrl : `/${service.engagement.ctaUrl?.replace(/^\//, '') || 'contact'}`}
-                    className="inline-block bg-zeven-blue text-white px-6 sm:px-12 py-5 rounded-full font-bold text-xl hover:bg-blue-700 transition-all duration-300 shadow-2xl shadow-blue-500/30 hover:-translate-y-1"
+                    className="inline-block bg-zeven-blue text-white px-6 sm:px-12 py-5 rounded-xl font-bold text-xl hover:bg-blue-700 transition-all duration-300 shadow-2xl shadow-blue-500/30 hover:-translate-y-1"
                   >
                     {service.engagement.ctaText || "Get Started"}
                   </Link>
@@ -493,7 +510,7 @@ export const SingleService: React.FC = () => {
             <ScrollReveal delay={0.4}>
               <Link
                 to={service.bottomCta.buttonUrl?.startsWith('http') ? service.bottomCta.buttonUrl : `/${service.bottomCta.buttonUrl?.replace(/^\//, '') || 'contact'}`}
-                className="inline-block bg-white text-zeven-blueDark px-12 py-5 rounded-2xl font-bold text-xl hover:scale-105 transition-all duration-300 shadow-[0_20px_50px_rgba(255,255,255,0.1)] hover:bg-blue-50"
+                className="inline-block bg-white text-zeven-blue px-12 py-5 rounded-xl font-bold text-xl hover:scale-105 transition-all duration-300 shadow-[0_20px_50px_rgba(255,255,255,0.1)] hover:bg-blue-50"
               >
                 {service.bottomCta.buttonText || "Let's Talk"}
               </Link>

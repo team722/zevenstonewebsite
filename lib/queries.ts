@@ -276,7 +276,10 @@ export const SINGLE_SERVICE_QUERY = `
       trustedBrands
     },
     featuredVideo {
-      title, description, videoUrl, "thumbnailUrl": thumbnail.asset->url
+      title, description, videoUrl, "thumbnailUrl": thumbnail.asset->url,
+      overlay {
+        badge, title, description, counter { label, value }
+      }
     },
     benefits {
       title, benefitsList[]{"icon": icon.asset->url, title, description}
