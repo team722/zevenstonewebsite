@@ -41,7 +41,7 @@ export const SingleService: React.FC = () => {
 
       {/* Hero Section */}
       {service.hero && (
-        <section className="container mx-auto px-6 lg:px-12 pt-12 pb-24 text-center">
+        <section className="container mx-auto px-6 lg:px-12 pt-12 text-center">
           <ScrollReveal>
             <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-[#F0FDF4] border border-[#86EFAC]/50 text-[#008236] text-xs md:text-sm font-semibold mb-8 shadow-sm mx-auto">
               <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none">
@@ -117,18 +117,22 @@ export const SingleService: React.FC = () => {
             </div>
           </ScrollReveal>
 
-          {service.hero.trustedLogosUrls && service.hero.trustedLogosUrls.length > 0 && (
-            <ScrollReveal delay={0.5}>
-              <div className="mt-16">
-                <p className="text-xs md:text-sm text-gray-400 uppercase tracking-widest font-bold mb-8 opacity-70">Brands That Trust Our Work</p>
-                <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-40 grayscale hover:grayscale-0 transition-all duration-700">
-                  {service.hero.trustedLogosUrls.map((logo: string, i: number) => (
-                    <img key={i} src={logo} alt="Trusted Brand" className="h-4 md:h-5 object-contain" />
-                  ))}
-                </div>
-              </div>
-            </ScrollReveal>
-          )}
+        </section>
+      )}
+
+      {/* Trust Strip */}
+      {service.hero?.trustedBrands && service.hero.trustedBrands.length > 0 && (
+        <section className="py-12 px-4 bg-white border-b border-gray-100">
+          <div className="max-w-7xl mx-auto">
+            <p className="text-center text-sm font-semibold text-gray-500 uppercase tracking-wider mb-6">
+              Brands That Trust Our Work
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-12 opacity-60">
+              {service.hero.trustedBrands.map((brand: string, idx: number) => (
+                <div key={idx} className="text-2xl font-bold text-gray-400 uppercase">{brand}</div>
+              ))}
+            </div>
+          </div>
         </section>
       )}
 
@@ -149,21 +153,39 @@ export const SingleService: React.FC = () => {
                 href={service.featuredVideo.videoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="max-w-5xl mx-auto relative rounded-[2rem] md:rounded-[3rem] overflow-hidden aspect-video bg-black/50 group cursor-pointer border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] block"
+                className="max-w-5xl mx-auto relative rounded-[2rem] md:rounded-[3rem] overflow-hidden aspect-[16/10] md:aspect-video bg-[#1a1f2e] group cursor-pointer border border-white/5 shadow-2xl block text-left"
               >
                 {service.featuredVideo.thumbnailUrl ? (
-                  <img src={service.featuredVideo.thumbnailUrl} alt="Video Thumbnail" className="w-full h-full object-cover opacity-70 group-hover:opacity-40 transition duration-1000 group-hover:scale-105" />
+                  <img src={service.featuredVideo.thumbnailUrl} alt="Video Thumbnail" className="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition duration-1000 group-hover:scale-105" />
                 ) : (
-                  <div className="w-full h-full bg-slate-800" />
+                    <div className="w-full h-full bg-[#1a1f2e]" />
                 )}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-20 h-20 md:w-32 md:h-32 bg-white/10 backdrop-blur-xl rounded-full flex items-center justify-center group-hover:scale-110 transition-all duration-700 border border-white/20 group-hover:bg-zeven-blue/20 group-hover:border-zeven-blue/50">
-                    <Play className="w-8 h-8 md:w-12 md:h-12 text-white ml-2 group-hover:fill-white transition-all duration-500" fill="currentColor" />
+
+                {/* Play Button */}
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div className="w-16 h-16 md:w-24 md:h-24 bg-white rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-500 shadow-xl pointer-events-auto">
+                    <Play className="w-6 h-6 md:w-10 md:h-10 text-blue-500 ml-1 md:ml-2" fill="currentColor" />
                   </div>
                 </div>
 
-                {/* Decorative overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                {/* Decorative dark gradient for text legibility at bottom */}
+                <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-[#0A0F1C] via-[#0A0F1C]/40 to-transparent pointer-events-none opacity-90" />
+
+                {/* Overlay Content */}
+                <div className="absolute bottom-6 md:bottom-8 left-6 md:left-8 right-6 md:right-8 flex flex-col md:flex-row md:items-end justify-between gap-6 pointer-events-none">
+                  {/* Info Overlay */}
+                  <div>
+                    <p className="text-[10px] md:text-xs font-bold text-gray-300 uppercase tracking-widest mb-1.5 md:mb-2">Featured Showreel</p>
+                    <p className="text-xl md:text-3xl font-extrabold text-white mb-1.5 md:mb-2 leading-tight">Zevenstone Video Production 2026</p>
+                    <p className="text-xs md:text-sm text-gray-400">Award-winning video content that drives growth</p>
+                  </div>
+
+                  {/* Portfolio View Counter Box */}
+                  <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl md:rounded-2xl px-5 py-4 md:px-6 md:py-4 text-left min-w-[200px]">
+                    <p className="text-[10px] md:text-xs text-gray-300 mb-1">Total Portfolio Views</p>
+                    <p className="text-2xl md:text-3xl font-bold text-white tracking-tight">12.4M+</p>
+                  </div>
+                </div>
               </a>
             </ScrollReveal>
           </div>
