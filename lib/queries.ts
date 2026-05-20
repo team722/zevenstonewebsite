@@ -101,19 +101,51 @@ export const SERVICES_QUERY = `
 
 export const CASE_STUDIES_QUERY = `
   *[_type == "caseStudy"] {
-    _id, client, headline, challenge, solution, impact, tags, "slug": slug.current,
-    "imageUrl": image.asset->url
+    _id, client, industry, title, subtitle, tags, "slug": slug.current,
+    "imageUrl": image.asset->url,
+    headline,
+    challenge {
+      overview
+    },
+    results {
+      overview,
+      metrics[0] { value, label }
+    }
   }
 `;
 
 export const CASE_STUDY_BY_SLUG_QUERY = `
   *[_type == "caseStudy" && (slug.current == $slug || _id == $slug)][0] {
-    _id, client, headline, "slug": slug.current,
+    _id, client, industry, title, subtitle, "slug": slug.current,
     "imageUrl": image.asset->url,
-    challenge, solution, impact, tags,
-    keyResults, servicesProvided, 
-    "processImagesUrls": processImages[].asset->url,
-    solutionFeatures,
+    timeline, services, tags,
+    headline, heroCtaPrimary, heroCtaSecondary, trustIndicators,
+    stickyCtaSubtitle, stickyCtaButtonText,
+    midCta { tagline, heading, description, buttonText, trustBadges },
+    finalCta { tagline, heading, description, valueProps[] { title, description } },
+    challenge {
+      overview,
+      painPoints
+    },
+    solution {
+      overview,
+      strategies[] { title, description }
+    },
+    results {
+      overview,
+      metrics[] { value, label },
+      additionalImpact
+    },
+    beforeAfter {
+      before[] { metric, value },
+      after[] { metric, value }
+    },
+    processTimeline[] {
+      phase, duration, description, deliverables
+    },
+    testimonial {
+      quote, author, role, "avatarUrl": avatar.asset->url
+    },
     seo
   }
 `;

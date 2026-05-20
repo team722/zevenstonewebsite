@@ -37,7 +37,7 @@ export const SuccessStories: React.FC = () => {
    const stories = caseStudies || [];
    const clientLove = (testimonials || []).slice(0, 3);
 
-   console.log(clientLove, 'clientlove')
+   console.log(stories, 'clientlove')
 
    return (
       <div className="pt-32 pb-20 min-h-screen bg-slate-50 font-sans relative overflow-hidden">
@@ -98,35 +98,37 @@ export const SuccessStories: React.FC = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
-                        className="bg-white rounded-[2.5rem] border border-zeven-surface shadow-xl overflow-hidden grid lg:grid-cols-2 group hover:shadow-2xl transition-all"
+                        className="bg-white rounded-[2.5rem] border border-gray-100 shadow-xl overflow-hidden grid lg:grid-cols-2 group hover:shadow-2xl transition-all"
                      >
                         <div className="relative h-[300px] lg:h-auto overflow-hidden">
-                           <img src={study.imageUrl} alt={study.headline} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                           <div className="absolute inset-0 bg-zeven-blue/10 group-hover:bg-transparent transition-colors duration-500" />
+                           <img src={study.imageUrl} alt={study.headline || study.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                           <div className="absolute inset-0 bg-blue-500/5 group-hover:bg-transparent transition-colors duration-500" />
                         </div>
                         <div className="p-10 lg:p-16 flex flex-col justify-center">
-                           <div className="flex items-center gap-2 mb-6">
-                              <span className="w-8 h-px bg-zeven-blue" />
-                              <span className="text-zeven-blue font-bold uppercase tracking-wider text-sm">{study.client}</span>
+                           <div className="flex items-center gap-3 mb-6">
+                              <span className="w-8 h-px bg-[#0ea5e9]" />
+                              <span className="text-[#0ea5e9] font-bold uppercase tracking-widest text-xs md:text-sm">{study.client}</span>
                            </div>
-                           <h2 className="text-3xl font-bold text-zeven-dark mb-6 leading-tight">{study.headline}</h2>
+                           <h2 className="text-3xl font-extrabold text-gray-900 mb-6 leading-tight">{study.headline || study.title}</h2>
+                           
                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-8">
                               <div>
-                                 <h4 className="text-xs font-bold text-zeven-gray uppercase mb-2">Challenge</h4>
-                                 <p className="text-sm text-zeven-dark leading-relaxed">{study.challenge}</p>
+                                 <h4 className="text-[10px] md:text-xs font-bold text-gray-400 uppercase mb-3 tracking-widest">CHALLENGE</h4>
+                                 <p className="text-sm text-gray-600 leading-relaxed line-clamp-6">{study.challenge?.overview || study.subtitle}</p>
                               </div>
                               <div>
-                                 <h4 className="text-xs font-bold text-zeven-gray uppercase mb-2">Impact</h4>
-                                 <p className="text-sm font-bold text-zeven-blue flex items-center gap-1">
-                                    <TrendingUp size={14} /> {study.impact}
+                                 <h4 className="text-[10px] md:text-xs font-bold text-gray-400 uppercase mb-3 tracking-widest">IMPACT</h4>
+                                 <p className="text-sm font-bold text-[#0ea5e9] leading-relaxed line-clamp-6">
+                                     {(study.results?.metrics ? `${study.results.metrics?.value}  ${study.results.metrics?.label}` : 'Significant Growth')}
                                  </p>
                               </div>
                            </div>
+
                            {/* Routing using case study slug */}
                            <Link to={`/case-study/${study.slug || study._id || idx}`}>
-                              <Button variant="outline" className="rounded-full w-fit group-hover:bg-zeven-blue group-hover:text-white group-hover:border-transparent">
-                                 Read Full Story <ArrowRight size={16} className="ml-2" />
-                              </Button>
+                              <button className="border-2 border-[#0ea5e9] text-[#0ea5e9] bg-white px-6 py-2.5 rounded-lg font-bold text-sm hover:bg-[#0ea5e9] hover:text-white transition-all flex items-center justify-center gap-2 w-fit mt-2">
+                                 Read Full Story <ArrowRight size={16} />
+                              </button>
                            </Link>
                         </div>
                      </motion.div>
