@@ -66,7 +66,7 @@ export const Navbar: React.FC = () => {
                 <Link
                   key={path || idx}
                   to={path || '#'}
-                  className="relative px-5 py-2 group"
+                  className="relative px-5 py-2 group whitespace-nowrap"
                 >
                   <span className={`relative z-10 text-sm font-semibold transition-colors duration-300 ${isActive ? 'text-zeven-blue' : 'text-zeven-gray group-hover:text-zeven-dark'
                     }`}>
