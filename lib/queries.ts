@@ -320,7 +320,7 @@ export const SINGLE_SERVICE_QUERY = `
       title, subtitle, steps[]{title, description}
     },
     portfolio {
-      title, examples[]{title, category, objective, result, videoUrl, "thumbnailUrl": thumbnail.asset->url}
+      title, subtitle, examples[]{title, category, objective, result, videoUrl, "thumbnailUrl": thumbnail.asset->url}
     },
     metrics {
       title, list[]{value, label}
