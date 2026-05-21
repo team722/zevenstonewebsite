@@ -122,7 +122,7 @@ export const CASE_STUDY_BY_SLUG_QUERY = `
     headline, heroCtaPrimary, heroCtaSecondary, trustIndicators,
     stickyCtaSubtitle, stickyCtaButtonText,
     midCta { tagline, heading, description, buttonText, trustBadges },
-    finalCta { tagline, heading, description, valueProps[] { title, description } },
+    finalCta { tagline, heading, description, valuePropsHeading, socialProofText, socialProofRating, valueProps[] { title, description } },
     challenge {
       overview,
       painPoints

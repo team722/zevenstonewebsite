@@ -110,23 +110,23 @@ export const Footer: React.FC = () => {
         
         {/* Locations Section */}
         {(siteSettings?.address1 || siteSettings?.address2 || siteSettings?.address3) && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pb-12 border-t border-white/5 pt-12">
+          <div className="flex flex-wrap gap-8 md:gap-16 pb-8 border-t border-white/5 pt-8">
             {siteSettings?.address1 && (
-              <div>
+              <div className="max-w-[280px]">
                 <h4 className="font-bold text-sm capitalize tracking-widest text-zeven-blue mb-4">USA Office</h4>
                 <p className="text-slate-400 text-sm leading-relaxed whitespace-pre-wrap">{siteSettings.address1}</p>
               </div>
             )}
             {siteSettings?.address2 && (
-              <div>
+              <div className="max-w-[280px]">
                 <h4 className="font-bold text-sm capitalize tracking-widest text-zeven-blue mb-4">Thirunelveli Office</h4>
-                <p className="text-slate-400 text-sm leading-relaxed whitespace-pre-wrap">{siteSettings.address2}</p>
+                <p className="text-slate-400 text-sm leading-relaxed">{siteSettings.address2}</p>
               </div>
             )}
             {siteSettings?.address3 && (
-              <div>
+              <div className="max-w-[280px]">
                 <h4 className="font-bold text-sm capitalize tracking-widest text-zeven-blue mb-4">Chennai Office</h4>
-                <p className="text-slate-400 text-sm leading-relaxed whitespace-pre-wrap">{siteSettings.address3}</p>
+                <p className="text-slate-400 text-sm leading-relaxed">{siteSettings.address3}</p>
               </div>
             )}
           </div>

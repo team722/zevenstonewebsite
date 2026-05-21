@@ -71,7 +71,7 @@ const CaseStudyContactForm = () => {
             required
             value={formData.name}
             onChange={e => setFormData({...formData, name: e.target.value})}
-            className="w-full px-6 py-4 bg-white border border-gray-200 rounded-full text-gray-800 placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-base font-medium shadow-sm" 
+            className="w-full px-4 py-3 md:px-6 md:py-4 bg-white border border-gray-200 rounded-full text-gray-800 placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-sm md:text-base font-medium shadow-sm" 
          />
          
          <input 
@@ -80,7 +80,7 @@ const CaseStudyContactForm = () => {
             required
             value={formData.email}
             onChange={e => setFormData({...formData, email: e.target.value})}
-            className="w-full px-6 py-4 bg-white border border-gray-200 rounded-full text-gray-800 placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-base font-medium shadow-sm" 
+            className="w-full px-4 py-3 md:px-6 md:py-4 bg-white border border-gray-200 rounded-full text-gray-800 placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-sm md:text-base font-medium shadow-sm" 
          />
          
          <input 
@@ -88,7 +88,7 @@ const CaseStudyContactForm = () => {
             placeholder="Company Name" 
             value={formData.company}
             onChange={e => setFormData({...formData, company: e.target.value})}
-            className="w-full px-6 py-4 bg-white border border-gray-200 rounded-full text-gray-800 placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-base font-medium shadow-sm" 
+            className="w-full px-4 py-3 md:px-6 md:py-4 bg-white border border-gray-200 rounded-full text-gray-800 placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-sm md:text-base font-medium shadow-sm" 
          />
          
          <textarea 
@@ -96,13 +96,13 @@ const CaseStudyContactForm = () => {
             required
             value={formData.goals}
             onChange={e => setFormData({...formData, goals: e.target.value})}
-            className="w-full px-6 py-4 bg-white border border-gray-200 rounded-[28px] text-gray-800 placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-base font-medium min-h-[140px] resize-none shadow-sm" 
+            className="w-full px-4 py-3 md:px-6 md:py-4 bg-white border border-gray-200 rounded-[28px] text-gray-800 placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-sm md:text-base font-medium min-h-[140px] resize-none shadow-sm" 
          />
          
          <button 
             type="submit" 
             disabled={isSubmitting}
-            className="w-full bg-[#111827] hover:bg-black text-white font-bold text-lg py-4 rounded-full shadow-lg transition-all mt-4"
+            className="w-full bg-[#111827] hover:bg-black text-white font-bold text-base md:text-lg py-3 md:py-4 rounded-full shadow-lg transition-all mt-4"
          >
             {isSubmitting ? 'Sending...' : 'Get My Free Strategy Session'}
          </button>
@@ -171,6 +171,7 @@ export const CaseStudy: React.FC = () => {
    const strategies = study.solution?.strategies || [];
    const processTimeline = study.processTimeline || [];
 
+
    return (
       <div className="min-h-screen bg-white font-sans pt-16">
          <Helmet>
@@ -181,12 +182,13 @@ export const CaseStudy: React.FC = () => {
          {/* Sticky CTA Bar - Appears on scroll */}
          <div className={`fixed bottom-0 left-0 right-0 z-40 transform transition-transform duration-300 ${showStickyCTA ? 'translate-y-0' : 'translate-y-full'}`}>
             <div className="backdrop-blur-xl bg-white/95 border-t border-gray-200 shadow-2xl">
-               <div className="max-w-7xl mx-auto px-6 py-4">
+               <div className="max-w-7xl mx-auto px-4 md:px-6 py-3 md:py-4">
                   <div className="flex items-center justify-between">
                      <div className="flex items-center gap-4">
                         <div className="hidden md:flex items-center gap-3">
+                        
                            {metrics.length > 0 && (
-                              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center text-white font-bold text-lg shadow-lg">
+                              <div className="w-14 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center text-white font-bold text-lg shadow-lg">
                                  {metrics[0].value.substring(0, 4)}
                               </div>
                            )}
@@ -199,7 +201,7 @@ export const CaseStudy: React.FC = () => {
                      <div className="flex items-center gap-3">
                         <button
                            onClick={scrollToContactCTA}
-                           className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-8 py-3 rounded-full font-bold text-sm shadow-xl hover:shadow-2xl hover:scale-105 transition-all"
+                           className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold text-xs md:text-sm shadow-xl hover:shadow-2xl hover:scale-105 transition-all"
                         >
                            {study.stickyCtaButtonText || 'Start Your Success Story'}
                         </button>
@@ -220,8 +222,8 @@ export const CaseStudy: React.FC = () => {
          {/* Hero Section - Brand-aligned with gradient blur backgrounds */}
          <section className="relative pt-24 pb-20 px-6 bg-[#f8fafc] overflow-hidden">
             {/* Background gradient blurs - matching brand style */}
-            <div className="absolute top-0 right-0 w-[947px] h-[947px] bg-blue-500/5 rounded-full blur-[60px] opacity-28 -translate-y-20 translate-x-20" />
-            <div className="absolute top-[354px] left-10 w-[546px] h-[546px] bg-blue-400/5 rounded-full blur-[45px]" />
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] md:w-[947px] md:h-[947px] bg-blue-500/5 rounded-full blur-[60px] opacity-28 -translate-y-20 translate-x-20" />
+            <div className="absolute top-[354px] left-10 w-[300px] h-[300px] md:w-[546px] md:h-[546px] bg-blue-400/5 rounded-full blur-[45px]" />
 
             <div className="max-w-7xl mx-auto relative z-10">
                <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -232,7 +234,7 @@ export const CaseStudy: React.FC = () => {
                      </Link>
 
                      {/* Badge - brand style */}
-                     <div className="inline-block backdrop-blur-md bg-white/60 border border-blue-500/20 rounded-full px-5 py-2 mb-6">
+                     <div className="inline-block backdrop-blur-md bg-white/60 border border-blue-500/20 rounded-full px-4 py-1.5 md:px-5 md:py-2 mb-6">
                         <p className="text-xs font-semibold text-blue-500 tracking-[2px] uppercase">
                            {study.client} {study.industry ? `• ${study.industry}` : ''}
                         </p>
@@ -272,14 +274,14 @@ export const CaseStudy: React.FC = () => {
                      <div className="flex flex-col sm:flex-row gap-4">
                         <button
                            onClick={scrollToContactCTA}
-                           className="bg-gray-900 text-white px-8 py-4 rounded-full font-bold text-base shadow-2xl hover:bg-gray-800 hover:scale-105 transition-all flex items-center justify-center gap-2"
+                           className="bg-gray-900 text-white px-6 py-3 md:px-8 md:py-4 rounded-full font-bold text-sm md:text-base shadow-2xl hover:bg-gray-800 hover:scale-105 transition-all flex items-center justify-center gap-2"
                         >
                            {study.heroCtaPrimary || 'Get Similar Results'}
                            <ArrowRight className="w-5 h-5" />
                         </button>
                         <Link
                            to="/success-stories"
-                           className="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-full font-bold text-base hover:bg-gray-50 transition-all text-center"
+                           className="border-2 border-gray-300 text-gray-700 px-6 py-3 md:px-8 md:py-4 rounded-full font-bold text-sm md:text-base hover:bg-gray-50 transition-all text-center"
                         >
                            {study.heroCtaSecondary || 'View More Stories'}
                         </Link>
@@ -558,8 +560,8 @@ export const CaseStudy: React.FC = () => {
 
             <div className="max-w-7xl mx-auto relative z-10">
                {/* Tab Navigation */}
-               <div className="flex justify-center mb-12">
-                  <div className="inline-flex bg-white rounded-2xl p-2 shadow-lg border border-gray-100 flex-wrap sm:flex-nowrap justify-center">
+               <div className="flex justify-center mb-12 px-4">
+                  <div className="inline-flex bg-white rounded-2xl p-2 shadow-lg border border-gray-100 flex-col sm:flex-row w-full sm:w-auto justify-center">
                      <button
                         onClick={() => setActiveTab('challenge')}
                         className={`px-4 py-3 md:px-8 md:py-4 cursor-pointer rounded-xl font-semibold transition-all flex items-center gap-2 text-sm md:text-base ${activeTab === 'challenge'
@@ -790,7 +792,7 @@ export const CaseStudy: React.FC = () => {
                                     {idx + 1}
                                  </div>
 
-                                 <div className={`bg-white rounded-3xl p-6 md:p-10 shadow-xl border-2 ${color.border} hover:shadow-2xl transition-all relative overflow-hidden group`}>
+                                 <div className={`bg-white rounded-3xl p-5 md:p-8 lg:p-10 shadow-xl border-2 ${color.border} hover:shadow-2xl transition-all relative overflow-hidden group`}>
                                     {/* Background decoration */}
                                     <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-blue-50/50 to-transparent rounded-bl-full" />
 
@@ -851,7 +853,7 @@ export const CaseStudy: React.FC = () => {
 
                      {/* Timeline summary */}
                      <div className="mt-16 text-center">
-                        <div className="inline-flex flex-wrap md:flex-nowrap items-center justify-center gap-6 bg-gradient-to-r from-gray-50 to-blue-50 rounded-2xl px-6 py-4 md:px-10 md:py-6 border border-blue-100 shadow-lg">
+                        <div className="inline-flex flex-wrap md:flex-nowrap items-center justify-center gap-4 md:gap-6 bg-gradient-to-r from-gray-50 to-blue-50 rounded-2xl px-4 py-4 sm:px-6 md:px-10 md:py-6 border border-blue-100 shadow-lg">
                            <div className="text-center">
                               <div className="text-3xl md:text-4xl font-extrabold text-blue-600 mb-1">{study.timeline}</div>
                               <div className="text-xs md:text-sm text-gray-600 font-semibold">Total Duration</div>
@@ -879,7 +881,7 @@ export const CaseStudy: React.FC = () => {
          {/* Mid-journey CTA - Strategic placement */}
          <section className="py-20 px-6 bg-white">
             <div className="max-w-5xl mx-auto">
-               <div className="relative overflow-hidden bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 rounded-[40px] p-8 md:p-16 text-center shadow-2xl">
+               <div className="relative overflow-hidden bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 rounded-[32px] md:rounded-[40px] p-6 md:p-12 lg:p-16 text-center shadow-2xl">
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 opacity-90" />
                   <div className="absolute top-1/4 left-1/2 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
 
@@ -951,7 +953,7 @@ export const CaseStudy: React.FC = () => {
          {study.testimonial && study.testimonial.quote && (
             <section className="py-20 px-6 bg-[#f8fafc]">
                <div className="max-w-5xl mx-auto">
-                  <div className="backdrop-blur-xl bg-white/90 border border-white/60 rounded-[40px] shadow-2xl p-8 md:p-16">
+                  <div className="backdrop-blur-xl bg-white/90 border border-white/60 rounded-[32px] md:rounded-[40px] shadow-2xl p-6 md:p-12 lg:p-16">
                      <div className="text-center mb-8">
                         <div className="inline-flex items-center gap-1 mb-6">
                            {[...Array(5)].map((_, i) => (
@@ -962,7 +964,7 @@ export const CaseStudy: React.FC = () => {
                         </div>
                      </div>
 
-                     <blockquote className="text-lg md:text-2xl font-medium leading-relaxed mb-10 text-center text-gray-900 italic">
+                     <blockquote className="text-base md:text-xl lg:text-2xl font-medium leading-relaxed mb-10 text-center text-gray-900 italic">
                         "{study.testimonial.quote}"
                      </blockquote>
 
@@ -1016,7 +1018,7 @@ export const CaseStudy: React.FC = () => {
                                  window.scrollTo(0, 0);
                               }}
                            >
-                              <div className="relative h-64 md:h-80 overflow-hidden shrink-0">
+                              <div className="relative h-56 md:h-64 lg:h-80 overflow-hidden shrink-0">
                                  {relatedStory.imageUrl && (
                                     <img
                                        src={relatedStory.imageUrl}
@@ -1031,7 +1033,7 @@ export const CaseStudy: React.FC = () => {
                                     <div className="absolute top-6 left-6">
                                        <div className="backdrop-blur-md bg-white/25 border border-white/30 px-4 py-1.5 rounded-full">
                                           <span className="text-white text-[10px] font-bold uppercase tracking-wider">
-                                             {relatedStory.industry}
+                                             {relatedStory.industry || "Industry"}
                                           </span>
                                        </div>
                                     </div>
@@ -1047,19 +1049,20 @@ export const CaseStudy: React.FC = () => {
                                  </div>
                               </div>
 
-                              <div className="p-6 md:p-8 flex flex-col justify-between flex-grow">
+                              <div className="p-5 md:p-8 flex flex-col justify-between flex-grow">
                                  <p className="text-sm md:text-base text-gray-600 leading-relaxed mb-6 line-clamp-2">
-                                    {relatedStory.subtitle}
+                                    {relatedStory.subtitle || "Complete brand transformation that connected with Gen Z and doubled market share"}
                                  </p>
 
                                  <div className="flex items-center justify-between pt-6 border-t border-gray-100 mt-auto">
-                                    {relatedStory.results?.metrics?.[0] && (
+                                   
+                                    {relatedStory && (
                                        <div>
                                           <div className="text-2xl md:text-3xl font-extrabold text-blue-500 mb-1">
-                                             {relatedStory.results.metrics[0].value}
+                                             {relatedStory.results?.metrics?.value || "200%" }
                                           </div>
                                           <div className="text-xs text-gray-500 font-semibold">
-                                             {relatedStory.results.metrics[0].label}
+                                             {relatedStory.results?.metrics?.label || "Increase in brand engagement"}
                                           </div>
                                        </div>
                                     )}
@@ -1109,7 +1112,7 @@ export const CaseStudy: React.FC = () => {
                   {/* Left: Value Props */}
                   <div className="space-y-6">
                      <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-8">
-                        What You'll Get:
+                        {study.finalCta?.valuePropsHeading || "What You'll Get:"}
                      </h3>
 
                      {(study.finalCta?.valueProps?.length > 0 ? study.finalCta.valueProps : [
@@ -1158,13 +1161,18 @@ export const CaseStudy: React.FC = () => {
                            </div>
                         </div>
                         <p className="text-xs md:text-sm text-gray-700">
-                           <span className="font-bold">500+ businesses</span> trust us with their growth. Average rating: <span className="font-bold">4.9/5</span>
+                           {study.finalCta?.socialProofText || (
+                              <>
+                                 <span className="font-bold">500+ businesses</span> trust us with their growth.
+                              </>
+                           )}{' '}
+                           Average rating: <span className="font-bold">{study.finalCta?.socialProofRating || "4.9/5"}</span>
                         </p>
                      </div>
                   </div>
 
                   {/* Right: CTA Form */}
-                  <div className="bg-white rounded-[40px] shadow-2xl p-8 sm:p-10 border border-gray-100">
+                  <div className="bg-white rounded-[32px] md:rounded-[40px] shadow-2xl p-6 md:p-10 border border-gray-100">
                      <CaseStudyContactForm />
                   </div>
                </div>
