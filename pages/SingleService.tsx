@@ -281,7 +281,7 @@ export const SingleService: React.FC = () => {
               <div className="text-center mb-16">
                 <h2 className="text-4xl md:text-5xl font-extrabold text-zeven-dark mb-6 tracking-tight">{service.portfolio.title || "Our Work in Action"}</h2>
                 <p className="text-gray-500 text-lg font-light max-w-2xl mx-auto">
-                  A selection of videos created to help brands grow, engage, and convert.
+                  {service.portfolio.subtitle || "Explore a selection of our most impactful video projects, showcasing the results we've achieved for our clients across various industries."}
                 </p>
               </div>
             </ScrollReveal>
