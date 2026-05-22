@@ -37,6 +37,13 @@ export const BLOG_POST_BY_SLUG_QUERY = `
           title, description,
           "iconUrl": icon.asset->url
         }
+      },
+      _type == "authorBioBlock" => {
+        customLinkText,
+        customLinkUrl,
+        "author": author->{
+          name, role, bio, linkedIn, "photoUrl": photo.asset->url
+        }
       }
     },
     ctaBanner { heading, description, buttonText, buttonUrl },
