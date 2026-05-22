@@ -87,14 +87,13 @@ export const SingleService: React.FC = () => {
                 </Link>
               )}
               {service.secondaryCtaButton?.text && (
-                <a
-                  href={service.secondaryCtaButton.url || '#'}
-                  target="_blank"
+                <Link
+                  to={`/${service.secondaryCtaButton.url}` || '#'}
                   rel="noopener noreferrer"
                   className="bg-white text-zeven-dark border-2 border-gray-100 px-10 py-4 rounded-xl font-bold text-lg hover:border-zeven-blue hover:text-zeven-blue transition duration-300 text-center"
                 >
                   {service.secondaryCtaButton.text}
-                </a>
+                </Link>
               )}
               {!service.ctaButton?.text && !service.secondaryCtaButton?.text && (
                 <>
