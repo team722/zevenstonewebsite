@@ -51,7 +51,7 @@ export const Blog: React.FC = () => {
                <motion.div
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  className="hidden inline-block px-4 py-1.5 rounded-full bg-zeven-blue/10 text-zeven-blue text-xs font-bold uppercase tracking-widest mb-6"
+                  className="inline-block px-4 py-1.5 rounded-full bg-zeven-blue/10 text-zeven-blue text-xs font-bold uppercase tracking-widest mb-6 whitespace-nowrap"
                   dangerouslySetInnerHTML={{ __html: blogPageData?.hero?.label || "Insights & Ideas" }} >
                </motion.div>
                <motion.h1
@@ -82,7 +82,7 @@ export const Blog: React.FC = () => {
                <div className="absolute inset-0 bg-gradient-to-t from-zeven-dark via-zeven-dark/50 to-transparent opacity-90" />
 
                <div className="relative z-10 p-10 md:p-16 max-w-4xl">
-                  <div className="flex items-center gap-4 text-white/80 mb-4 text-sm font-medium">
+                  <div className="flex flex-wrap items-center gap-3 md:gap-4 text-white/80 mb-4 text-sm font-medium">
                      <span className="bg-zeven-blue px-3 py-1 rounded-full text-white text-xs font-bold uppercase">{featuredPost.category}</span>
                      <span className="flex items-center gap-2"><Calendar size={14} /> {new Date(featuredPost.publishedAt).toLocaleDateString()}</span>
                   </div>
@@ -107,7 +107,7 @@ export const Blog: React.FC = () => {
                   >
                      <div className="rounded-[2rem] overflow-hidden mb-6 aspect-[4/3] relative shadow-lg">
                         <img src={post.imageUrl} alt={post.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                        <div className="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-zeven-dark uppercase tracking-wide">
+                        <div className="absolute top-4 left-4 max-w-[85%] bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-zeven-dark uppercase tracking-wide whitespace-nowrap overflow-hidden text-ellipsis">
                            {post.category}
                         </div>
                      </div>
