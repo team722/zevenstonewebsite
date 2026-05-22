@@ -21,6 +21,11 @@ import { BlogCtaBanner } from '../components/blog/BlogCtaBanner';
 import { RelatedPosts } from '../components/blog/RelatedPosts';
 import { NewsletterBar } from '../components/blog/NewsletterBar';
 import { TableOfContents } from '../components/blog/TableOfContents';
+import { SuccessStoryBlock } from '../components/blog/SuccessStoryBlock';
+import { CaseStudyHighlightBlock } from '../components/blog/CaseStudyHighlightBlock';
+import { NextStepsBlock } from '../components/blog/NextStepsBlock';
+import { IconCardsBlock } from '../components/blog/IconCardsBlock';
+import { AuthorBioBlock } from '../components/blog/AuthorBioBlock';
 
 export const BlogPost: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -103,7 +108,38 @@ export const BlogPost: React.FC = () => {
       statsStrip: ({ value }: any) => <StatsStrip stats={value.stats} />,
       pullQuote: ({ value }: any) => <PullQuote quote={value.quote} attribution={value.attribution} role={value.role} />,
       prosConsBlock: ({ value }: any) => <ProsConsBlock heading={value.heading} pros={value.pros} cons={value.cons} />,
-      comparisonTable: ({ value }: any) => <ComparisonTable title={value.title} headers={value.headers} rows={value.rows} />
+      comparisonTable: ({ value }: any) => <ComparisonTable title={value.title} headers={value.headers} rows={value.rows} />,
+      successStory: ({ value }: any) => <SuccessStoryBlock metric={value.metric} description={value.description} />,
+      caseStudyHighlight: ({ value }: any) => (
+        <CaseStudyHighlightBlock
+          title={value.title}
+          image={value.image}
+          strategyText={value.strategyText}
+          metricValue={value.metricValue}
+          metricLabel={value.metricLabel}
+        />
+      ),
+      nextStepsBlock: ({ value }: any) => (
+        <NextStepsBlock
+          title={value.title}
+          steps={value.steps}
+          buttonText={value.buttonText}
+          buttonUrl={value.buttonUrl}
+        />
+      ),
+      iconCardsBlock: ({ value }: any) => (
+        <IconCardsBlock 
+          heading={value.heading} 
+          cards={value.cards} 
+        />
+      ),
+      authorBioBlock: ({ value }: any) => (
+        <AuthorBioBlock 
+          author={value.author}
+          customLinkText={value.customLinkText}
+          customLinkUrl={value.customLinkUrl}
+        />
+      ),
     },
     block: {
       h2: ({ children, value }: any) => <h2 id={value._key} className="text-3xl font-bold mt-12 mb-6 text-zeven-dark scroll-mt-32">{children}</h2>,

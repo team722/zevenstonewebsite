@@ -1,8 +1,8 @@
 import React from 'react';
-import { Lightbulb, Info, AlertTriangle, FileText } from 'lucide-react';
+import { Lightbulb, Info, AlertTriangle, FileText, CheckCircle } from 'lucide-react';
 
 interface CalloutBoxProps {
-  type: 'tip' | 'info' | 'warning' | 'note';
+  type: 'tip' | 'info' | 'warning' | 'note' | 'success';
   title?: string;
   content: string;
 }
@@ -36,6 +36,13 @@ export const CalloutBox: React.FC<CalloutBoxProps> = ({ type = 'tip', title, con
       iconBg: 'bg-purple-500',
       iconColor: 'text-white',
       titleColor: 'text-purple-800',
+    },
+    success: {
+      icon: CheckCircle,
+      bg: 'bg-teal-50',
+      iconBg: 'bg-[#0d9488]',
+      iconColor: 'text-white',
+      titleColor: 'text-[#0d9488]',
     },
   };
 
