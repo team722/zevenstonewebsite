@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { HelmetProvider } from 'react-helmet-async';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
+import { SeoScripts } from './components/SeoScripts';
 import { ScrollToTopButton } from './components/ScrollToTopButton';
 import { Home } from './pages/Home';
 import { About } from './pages/About';
@@ -44,6 +45,7 @@ const AppContent: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-zeven-bg text-zeven-dark selection:bg-zeven-blue selection:text-white font-sans antialiased">
+      <SeoScripts />
       {!isLandingPage && <Navbar />}
       <main>
         <Routes>
