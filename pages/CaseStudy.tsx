@@ -183,7 +183,7 @@ export const CaseStudy: React.FC = () => {
          <div className={`fixed bottom-0 left-0 right-0 z-40 transform transition-transform duration-300 ${showStickyCTA ? 'translate-y-0' : 'translate-y-full'}`}>
             <div className="backdrop-blur-xl bg-white/95 border-t border-gray-200 shadow-2xl">
                <div className="max-w-7xl mx-auto px-4 md:px-6 py-3 md:py-4">
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-center sm:justify-between">
                      <div className="flex items-center gap-4">
                         <div className="hidden md:flex items-center gap-3">
                         
@@ -853,7 +853,7 @@ export const CaseStudy: React.FC = () => {
 
                      {/* Timeline summary */}
                      <div className="mt-16 text-center">
-                        <div className="inline-flex flex-wrap md:flex-nowrap items-center justify-center gap-4 md:gap-6 bg-gradient-to-r from-gray-50 to-blue-50 rounded-2xl px-4 py-4 sm:px-6 md:px-10 md:py-6 border border-blue-100 shadow-lg">
+                        <div className="xl:w-[700px] xl:justify-around inline-flex flex-wrap md:flex-nowrap items-center justify-center gap-4 md:gap-6 bg-gradient-to-r from-gray-50 to-blue-50 rounded-2xl px-4 py-4 sm:px-6 md:px-10 md:py-6 border border-blue-100 shadow-lg">
                            <div className="text-center">
                               <div className="text-3xl md:text-4xl font-extrabold text-blue-600 mb-1">{study.timeline}</div>
                               <div className="text-xs md:text-sm text-gray-600 font-semibold">Total Duration</div>

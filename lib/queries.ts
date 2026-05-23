@@ -192,6 +192,8 @@ export const SITE_SETTINGS_QUERY = `
     footerServices[] { text, url },
     legalLinks[] { text, url },
     copyrightText,
+    customHeaderScripts,
+    customBodyScripts,
     partnerLogos[]{ name, "logoUrl": logo.asset->url },
     coreValues, contactEmail, phoneNumber, address, address1, address2, address3, linkedIn, instagram, facebook
   }

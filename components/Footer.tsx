@@ -110,7 +110,7 @@ export const Footer: React.FC = () => {
         
         {/* Locations Section */}
         {(siteSettings?.address1 || siteSettings?.address2 || siteSettings?.address3) && (
-          <div className="flex flex-wrap gap-8 md:gap-16 pb-8 border-t border-white/5 pt-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 pb-8 border-t border-white/5 pt-8">
             {siteSettings?.address1 && (
               <div className="max-w-[280px]">
                 <h4 className="font-bold text-sm capitalize tracking-widest text-zeven-blue mb-4">USA Office</h4>
