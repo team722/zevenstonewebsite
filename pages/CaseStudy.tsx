@@ -560,38 +560,40 @@ export const CaseStudy: React.FC = () => {
 
             <div className="max-w-7xl mx-auto relative z-10">
                {/* Tab Navigation */}
-               <div className="flex justify-center mb-12 px-4">
-                  <div className="inline-flex bg-white rounded-2xl p-2 shadow-lg border border-gray-100 flex-col sm:flex-row w-full sm:w-auto justify-center">
-                     <button
-                        onClick={() => setActiveTab('challenge')}
-                        className={`px-4 py-3 md:px-8 md:py-4 cursor-pointer rounded-xl font-semibold transition-all flex items-center gap-2 text-sm md:text-base ${activeTab === 'challenge'
-                           ? 'bg-red-50 text-red-600 shadow-sm'
-                           : 'text-gray-600 hover:text-gray-900'
-                           }`}
-                     >
-                        <AlertCircle className="w-4 h-4 md:w-5 md:h-5" aria-hidden="true" />
-                        The Challenge
-                     </button>
-                     <button
-                        onClick={() => setActiveTab('solution')}
-                        className={`px-4 py-3 md:px-8 md:py-4 cursor-pointer rounded-xl font-semibold transition-all flex items-center gap-2 text-sm md:text-base ${activeTab === 'solution'
-                           ? 'bg-blue-50 text-blue-600 shadow-sm'
-                           : 'text-gray-600 hover:text-gray-900'
-                           }`}
-                     >
-                        <Lightbulb className="w-4 h-4 md:w-5 md:h-5" aria-hidden="true" />
-                        Our Solution
-                     </button>
-                     <button
-                        onClick={() => setActiveTab('results')}
-                        className={`px-4 py-3 md:px-8 md:py-4 cursor-pointer rounded-xl font-semibold transition-all flex items-center gap-2 text-sm md:text-base ${activeTab === 'results'
-                           ? 'bg-green-50 text-green-600 shadow-sm'
-                           : 'text-gray-600 hover:text-gray-900'
-                           }`}
-                     >
-                        <TrendingUp className="w-4 h-4 md:w-5 md:h-5" aria-hidden="true" />
-                        The Results
-                     </button>
+               <div className="flex justify-center mb-12 px-4 w-full">
+                  <div className="bg-white rounded-2xl p-2 shadow-lg border border-gray-100 w-full sm:w-auto">
+                     <div className="flex flex-row overflow-x-auto justify-start sm:justify-center snap-x gap-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                        <button
+                           onClick={() => setActiveTab('challenge')}
+                           className={`px-4 py-3 md:px-8 md:py-4 cursor-pointer rounded-xl font-semibold transition-all flex items-center justify-center whitespace-nowrap shrink-0 snap-start gap-2 text-sm md:text-base ${activeTab === 'challenge'
+                              ? 'bg-red-50 text-red-600 shadow-sm'
+                              : 'text-gray-600 hover:text-gray-900'
+                              }`}
+                        >
+                           <AlertCircle className="w-4 h-4 md:w-5 md:h-5" aria-hidden="true" />
+                           The Challenge
+                        </button>
+                        <button
+                           onClick={() => setActiveTab('solution')}
+                           className={`px-4 py-3 md:px-8 md:py-4 cursor-pointer rounded-xl font-semibold transition-all flex items-center justify-center whitespace-nowrap shrink-0 snap-start gap-2 text-sm md:text-base ${activeTab === 'solution'
+                              ? 'bg-blue-50 text-blue-600 shadow-sm'
+                              : 'text-gray-600 hover:text-gray-900'
+                              }`}
+                        >
+                           <Lightbulb className="w-4 h-4 md:w-5 md:h-5" aria-hidden="true" />
+                           Our Solution
+                        </button>
+                        <button
+                           onClick={() => setActiveTab('results')}
+                           className={`px-4 py-3 md:px-8 md:py-4 cursor-pointer rounded-xl font-semibold transition-all flex items-center justify-center whitespace-nowrap shrink-0 snap-start gap-2 text-sm md:text-base ${activeTab === 'results'
+                              ? 'bg-green-50 text-green-600 shadow-sm'
+                              : 'text-gray-600 hover:text-gray-900'
+                              }`}
+                        >
+                           <TrendingUp className="w-4 h-4 md:w-5 md:h-5" aria-hidden="true" />
+                           The Results
+                        </button>
+                     </div>
                   </div>
                </div>
 
