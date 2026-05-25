@@ -178,6 +178,7 @@ export const HOME_PAGE_QUERY = `
     founderMessages[] {
       title, content, author, role, "photoUrl": photo.asset->url
     },
+    "showcaseVideoUrl": showcaseVideo.asset->url,
     seo
   }
 `;

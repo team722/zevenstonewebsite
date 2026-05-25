@@ -1,4 +1,4 @@
-﻿
+
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence, LayoutGroup } from 'framer-motion';
 import { ArrowRight, ChevronRight, ChevronLeft, Zap, Cpu, Palette, Target, Plus, Minus, Send, Star, Quote, CheckCircle2, TrendingUp, Mail, Phone, MapPin, Layers, ExternalLink, Search, Rocket, Lightbulb } from 'lucide-react';
@@ -37,6 +37,28 @@ export const Home: React.FC = () => {
    const [currentTestimonial, setCurrentTestimonial] = useState(0);
    const [activeServiceTab, setActiveServiceTab] = useState(0);
    const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+   const [isVideoPlaying, setIsVideoPlaying] = useState(true);
+   const [isVideoHovered, setIsVideoHovered] = useState(false);
+   const videoRef = useRef<HTMLVideoElement>(null);
+
+   const toggleVideoPlay = (e: React.MouseEvent) => {
+      if (videoRef.current) {
+         // Avoid toggling if clicking the native controls (bottom 60px)
+         const rect = e.currentTarget.getBoundingClientRect();
+         const clickY = e.clientY - rect.top;
+         if (isVideoHovered && rect.height - clickY < 60) {
+            return;
+         }
+
+         if (videoRef.current.paused) {
+            videoRef.current.play();
+         } else {
+            videoRef.current.pause();
+         }
+      }
+   };
+
+   console.log('video',homePage)
 
    useEffect(() => {
       const handleMouseMove = (e: MouseEvent) => {
@@ -350,6 +372,52 @@ export const Home: React.FC = () => {
                </div>
             </div>
          </section>
+
+         {/* --- VIDEO SECTION --- */}
+         {homePage?.showcaseVideoUrl && (
+            <section className="mt-20 sm:mt-0 py-16 md:py-24 bg-zeven-dark relative overflow-hidden">
+               {/* Subtle background glow for video section */}
+               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-zeven-blue/10 rounded-full blur-[150px] pointer-events-none" />
+               
+               <div className="container mx-auto px-5 md:px-8 relative z-10">
+                  <div 
+                     className="mx-auto rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative aspect-video bg-black/50 group cursor-pointer border border-white/5"
+                     onClick={toggleVideoPlay}
+                     onMouseEnter={() => setIsVideoHovered(true)}
+                     onMouseLeave={() => setIsVideoHovered(false)}
+                  >
+                     <video 
+                        ref={videoRef}
+                        className="w-full h-full object-cover"
+                        muted
+                        autoPlay
+                        loop
+                        playsInline
+                        controls={isVideoHovered}
+                        onPlay={() => setIsVideoPlaying(true)}
+                        onPause={() => setIsVideoPlaying(false)}
+                     >
+                        <source src={homePage.showcaseVideoUrl} type="video/mp4" />
+                        Your browser does not support the video tag.
+                     </video>
+                     
+                     {/* Custom Play Button Overlay */}
+                     <div className={`hidden absolute inset-0 flex items-center justify-center pointer-events-none transition-all duration-500 bg-black/20 group-hover:bg-black/40 ${isVideoPlaying ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'}`}>
+                        <div className="w-16 h-16 md:w-24 md:h-24 bg-white/95 backdrop-blur-md rounded-full flex items-center justify-center shadow-[0_0_40px_rgba(255,255,255,0.15)] transform group-hover:scale-110 transition-transform duration-500">
+                           {isVideoPlaying ? (
+                              <div className="flex gap-2">
+                                 <div className="w-1.5 md:w-2 h-6 md:h-8 bg-zeven-dark rounded-full"></div>
+                                 <div className="w-1.5 md:w-2 h-6 md:h-8 bg-zeven-dark rounded-full"></div>
+                              </div>
+                           ) : (
+                              <svg className="w-8 h-8 md:w-12 md:h-12 text-zeven-dark ml-1 md:ml-2" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                           )}
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </section>
+         )}
 
          {/* --- SERVICES INTERACTIVE --- */}
          <section className="py-16 md:py-20 bg-white relative">
