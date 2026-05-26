@@ -237,19 +237,19 @@ export const Home: React.FC = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3 }}
-                        className="font-extrabold text-4xl sm:text-5xl md:text-7xl leading-[1.1] text-zeven-dark mb-8 tracking-tight"
-                        dangerouslySetInnerHTML={{ __html: homePage?.hero?.heading1 || `Series <span class="text-transparent bg-clip-text bg-gradient-to-r from-zeven-gray to-zeven-dark font-semibold">About</span><br /><span class="bg-clip-text text-transparent bg-gradient-to-r from-zeven-blue to-zeven-deep drop-shadow-sm">Growth</span>` }}
+                        className="font-extrabold text-4xl sm:text-5xl md:text-7xl leading-[1.1] text-zeven-dark mb-4 tracking-tight"
+                        dangerouslySetInnerHTML={{ __html: homePage?.hero?.label || `Series <span class="text-transparent bg-clip-text bg-gradient-to-r from-zeven-gray to-zeven-dark font-semibold">About</span><br /><span class="bg-clip-text text-transparent bg-gradient-to-r from-zeven-blue to-zeven-deep drop-shadow-sm">Growth</span>` }}
                      >
                      </motion.h1>
 
-                     <motion.h1
+                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3 }}
                         className="font-extrabold text-4xl sm:text-5xl md:text-7xl leading-[1.1] text-zeven-dark mb-8 tracking-tight"
                         dangerouslySetInnerHTML={{ __html: homePage?.hero?.heading || `Solutions <span class="text-transparent bg-clip-text bg-gradient-to-r from-zeven-gray to-zeven-dark font-semibold">That Scale</span><br /><span class="bg-clip-text text-transparent bg-gradient-to-r from-zeven-blue to-zeven-deep drop-shadow-sm">With Your Growth</span>` }}
                      >
-                     </motion.h1>
+                     </motion.h2>
                      <motion.p
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
