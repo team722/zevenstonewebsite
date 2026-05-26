@@ -161,7 +161,7 @@ export const Home: React.FC = () => {
          </Helmet>
 
          {/* --- HERO SECTION --- */}
-         <section className="relative flex items-center pt-32 sm:pt-48 pb-[320px] sm:pb-[350px] lg:pb-80 overflow-hidden bg-white">
+         <section className="relative flex items-center pt-32 pb-[320px] sm:pb-[350px] lg:pb-80 overflow-hidden bg-white">
 
             {/* -- DYNAMIC BACKGROUND ENGINE -- */}
 
