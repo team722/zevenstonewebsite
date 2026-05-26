@@ -173,7 +173,7 @@ export const CaseStudy: React.FC = () => {
 
 
    return (
-      <div className="min-h-screen bg-white font-sans pt-16">
+      <div className="min-h-screen bg-white font-sans">
          <Helmet>
             <title>{study?.seo?.title || study?.seo?.metaTitle || `${study.title || study.client} | Case Study`}</title>
             <meta name="description" content={study?.seo?.description || study?.seo?.metaDescription || study.subtitle || study.challenge?.overview} />
@@ -225,7 +225,7 @@ export const CaseStudy: React.FC = () => {
             <div className="absolute top-0 right-0 w-[500px] h-[500px] md:w-[947px] md:h-[947px] bg-blue-500/5 rounded-full blur-[60px] opacity-28 -translate-y-20 translate-x-20" />
             <div className="absolute top-[354px] left-10 w-[300px] h-[300px] md:w-[546px] md:h-[546px] bg-blue-400/5 rounded-full blur-[45px]" />
 
-            <div className="max-w-7xl mx-auto relative z-10">
+            <div className="max-w-7xl mx-auto relative z-10 pt-8 sm:pt-16">
                <div className="grid lg:grid-cols-2 gap-12 items-center">
                   <div>
                      {/* Back Link */}
