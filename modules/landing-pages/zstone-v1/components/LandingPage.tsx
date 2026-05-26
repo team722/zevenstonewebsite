@@ -1,9 +1,14 @@
 import { ArrowRight, CheckCircle, TrendingUp, Zap, Users, Target, Clock, Shield, Award, Star, DollarSign, BarChart3, Rocket, X, Download, Mail, Building2, User, Calendar } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import imgLinkLogo from "figma:asset/landingpageLogo.png";
 import imgWhiteLogo from "figma:asset/Logo-White.webp";
+import { sanityClient } from '../../../../lib/sanity';
+import { HOME_PAGE_QUERY } from '../../../../lib/queries';
 
 export default function LandingPage() {
+  const { data: homePage } = useQuery({ queryKey: ['homePage'], queryFn: () => sanityClient.fetch(HOME_PAGE_QUERY) });
+
   const [isScrolled, setIsScrolled] = useState(false);
   const [showFloatingForm, setShowFloatingForm] = useState(false);
   const [showLeadMagnet, setShowLeadMagnet] = useState(false);
@@ -39,6 +44,25 @@ export default function LandingPage() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  const [isVideoPlaying, setIsVideoPlaying] = useState(true);
+  const [isVideoHovered, setIsVideoHovered] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const toggleVideoPlay = (e: React.MouseEvent) => {
+    if (videoRef.current) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const clickY = e.clientY - rect.top;
+      if (isVideoHovered && rect.height - clickY < 60) {
+        return;
+      }
+      if (videoRef.current.paused) {
+        videoRef.current.play();
+      } else {
+        videoRef.current.pause();
+      }
+    }
+  };
 
   const handleFormSubmit = async (e: React.FormEvent, formType: string = 'Strategy Call') => {
     e.preventDefault();
@@ -275,6 +299,51 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+
+      {/* --- VIDEO SECTION --- */}
+      {homePage?.showcaseVideoUrl && (
+        <section className="py-12 sm:py-16 md:py-24 lg:py-0 lg:pt-32 lg:pb-24 bg-white relative overflow-hidden">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-blue-500/10 rounded-full blur-[150px] pointer-events-none" />
+
+          <div className="container max-w-5xl mx-auto px-4 sm:px-6 relative z-10">
+            <div
+              className="mx-auto rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative aspect-video bg-black/50 group cursor-pointer border border-gray-200/20"
+              onClick={toggleVideoPlay}
+              onMouseEnter={() => setIsVideoHovered(true)}
+              onMouseLeave={() => setIsVideoHovered(false)}
+            >
+              <video
+                ref={videoRef}
+                className="w-full h-full object-cover"
+                muted
+                autoPlay
+                loop
+                playsInline
+                controls={isVideoHovered}
+                onPlay={() => setIsVideoPlaying(true)}
+                onPause={() => setIsVideoPlaying(false)}
+              >
+                <source src={homePage.showcaseVideoUrl} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+
+              {/* Custom Play Button Overlay */}
+              <div className={`hidden absolute inset-0 flex items-center justify-center pointer-events-none transition-all duration-500 bg-black/20 group-hover:bg-black/40 ${isVideoPlaying ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'}`}>
+                <div className="w-16 h-16 md:w-24 md:h-24 bg-white/95 backdrop-blur-md rounded-full flex items-center justify-center shadow-[0_0_40px_rgba(255,255,255,0.15)] transform group-hover:scale-110 transition-transform duration-500">
+                  {isVideoPlaying ? (
+                    <div className="flex gap-2">
+                      <div className="w-1.5 md:w-2 h-6 md:h-8 bg-[#2c2e33] rounded-full"></div>
+                      <div className="w-1.5 md:w-2 h-6 md:h-8 bg-[#2c2e33] rounded-full"></div>
+                    </div>
+                  ) : (
+                    <svg className="w-8 h-8 md:w-12 md:h-12 text-[#2c2e33] ml-1 md:ml-2" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Problem Section */}
       <section className="py-12 sm:py-20 lg:py-32 px-4 sm:px-6">
