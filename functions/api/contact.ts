@@ -1,7 +1,7 @@
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Allow-Headers': 'Content-Type, Accept',
 };
 
 export async function onRequestOptions() {
@@ -15,74 +15,140 @@ export async function onRequestPost({ request, env }) {
   try {
     const data = await request.json();
 
-    // Honeypot check for basic spam protection
-    // If the hidden 'botField' is filled out, we silently drop the submission
-    // but return success to fool the bot.
-    if (data.botField) {
+    // Honeypot spam protection
+    if (data.botField || (data.website_url && data.website_url.trim() !== '')) {
       return new Response(JSON.stringify({ success: true, message: 'Message sent!' }), {
         status: 200,
         headers: { 'Content-Type': 'application/json', ...corsHeaders },
       });
     }
 
-    // Prepare the document mutation for Sanity
-    const mutation = {
-      mutations: [
-        {
-          create: {
-            _type: 'contactSubmission',
-            title: data.title || '',
-            firstName: data.firstName,
-            lastName: data.lastName,
-            email: data.email,
-            budget: data.budget || '',
-            expectations: data.expectations,
-            status: 'New',
-            submittedAt: new Date().toISOString(),
-          },
-        },
-      ],
+    const isLandingPage = !!data.formType;
+    const sanityDocumentType = isLandingPage ? 'landingPageSubmission' : 'contactSubmission';
+
+    // ── 1. Save to Sanity ──────────────────────────────────────────────────
+    const sanityDocument: any = {
+      _type: sanityDocumentType,
+      title: data.title || '',
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: data.email,
+      status: 'New',
+      submittedAt: new Date().toISOString(),
     };
 
-    // Get config from environment variables (fallback to known values if not set)
+    if (isLandingPage) {
+      sanityDocument.formType    = data.formType;
+      sanityDocument.phone       = data.phone       || '';
+      sanityDocument.agencyName  = data.agencyName  || '';
+      sanityDocument.challenge   = data.challenge   || '';
+    } else {
+      sanityDocument.budget       = data.budget       || '';
+      sanityDocument.expectations = data.expectations || '';
+    }
+
+    const mutation = { mutations: [{ create: sanityDocument }] };
+
     const projectId = env.SANITY_PROJECT_ID || 'h79epwt4';
-    const dataset = env.SANITY_DATASET || 'production';
-    const token = env.SANITY_WRITE_TOKEN;
+    const dataset   = env.SANITY_DATASET    || 'production';
+    const token     = env.SANITY_WRITE_TOKEN;
+
+    let sanitySuccess = false;
+    let sanityError: any = null;
 
     if (!token) {
-      return new Response(JSON.stringify({ error: 'Server misconfiguration: Missing Sanity Token' }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json', ...corsHeaders },
-      });
+      sanityError = 'Missing Sanity Token';
+    } else {
+      try {
+        const sanityUrl = `https://${projectId}.api.sanity.io/v2023-08-01/data/mutate/${dataset}`;
+        const sanityResponse = await fetch(sanityUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+          body: JSON.stringify(mutation),
+        });
+        const sanityResult = await sanityResponse.json();
+        sanitySuccess = sanityResponse.ok;
+        if (!sanitySuccess) {
+          sanityError = sanityResult;
+          console.error('Sanity Error:', JSON.stringify(sanityResult));
+        }
+      } catch (err: any) {
+        sanityError = err.message;
+        console.error('Sanity Fetch Error:', err);
+      }
     }
 
-    const sanityUrl = `https://${projectId}.api.sanity.io/v2023-08-01/data/mutate/${dataset}`;
+    // ── 2. Submit directly to Zoho Forms public URL ───────────────────────
+    // Zoho Forms natively accepts the entry and its own internal workflow
+    // then pushes the record to Zoho Bigin via the Forms → Bigin integration.
+    let zohoSuccess = false;
+    let zohoError: any = null;
 
-    const sanityResponse = await fetch(sanityUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(mutation),
-    });
+    try {
+      const portalName = env.ZOHO_PORTAL_NAME || 'zevenstone';
 
-    const sanityResult = await sanityResponse.json();
+      let formLinkName: string;
+      let formPerma: string;
 
-    if (!sanityResponse.ok) {
-      console.error('Sanity Error:', JSON.stringify(sanityResult));
-      return new Response(JSON.stringify({ error: 'Failed to save submission' }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json', ...corsHeaders },
+      if (isLandingPage) {
+        formLinkName = env.ZOHO_LANDING_FORM_NAME || 'ZevenstoneAgencyForm';
+        formPerma    = env.ZOHO_LANDING_PERMA     || '';
+      } else {
+        formLinkName = env.ZOHO_FORM_LINK_NAME || 'websiteform';
+        formPerma    = 'NkXcBE1CUcbQkq2l1m67xnpT6tHWJm-F0Xr7F5gmP5g';
+      }
+
+      // India Data Center public submit endpoint
+      const zohoFormUrl = `https://forms.zohopublic.in/${portalName}/form/${formLinkName}/formperma/${formPerma}/htmlRecords/submit`;
+
+      const formBody = new URLSearchParams();
+
+      // Common fields (field names mapped from Zoho Forms HTML source)
+      formBody.append('Dropdown1',  data.title     || '');
+      formBody.append('SingleLine', data.firstName || '');
+      formBody.append('SingleLine1',data.lastName  || '');
+      formBody.append('Email',      data.email     || '');
+
+      if (isLandingPage) {
+        formBody.append('SingleLine2', data.agencyName || '');
+        formBody.append('PhoneNumber', data.phone      || '');
+        formBody.append('MultiLine1',  data.challenge  || '');
+        formBody.append('SingleLine3', data.formType   || '');
+      } else {
+        formBody.append('Dropdown',  data.budget       || '');
+        formBody.append('MultiLine', data.expectations || '');
+      }
+
+      const zohoResponse = await fetch(zohoFormUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: formBody.toString(),
       });
+
+      // Zoho Forms returns 200 for valid submissions regardless of browser session
+      zohoSuccess = zohoResponse.ok;
+
+      if (!zohoSuccess) {
+        zohoError = await zohoResponse.text();
+        console.error('Zoho Forms Submit Error:', zohoError);
+      }
+    } catch (e: any) {
+      zohoError = e.message;
+      console.error('Zoho Fetch Error:', e);
     }
 
-    return new Response(JSON.stringify({ success: true, message: 'Submission successful' }), {
-      status: 200,
+    return new Response(JSON.stringify({
+      success: sanitySuccess || zohoSuccess,
+      sanity:  { success: sanitySuccess, error: sanityError },
+      zoho:    { success: zohoSuccess,   error: zohoError },
+    }), {
+      status: (sanitySuccess || zohoSuccess) ? 200 : 500,
       headers: { 'Content-Type': 'application/json', ...corsHeaders },
     });
-  } catch (error) {
-    return new Response(JSON.stringify({ error: 'Invalid request' }), {
+
+  } catch (error: any) {
+    console.error('Handler error:', error);
+    return new Response(JSON.stringify({ error: error.message || 'Invalid request' }), {
       status: 400,
       headers: { 'Content-Type': 'application/json', ...corsHeaders },
     });
