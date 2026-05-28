@@ -118,9 +118,12 @@ export const SuccessStories: React.FC = () => {
                               </div>
                               <div>
                                  <h4 className="text-[10px] md:text-xs font-bold text-gray-400 uppercase mb-3 tracking-widest">IMPACT</h4>
-                                 <p className="text-sm font-bold text-[#0ea5e9] leading-relaxed line-clamp-6">
-                                     {(study.results?.metrics ? `${study.results.metrics?.value}  ${study.results.metrics?.label}` : 'Significant Growth')}
-                                 </p>
+                                 {study.results?.metrics && (
+                                   study.results?.metrics.map((metric: any, i: number) => (
+                                      <p key={i} className="text-sm font-bold text-[#0ea5e9] leading-relaxed line-clamp-6 mb-4">
+                                         {`${metric.value}  ${metric.label}`}
+                                      </p>
+                                   )) )}
                               </div>
                            </div>
 
