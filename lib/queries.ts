@@ -107,8 +107,8 @@ export const SERVICES_QUERY = `
 `;
 
 export const CASE_STUDIES_QUERY = `
-  *[_type == "caseStudy"] {
-    _id, client, industry, title, subtitle, tags, "slug": slug.current,
+  *[_type == "caseStudy"] | order(displayOrder asc) {
+    _id, client, industry, title, subtitle, tags, displayOrder, "slug": slug.current,
     "imageUrl": image.asset->url,
     headline,
     challenge {
