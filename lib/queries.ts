@@ -125,7 +125,7 @@ export const CASE_STUDY_BY_SLUG_QUERY = `
   *[_type == "caseStudy" && (slug.current == $slug || _id == $slug)][0] {
     _id, client, industry, title, subtitle, "slug": slug.current,
     "imageUrl": image.asset->url,
-    timeline, services, tags,
+    timeline, totalDuration, services, tags,
     headline, heroCtaPrimary, heroCtaSecondary, trustIndicators,
     stickyCtaSubtitle, stickyCtaButtonText,
     midCta { tagline, heading, description, buttonText, trustBadges },
@@ -137,13 +137,24 @@ export const CASE_STUDY_BY_SLUG_QUERY = `
     },
     solution {
       overview,
-      strategies[] { title, description }
+      strategies[] { title, description },
+      additionalImpactHeading,
+      additionalImpactDescription,
+      additionalImpact
+    },
+    resultsTab {
+      heading,
+      description,
+      highlightsHeading,
+      additionalImpact,
+      badgeText
     },
     results {
       storyHeading,
       overview,
-      metrics[] { value, label },
-      additionalImpact
+      measurableResultsHeading,
+      measurableResultsDescription,
+      metrics[] { value, label }
     },
     beforeAfter {
       tagline, heading, description, bottomBadgeText,

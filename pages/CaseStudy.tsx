@@ -174,10 +174,12 @@ export const CaseStudy: React.FC = () => {
    const tags = study.tags || [];
    const services = study.services || [];
    const metrics = study.results?.metrics || [];
-   const additionalImpact = study.results?.additionalImpact || [];
+   const additionalImpact = study.resultsTab?.additionalImpact || [];
+   const solutionAdditionalImpact = study.solution?.additionalImpact || [];
    const painPoints = study.challenge?.painPoints || [];
    const strategies = study.solution?.strategies || [];
    const processTimeline = study.processTimeline || [];
+   const totalDuration = study.totalDuration ?? study.timeline;
 
 
    return (
@@ -430,8 +432,14 @@ export const CaseStudy: React.FC = () => {
 
                <div className="max-w-7xl mx-auto relative z-10">
                   <div className="text-center mb-12">
-                     <h3 className="text-2xl md:text-3xl font-bold mb-2">Impact at a Glance</h3>
-                     {/* <p className="text-xs md:text-sm text-gray-400">The numbers that matter</p> */}
+                     <h3 className="text-2xl md:text-3xl font-bold mb-2">
+                        {study.results?.measurableResultsHeading || 'Impact at a Glance'}
+                     </h3>
+                     {study.results?.measurableResultsDescription && (
+                        <p className="text-xs md:text-sm text-gray-400">
+                           {study.results.measurableResultsDescription}
+                        </p>
+                     )}
                   </div>
 
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -670,10 +678,10 @@ export const CaseStudy: React.FC = () => {
                            <p className="text-base md:text-lg text-gray-600 leading-relaxed">{study.solution.overview}</p>
                         </div>
 
-                        {/* Strategies with icons and visual enhancements */}
-                        {strategies.length > 0 && (
-                           <div className="grid md:grid-cols-2 gap-8">
-                              {strategies.map((strategy: any, idx: number) => {
+                         {/* Strategies with icons and visual enhancements */}
+                         {strategies.length > 0 && (
+                            <div className="grid md:grid-cols-2 gap-8">
+                               {strategies.map((strategy: any, idx: number) => {
                                  const icons = [Rocket, Target, BarChart3, Zap];
                                  const Icon = icons[idx % icons.length];
                                  const colors = [
@@ -709,20 +717,53 @@ export const CaseStudy: React.FC = () => {
                               })}
                            </div>
                         )}
-                     </div>
-                  )}
 
-                  {activeTab === 'results' && study.results && (
+                        {solutionAdditionalImpact.length > 0 && (
+                           <div className="mt-10 bg-white rounded-3xl p-6 md:p-10 shadow-xl border-2 border-blue-100 relative overflow-hidden">
+                              <div className="absolute top-0 right-0 w-40 h-40 bg-blue-500/5 rounded-full blur-3xl" aria-hidden="true" />
+
+                              <div className="relative z-10 mb-8">
+                                 <h4 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 flex items-center gap-3">
+                                    <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center shrink-0">
+                                       <CheckCircle className="w-5 h-5 md:w-6 md:h-6 text-white" aria-hidden="true" />
+                                    </div>
+                                    {study.solution.additionalImpactHeading || 'Additional Impact Points'}
+                                 </h4>
+                                 {study.solution.additionalImpactDescription && (
+                                    <p className="text-sm md:text-base text-gray-600 leading-relaxed">
+                                       {study.solution.additionalImpactDescription}
+                                    </p>
+                                 )}
+                              </div>
+
+                              <div className="grid md:grid-cols-2 gap-6 relative z-10">
+                                 {solutionAdditionalImpact.map((impact: string, idx: number) => (
+                                    <div key={idx} className="flex items-start gap-4 bg-blue-50/70 rounded-xl p-5 shadow-sm border border-blue-100 hover:shadow-md transition-shadow group">
+                                       <div className="bg-gradient-to-br from-blue-500 to-blue-600 w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform shadow-md">
+                                          <CheckCircle className="w-5 h-5 md:w-6 md:h-6 text-white" aria-hidden="true" />
+                                      </div>
+                                       <p className="text-sm md:text-base text-gray-700 leading-relaxed font-medium pt-1">{impact}</p>
+                                    </div>
+                                 ))}
+                              </div>
+                           </div>
+                        )}
+                      </div>
+                   )}
+
+                  {activeTab === 'results' && (study.resultsTab || study.results) && (
                      <div className="max-w-6xl mx-auto">
                         <div className="flex flex-col items-center text-center gap-6 mb-12 max-w-4xl mx-auto">
                            <div className="flex items-center gap-4">
-                              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-green-500 to-green-6 0 rounded-3xl shrink-0 shadow-xl">
+                              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-3xl shrink-0 shadow-xl">
                                  <TrendingUp className="w-10 h-10 text-white" aria-hidden="true" />
                               </div>
-                              <h3 className="text-2xl md:text-3xl font-bold text-gray-900">Business Impact</h3>
+                              <h3 className="text-2xl md:text-3xl font-bold text-gray-900">
+                                 {study.resultsTab?.heading || 'Business Impact'}
+                              </h3>
                            </div>
                            <p className="text-base md:text-lg text-gray-600 leading-relaxed">
-                              Measurable results that transformed their business
+                              {study.resultsTab?.description || 'Measurable results that transformed their business'}
                            </p>
                         </div>
 
@@ -740,7 +781,7 @@ export const CaseStudy: React.FC = () => {
                               <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center shrink-0">
                                  <BarChart3 className="w-5 h-5 md:w-6 md:h-6 text-white" aria-hidden="true" />
                               </div>
-                              Business Impact Highlights
+                              {study.resultsTab?.highlightsHeading || 'Business Impact Highlights'}
                            </h4>
 
                            {additionalImpact.length > 0 && (
@@ -760,7 +801,7 @@ export const CaseStudy: React.FC = () => {
                            <div className="mt-8 flex justify-center">
                               <div className="inline-flex items-center gap-2 bg-gradient-to-r from-green-600 to-green-700 text-white px-6 py-3 rounded-full shadow-lg">
                                  <TrendingUp className="w-5 h-5" aria-hidden="true" />
-                                 <span className="font-bold text-sm">Success Story</span>
+                                 <span className="font-bold text-sm">{study.resultsTab?.badgeText || 'Success Story'}</span>
                               </div>
                            </div>
                         </div>
@@ -878,7 +919,7 @@ export const CaseStudy: React.FC = () => {
                      <div className="mt-16 text-center">
                         <div className="xl:w-[700px] xl:justify-around inline-flex flex-wrap md:flex-nowrap items-center justify-center gap-4 md:gap-6 bg-gradient-to-r from-gray-50 to-blue-50 rounded-2xl px-4 py-4 sm:px-6 md:px-10 md:py-6 border border-blue-100 shadow-lg">
                            <div className="text-center">
-                              <div className="text-3xl md:text-4xl font-extrabold text-blue-600 mb-1">{study.timeline}</div>
+                              <div className="text-3xl md:text-4xl font-extrabold text-blue-600 mb-1">{totalDuration}</div>
                               <div className="text-xs md:text-sm text-gray-600 font-semibold">Total Duration</div>
                            </div>
                            <div className="hidden md:block w-px h-12 bg-gray-300" />
