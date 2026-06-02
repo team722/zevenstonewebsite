@@ -234,15 +234,15 @@ export const CaseStudy: React.FC = () => {
             <div className="absolute top-[354px] left-10 w-[300px] h-[300px] md:w-[546px] md:h-[546px] bg-blue-400/5 rounded-full blur-[45px]" />
 
             <div className="max-w-7xl mx-auto relative z-10 pt-8 sm:pt-16">
-               <div className="grid lg:grid-cols-2 gap-12 items-center">
-                  <div>
+               <div className="grid lg:grid-cols-2 gap-12 items-stretch">
+                  <div className="flex flex-col justify-center">
                      {/* Back Link */}
                      <Link to="/success-stories" className="hidden text-gray-500 hover:text-blue-500 mb-6 transition-colors text-sm font-semibold">
                         <ArrowLeft size={16} className="mr-2" /> Back to Success Stories
                      </Link>
 
                      {/* Badge - brand style */}
-                     <div className="inline-block backdrop-blur-md bg-white/60 border border-blue-500/20 rounded-full px-4 py-1.5 md:px-5 md:py-2 mb-6">
+                     <div className="inline-block w-fit backdrop-blur-md bg-white/60 border border-blue-500/20 rounded-full px-4 py-1.5 md:px-5 md:py-2 mb-6">
                         <p className="text-xs font-semibold text-blue-500 tracking-[2px] uppercase">
                            {study.client} {study.industry ? `• ${study.industry}` : ''}
                         </p>
@@ -329,10 +329,10 @@ export const CaseStudy: React.FC = () => {
                      </div>
                   </div>
 
-                  <div className="relative">
+                  <div className="relative min-h-[320px] sm:min-h-[420px] lg:min-h-0">
                      {study.imageUrl && (
-                        <div className="rounded-[40px] overflow-hidden shadow-2xl border-8 border-white/50 bg-slate-100">
-                           <img src={study.imageUrl} alt={study.client} className="w-full h-auto object-cover max-h-[500px]" />
+                        <div className="h-[320px] sm:h-[420px] lg:h-full rounded-[40px] overflow-hidden shadow-2xl border-8 border-white/50 bg-slate-100">
+                           <img src={study.imageUrl} alt={study.client} className="w-full h-full sm:object-cover" />
                         </div>
                      )}
                      {/* Floating badge */}
