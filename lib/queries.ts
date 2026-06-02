@@ -116,7 +116,7 @@ export const CASE_STUDIES_QUERY = `
     },
     results {
       overview,
-      metrics[0] { value, label }
+      metrics[] { value, label }
     }
   }
 `;
@@ -130,6 +130,7 @@ export const CASE_STUDY_BY_SLUG_QUERY = `
     stickyCtaSubtitle, stickyCtaButtonText,
     midCta { tagline, heading, description, buttonText, trustBadges },
     finalCta { tagline, heading, description, valuePropsHeading, socialProofText, socialProofRating, valueProps[] { title, description } },
+    contactForm { heading, buttonText, benefits },
     challenge {
       overview,
       painPoints
@@ -139,14 +140,18 @@ export const CASE_STUDY_BY_SLUG_QUERY = `
       strategies[] { title, description }
     },
     results {
+      storyHeading,
       overview,
       metrics[] { value, label },
       additionalImpact
     },
     beforeAfter {
+      tagline, heading, description, bottomBadgeText,
       before[] { metric, value },
       after[] { metric, value }
     },
+    processSection { tagline, heading, description },
+    relatedStoriesSection { tagline, heading, description },
     processTimeline[] {
       phase, duration, description, deliverables
     },

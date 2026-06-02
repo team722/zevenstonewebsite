@@ -27,7 +27,15 @@ import {
    Percent,
    DollarSign
 } from 'lucide-react';
-const CaseStudyContactForm = () => {
+const CaseStudyContactForm = ({
+   heading = "Schedule Your Free Consultation",
+   buttonText = "Get My Free Strategy Session",
+   benefits = ["Free consultation", "No commitment", "30 minutes"]
+}: {
+   heading?: string;
+   buttonText?: string;
+   benefits?: string[];
+}) => {
    const [formData, setFormData] = useState({
       name: '',
       email: '',
@@ -62,7 +70,7 @@ const CaseStudyContactForm = () => {
    return (
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
          <h3 className="text-[26px] md:text-[32px] font-extrabold text-[#111827] mb-6 text-center leading-tight">
-            Schedule Your Free Consultation
+            {heading}
          </h3>
          
          <input 
@@ -104,22 +112,22 @@ const CaseStudyContactForm = () => {
             disabled={isSubmitting}
             className="w-full bg-[#111827] hover:bg-black text-white font-bold text-base md:text-lg py-3 md:py-4 rounded-full shadow-lg transition-all mt-4"
          >
-            {isSubmitting ? 'Sending...' : 'Get My Free Strategy Session'}
+            {isSubmitting ? 'Sending...' : buttonText}
          </button>
 
          <div className="flex flex-wrap justify-center items-center gap-4 md:gap-6 mt-6">
-            <div className="flex items-center gap-1.5">
-               <CheckCircle className="w-5 h-5 text-[#10b981]" />
-               <span className="text-sm font-medium text-gray-500">Free consultation</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-               <Shield className="w-5 h-5 text-[#10b981]" />
-               <span className="text-sm font-medium text-gray-500">No commitment</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-               <Clock className="w-5 h-5 text-[#3b82f6]" />
-               <span className="text-sm font-medium text-gray-500">30 minutes</span>
-            </div>
+            {benefits.map((benefit, idx) => {
+               const icons = [CheckCircle, Shield, Clock];
+               const Icon = icons[idx % icons.length];
+               const colors = ["text-[#10b981]", "text-[#10b981]", "text-[#3b82f6]"];
+               const color = colors[idx % colors.length];
+               return (
+                  <div key={idx} className="flex items-center gap-1.5">
+                     <Icon className={`w-5 h-5 ${color}`} />
+                     <span className="text-sm font-medium text-gray-500">{benefit}</span>
+                  </div>
+               );
+            })}
          </div>
       </form>
    );
@@ -423,7 +431,7 @@ export const CaseStudy: React.FC = () => {
                <div className="max-w-7xl mx-auto relative z-10">
                   <div className="text-center mb-12">
                      <h3 className="text-2xl md:text-3xl font-bold mb-2">Impact at a Glance</h3>
-                     <p className="text-xs md:text-sm text-gray-400">The numbers that matter</p>
+                     {/* <p className="text-xs md:text-sm text-gray-400">The numbers that matter</p> */}
                   </div>
 
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -456,12 +464,16 @@ export const CaseStudy: React.FC = () => {
                   <div className="text-center mb-16">
                      <div className="inline-flex items-center gap-2 bg-purple-100 text-purple-700 px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
                         <BarChart3 className="w-4 h-4" />
-                        The Transformation
+                        {study.beforeAfter.tagline || 'The Transformation'}
                      </div>
                      <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                        Before vs After
+                        {study.beforeAfter.heading || 'Before vs After'}
                      </h2>
-                     {study.timeline && (
+                     {study.beforeAfter.description ? (
+                        <p className="text-lg text-gray-600">
+                           {study.beforeAfter.description}
+                        </p>
+                     ) : study.timeline && (
                         <p className="text-lg text-gray-600">
                            See the measurable impact we delivered in just {study.timeline}
                         </p>
@@ -526,11 +538,13 @@ export const CaseStudy: React.FC = () => {
                   </div>
 
                   {/* Improvement indicators */}
-                  {study.timeline && (
+                  {(study.beforeAfter.bottomBadgeText || study.timeline) && (
                      <div className="mt-12 text-center">
                         <div className="inline-flex items-center gap-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white px-8 py-4 rounded-2xl shadow-xl">
                            <Award className="w-6 h-6" />
-                           <span className="font-bold text-base md:text-lg">Measurable Results in {study.timeline}</span>
+                           <span className="font-bold text-base md:text-lg">
+                              {study.beforeAfter.bottomBadgeText || 'Measurable Results Delivered'}
+                           </span>
                         </div>
                      </div>
                   )}
@@ -543,10 +557,10 @@ export const CaseStudy: React.FC = () => {
             <section className="pt-12 pb-0 px-6 bg-gray-50 border-t border-gray-100">
                <div className="max-w-4xl mx-auto text-center">
                   <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-                     The Story Behind the Numbers
+                     {study.results?.storyHeading || "The Story Behind the Numbers"}
                   </h2>
                   <p className="text-base md:text-xl text-gray-600 leading-relaxed">
-                     {study.results.overview}
+                    {study.results.overview}
                   </p>
                </div>
             </section>
@@ -763,12 +777,16 @@ export const CaseStudy: React.FC = () => {
                   <div className="text-center mb-16">
                      <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
                         <Clock className="w-4 h-4" />
-                        Our Process
+                        {study.processSection?.tagline || 'Our Process'}
                      </div>
                      <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                        How We Made It Happen
+                        {study.processSection?.heading || 'How We Made It Happen'}
                      </h2>
-                     {study.timeline && (
+                     {study.processSection?.description ? (
+                        <p className="text-lg text-gray-600">
+                           {study.processSection.description}
+                        </p>
+                     ) : study.timeline && (
                         <p className="text-lg text-gray-600">
                            A transparent look at our {study.timeline} journey together
                         </p>
@@ -999,14 +1017,14 @@ export const CaseStudy: React.FC = () => {
                   <div className="text-center mb-16">
                      <div className="inline-block backdrop-blur-md bg-blue-500/10 border border-blue-500/20 rounded-full px-5 py-2.5 shadow-sm mb-6">
                         <p className="text-xs font-semibold text-blue-600 tracking-[2px] uppercase">
-                           More Success Stories
+                           {study.relatedStoriesSection?.tagline || 'More Success Stories'}
                         </p>
                      </div>
                      <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4 tracking-tight">
-                        Explore Other Transformations
+                        {study.relatedStoriesSection?.heading || 'Explore Other Transformations'}
                      </h2>
                      <p className="text-base md:text-lg text-gray-600">
-                        See how we've helped brands across industries achieve breakthrough results
+                        {study.relatedStoriesSection?.description || "See how we've helped brands across industries achieve breakthrough results"}
                      </p>
                   </div>
 
@@ -1064,10 +1082,10 @@ export const CaseStudy: React.FC = () => {
                                     {relatedStory && (
                                        <div>
                                           <div className="text-2xl md:text-3xl font-extrabold text-blue-500 mb-1">
-                                             {relatedStory.results?.metrics?.value || "200%" }
+                                             {relatedStory.results?.metrics?.[0]?.value || "200%" }
                                           </div>
                                           <div className="text-xs text-gray-500 font-semibold">
-                                             {relatedStory.results?.metrics?.label || "Increase in brand engagement"}
+                                             {relatedStory.results?.metrics?.[0]?.label || "Increase in brand engagement"}
                                           </div>
                                        </div>
                                     )}
@@ -1178,7 +1196,11 @@ export const CaseStudy: React.FC = () => {
 
                   {/* Right: CTA Form */}
                   <div className="bg-white rounded-[32px] md:rounded-[40px] shadow-2xl p-6 md:p-10 border border-gray-100">
-                     <CaseStudyContactForm />
+                     <CaseStudyContactForm 
+                        heading={study.contactForm?.heading}
+                        buttonText={study.contactForm?.buttonText}
+                        benefits={study.contactForm?.benefits}
+                     />
                   </div>
                </div>
             </div>

@@ -2,13 +2,10 @@ export interface Env {
   SANITY_WRITE_TOKEN: string;
   SANITY_PROJECT_ID: string;
   SANITY_DATASET: string;
-  // Zoho OAuth2 credentials (from Zoho API Console)
-  ZOHO_CLIENT_ID: string;
-  ZOHO_CLIENT_SECRET: string;
-  ZOHO_REFRESH_TOKEN: string;
-  // Zoho Forms identifiers
-  ZOHO_FORM_LINK_NAME: string; // e.g. "websiteform"
-  ZOHO_PORTAL_NAME: string;    // e.g. "zevenstone"
+  ZOHO_PORTAL_NAME: string;
+  ZOHO_FORM_LINK_NAME: string;
+  ZOHO_LANDING_FORM_NAME: string;
+  ZOHO_LANDING_PERMA: string;
 }
 
 const corsHeaders = {
@@ -30,24 +27,19 @@ export default {
     try {
       const data: any = await request.json();
 
-      // 0. Improved Spam Protection (Honeypot)
-      // We look for 'website_url' which bots love but humans won't see.
-      if (data.website_url && data.website_url.trim() !== "") {
+      // Honeypot spam protection
+      if (data.website_url && data.website_url.trim() !== '') {
         console.warn('Spam detected via honeypot');
-        return new Response(JSON.stringify({ 
-          success: true, 
-          message: 'Submission successful',
-          note: 'Filtered as spam' 
-        }), {
+        return new Response(JSON.stringify({ success: true, message: 'Submission successful' }), {
           status: 200,
           headers: { 'Content-Type': 'application/json', ...corsHeaders },
         });
       }
 
-      // 1. Save to Sanity
       const isLandingPage = !!data.formType;
       const sanityDocumentType = isLandingPage ? 'landingPageSubmission' : 'contactSubmission';
 
+      // ── 1. Save to Sanity ────────────────────────────────────────────────
       const sanityDocument: any = {
         _type: sanityDocumentType,
         title: data.title || '',
@@ -58,47 +50,34 @@ export default {
         submittedAt: new Date().toISOString(),
       };
 
-      // Map specific fields based on document type
       if (isLandingPage) {
-        sanityDocument.formType = data.formType;
-        sanityDocument.phone = data.phone || '';
+        sanityDocument.formType   = data.formType;
+        sanityDocument.phone      = data.phone      || '';
         sanityDocument.agencyName = data.agencyName || '';
-        sanityDocument.challenge = data.challenge || '';
+        sanityDocument.challenge  = data.challenge  || '';
       } else {
-        sanityDocument.budget = data.budget || '';
+        sanityDocument.budget       = data.budget       || '';
         sanityDocument.expectations = data.expectations || '';
       }
 
-      const mutation = {
-        mutations: [
-          {
-            create: sanityDocument,
-          },
-        ],
-      };
+      const mutation = { mutations: [{ create: sanityDocument }] };
 
       const projectId = env.SANITY_PROJECT_ID;
-      const dataset = env.SANITY_DATASET;
-      const token = env.SANITY_WRITE_TOKEN;
+      const dataset   = env.SANITY_DATASET;
+      const token     = env.SANITY_WRITE_TOKEN;
 
-      const sanityUrl = `https://${projectId}.api.sanity.io/v1/data/mutate/${dataset}`;
-
-      let sanityError = null;
       let sanitySuccess = false;
+      let sanityError: any = null;
 
       if (token) {
+        const sanityUrl = `https://${projectId}.api.sanity.io/v1/data/mutate/${dataset}`;
         const sanityResponse = await fetch(sanityUrl, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
           body: JSON.stringify(mutation),
         });
-        
         const sanityResult: any = await sanityResponse.json();
         sanitySuccess = sanityResponse.ok;
-        
         if (!sanitySuccess) {
           sanityError = sanityResult;
           console.error('Sanity Error:', JSON.stringify(sanityResult));
@@ -107,90 +86,71 @@ export default {
         sanityError = 'Missing Sanity Token';
       }
 
-      // 2. Submit to Zoho Forms via Official REST API (OAuth2)
-      let zohoError = null;
+      // ── 2. Submit directly to Zoho Forms public URL ──────────────────────
+      // Zoho Forms stores the entry natively. The Zoho Forms → Bigin
+      // integration/workflow handles pushing the record to Zoho Bigin.
       let zohoSuccess = false;
+      let zohoError: any = null;
 
-      if (env.ZOHO_CLIENT_ID && env.ZOHO_CLIENT_SECRET && env.ZOHO_REFRESH_TOKEN) {
-        try {
-          // Step 2a: Exchange Refresh Token for Access Token
-          const tokenParams = new URLSearchParams({
-            refresh_token: env.ZOHO_REFRESH_TOKEN,
-            client_id: env.ZOHO_CLIENT_ID,
-            client_secret: env.ZOHO_CLIENT_SECRET,
-            grant_type: 'refresh_token',
-          });
+      try {
+        const portalName = env.ZOHO_PORTAL_NAME || 'zevenstone';
 
-          // Using .com instead of .in for broader compatibility
-          const tokenResponse = await fetch('https://accounts.zoho.com/oauth/v2/token', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: tokenParams.toString(),
-          });
+        let formLinkName: string;
+        let formPerma: string;
 
-          const tokenData: any = await tokenResponse.json();
-
-          if (!tokenData.access_token) {
-            zohoError = `Token error: ${JSON.stringify(tokenData)}`;
-            console.error('Zoho token error:', zohoError);
-          } else {
-            // Step 2b: Add entry via Zoho Forms REST API
-            const entryPayload: any = {
-              data: {
-                Dropdown1: data.title || '',        // Title
-                SingleLine: data.firstName || '',    // First Name
-                SingleLine1: data.lastName || '',    // Last Name
-                Email: data.email || '',             // Email
-              },
-            };
-
-            // Dynamic mapping for both form types
-            if (isLandingPage) {
-              entryPayload.data.SingleLine2 = data.agencyName || ''; // Agency Name
-              entryPayload.data.PhoneNumber = data.phone || '';     // Phone Number
-              entryPayload.data.MultiLine1 = data.challenge || '';   // Challenge
-              entryPayload.data.SingleLine3 = data.formType || '';   // Form Type
-            } else {
-              entryPayload.data.Dropdown = data.budget || '';        // Budget
-              entryPayload.data.MultiLine = data.expectations || ''; // Expectations
-            }
-
-            const apiUrl = `https://forms.zoho.com/api/v1/${env.ZOHO_PORTAL_NAME}/forms/${env.ZOHO_FORM_LINK_NAME}/entries`;
-
-            const zohoApiResponse = await fetch(apiUrl, {
-              method: 'POST',
-              headers: {
-                'Authorization': `Zoho-oauthtoken ${tokenData.access_token}`,
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(entryPayload),
-            });
-
-            const zohoApiResult: any = await zohoApiResponse.json();
-            zohoSuccess = zohoApiResponse.ok;
-
-            if (!zohoSuccess) {
-              zohoError = JSON.stringify(zohoApiResult);
-              console.error('Zoho API Error:', zohoError);
-            }
-          }
-        } catch (e: any) {
-          zohoError = e.message;
-          console.error('Zoho Fetch Error:', e);
+        if (isLandingPage) {
+          formLinkName = env.ZOHO_LANDING_FORM_NAME || 'ZevenstoneAgencyForm';
+          formPerma    = env.ZOHO_LANDING_PERMA     || '';
+        } else {
+          formLinkName = env.ZOHO_FORM_LINK_NAME || 'websiteform';
+          formPerma    = 'NkXcBE1CUcbQkq2l1m67xnpT6tHWJm-F0Xr7F5gmP5g';
         }
-      } else {
-        zohoError = 'Missing Zoho OAuth2 configuration';
+
+        // India Data Center public submit endpoint
+        const zohoFormUrl = `https://forms.zohopublic.in/${portalName}/form/${formLinkName}/formperma/${formPerma}/htmlRecords/submit`;
+
+        const formBody = new URLSearchParams();
+        formBody.append('Dropdown1',   data.title     || '');
+        formBody.append('SingleLine',  data.firstName || '');
+        formBody.append('SingleLine1', data.lastName  || '');
+        formBody.append('Email',       data.email     || '');
+
+        if (isLandingPage) {
+          formBody.append('SingleLine2', data.agencyName || '');
+          formBody.append('PhoneNumber', data.phone      || '');
+          formBody.append('MultiLine1',  data.challenge  || '');
+          formBody.append('SingleLine3', data.formType   || '');
+        } else {
+          formBody.append('Dropdown',  data.budget       || '');
+          formBody.append('MultiLine', data.expectations || '');
+        }
+
+        const zohoResponse = await fetch(zohoFormUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: formBody.toString(),
+        });
+
+        zohoSuccess = zohoResponse.ok;
+
+        if (!zohoSuccess) {
+          zohoError = await zohoResponse.text();
+          console.error('Zoho Forms Submit Error:', zohoError);
+        }
+      } catch (e: any) {
+        zohoError = e.message;
+        console.error('Zoho Fetch Error:', e);
       }
 
-      // Return status of both
-      return new Response(JSON.stringify({ 
-        success: sanitySuccess || zohoSuccess, 
-        sanity: { success: sanitySuccess, error: sanityError },
-        zoho: { success: zohoSuccess, error: zohoError }
+      return new Response(JSON.stringify({
+        success: sanitySuccess || zohoSuccess,
+        sanity:  { success: sanitySuccess, error: sanityError },
+        zoho:    { success: zohoSuccess,   error: zohoError },
       }), {
         status: (sanitySuccess || zohoSuccess) ? 200 : 500,
         headers: { 'Content-Type': 'application/json', ...corsHeaders },
       });
+
     } catch (error: any) {
       console.error('Worker error:', error);
       return new Response(JSON.stringify({ error: error.message }), {

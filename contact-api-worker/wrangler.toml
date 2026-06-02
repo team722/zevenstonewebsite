@@ -1,6 +1,7 @@
 name = "zevenstone-contact-api"
 main = "src/index.ts"
 compatibility_date = "2024-04-30"
+account_id = "b5e5ead96d2c1e1ed9eab4a75c6fc4ec"
 
 [vars]
 SANITY_PROJECT_ID = "h79epwt4"
@@ -11,6 +12,8 @@ SANITY_WRITE_TOKEN = "skFWn2ogh2ytjdOXwi3VegmHKtb5gAz7c7JgUNEQiB74SpSzRy3H83LOud
 # Fill these in after completing the Zoho API Console setup (see instructions below)
 ZOHO_CLIENT_ID = "1000.T8NVXCDGUZE4HYTP7LYSUKGL9ELPXF"
 ZOHO_CLIENT_SECRET = "d69912b8acea12c545fdd6ca5c21bfe37e60ddc544"
-ZOHO_REFRESH_TOKEN = "1000.66eb1e265699d6863750fa7f87658aed.dd1bef5f1eb975eed8c8ae0ef8cdfc73"
+ZOHO_REFRESH_TOKEN = "1000.2f72e9110388b42507cae9e8735374cd.f7b6633a8c597248faf3fa0a2778af29"
 ZOHO_PORTAL_NAME = "zevenstone"
 ZOHO_FORM_LINK_NAME = "websiteform"
+ZOHO_LANDING_FORM_NAME = "ZevenstoneAgencyForm"
+ZOHO_LANDING_PERMA = "kVR_H1dwYdcCYi6XnQBA7LLg-e1FOZ2jA9hg5YZ7I3A"
