@@ -104,7 +104,7 @@ export const About: React.FC = () => {
           >
             {/* Image Grid with Glass effect */}
             <div className="relative z-10 p-4 bg-white/40 backdrop-blur-2xl rounded-[2.5rem] border border-white/50 shadow-2xl">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid sm:grid-cols-2 gap-4">
                 <img src={aboutPageData?.heroImagesUrl?.[0] || aboutPageData?.hero?.backgroundImageUrl || "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop"} className="rounded-3xl shadow-md w-full h-64 object-cover" alt="Team working" />
                 <img src={aboutPageData?.heroImagesUrl?.[1] || "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2032&auto=format&fit=crop"} className="rounded-3xl shadow-md w-full h-64 object-cover mt-8" alt="Meeting" />
               </div>
