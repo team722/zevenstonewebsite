@@ -79,7 +79,7 @@ export const Blog: React.FC = () => {
                className="group relative rounded-[3rem] overflow-hidden shadow-2xl mb-24 min-h-[500px] flex items-end"
             >
                <img src={featuredPost.imageUrl} alt={featuredPost.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
-               <div className="absolute inset-0 bg-gradient-to-t from-zeven-dark via-zeven-dark/50 to-transparent opacity-90" />
+               <div className="absolute inset-0 bg-gradient-to-r from-zeven-dark via-zeven-dark/100 to-transparent opacity-90" />
 
                <div className="relative z-10 p-10 md:p-16 max-w-4xl">
                   <div className="flex flex-wrap items-center gap-3 md:gap-4 text-white/80 mb-4 text-sm font-medium">
@@ -87,7 +87,7 @@ export const Blog: React.FC = () => {
                      <span className="flex items-center gap-2"><Calendar size={14} /> {new Date(featuredPost.publishedAt).toLocaleDateString()}</span>
                   </div>
                   <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight group-hover:text-blue-100 transition-colors">{featuredPost.title}</h2>
-                  <p className="text-lg text-gray-200 mb-8 max-w-2xl line-clamp-2">{featuredPost.excerpt}</p>
+                  <p className="text-lg text-white mb-8 max-w-2xl line-clamp-2">{featuredPost.excerpt}</p>
                   <Link to={`/blog/${featuredPost.slug}`}>
                      <Button className="rounded-full bg-white text-zeven-dark hover:bg-zeven-blue hover:text-white border-none">Read Article</Button>
                   </Link>
