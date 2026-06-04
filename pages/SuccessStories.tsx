@@ -101,7 +101,7 @@ export const SuccessStories: React.FC = () => {
                         className="bg-white rounded-[2.5rem] border border-gray-100 shadow-xl overflow-hidden grid lg:grid-cols-2 group hover:shadow-2xl transition-all"
                      >
                         <div className="relative h-[300px] lg:h-auto overflow-hidden">
-                           <img src={study.imageUrl} alt={study.headline || study.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                           <img src={study.imageUrl} alt={study.headline || study.title} className="absolute inset-0 w-full h-full transition-transform duration-700 group-hover:scale-105" />
                            <div className="absolute inset-0 bg-blue-500/5 group-hover:bg-transparent transition-colors duration-500" />
                         </div>
                         <div className="p-10 lg:p-16 flex flex-col justify-center">
