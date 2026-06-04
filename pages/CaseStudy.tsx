@@ -334,7 +334,7 @@ export const CaseStudy: React.FC = () => {
                   <div className="relative min-h-[320px] sm:min-h-[420px] lg:min-h-0">
                      {study.imageUrl && (
                         <div className="h-[320px] sm:h-[420px] lg:h-full rounded-[40px] overflow-hidden shadow-2xl border-8 border-white/50 bg-slate-100">
-                           <img src={study.imageUrl} alt={study.client} className="w-full h-full sm:object-cover" />
+                           <img src={study.imageUrl} alt={study.client} className="w-full h-full sm:object-fill" />
                         </div>
                      )}
                      {/* Floating badge */}
