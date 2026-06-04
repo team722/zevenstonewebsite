@@ -23,28 +23,48 @@ export async function onRequestPost({ request, env }) {
       });
     }
 
+    const isCaseStudy  = data.formSource === 'caseStudy';
     const isLandingPage = !!data.formType;
-    const sanityDocumentType = isLandingPage ? 'landingPageSubmission' : 'contactSubmission';
+    const sanityDocumentType = isCaseStudy
+      ? 'caseStudySubmission'
+      : isLandingPage
+        ? 'landingPageSubmission'
+        : 'contactSubmission';
 
     // ── 1. Save to Sanity ──────────────────────────────────────────────────
-    const sanityDocument: any = {
-      _type: sanityDocumentType,
-      title: data.title || '',
-      firstName: data.firstName,
-      lastName: data.lastName,
-      email: data.email,
-      status: 'New',
-      submittedAt: new Date().toISOString(),
-    };
+    let sanityDocument: any;
 
-    if (isLandingPage) {
-      sanityDocument.formType    = data.formType;
-      sanityDocument.phone       = data.phone       || '';
-      sanityDocument.agencyName  = data.agencyName  || '';
-      sanityDocument.challenge   = data.challenge   || '';
+    if (isCaseStudy) {
+      sanityDocument = {
+        _type: 'caseStudySubmission',
+        name: data.name || '',
+        email: data.email || '',
+        company: data.company || '',
+        goals: data.goals || '',
+        caseStudySlug: data.caseStudySlug || '',
+        status: 'New',
+        submittedAt: new Date().toISOString(),
+      };
     } else {
-      sanityDocument.budget       = data.budget       || '';
-      sanityDocument.expectations = data.expectations || '';
+      sanityDocument = {
+        _type: sanityDocumentType,
+        title: data.title || '',
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        status: 'New',
+        submittedAt: new Date().toISOString(),
+      };
+
+      if (isLandingPage) {
+        sanityDocument.formType    = data.formType;
+        sanityDocument.phone       = data.phone       || '';
+        sanityDocument.agencyName  = data.agencyName  || '';
+        sanityDocument.challenge   = data.challenge   || '';
+      } else {
+        sanityDocument.budget       = data.budget       || '';
+        sanityDocument.expectations = data.expectations || '';
+      }
     }
 
     const mutation = { mutations: [{ create: sanityDocument }] };
@@ -90,7 +110,7 @@ export async function onRequestPost({ request, env }) {
       let formLinkName: string;
       let formPerma: string;
 
-      if (isLandingPage) {
+      if (isCaseStudy || isLandingPage) {
         formLinkName = env.ZOHO_LANDING_FORM_NAME || 'ZevenstoneAgencyForm';
         formPerma    = env.ZOHO_LANDING_PERMA     || '';
       } else {
@@ -103,20 +123,28 @@ export async function onRequestPost({ request, env }) {
 
       const formBody = new URLSearchParams();
 
-      // Common fields (field names mapped from Zoho Forms HTML source)
-      formBody.append('Dropdown1',  data.title     || '');
-      formBody.append('SingleLine', data.firstName || '');
-      formBody.append('SingleLine1',data.lastName  || '');
-      formBody.append('Email',      data.email     || '');
-
-      if (isLandingPage) {
-        formBody.append('SingleLine2', data.agencyName || '');
-        formBody.append('PhoneNumber', data.phone      || '');
-        formBody.append('MultiLine1',  data.challenge  || '');
-        formBody.append('SingleLine3', data.formType   || '');
+      if (isCaseStudy) {
+        formBody.append('SingleLine',  data.name      || '');
+        formBody.append('Email',       data.email     || '');
+        formBody.append('SingleLine2', data.company   || '');
+        formBody.append('MultiLine1',  data.goals     || '');
+        formBody.append('SingleLine3', 'Case Study Form');
       } else {
-        formBody.append('Dropdown',  data.budget       || '');
-        formBody.append('MultiLine', data.expectations || '');
+        // Common fields (field names mapped from Zoho Forms HTML source)
+        formBody.append('Dropdown1',  data.title     || '');
+        formBody.append('SingleLine', data.firstName || '');
+        formBody.append('SingleLine1',data.lastName  || '');
+        formBody.append('Email',      data.email     || '');
+
+        if (isLandingPage) {
+          formBody.append('SingleLine2', data.agencyName || '');
+          formBody.append('PhoneNumber', data.phone      || '');
+          formBody.append('MultiLine1',  data.challenge  || '');
+          formBody.append('SingleLine3', data.formType   || '');
+        } else {
+          formBody.append('Dropdown',  data.budget       || '');
+          formBody.append('MultiLine', data.expectations || '');
+        }
       }
 
       const zohoResponse = await fetch(zohoFormUrl, {
