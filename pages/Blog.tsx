@@ -86,10 +86,12 @@ export const Blog: React.FC = () => {
                      <span className="bg-zeven-blue px-3 py-1 rounded-full text-white text-xs font-bold uppercase">{featuredPost.category}</span>
                      <span className="flex items-center gap-2"><Calendar size={14} /> {new Date(featuredPost.publishedAt).toLocaleDateString()}</span>
                   </div>
-                  <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight group-hover:text-blue-100 transition-colors">{featuredPost.title}</h2>
+                 <Link to={`/blog/${featuredPost.slug}`}>
+                     <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight group-hover:text-blue-100 transition-colors">{featuredPost.title}</h2>
+                  </Link>
                   <p className="text-lg text-white mb-8 max-w-2xl line-clamp-2">{featuredPost.excerpt}</p>
                   <Link to={`/blog/${featuredPost.slug}`}>
-                     <Button className="rounded-full bg-white text-zeven-dark hover:bg-zeven-blue hover:text-white border-none">Read Article</Button>
+                     <Button className="cursor-pointer rounded-full bg-white text-zeven-dark hover:bg-zeven-blue hover:text-white border-none">Read Article</Button>
                   </Link>
                </div>
             </motion.div>
@@ -114,9 +116,11 @@ export const Blog: React.FC = () => {
                      <div className="flex items-center gap-4 text-sm text-zeven-gray mb-3">
                         <span className="flex items-center gap-1"><Calendar size={14} /> {new Date(post.publishedAt).toLocaleDateString()}</span>
                      </div>
-                     <h3 className="text-2xl font-bold text-zeven-dark mb-3 group-hover:text-zeven-blue transition-colors leading-tight">
+                   <Link to={`/blog/${post.slug}`}>
+                   <h3 className="text-2xl font-bold text-zeven-dark mb-3 group-hover:text-zeven-blue transition-colors leading-tight">
                         {post.title}
                      </h3>
+                     </Link>
                      <p className="text-zeven-gray leading-relaxed mb-6 line-clamp-3">
                         {post.excerpt}
                      </p>
