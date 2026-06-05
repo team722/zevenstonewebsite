@@ -21,6 +21,7 @@ import { LandingPage as LandingPageOriginal } from './pages/LandingPage';
 import ZstoneLandingPageV1 from './modules/landing-pages/zstone-v1/components/LandingPage';
 import TermsPage from './pages/TermsPage';
 import PrivacyPage from './pages/Privacy';
+import ServiceSeo from './pages/ServiceSeo';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -62,6 +63,7 @@ const AppContent: React.FC = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/terms-and-conditions" element={<TermsPage />} />
           <Route path="/privacy-policy" element={<PrivacyPage />} />
+          <Route path="/service-seo" element={<ServiceSeo />} />
 
           {/* New Modular Landing Page Routes (Phase 2) */}
           <Route path="/landing-page" element={<ZstoneLandingPageV1 />} />
