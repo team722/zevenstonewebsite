@@ -3,12 +3,12 @@ import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { Helmet } from 'react-helmet-async';
 import { sanityClient } from '../lib/sanity';
-import { SINGLE_SERVICE_QUERY } from '../lib/queries';
+import { NESTED_SERVICE_QUERY } from '../lib/queries';
 import { Play, CheckCircle, ChevronDown, ChevronUp, Star, ArrowRight } from 'lucide-react';
 import { LoadingSpinner, ErrorState, Button, ScrollReveal } from '../components/ui';
 import { motion } from 'framer-motion';
 
-export const SingleService: React.FC = () => {
+export const NestedServicePage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const [activeTab, setActiveTab] = useState('All Videos');
 
@@ -16,7 +16,7 @@ export const SingleService: React.FC = () => {
     queryKey: ['singleService', slug],
     queryFn: async () => {
       if (!slug) return null;
-      return sanityClient.fetch(SINGLE_SERVICE_QUERY, { slug });
+      return sanityClient.fetch(NESTED_SERVICE_QUERY, { slug });
     },
     enabled: !!slug,
   });

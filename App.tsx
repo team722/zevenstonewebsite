@@ -8,6 +8,7 @@ import { SeoScripts } from './components/SeoScripts';
 import { ScrollToTopButton } from './components/ScrollToTopButton';
 import { Home } from './pages/Home';
 import { About } from './pages/About';
+
 import { Services } from './pages/Services';
 import { SingleService } from './pages/SingleService';
 import { Portfolio } from './pages/Portfolio';
@@ -21,7 +22,7 @@ import { LandingPage as LandingPageOriginal } from './pages/LandingPage';
 import ZstoneLandingPageV1 from './modules/landing-pages/zstone-v1/components/LandingPage';
 import TermsPage from './pages/TermsPage';
 import PrivacyPage from './pages/Privacy';
-import ServiceSeo from './pages/ServiceSeo';
+import { NestedServicePage } from './pages/NestedServicePage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -54,6 +55,7 @@ const AppContent: React.FC = () => {
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Services />} />
           <Route path="/services/:slug" element={<SingleService />} />
+          <Route path="/services/:category/:slug" element={<NestedServicePage />} />
           <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/success-stories" element={<SuccessStories />} />
           <Route path="/case-study/:id" element={<CaseStudy />} />
@@ -63,7 +65,6 @@ const AppContent: React.FC = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/terms-and-conditions" element={<TermsPage />} />
           <Route path="/privacy-policy" element={<PrivacyPage />} />
-          <Route path="/service-seo" element={<ServiceSeo />} />
 
           {/* New Modular Landing Page Routes (Phase 2) */}
           <Route path="/landing-page" element={<ZstoneLandingPageV1 />} />
