@@ -22,7 +22,7 @@ import { LandingPage as LandingPageOriginal } from './pages/LandingPage';
 import ZstoneLandingPageV1 from './modules/landing-pages/zstone-v1/components/LandingPage';
 import TermsPage from './pages/TermsPage';
 import PrivacyPage from './pages/Privacy';
-import { NestedServicePage } from './pages/NestedServicePage';
+import  NestedServicePage  from './pages/NestedServicePage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
