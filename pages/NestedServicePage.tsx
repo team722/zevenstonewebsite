@@ -398,11 +398,18 @@ const NestedServicePage: React.FC = () => {
         {service.caseStudiesSection.caseStudies?.map((cs: any, idx: number) => {
           // Simple logic to map discipline tag to a color class
           const tagLower = (cs.disciplineTag || '').toLowerCase();
-          let colorClass = styles['tech'];
-          if (tagLower.includes('content') || tagLower.includes('on-page')) colorClass = styles['content'];
-          else if (tagLower.includes('local')) colorClass = styles['local'];
-          else if (tagLower.includes('link')) colorClass = styles['links'];
 
+          const colorClasses = [
+                                styles.tech,
+                                styles.content,
+                                styles.local,
+                                styles.links,
+                              ];
+
+         const colorClass = colorClasses[idx % colorClasses.length];
+                 
+  
+              console.log("colorclass", colorClass);
           return (
             <a key={idx} href={cs.url || '#'} className={`${styles['cs-rich-card']} ${colorClass}`} aria-label="Read case study">
               <div className={styles['cs-header']}>
