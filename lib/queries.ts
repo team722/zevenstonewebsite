@@ -371,18 +371,43 @@ export const SINGLE_SERVICE_QUERY = `
 
 export const NESTED_SERVICE_QUERY = `
   *[_type == "nestedService" && slug.current == $slug][0] {
-    _id, title, "slug": slug.current, description,label,ctaButton, secondaryCtaButton,
-    "imageUrl": image.asset->url,
-    hero { title, subtitle, stats[]{value, label}, trustedBrands },
-    featuredVideo { title, description, videoUrl, "thumbnailUrl": thumbnail.asset->url, overlay { badge, title, description, counter { label, value } } },
-    benefits { title, benefitsList[]{"icon": icon.asset->url, title, description} },
-    process { title, subtitle, steps[]{title, description} },
-    portfolio { title, subtitle, examples[]{title, category, objective, result, videoUrl, "thumbnailUrl": thumbnail.asset->url} },
-    metrics { title, list[]{value, label} },
-    features { title,subtitle,list[]{title,subTitle,inclusions} },
-    testimonials { title, list[]{rating, quote, author, company} },
-    engagement { title, subtitle,cardTitle, description, ctaText, ctaUrl },
-    faqs { title,description, list[]{question, answer} },
-    bottomCta { title, subtitle, buttonText, buttonUrl, note }
+    _id, title, "slug": slug.current, description, seoTitle, seoDescription,
+    hero {
+      eyebrow, title, subtitle,
+      actions[] { label, url, style },
+      trustChips[] { iconName, label },
+      "illustrationUrl": illustration.asset->url
+    },
+    statsBar[] { value, label },
+    disciplines[] {
+      _key, title, intro, deliverablesLabel,
+      deliverables, outcomePills,
+      insideCard { title, subtitle, items },
+      caseStudy {
+        tag, mainMetric, title, description, url, "logoUrl": logo.asset->url
+      }
+    },
+    processSection {
+      secLabel, secTitle, steps[] { title, description }, rightCopy,
+      timelineCard { title, items[] { period, description } }
+    },
+    caseStudiesSection {
+      secLabel, secTitle, secSub,
+      caseStudies[] {
+        disciplineTag, "logoUrl": logo.asset->url, mainMetric,
+        results[] { value, label },
+        title, challenge, tacticalActions, quote, url
+      }
+    },
+    faqs {
+      title, subtitle, list[] { question, answer }
+    },
+    faqCta {
+      "imageUrl": image.asset->url, heading, description, buttonText, buttonUrl, trustNote
+    },
+    finalCta {
+      title, description, primaryButtonText, primaryButtonUrl, secondaryButtonText, secondaryButtonUrl,
+      trustNote, badges
+    }
   }
 `;

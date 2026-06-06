@@ -163,7 +163,7 @@ h1.hero-title .blue{color:var(--blue);}
 .sec-title{font-size:clamp(26px,3.8vw,42px);text-align:center;font-weight:800;line-height:1.13;letter-spacing:-.025em;color:var(--text-dark);margin-bottom:14px;}
 .sec-sub{font-size:clamp(14px,1.5vw,16px);font-weight:400;color:var(--text-grey);line-height:1.8;max-width:580px;}
 .tc{text-align:center;}.tc .sec-sub{margin:0 auto;}
-.divider{height:1px;background:var(--border);}
+.divider{height:0px;background:var(--border);}
 
 /* ══════════════════════════════════════════════════
    SHARED CHECK ICON
@@ -333,7 +333,7 @@ h1.hero-title .blue{color:var(--blue);}
 /* ══════════════════════════════════════════════════
    FAQ SECTION
 ══════════════════════════════════════════════════ */
-.faq-section{background:var(--bg);}
+
 .faq-layout{display:grid;grid-template-columns:1fr;gap:60px;align-items:start;}
 .faq-list{display:flex;flex-direction:column;}
 .open{}
@@ -549,6 +549,7 @@ h1.hero-title .blue{color:var(--blue);}
   align-items: center;
   gap: 16px;
   border-bottom:1px solid  #E5E7EB;
+  padding-bottom:12px;  
 }
 .cs-client {
   display: flex;
