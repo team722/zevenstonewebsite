@@ -160,6 +160,11 @@ const NestedServicePage: React.FC = () => {
           {service.hero?.actions?.map((act: any, idx: number) => (
              <a key={idx} href={act.url} className={act.style === 'secondary' ? styles['btn-ghost'] : styles['btn-primary']}>
                {act.label}
+               {act.style !== 'secondary' && (
+                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                   <path d="M3 8h10M9 4l4 4-4 4" stroke="#ffffff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                 </svg>
+               )}
              </a>
           ))}
         </div>
@@ -380,8 +385,10 @@ const NestedServicePage: React.FC = () => {
           <div className="lg:max-w-[540px]">
             <h3>{service.faqCta.heading}</h3>
             <p>{service.faqCta.description}</p>
-            <a href={service.faqCta.buttonUrl || '#cta'} className={`${styles['btn-white-sm']}`}>{service.faqCta.buttonText || 'Get Your Free SEO Audit →'}</a>
+            <div className="flex flex-col sm:flex-row sm:items-center gap-6">
+               <a href={service.faqCta.buttonUrl || '#cta'} className={`${styles['btn-white-sm']} w-fit`}>{`${service.faqCta.buttonText}  →` || 'Get Your Free SEO Audit →'}</a>
             <p className={`${styles['faq-trust-note']} !text-left`}>{service.faqCta.trustNote}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -504,10 +511,10 @@ const NestedServicePage: React.FC = () => {
         <p>{service.finalCta.description}</p>
         <div className={`${styles['cta-actions']}`}>
           {service.finalCta.primaryButtonUrl && (
-            <a href={service.finalCta.primaryButtonUrl} className={`${styles['btn-white']}`}>{service.finalCta.primaryButtonText}</a>
+            <a href={service.finalCta.primaryButtonUrl} className={`${styles['btn-white']}`}>{service.finalCta.primaryButtonText} →</a>
           )}
           {service.finalCta.secondaryButtonUrl && (
-            <a href={service.finalCta.secondaryButtonUrl} className={`${styles['btn-outline-w']}`}>{service.finalCta.secondaryButtonText}</a>
+            <a href={service.finalCta.secondaryButtonUrl} className={`${styles['btn-outline-w']}`}>← {service.finalCta.secondaryButtonText}</a>
           )}
         </div>
         <p className={`${styles['cta-trust']}`}>{service.finalCta.trustNote}</p>
