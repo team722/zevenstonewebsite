@@ -157,15 +157,17 @@ const NestedServicePage: React.FC = () => {
         <p className={`${styles['hero-sub']} ${styles['reveal']} ${styles['d2']}`}>{service.hero?.subtitle}</p>
         
         <div className={`${styles['hero-actions']} ${styles['reveal']} ${styles['d3']}`}>
+            {console.log(service.hero?.actions, "actions")}
           {service.hero?.actions?.map((act: any, idx: number) => (
-             <a key={idx} href={act.url} className={act.style === 'secondary' ? styles['btn-ghost'] : styles['btn-primary']}>
+           
+             <Link key={idx} to={`/${act.url}`} className={act.style === 'secondary' ? styles['btn-ghost'] : styles['btn-primary']}>
                {act.label}
                {act.style !== 'secondary' && (
                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                    <path d="M3 8h10M9 4l4 4-4 4" stroke="#ffffff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
                  </svg>
                )}
-             </a>
+             </Link>
           ))}
         </div>
 
@@ -204,7 +206,7 @@ const NestedServicePage: React.FC = () => {
          </a>
       ))}
       <div className={`${styles['tab-cta']}`}>
-        <a href="#cta">Start a Project →</a>
+        <Link to="/contact">Start a Project →</Link>
       </div>
     </div>
   </div>
@@ -246,10 +248,10 @@ const NestedServicePage: React.FC = () => {
                 ))}
               </div>
 
-              <a href="#cta" className={`${styles['start-link']} ${styles['reveal']} ${styles['d4']}`} aria-label={`Start a ${disc.title} project`}>
+              <Link to="/contact" className={`${styles['start-link']} ${styles['reveal']} ${styles['d4']}`} aria-label={`Start a ${disc.title} project`}>
                 Start Project
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
-              </a>
+              </Link>
             </div>
 
             {/*  RIGHT: card + case study  */}
@@ -349,7 +351,7 @@ const NestedServicePage: React.FC = () => {
           {service.processSection.rightCopy?.map((rc: string, idx: number) => (
             <p key={idx} className={`${styles['process-right-copy']}`}>{rc}</p>
           ))}
-          <a href="#cta" className={`${styles['btn-primary']}`} style={{ marginBottom: '28px', display: 'inline-flex' }}>Get Your Free SEO Audit →</a>
+          <Link to="/contact" className={`${styles['btn-primary']}`} style={{ marginBottom: '28px', display: 'inline-flex' }}>Get Your Free SEO Audit →</Link>
           {service.processSection.timelineCard && (
             <div className={`${styles['timeline-card']}`}>
               <h4>{service.processSection.timelineCard.title}</h4>
@@ -386,7 +388,7 @@ const NestedServicePage: React.FC = () => {
             <h3>{service.faqCta.heading}</h3>
             <p>{service.faqCta.description}</p>
             <div className="flex flex-col sm:flex-row sm:items-center gap-6">
-               <a href={service.faqCta.buttonUrl || '#cta'} className={`${styles['btn-white-sm']} w-fit`}>{`${service.faqCta.buttonText}  →` || 'Get Your Free SEO Audit →'}</a>
+               <Link to={service.faqCta.buttonUrl || '/contact'} className={`${styles['btn-white-sm']} w-fit`}>{`${service.faqCta.buttonText}  →` || 'Get Your Free SEO Audit →'}</Link>
             <p className={`${styles['faq-trust-note']} !text-left`}>{service.faqCta.trustNote}</p>
             </div>
           </div>
@@ -511,10 +513,10 @@ const NestedServicePage: React.FC = () => {
         <p>{service.finalCta.description}</p>
         <div className={`${styles['cta-actions']}`}>
           {service.finalCta.primaryButtonUrl && (
-            <a href={service.finalCta.primaryButtonUrl} className={`${styles['btn-white']}`}>{service.finalCta.primaryButtonText} →</a>
+            <Link to={`/${service.finalCta.primaryButtonUrl}`} className={`${styles['btn-white']}`}>{service.finalCta.primaryButtonText} →</Link>
           )}
           {service.finalCta.secondaryButtonUrl && (
-            <a href={service.finalCta.secondaryButtonUrl} className={`${styles['btn-outline-w']}`}>← {service.finalCta.secondaryButtonText}</a>
+            <Link to={`/${service.finalCta.secondaryButtonUrl}`} className={`${styles['btn-outline-w']}`}>← {service.finalCta.secondaryButtonText}</Link>
           )}
         </div>
         <p className={`${styles['cta-trust']}`}>{service.finalCta.trustNote}</p>
