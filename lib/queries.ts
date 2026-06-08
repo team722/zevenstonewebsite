@@ -204,15 +204,36 @@ export const SITE_SETTINGS_QUERY = `
     "logoUrl": logo.asset->url,
     navigation[] { text, url },
     headerCta { text, url },
+    companyName,
+    websiteUrl,
     footerDescription,
     footerNavigation[] { text, url },
     footerServices[] { text, url },
+    footerServiceColumns[] {
+      title,
+      url,
+      links[] { text, url }
+    },
+    footerLinkColumns[] {
+      title,
+      links[] { text, url }
+    },
+    footerTrustBadges,
+    officeLocations[] { title, address },
+    "nestedServiceColumns": *[_type == "service"] | order(displayOrder asc) [0...4] {
+      "title": title,
+      "url": "/services/" + slug.current,
+      "links": *[_type == "nestedService" && parentService._ref == ^._id] | order(title asc) {
+        "text": title,
+        "url": "/services/" + ^.slug.current + "/" + slug.current
+      }
+    },
     legalLinks[] { text, url },
     copyrightText,
     customHeaderScripts,
     customBodyScripts,
     partnerLogos[]{ name, "logoUrl": logo.asset->url },
-    coreValues, contactEmail, phoneNumber, address, address1, address2, address3, linkedIn, instagram, facebook
+    coreValues, contactEmail, phoneNumber, address, address1, address2, address3, linkedIn, instagram, facebook, twitter
   }
 `;
 
