@@ -158,7 +158,7 @@ const FooterColumnBlock: React.FC<{ column: FooterColumn; featured?: boolean }> 
       ) : (
         <h3 className={headingClass}>{column.title}</h3>
       )}
-      <ul className={featured ? 'space-y-4' : 'space-y-4'}>
+      <ul className={`max-w-[150px] ${featured ? 'space-y-4' : 'space-y-4'}`}>
         {column.links?.map((item, index) => (
           <li key={item._key || `${getLinkText(item)}-${index}`}>
             <SmartFooterLink
@@ -305,7 +305,7 @@ export const Footer: React.FC = () => {
         </div>
 
         {secondaryColumns.length > 0 && (
-          <div className="mt-12 grid gap-10 lg:mt-16 lg:grid-cols-[280px_1fr] xl:grid-cols-[300px_1fr] xl:gap-16">
+          <div className="mt-12 xl:mt-4  grid gap-10 lg:grid-cols-[280px_1fr] xl:grid-cols-[300px_1fr] xl:gap-16">
             <div className="hidden lg:block" aria-hidden="true" />
             <div className="grid grid-cols-1 gap-9 sm:grid-cols-2 lg:max-w-[640px] lg:grid-cols-3">
               {secondaryColumns.map((column, index) => (
