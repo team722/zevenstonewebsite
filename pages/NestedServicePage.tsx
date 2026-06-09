@@ -36,6 +36,7 @@ const viewportScaleIn = {
 const NestedServicePage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [activeDisciplineIndex, setActiveDisciplineIndex] = useState<number | null>(null);
   const tabNavRef = useRef<HTMLDivElement | null>(null);
 
   const { data: service, isLoading, error } = useQuery({
@@ -52,6 +53,69 @@ const NestedServicePage: React.FC = () => {
   const toggleFaq = (index: number) => {
     setOpenFaq(prev => (prev === index ? null : index));
   };
+
+  useEffect(() => {
+    setActiveDisciplineIndex(null);
+  }, [slug]);
+
+  useEffect(() => {
+    if (!service?.disciplines?.length) return;
+
+    let animationFrameId = 0;
+    let initialUpdateTimeoutId = 0;
+
+    const getDisciplineSections = () =>
+      service.disciplines
+        .map((disc: any, index: number) => ({
+          index,
+          el: document.getElementById(slugify(disc.title)),
+        }))
+        .filter((item): item is { index: number; el: HTMLElement } => item.el instanceof HTMLElement);
+
+    const updateActiveDiscipline = () => {
+      animationFrameId = 0;
+      const disciplineSections = getDisciplineSections();
+      const activationLine = window.innerHeight * 0.46;
+      let nextActiveIndex: number | null = null;
+      let bestDistance = Number.POSITIVE_INFINITY;
+
+      disciplineSections.forEach(({ index, el }) => {
+        const rect = el.getBoundingClientRect();
+        const visibleHeight = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
+
+        if (visibleHeight <= 0) return;
+
+        const sectionCenter = rect.top + rect.height / 2;
+        const distance = rect.top <= activationLine && rect.bottom >= activationLine
+          ? 0
+          : Math.abs(sectionCenter - activationLine);
+
+        if (distance < bestDistance) {
+          bestDistance = distance;
+          nextActiveIndex = index;
+        }
+      });
+
+      setActiveDisciplineIndex(prev => (prev === nextActiveIndex ? prev : nextActiveIndex));
+    };
+
+    const requestActiveDisciplineUpdate = () => {
+      if (animationFrameId) return;
+      animationFrameId = window.requestAnimationFrame(updateActiveDiscipline);
+    };
+
+    initialUpdateTimeoutId = window.setTimeout(updateActiveDiscipline, 120);
+    requestActiveDisciplineUpdate();
+    window.addEventListener("scroll", requestActiveDisciplineUpdate, { passive: true });
+    window.addEventListener("resize", requestActiveDisciplineUpdate);
+
+    return () => {
+      window.clearTimeout(initialUpdateTimeoutId);
+      window.removeEventListener("scroll", requestActiveDisciplineUpdate);
+      window.removeEventListener("resize", requestActiveDisciplineUpdate);
+      if (animationFrameId) window.cancelAnimationFrame(animationFrameId);
+    };
+  }, [service]);
 
   useEffect(() => {
     if (!service) return; // Wait until loaded to set observers
@@ -235,6 +299,7 @@ const NestedServicePage: React.FC = () => {
 {/*  ══ DISCIPLINES LOOP ════════════════════════════════  */}
 {service.disciplines?.map((disc: any, index: number) => {
   const secId = slugify(disc.title);
+  const isActiveDiscipline = activeDisciplineIndex === index;
   const introCardStyle = disc?.disciplineIllustrationUrl
     ? ({ "--disc-card-image": `url("${disc.disciplineIllustrationUrl}")` } as React.CSSProperties)
     : undefined;
@@ -242,9 +307,17 @@ const NestedServicePage: React.FC = () => {
     return (
     <React.Fragment key={index}>
       <motion.section
-        {...viewportFadeUp}
-        transition={{ duration: 0.6, ease: "easeOut", delay: index * 0.05 }}
+        initial={{ opacity: 0, y: 44, scale: 0.97 }}
+        animate={
+          isActiveDiscipline
+            ? { opacity: 1, y: 0, scale: 1 }
+            : activeDisciplineIndex === null
+              ? { opacity: 0, y: 44, scale: 0.97 }
+              : { opacity: 0.34, y: 0, scale: 0.985 }
+        }
+        transition={{ duration: 0.65, ease: "easeOut" }}
         className={`${styles['disc-section']}`}
+        data-active={isActiveDiscipline ? "true" : "false"}
         id={secId}
         aria-labelledby={`d${index}-title`}
       >
