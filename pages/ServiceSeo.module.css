@@ -432,7 +432,7 @@ h1.hero-title .blue{color:var(--blue);}
 .faq-cta-box p{font-size:16px;color:rgba(255,255,255,.72);line-height:1.75;margin-bottom:22px;}
 .btn-white-sm{display:inline-flex;align-items:center;gap:7px;background:#fff;color:var(--blue);font-family:var(--font);font-size:16px;font-weight:700;padding:12px 24px;border-radius:var(--r-pill);text-decoration:none;transition:background .2s,transform .15s;border:none;cursor:pointer;white-space:nowrap;}
 .btn-white-sm:hover{background:var(--blue-light);transform:translateY(-1px);}
-.faq-trust-note{margin-top:12px;font-size:12px;color:rgba(255,255,255,.4);text-align:center;}
+.faq-trust-note{margin-top:12px;font-size:12px !important;color:rgba(255,255,255,.4);text-align:center;}
 
 /* ══════════════════════════════════════════════════
    FINAL CTA
@@ -448,7 +448,7 @@ h1.hero-title .blue{color:var(--blue);}
 .btn-white:hover{background:var(--blue-light);transform:translateY(-1px);}
 .btn-outline-w{display:inline-flex;align-items:center;gap:8px;background:transparent;color:rgba(255,255,255,.85);font-family:var(--font);font-size:16px;font-weight:600;padding:13px 26px;border-radius:var(--r-pill);border:1.5px solid rgba(255,255,255,.35);text-decoration:none;cursor:pointer;transition:border-color .2s,color .2s;}
 .btn-outline-w:hover{border-color:rgba(255,255,255,.7);color:#fff;}
-.cta-trust{margin-top:14px;font-size:12px;color:rgba(255,255,255,.4);position:relative;z-index:2;}
+.cta-trust{margin-top:24px;font-size:12px !important;color:rgba(255,255,255,.4);position:relative;z-index:2;}
 .cta-badges{display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;margin-top:20px;position:relative;z-index:2;}
 .cta-badge{font-size:12px;font-weight:500;color:rgba(255,255,255,.58);}
 
