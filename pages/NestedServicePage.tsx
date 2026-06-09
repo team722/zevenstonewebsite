@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -12,6 +13,25 @@ const GLOBAL_HEADER_HIDDEN_CLASS = "service-seo-global-header-hidden";
 
 // Helper for dynamic section IDs
 const slugify = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+
+const viewportFadeUp = {
+  initial: { opacity: 0, y: 40 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true },
+  transition: { duration: 0.6, ease: "easeOut" },
+} as const;
+
+const viewportItemFadeUp = {
+  initial: { opacity: 0, y: 20 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true },
+} as const;
+
+const viewportScaleIn = {
+  initial: { opacity: 0, scale: 0.95 },
+  whileInView: { opacity: 1, scale: 1 },
+  viewport: { once: true },
+} as const;
 
 const NestedServicePage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -144,7 +164,7 @@ const NestedServicePage: React.FC = () => {
       <main id="main">
 
 {/*  ══ HERO ══════════════════════════════════════════  */}
-<section className={`${styles['hero']}`} aria-labelledby="hero-h1">
+<motion.section {...viewportFadeUp} className={`${styles['hero']}`} aria-labelledby="hero-h1">
   <div className={`${styles['wrap']}`}>
     <div className={`${styles['hero-layout']}`}>
       <div>
@@ -193,7 +213,7 @@ const NestedServicePage: React.FC = () => {
       </div>
     </div>
   </div>
-</section>
+</motion.section>
 
 {/*  ══ STICKY IN-PAGE TAB NAV ════════════════════════  */}
 <div className={`${styles['tab-nav']}`} ref={tabNavRef} role="navigation" aria-label="Page sections">
@@ -221,7 +241,13 @@ const NestedServicePage: React.FC = () => {
   
     return (
     <React.Fragment key={index}>
-      <section className={`${styles['disc-section']}`} id={secId} aria-labelledby={`d${index}-title`}>
+      <motion.section
+        {...viewportFadeUp}
+        transition={{ duration: 0.6, ease: "easeOut", delay: index * 0.05 }}
+        className={`${styles['disc-section']}`}
+        id={secId}
+        aria-labelledby={`d${index}-title`}
+      >
         <div className={`${styles['wrap']}`}>
           <div className={`${styles['disc-layout']}`}>
 
@@ -312,7 +338,7 @@ const NestedServicePage: React.FC = () => {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
       {index < service.disciplines.length - 1 && <div className={`${styles['divider']}`}></div>}
     </React.Fragment>
   );
@@ -320,7 +346,7 @@ const NestedServicePage: React.FC = () => {
 
 {/*  ══ STATS BAR ══════════════════════════════════════  */}
 {service.statsBar && service.statsBar.length > 0 && (
-  <div className={`${styles['stats-bar']}`} role="region" aria-label="SEO performance statistics">
+  <motion.div {...viewportItemFadeUp} transition={{ duration: 0.5, ease: "easeOut" }} className={`${styles['stats-bar']}`} role="region" aria-label="SEO performance statistics">
     <div className={`${styles['stats-track']}`} aria-hidden="true">
       {service.statsBar.map((s: any, idx: number) => (
         <div key={idx} className={`${styles['s-item']}`}><span className={`${styles['s-val']}`}>{s.value}</span><span className={`${styles['s-lbl']}`}>{s.label}</span></div>
@@ -330,12 +356,12 @@ const NestedServicePage: React.FC = () => {
         <div key={`dup-${idx}`} className={`${styles['s-item']}`}><span className={`${styles['s-val']}`}>{s.value}</span><span className={`${styles['s-lbl']}`}>{s.label}</span></div>
       ))}
     </div>
-  </div>
+  </motion.div>
 )}
 
 {/*  ══ PROCESS ════════════════════════════════════════  */}
 {service.processSection && (
-  <section className={`${styles['process-section']}`} aria-labelledby="proc-title">
+  <motion.section {...viewportFadeUp} className={`${styles['process-section']}`} aria-labelledby="proc-title">
     <div className={`${styles['wrap']}`}>
       <div className={`${styles['process-layout']}`}>
         <div>
@@ -343,13 +369,19 @@ const NestedServicePage: React.FC = () => {
           <h2 id="proc-title" className={`!text-left ${styles['sec-title']} ${styles['reveal']} ${styles['d1']}`} dangerouslySetInnerHTML={{__html: service.processSection.secTitle}}></h2>
           <div className={`${styles['process-steps']} ${styles['reveal']} ${styles['d2']}`} role="list" aria-label="Engagement process steps">
             {service.processSection.steps?.map((step: any, idx: number) => (
-              <div key={idx} className={`${styles['p-step']}`} role="listitem">
+              <motion.div
+                key={idx}
+                {...viewportItemFadeUp}
+                transition={{ delay: idx * 0.1 }}
+                className={`${styles['p-step']}`}
+                role="listitem"
+              >
                 <div className={`${styles['p-circle']}`} aria-label={`Step ${idx + 1}`}>0{idx + 1}</div>
                 <div className={`${styles['p-body']}`}>
                   <h4>{step.title}</h4>
                   <p>{step.description}</p>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -375,16 +407,16 @@ const NestedServicePage: React.FC = () => {
         </div>
       </div>
     </div>
-  </section>
+  </motion.section>
 )}
 
 {/*  ══ ALL CASE STUDIES ═══════════════════════════════  */}
 {service.caseStudiesSection && (
-  <section className={`${styles['cases-section']}`} aria-labelledby="cases-title">
+  <motion.section {...viewportFadeUp} className={`${styles['cases-section']}`} aria-labelledby="cases-title">
     
     {/*  FAQ side CTA  */}
     {service.faqCta && (
-      <div className={`${styles['reveal']} ${styles['d2']} ${styles['wrap']} !pb-32`}>
+      <motion.div {...viewportItemFadeUp} transition={{ duration: 0.6, ease: "easeOut" }} className={`${styles['reveal']} ${styles['d2']} ${styles['wrap']} !pb-32`}>
         <div className={`${styles['faq-cta-box']} flex flex-col lg:flex-row items-center gap-8`}>
           {service.faqCta.imageUrl && (
             <div>
@@ -400,7 +432,7 @@ const NestedServicePage: React.FC = () => {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     )}
 
     <div className={`${styles['wrap']}`}>
@@ -427,7 +459,14 @@ const NestedServicePage: React.FC = () => {
   
               console.log("colorclass", colorClass);
           return (
-            <a key={idx} href={cs.url || '#'} className={`${styles['cs-rich-card']} ${colorClass}`} aria-label="Read case study">
+            <motion.a
+              key={idx}
+              href={cs.url || '#'}
+              {...viewportScaleIn}
+              transition={{ delay: idx * 0.05 }}
+              className={`${styles['cs-rich-card']} ${colorClass}`}
+              aria-label="Read case study"
+            >
               <div className={styles['cs-header']}>
                 <div className={styles['cs-header-top']}>
                   <span className={`${styles['cs-tag-pill']} ${colorClass}`}>{cs.disciplineTag}</span>
@@ -478,17 +517,17 @@ const NestedServicePage: React.FC = () => {
                 <p className={styles['cs-rich-quote']}>"{cs.quote}"</p>
                 <span className={`${styles['cs-rich-link']} ${colorClass}`}>Read Full Story <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg></span>
               </div>
-            </a>
+            </motion.a>
           );
         })}
       </div>
     </div>
-  </section>
+  </motion.section>
 )}
 
 {/*  ══ FAQ ════════════════════════════════════════════  */}
 {service.faqs && (
-  <section className={`${styles['faq-section']}`} aria-labelledby="faq-title">
+  <motion.section {...viewportFadeUp} className={`${styles['faq-section']}`} aria-labelledby="faq-title">
     <div className={`${styles['wrap']}`}>
       <div className={`${styles['faq-layout']}`}>
         <div>
@@ -496,26 +535,31 @@ const NestedServicePage: React.FC = () => {
           <p className={`${styles['hero-sub']} ${styles['reveal']} ${styles['d2']} text-center !max-w-full`}>{service.faqs.subtitle}</p>
           <div className={`${styles['faq-list']} ${styles['reveal']} ${styles['d2']}`}>
             {service.faqs.list?.map((faq: any, idx: number) => (
-              <div key={idx} className={`${styles['faq-item']} ${openFaq === idx ? styles['open'] : ''}`}>
+              <motion.div
+                key={idx}
+                {...viewportItemFadeUp}
+                transition={{ delay: idx * 0.05 }}
+                className={`${styles['faq-item']} ${openFaq === idx ? styles['open'] : ''}`}
+              >
                 <button className={`${styles['faq-q']}`} aria-expanded={openFaq === idx} aria-controls={`fa${idx}`} onClick={() => toggleFaq(idx)}>
                   {faq.question}
                   <span className={`${styles['faq-arr']}`} aria-hidden="true"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 4l3.5 3.5L9 4" stroke="#2563EB" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg></span>
                 </button>
                 <div className={`${styles['faq-a']}`} id={`fa${idx}`}>{faq.answer}</div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </motion.section>
 )}
 
 {/*  ══ FINAL CTA ══════════════════════════════════════  */}
 {service.finalCta && (
-  <section className={`${styles['final-section']}`} id="cta" aria-labelledby="cta-title">
+  <motion.section {...viewportFadeUp} className={`${styles['final-section']}`} id="cta" aria-labelledby="cta-title">
     <div className={`${styles['wrap']}`}>
-      <div className={`${styles['cta-box']} ${styles['reveal']}`}>
+      <motion.div {...viewportItemFadeUp} transition={{ duration: 0.6, ease: "easeOut" }} className={`${styles['cta-box']} ${styles['reveal']}`}>
         <h2 className="max-w-[530px] m-auto" id="cta-title" dangerouslySetInnerHTML={{__html: service.finalCta.title}}></h2>
         <p>{service.finalCta.description}</p>
         <div className={`${styles['cta-actions']}`}>
@@ -532,9 +576,9 @@ const NestedServicePage: React.FC = () => {
             <span key={idx} className={`${styles['cta-badge']}`} role="listitem">{badge}</span>
           ))}
         </div>
-      </div>
+      </motion.div>
     </div>
-  </section>
+  </motion.section>
 )}
       </main>
     </div>
