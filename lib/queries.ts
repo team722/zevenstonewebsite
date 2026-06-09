@@ -406,7 +406,8 @@ export const NESTED_SERVICE_QUERY = `
       insideCard { title, subtitle, items },
       caseStudy {
         tag, mainMetric, title, description, url, "logoUrl": logo.asset->url
-      }
+      },
+      "disciplineIllustrationUrl": disciplineIllustration.asset->url
     },
     processSection {
       secLabel, secTitle, steps[] { title, description }, rightCopy,

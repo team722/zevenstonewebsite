@@ -215,43 +215,50 @@ const NestedServicePage: React.FC = () => {
 {/*  ══ DISCIPLINES LOOP ════════════════════════════════  */}
 {service.disciplines?.map((disc: any, index: number) => {
   const secId = slugify(disc.title);
+  const introCardStyle = disc?.disciplineIllustrationUrl
+    ? ({ "--disc-card-image": `url("${disc.disciplineIllustrationUrl}")` } as React.CSSProperties)
+    : undefined;
   
-  return (
+    return (
     <React.Fragment key={index}>
       <section className={`${styles['disc-section']}`} id={secId} aria-labelledby={`d${index}-title`}>
         <div className={`${styles['wrap']}`}>
           <div className={`${styles['disc-layout']}`}>
 
             {/*  LEFT: explanation  */}
-            <div>
-              <div className={`${styles['disc-num']} ${styles['reveal']}`}>
-                <div className={`${styles['disc-num-badge']}`} aria-hidden="true">{index + 1}</div>
-                <h2 id={`d${index}-title`} className={`${styles['disc-h2']} ${styles['reveal']} ${styles['d1']}`}>{disc.title}</h2>
+            <div className={`${styles['disc-left']}`}>
+              <div className={`${styles['disc-intro-card']} ${styles['reveal']}`} style={introCardStyle}>
+                <div className={`${styles['disc-num']} ${styles['reveal']}`}>
+                  <div className={`${styles['disc-num-badge']}`} aria-hidden="true">{index + 1}</div>
+                  <h2 id={`d${index}-title`} className={`${styles['disc-h2']} ${styles['reveal']} ${styles['d1']}`}>{disc.title}</h2>
+                </div>
+                <p className={`${styles['disc-intro']} ${styles['reveal']} ${styles['d2']}`}>{disc.intro}</p>
               </div>
-              <p className={`${styles['disc-intro']} ${styles['reveal']} ${styles['d2']}`}>{disc.intro}</p>
 
-              <div className={`${styles['reveal']} ${styles['d3']}`}>
-                <p className={`${styles['deliv-label']}`}>{disc.deliverablesLabel || "What's included"}</p>
-                <ul className={`${styles['deliv-list']}`} role="list">
-                  {disc.deliverables?.map((deliv: string, di: number) => (
-                    <li key={di} className={`${styles['deliv-item']}`} role="listitem">
-                      <svg className={`${styles['ci']}`} viewBox="0 0 22 22" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="9.25" stroke="#3B82F6" strokeWidth="1.5"/><path d="M7 11l3 3 5-5" stroke="#3B82F6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                      {deliv}
-                    </li>
+              <div className={`${styles['disc-left-body']}`}>
+                <div className={`${styles['reveal']} ${styles['d3']}`}>
+                  <p className={`${styles['deliv-label']}`}>{disc.deliverablesLabel || "What's included"}</p>
+                  <ul className={`${styles['deliv-list']}`} role="list">
+                    {disc.deliverables?.map((deliv: string, di: number) => (
+                      <li key={di} className={`${styles['deliv-item']}`} role="listitem">
+                        <svg className={`${styles['ci']}`} viewBox="0 0 22 22" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="9.25" stroke="#3B82F6" strokeWidth="1.5"/><path d="M7 11l3 3 5-5" stroke="#3B82F6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                        {deliv}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className={`${styles['outcome-pills']} ${styles['reveal']} ${styles['d4']}`} role="list" aria-label="Outcomes">
+                  {disc.outcomePills?.map((pill: string, pi: number) => (
+                    <span key={pi} className={`${styles['o-pill']}`} role="listitem">{pill}</span>
                   ))}
-                </ul>
-              </div>
+                </div>
 
-              <div className={`${styles['outcome-pills']} ${styles['reveal']} ${styles['d4']}`} role="list" aria-label="Outcomes">
-                {disc.outcomePills?.map((pill: string, pi: number) => (
-                  <span key={pi} className={`${styles['o-pill']}`} role="listitem">{pill}</span>
-                ))}
+                <Link to="/contact" className={`${styles['start-link']} ${styles['reveal']} ${styles['d4']}`} aria-label={`Start a ${disc.title} project`}>
+                  Start Project
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </Link>
               </div>
-
-              <Link to="/contact" className={`${styles['start-link']} ${styles['reveal']} ${styles['d4']}`} aria-label={`Start a ${disc.title} project`}>
-                Start Project
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
-              </Link>
             </div>
 
             {/*  RIGHT: card + case study  */}
