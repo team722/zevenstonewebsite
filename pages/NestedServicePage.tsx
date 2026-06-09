@@ -333,7 +333,7 @@ const NestedServicePage: React.FC = () => {
       <div className={`${styles['process-layout']}`}>
         <div>
           <span className={`${styles['sec-label']} ${styles['reveal']}`}>{service.processSection.secLabel}</span>
-          <h2 id="proc-title" className={`${styles['sec-title']} ${styles['reveal']} ${styles['d1']}`} dangerouslySetInnerHTML={{__html: service.processSection.secTitle}}></h2>
+          <h2 id="proc-title" className={`!text-left ${styles['sec-title']} ${styles['reveal']} ${styles['d1']}`} dangerouslySetInnerHTML={{__html: service.processSection.secTitle}}></h2>
           <div className={`${styles['process-steps']} ${styles['reveal']} ${styles['d2']}`} role="list" aria-label="Engagement process steps">
             {service.processSection.steps?.map((step: any, idx: number) => (
               <div key={idx} className={`${styles['p-step']}`} role="listitem">
@@ -509,7 +509,7 @@ const NestedServicePage: React.FC = () => {
   <section className={`${styles['final-section']}`} id="cta" aria-labelledby="cta-title">
     <div className={`${styles['wrap']}`}>
       <div className={`${styles['cta-box']} ${styles['reveal']}`}>
-        <h2 id="cta-title" dangerouslySetInnerHTML={{__html: service.finalCta.title}}></h2>
+        <h2 className="max-w-[530px] m-auto" id="cta-title" dangerouslySetInnerHTML={{__html: service.finalCta.title}}></h2>
         <p>{service.finalCta.description}</p>
         <div className={`${styles['cta-actions']}`}>
           {service.finalCta.primaryButtonUrl && (
