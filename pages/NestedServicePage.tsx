@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { ChevronLeft } from "lucide-react";
 import { sanityClient } from "../lib/sanity";
 import { NESTED_SERVICE_QUERY } from "../lib/queries";
 import { LoadingSpinner, ErrorState } from "../components/ui";
@@ -37,7 +38,9 @@ const NestedServicePage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [activeDisciplineIndex, setActiveDisciplineIndex] = useState<number | null>(null);
+  const [canScrollTabsBack, setCanScrollTabsBack] = useState(false);
   const tabNavRef = useRef<HTMLDivElement | null>(null);
+  const tabTrackRef = useRef<HTMLDivElement | null>(null);
 
   const { data: service, isLoading, error } = useQuery({
     queryKey: ["nestedService", slug],
@@ -54,9 +57,100 @@ const NestedServicePage: React.FC = () => {
     setOpenFaq(prev => (prev === index ? null : index));
   };
 
+  const updateTabScrollState = () => {
+    const track = tabTrackRef.current;
+    if (!track) {
+      setCanScrollTabsBack(false);
+      return;
+    }
+
+    setCanScrollTabsBack(track.scrollLeft > 4);
+  };
+
+  const scrollTabIntoView = (tab: HTMLElement) => {
+    const track = tabTrackRef.current;
+    if (!track) return;
+
+    const maxScrollLeft = track.scrollWidth - track.clientWidth;
+    if (maxScrollLeft <= 0) return;
+
+    const tabLeft = tab.offsetLeft;
+    const tabRight = tabLeft + tab.offsetWidth;
+    const viewLeft = track.scrollLeft;
+    const viewRight = viewLeft + track.clientWidth;
+    const rightComfortZone = viewLeft + track.clientWidth * 0.68;
+    const leftComfortZone = viewLeft + track.clientWidth * 0.18;
+    let nextScrollLeft = viewLeft;
+
+    if (tabRight > rightComfortZone || tabRight > viewRight) {
+      nextScrollLeft = tabLeft - track.clientWidth * 0.25;
+    } else if (tabLeft < leftComfortZone || tabLeft < viewLeft) {
+      nextScrollLeft = tabLeft - track.clientWidth * 0.08;
+    }
+
+    nextScrollLeft = Math.max(0, Math.min(maxScrollLeft, nextScrollLeft));
+
+    if (Math.abs(nextScrollLeft - viewLeft) > 1) {
+      track.scrollTo({ left: nextScrollLeft, behavior: "smooth" });
+      window.setTimeout(updateTabScrollState, 260);
+    } else {
+      updateTabScrollState();
+    }
+  };
+
+  const handleTabClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    const tab = event.currentTarget;
+    window.requestAnimationFrame(() => scrollTabIntoView(tab));
+  };
+
+  const handleTabBackClick = () => {
+    const track = tabTrackRef.current;
+    if (!track) return;
+
+    const nextScrollLeft = Math.max(0, track.scrollLeft - track.clientWidth * 0.9);
+    track.scrollTo({ left: nextScrollLeft, behavior: "smooth" });
+    window.setTimeout(updateTabScrollState, 260);
+  };
+
   useEffect(() => {
     setActiveDisciplineIndex(null);
   }, [slug]);
+
+  useEffect(() => {
+    const track = tabTrackRef.current;
+    if (!track) return;
+
+    let animationFrameId = 0;
+
+    const requestTabScrollStateUpdate = () => {
+      if (animationFrameId) return;
+      animationFrameId = window.requestAnimationFrame(() => {
+        animationFrameId = 0;
+        updateTabScrollState();
+      });
+    };
+
+    requestTabScrollStateUpdate();
+    track.addEventListener("scroll", requestTabScrollStateUpdate, { passive: true });
+    window.addEventListener("resize", requestTabScrollStateUpdate);
+
+    return () => {
+      track.removeEventListener("scroll", requestTabScrollStateUpdate);
+      window.removeEventListener("resize", requestTabScrollStateUpdate);
+      if (animationFrameId) window.cancelAnimationFrame(animationFrameId);
+    };
+  }, [service]);
+
+  useEffect(() => {
+    if (activeDisciplineIndex === null || !service?.disciplines?.[activeDisciplineIndex]) return;
+
+    const activeSectionId = slugify(service.disciplines[activeDisciplineIndex].title);
+    const activeTab = tabTrackRef.current?.querySelector<HTMLElement>(
+      `.${styles["tab-link"]}[data-section="${activeSectionId}"]`
+    );
+
+    if (activeTab) scrollTabIntoView(activeTab);
+  }, [activeDisciplineIndex, service]);
 
   useEffect(() => {
     if (!service?.disciplines?.length) return;
@@ -148,6 +242,7 @@ const NestedServicePage: React.FC = () => {
             if (l instanceof HTMLElement) {
               if (l.dataset.section === id) {
                 l.classList.add(styles["active"]);
+                scrollTabIntoView(l);
               } else {
                 l.classList.remove(styles["active"]);
               }
@@ -282,15 +377,26 @@ const NestedServicePage: React.FC = () => {
 {/*  ══ STICKY IN-PAGE TAB NAV ════════════════════════  */}
 <div className={`${styles['tab-nav']}`} ref={tabNavRef} role="navigation" aria-label="Page sections">
   <div className={`${styles['wrap']}`}>
-    <div className={`${styles['tab-nav-inner']}`}>
-      {service.disciplines?.map((d: any, idx: number) => (
-         <a key={idx} href={`#${slugify(d.title)}`} className={`${styles['tab-link']} ${idx === 0 ? styles['active'] : ''}`} data-section={slugify(d.title)}>
-           <span className={`${styles['tab-num']}`} aria-hidden="true">{idx + 1}</span>
-           {d.title}
-         </a>
-      ))}
-      <div className={`${styles['tab-cta']}`}>
-        <Link to="/contact">Start a Project →</Link>
+    <div className={`${styles['tab-nav-scroller']}`} data-can-scroll-back={canScrollTabsBack ? "true" : "false"}>
+      <button
+        type="button"
+        className={`${styles['tab-scroll-btn']} ${styles['tab-scroll-btn-left']}`}
+        aria-label="Scroll tabs back"
+        onClick={handleTabBackClick}
+      >
+        <ChevronLeft size={18} strokeWidth={2.2} aria-hidden="true" />
+      </button>
+      <div
+        className={`${styles['tab-nav-inner']}`}
+        ref={tabTrackRef}
+        data-overflow-tabs={(service.disciplines?.length || 0) > 4 ? "true" : "false"}
+      >
+        {service.disciplines?.map((d: any, idx: number) => (
+           <a key={idx} href={`#${slugify(d.title)}`} className={`${styles['tab-link']} ${idx === 0 ? styles['active'] : ''}`} data-section={slugify(d.title)} onClick={handleTabClick}>
+             <span className={`${styles['tab-num']}`} aria-hidden="true">{idx + 1}</span>
+             <span className={`${styles['tab-label']}`}>{d.title}</span>
+           </a>
+        ))}
       </div>
     </div>
   </div>
