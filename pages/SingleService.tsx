@@ -371,7 +371,10 @@ export const SingleService: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
               {service.features.list?.map((feature: any, index: number) => (
                 <ScrollReveal key={index} delay={index * 0.1}>
-                  <div className="bg-white border border-slate-100 p-10 md:p-12 rounded-[2.5rem] shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.08)] transition-all duration-500 h-full">
+                  <Link 
+                    to={`/services/${slug}/${feature.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}`} 
+                    className="block bg-white border border-slate-100 p-10 md:p-12 rounded-[2.5rem] shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] hover:-translate-y-2 hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] transition-all duration-500 h-full relative group cursor-pointer"
+                  >
                     <h3 className="text-2xl md:text-3xl font-bold text-zeven-dark mb-6 tracking-tight">{feature.title}</h3>
                     <p className="text-gray-500 mb-8 text-lg font-light leading-relaxed">{feature.subTitle}</p>
                     <ul className="space-y-5">
@@ -384,7 +387,12 @@ export const SingleService: React.FC = () => {
                         </li>
                       ))}
                     </ul>
-                  </div>
+                    <div className="mt-8 flex justify-end">
+                      <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center group-hover:bg-zeven-blue transition-colors duration-300">
+                        <ArrowRight className="w-6 h-6 text-zeven-blue group-hover:text-white transition-colors duration-300" />
+                      </div>
+                    </div>
+                  </Link>
                 </ScrollReveal>
               ))}
             </div>

@@ -41,6 +41,7 @@ const CaseStudyContactForm = ({
       email: '',
       company: '',
       goals: '',
+      website_url: '', // honeypot
    });
    const [isSubmitting, setIsSubmitting] = useState(false);
    const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
@@ -48,11 +49,54 @@ const CaseStudyContactForm = ({
    const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
       setIsSubmitting(true);
-      // Simulate API call for now to preserve the design request.
-      setTimeout(() => {
-         setSubmitStatus('success');
+      setSubmitStatus('idle');
+
+      try {
+         const API_URL = import.meta.env.VITE_CONTACT_API_URL || '/api/contact';
+
+         const caseStudySlug = window.location.pathname.split('/').pop() || '';
+
+         const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: {
+               'Content-Type': 'application/json',
+               'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+               formSource: 'caseStudy',
+               name: formData.name,
+               email: formData.email,
+               company: formData.company,
+               goals: formData.goals,
+               caseStudySlug,
+               website_url: formData.website_url, // honeypot
+            }),
+         });
+
+         const contentType = response.headers.get('content-type');
+         let result = null;
+
+         if (contentType && contentType.includes('application/json')) {
+            try {
+               result = await response.json();
+               console.log('Worker Result:', result);
+            } catch (jsonError) {
+               console.error('Failed to parse JSON response:', jsonError);
+            }
+         }
+
+         if (response.ok && (result?.success || (contentType && contentType.includes('application/json')))) {
+            setSubmitStatus('success');
+         } else {
+            console.error('Server returned an unexpected response.');
+            setSubmitStatus('error');
+         }
+      } catch (err) {
+         console.error('Submission error:', err);
+         setSubmitStatus('error');
+      } finally {
          setIsSubmitting(false);
-      }, 1500);
+      }
    };
 
    if (submitStatus === 'success') {
@@ -72,6 +116,24 @@ const CaseStudyContactForm = ({
          <h3 className="text-[26px] md:text-[32px] font-extrabold text-[#111827] mb-6 text-center leading-tight">
             {heading}
          </h3>
+
+         {submitStatus === 'error' && (
+            <div className="p-4 bg-red-50 text-red-600 rounded-2xl border border-red-100 text-sm font-medium text-center">
+               Oops! Something went wrong. Please try again.
+            </div>
+         )}
+
+         {/* Honeypot field (hidden from users) */}
+         <div style={{ position: 'absolute', opacity: 0, top: 0, left: 0, height: 0, width: 0, zIndex: -1, pointerEvents: 'none' }} aria-hidden="true">
+            <input
+               type="text"
+               name="website_url"
+               value={formData.website_url}
+               onChange={e => setFormData({...formData, website_url: e.target.value})}
+               tabIndex={-1}
+               autoComplete="new-password"
+            />
+         </div>
          
          <input 
             type="text" 
