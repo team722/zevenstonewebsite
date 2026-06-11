@@ -503,16 +503,19 @@ const NestedServicePage: React.FC = () => {
 
               {/*  Case study card  */}
               {disc.caseStudy && (
-                <a href={disc.caseStudy.url || '#'} className={`${styles['cs-card']}`} aria-label="Read case study">
+                <div className={`${styles['cs-card']}`} aria-label="Read case study">
                   <span className={`${styles['cs-tag']}`}>{disc.caseStudy.tag}</span>
                   <div className={`${styles['cs-metric']}`}>{disc.caseStudy.mainMetric}</div>
                   <div className={`${styles['cs-title']}`}>{disc.caseStudy.title}</div>
                   <div className={`${styles['cs-desc']}`}>{disc.caseStudy.description}</div>
                   <span className={`${styles['cs-link']}`}>
-                    Read the full story
+                    <Link to={`/${disc.caseStudy.url}` || '#'} aria-label="Read the full story">
+                      Read the full story
+                    </Link>
                     <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5h9M8 3l3 3.5L8 10" stroke="rgba(255,255,255,0.85)" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
                   </span>
-                </a>
+                </div>
+               
               )}
             </div>
           </div>
@@ -634,13 +637,13 @@ const NestedServicePage: React.FC = () => {
                               ];
 
          const colorClass = colorClasses[idx % colorClasses.length];
-                 
-  
-              console.log("colorclass", colorClass);
+
+         const MotionLink = motion(Link);
+      
           return (
-            <motion.a
+            <MotionLink
               key={idx}
-              href={cs.url || '#'}
+              to={`/${cs.url}` || '#'}
               {...viewportScaleIn}
               transition={{ delay: idx * 0.05 }}
               className={`${styles['cs-rich-card']} ${colorClass}`}
@@ -694,9 +697,12 @@ const NestedServicePage: React.FC = () => {
 
               <div className={styles['cs-rich-cta']}>
                 <p className={styles['cs-rich-quote']}>"{cs.quote}"</p>
-                <span className={`${styles['cs-rich-link']} ${colorClass}`}>Read Full Story <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg></span>
+               <Link to={`/${cs.url}` || '#'} aria-label="Read the full story"><span className={`${styles['cs-rich-link']} ${colorClass}`}>                
+                    Read Full Story 
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </span> </Link>
               </div>
-            </motion.a>
+            </MotionLink>
           );
         })}
       </div>
