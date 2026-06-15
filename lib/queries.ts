@@ -44,6 +44,9 @@ export const BLOG_POST_BY_SLUG_QUERY = `
         "author": author->{
           name, role, bio, linkedIn, "photoUrl": photo.asset->url
         }
+      },
+      _type == "ctaBanner" => {
+        heading, description, buttonText, buttonUrl
       }
     },
     ctaBanner { heading, description, buttonText, buttonUrl },

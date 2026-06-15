@@ -609,7 +609,7 @@ const NestedServicePage: React.FC = () => {
             <h3>{service.faqCta.heading}</h3>
             <p>{service.faqCta.description}</p>
             <div className="flex flex-col sm:flex-row sm:items-center gap-6">
-               <Link to={service.faqCta.buttonUrl || '/contact'} className={`${styles['btn-white-sm']} w-fit`}>{`${service.faqCta.buttonText}  →` || 'Get Your Free SEO Audit →'}</Link>
+               <Link to={`/${service.faqCta.buttonUrl}` || '/contact'} className={`${styles['btn-white-sm']} w-fit`}>{`${service.faqCta.buttonText}  →` || 'Get Your Free SEO Audit →'}</Link>
             <p className={`${styles['faq-trust-note']} !text-left`}>{service.faqCta.trustNote}</p>
             </div>
           </div>
