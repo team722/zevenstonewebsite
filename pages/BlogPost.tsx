@@ -27,6 +27,29 @@ import { NextStepsBlock } from '../components/blog/NextStepsBlock';
 import { IconCardsBlock } from '../components/blog/IconCardsBlock';
 import { AuthorBioBlock } from '../components/blog/AuthorBioBlock';
 
+type BlogCtaData = {
+  heading?: string;
+  headline?: string;
+  description?: string;
+  buttonText?: string;
+  buttonLabel?: string;
+  buttonUrl?: string;
+};
+
+const getBlogCtaData = (cta?: BlogCtaData | null) => {
+  if (!cta) return null;
+
+  const heading = cta.heading || cta.headline;
+  if (!heading) return null;
+
+  return {
+    heading,
+    description: cta.description,
+    buttonText: cta.buttonText || cta.buttonLabel || 'Learn More',
+    buttonUrl: cta.buttonUrl || '/contact',
+  };
+};
+
 export const BlogPost: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
 
@@ -140,6 +163,10 @@ export const BlogPost: React.FC = () => {
           customLinkUrl={value.customLinkUrl}
         />
       ),
+      ctaBanner: ({ value }: any) => {
+        const inlineCtaData = getBlogCtaData(value);
+        return inlineCtaData ? <BlogCtaBanner {...inlineCtaData} /> : null;
+      },
     },
     block: {
       h2: ({ children, value }: any) => <h2 id={value._key} className="text-3xl font-bold mt-12 mb-6 text-zeven-dark scroll-mt-32">{children}</h2>,
@@ -161,10 +188,7 @@ export const BlogPost: React.FC = () => {
     },
   };
 
-  // Determine CTA Banner data
-  const ctaData = (post.ctaBanner && post.ctaBanner.heading)
-    ? post.ctaBanner
-    : pageData?.defaultCtaBanner;
+  const ctaData = getBlogCtaData(post.ctaBanner) || getBlogCtaData(pageData?.defaultCtaBanner);
 
   return (
     <div className="bg-white font-sans overflow-hidden">
@@ -234,12 +258,7 @@ export const BlogPost: React.FC = () => {
 
           {/* Post CTA Banner */}
           {ctaData && ctaData.heading && (
-            <BlogCtaBanner
-              heading={ctaData.heading}
-              description={ctaData.description}
-              buttonText={ctaData.buttonText || 'Learn More'}
-              buttonUrl={ctaData.buttonUrl || '/contact'}
-            />
+            <BlogCtaBanner {...ctaData} />
           )}
         </motion.div>
       </div>
