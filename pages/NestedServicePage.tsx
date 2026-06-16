@@ -51,7 +51,6 @@ const NestedServicePage: React.FC = () => {
     enabled: !!slug,
   });
 
-  console.log("Fetched service data:", service?.hero?.illustrationUrl);
 
   const toggleFaq = (index: number) => {
     setOpenFaq(prev => (prev === index ? null : index));
@@ -336,7 +335,6 @@ const NestedServicePage: React.FC = () => {
         <p className={`${styles['hero-sub']} ${styles['reveal']} ${styles['d2']}`}>{service.hero?.subtitle}</p>
         
         <div className={`${styles['hero-actions']} ${styles['reveal']} ${styles['d3']}`}>
-            {console.log(service.hero?.actions, "actions")}
           {service.hero?.actions?.map((act: any, idx: number) => (
            
              <Link key={idx} to={`/${act.url}`} className={act.style === 'secondary' ? styles['btn-ghost'] : styles['btn-primary']}>
@@ -697,10 +695,10 @@ const NestedServicePage: React.FC = () => {
 
               <div className={styles['cs-rich-cta']}>
                 <p className={styles['cs-rich-quote']}>"{cs.quote}"</p>
-               <Link to={`/${cs.url}` || '#'} aria-label="Read the full story"><span className={`${styles['cs-rich-link']} ${colorClass}`}>                
+                   <span className={`${styles['cs-rich-link']} ${colorClass}`}>                
                     Read Full Story 
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                </span> </Link>
+                </span>
               </div>
             </MotionLink>
           );
