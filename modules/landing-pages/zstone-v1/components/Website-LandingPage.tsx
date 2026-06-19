@@ -33,8 +33,8 @@ export default function LandingPage() {
     lastName: '',
     email: '',
     phone: '',
-    agencyName: '',
-    challenge: ''
+    businessName: '',
+    growthChallenges: [] as string[]
   });
 
   useEffect(() => {
@@ -52,6 +52,24 @@ export default function LandingPage() {
     if (section) {
       section.scrollIntoView({ behavior: 'smooth' });
     }
+  };
+
+  const growthChallengeOptions = [
+    "We need more leads and customers",
+    "Our website isn't helping our business grow",
+    "We need better visibility on Google",
+    "We need help managing and improving our website",
+    "We're looking for a trusted growth partner",
+    "Not sure, we need guidance"
+  ];
+
+  const handleChallengeToggle = (challenge: string) => {
+    setFormData(prev => ({
+      ...prev,
+      growthChallenges: prev.growthChallenges.includes(challenge)
+        ? prev.growthChallenges.filter(c => c !== challenge)
+        : [...prev.growthChallenges, challenge]
+    }));
   };
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -84,6 +102,7 @@ export default function LandingPage() {
     const submissionData = {
       ...formData,
       formType,
+      pageSource: 'websiteLandingPage',
       submittedAt: new Date().toISOString(),
     };
 
@@ -113,8 +132,8 @@ export default function LandingPage() {
             lastName: '',
             email: '',
             phone: '',
-            agencyName: '',
-            challenge: ''
+            businessName: '',
+            growthChallenges: [] as string[]
           });
         }, 3000);
       } else {
@@ -136,6 +155,7 @@ export default function LandingPage() {
     const submissionData = {
       ...formData,
       formType: 'Case Study',
+      pageSource: 'websiteLandingPage',
       submittedAt: new Date().toISOString(),
     };
 
@@ -152,9 +172,10 @@ export default function LandingPage() {
       });
 
       if (response.ok) {
-        setShowLeadMagnet(false);
+        // Show success screen inside the modal
+        setLeadMagnetSubmitted(true);
 
-        // Fallback to local PDF if no PDF was uploaded in CMS
+        // Trigger PDF download
         const playbookUrl = pageData?.leadMagnet?.pdfUrl || '/assets/Zevenstone Website Case Studies.pdf';
         try {
           const pdfResponse = await fetch(playbookUrl);
@@ -176,17 +197,21 @@ export default function LandingPage() {
           window.open(playbookUrl, '_blank');
         }
 
-        setFormData({
-          title: '',
-          firstName: '',
-          lastName: '',
-          email: '',
-          phone: '',
-          agencyName: '',
-          challenge: ''
-        });
-        setSubmitStatus('idle');
-        setLeadMagnetSubmitted(false); 
+        // Auto-close modal and reset form after showing the success screen
+        setTimeout(() => {
+          setShowLeadMagnet(false);
+          setLeadMagnetSubmitted(false);
+          setFormData({
+            title: '',
+            firstName: '',
+            lastName: '',
+            email: '',
+            phone: '',
+            businessName: '',
+            growthChallenges: [] as string[]
+          });
+          setSubmitStatus('idle');
+        }, 4000);
       } else {
         setSubmitStatus('error');
       }
@@ -882,6 +907,8 @@ export default function LandingPage() {
                         <option value="Mrs.">Mrs.</option>
                         <option value="Ms.">Ms.</option>
                         <option value="Dr.">Dr.</option>
+                        <option value="Prof.">Prof.</option>
+                        <option value="other">other</option>
                       </select>
                     </div>
                     <div className="text-left">
@@ -932,16 +959,16 @@ export default function LandingPage() {
                     <div className="text-left">
                       <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest">
                         <Building2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 inline mr-2" />
-                        Agency Name *
+                        Business Name *
                       </label>
                       <input
                         type="text"
-                        name="agencyName"
-                        value={formData.agencyName}
+                        name="businessName"
+                        value={formData.businessName}
                         onChange={handleInputChange}
                         required
                         className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 placeholder-gray-400 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium text-sm sm:text-base"
-                        placeholder="Your Agency"
+                        placeholder="Your Business Name"
                       />
                     </div>
                     <div className="text-left">
@@ -959,18 +986,22 @@ export default function LandingPage() {
                         placeholder="+1 (555) 000-0000"
                       />
                     </div>
-                    <div className="text-left md:col-span-2">
+                    <div className="text-left md:col-span-2 space-y-3">
                       <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest">
-                        Your biggest growth challenge?
+                        What's Your Biggest Website Challenge Right Now? (Select all that apply)
                       </label>
-                      <textarea
-                        name="challenge"
-                        value={formData.challenge}
-                        onChange={handleInputChange}
-                        rows={3}
-                        className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 placeholder-gray-400 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium resize-none text-sm sm:text-base"
-                        placeholder="e.g., Turning away clients due to capacity..."
-                      />
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {growthChallengeOptions.map((option, idx) => (
+                          <label key={idx} className="flex items-start gap-3 p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 cursor-pointer transition-colors group">
+                            <input type="checkbox" className="hidden" checked={formData.growthChallenges.includes(option)} onChange={() => handleChallengeToggle(option)} />
+                            <input type="hidden" name={`challenge_${option}`} value={formData.growthChallenges.includes(option) ? 'on' : 'off'} />
+                            <div className={`w-5 h-5 rounded flex items-center justify-center shrink-0 border ${formData.growthChallenges.includes(option) ? 'bg-blue-500 border-blue-500' : 'border-white/30 group-hover:border-white/50'}`}>
+                              {formData.growthChallenges.includes(option) && <CheckCircle className="w-3.5 h-3.5 text-white" />}
+                            </div>
+                            <span className="text-sm font-medium text-blue-50">{option}</span>
+                          </label>
+                        ))}
+                      </div>
                     </div>
                   </div>
 
@@ -1029,7 +1060,7 @@ export default function LandingPage() {
       {/* Floating Sticky Form - Hidden on mobile, shown on tablet+ */}
       {showFloatingForm && (
         <div className="hidden md:block fixed bottom-10 right-8 z-50 max-w-sm w-full animate-slide-up">
-          <div className="bg-white rounded-3xl shadow-2xl border border-blue-100 overflow-hidden shadow-blue-200/50">
+          <div className="bg-white rounded-3xl shadow-2xl border border-blue-100 overflow-hidden shadow-blue-200/50 flex flex-col max-h-[85vh]">
             <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 relative">
               <button
                 onClick={() => setShowFloatingForm(false)}
@@ -1040,7 +1071,7 @@ export default function LandingPage() {
               <h3 className="text-xl font-bold mb-1 tracking-tight">{pd.formTitle}</h3>
               <p className="text-blue-100 text-xs font-medium uppercase tracking-widest">Free Strategy Call</p>
             </div>
-            <div className="p-6">
+            <div className="p-6 overflow-y-auto flex-1 custom-scrollbar">
               <form onSubmit={(e) => handleFormSubmit(e, 'Ready to Scale')} className="space-y-4">
                 <div className="space-y-4">
                   <select
@@ -1054,6 +1085,8 @@ export default function LandingPage() {
                     <option value="Mrs.">Mrs.</option>
                     <option value="Ms.">Ms.</option>
                     <option value="Dr.">Dr.</option>
+                    <option value="Prof.">Prof.</option>
+                    <option value="other">other</option>
                   </select>
                   <input
                     type="text"
@@ -1084,11 +1117,11 @@ export default function LandingPage() {
                   />
                   <input
                     type="text"
-                    name="agencyName"
-                    value={formData.agencyName}
+                    name="businessName"
+                    value={formData.businessName}
                     onChange={handleInputChange}
                     required
-                    placeholder="Agency Name"
+                    placeholder="Business Name"
                     className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium"
                   />
                   <input
@@ -1100,6 +1133,22 @@ export default function LandingPage() {
                     placeholder="Phone Number *"
                     className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium"
                   />
+                  <div className="pt-2 border-t border-gray-100">
+                    <label className="block text-[10px] font-bold mb-2 text-gray-400 uppercase tracking-widest">
+                      Biggest Growth Challenge? (Select all that apply)
+                    </label>
+                    <div className="space-y-2">
+                      {growthChallengeOptions.map((option, idx) => (
+                        <label key={idx} className="flex items-start gap-3 p-2.5 rounded-xl border border-gray-100 bg-gray-50 hover:bg-white hover:border-blue-500 cursor-pointer transition-colors group">
+                          <input type="checkbox" className="hidden" checked={formData.growthChallenges.includes(option)} onChange={() => handleChallengeToggle(option)} />
+                          <div className={`w-4 h-4 rounded flex items-center justify-center shrink-0 border mt-0.5 ${formData.growthChallenges.includes(option) ? 'bg-blue-500 border-blue-500' : 'border-gray-300 group-hover:border-blue-500'}`}>
+                            {formData.growthChallenges.includes(option) && <CheckCircle className="w-3 h-3 text-white" />}
+                          </div>
+                          <span className="text-xs font-medium text-gray-700 leading-tight">{option}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
                 </div>
                 {submitStatus === 'error' && (
                   <div className="mb-4 p-4 bg-red-50 text-red-600 rounded-xl border border-red-100 text-sm font-medium animate-shake">
@@ -1108,8 +1157,8 @@ export default function LandingPage() {
                 )}
                 <button
                   type="submit"
-                  disabled={isSubmitting}
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 rounded-xl font-bold hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-sm shadow-lg shadow-blue-100 disabled:opacity-70 disabled:cursor-not-allowed"
+                  disabled={isSubmitting || !formData.firstName || !formData.lastName || !formData.email || !formData.businessName || !formData.phone || formData.growthChallenges.length === 0}
+                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 rounded-xl font-bold hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-sm shadow-lg shadow-blue-100 disabled:opacity-70 disabled:cursor-not-allowed disabled:scale-100"
                 >
                   {isSubmitting ? 'Sending...' : 'Book Free Call →'}
                 </button>
@@ -1155,6 +1204,8 @@ export default function LandingPage() {
                         <option value="Mrs.">Mrs.</option>
                         <option value="Ms.">Ms.</option>
                         <option value="Dr.">Dr.</option>
+                        <option value="Prof.">Prof.</option>
+                        <option value="other">other</option>
                       </select>
                     </div>
                     <div>
@@ -1194,14 +1245,14 @@ export default function LandingPage() {
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-bold mb-2 text-gray-400 uppercase tracking-widest px-1">Agency Name *</label>
+                      <label className="block text-xs font-bold mb-2 text-gray-400 uppercase tracking-widest px-1">Business Name *</label>
                       <input
                         type="text"
-                        name="agencyName"
-                        value={formData.agencyName}
+                        name="businessName"
+                        value={formData.businessName}
                         onChange={handleInputChange}
                         required
-                        placeholder="Your Agency Name"
+                        placeholder="Your Business Name"
                         className="w-full px-5 py-3 sm:py-4 rounded-xl border-2 border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-base font-medium shadow-sm"
                       />
                     </div>
@@ -1217,6 +1268,22 @@ export default function LandingPage() {
                         className="w-full px-5 py-3 sm:py-4 rounded-xl border-2 border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-base font-medium shadow-sm"
                       />
                     </div>
+                    <div>
+                      <label className="block text-xs font-bold mb-2 text-gray-400 uppercase tracking-widest px-1">
+                        What's Your Biggest Website Challenge Right Now?
+                      </label>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        {growthChallengeOptions.map((option, idx) => (
+                          <label key={idx} className="flex items-start gap-3 p-3 rounded-xl border-2 border-gray-100 bg-gray-50 hover:bg-white hover:border-blue-500 cursor-pointer transition-colors group">
+                            <input type="checkbox" className="hidden" checked={formData.growthChallenges.includes(option)} onChange={() => handleChallengeToggle(option)} />
+                            <div className={`w-5 h-5 rounded flex items-center justify-center shrink-0 border mt-0.5 ${formData.growthChallenges.includes(option) ? 'bg-blue-500 border-blue-500' : 'border-gray-300 group-hover:border-blue-500'}`}>
+                              {formData.growthChallenges.includes(option) && <CheckCircle className="w-3.5 h-3.5 text-white" />}
+                            </div>
+                            <span className="text-sm font-medium text-gray-700 leading-snug">{option}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                   {submitStatus === 'error' && (
                     <div className="p-4 bg-red-50 text-red-600 rounded-xl border border-red-100 text-sm font-medium animate-shake">
@@ -1225,7 +1292,7 @@ export default function LandingPage() {
                   )}
                   <button
                     type="submit"
-                    disabled={isSubmitting || !formData.firstName || !formData.lastName || !formData.email || !formData.agencyName || !formData.phone}
+                    disabled={isSubmitting || !formData.firstName || !formData.lastName || !formData.email || !formData.businessName || !formData.phone || formData.growthChallenges.length === 0}
                     className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 sm:py-5 rounded-xl sm:rounded-2xl font-extrabold text-base sm:text-xl shadow-xl shadow-blue-100 hover:shadow-2xl hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100"
                   >
                     {isSubmitting ? 'Sending...' : 'Get Your Free Case Study →'}
