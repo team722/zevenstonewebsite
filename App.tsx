@@ -20,6 +20,7 @@ import { BlogPost } from './pages/BlogPost';
 import { LandingPage as LandingPageOriginal } from './pages/LandingPage';
 // New Modular Landing Page Components
 import ZstoneLandingPageV1 from './modules/landing-pages/zstone-v1/components/LandingPage';
+import ZstoneLandingPageV2 from './modules/landing-pages/zstone-v1/components/Website-LandingPage';
 import TermsPage from './pages/TermsPage';
 import PrivacyPage from './pages/Privacy';
 import  NestedServicePage  from './pages/NestedServicePage';
@@ -68,6 +69,7 @@ const AppContent: React.FC = () => {
 
           {/* New Modular Landing Page Routes (Phase 2) */}
           <Route path="/landing-page" element={<ZstoneLandingPageV1 />} />
+           <Route path="/website-care-growth" element={<ZstoneLandingPageV2 />} />
           {/* <Route path="/landing-page/services" element={<ZstoneServicesPageV1 />} />
           <Route path="/landing-page/video-production" element={<ZstoneVideoProductionV1 />} />
           <Route path="/landing-page/stories" element={<ZstoneStoriesPageV1 />} />
