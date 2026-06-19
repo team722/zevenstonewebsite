@@ -45,11 +45,12 @@ const ScrollToTop = () => {
 const AppContent: React.FC = () => {
   const location = useLocation();
   const isLandingPage = location.pathname.startsWith('/landing-page') || location.pathname.startsWith('/v1');
+  const isWebsiteLandingPage = location.pathname.startsWith('/website-care-growth');
 
   return (
     <div className="min-h-screen bg-zeven-bg text-zeven-dark selection:bg-zeven-blue selection:text-white font-sans antialiased">
       <SeoScripts />
-      {!isLandingPage && <Navbar />}
+      {!isLandingPage && !isWebsiteLandingPage && <Navbar />}
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -78,7 +79,7 @@ const AppContent: React.FC = () => {
           <Route path="/landing-page/blog/:id" element={<ZstoneBlogPostV1 />} /> */}
         </Routes>
       </main>
-      {!isLandingPage && <Footer />}
+      {!isLandingPage && !isWebsiteLandingPage && <Footer />}
       <ScrollToTopButton />
     </div>
   );
