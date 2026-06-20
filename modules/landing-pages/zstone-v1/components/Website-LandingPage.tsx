@@ -25,9 +25,11 @@ export default function LandingPage() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [showFloatingForm, setShowFloatingForm] = useState(false);
   const [showLeadMagnet, setShowLeadMagnet] = useState(false);
-  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [ctaFormSubmitted, setCtaFormSubmitted] = useState(false);
   const [leadMagnetSubmitted, setLeadMagnetSubmitted] = useState(false);
-  const [formData, setFormData] = useState({
+
+  // ─── Shared helpers ──────────────────────────────────────────────────────
+  const emptyForm = () => ({
     title: '',
     firstName: '',
     lastName: '',
@@ -36,23 +38,6 @@ export default function LandingPage() {
     businessName: '',
     growthChallenges: [] as string[]
   });
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 25);
-      const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-      setShowFloatingForm(scrollPercent > 25 && !formSubmitted);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [formSubmitted]);
-
-  const scrollToCTA = () => {
-    const section = document.getElementById('form-cta-section');
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   const growthChallengeOptions = [
     "We need more leads and customers",
@@ -63,125 +48,104 @@ export default function LandingPage() {
     "Not sure, we need guidance"
   ];
 
-  const handleChallengeToggle = (challenge: string) => {
-    setFormData(prev => ({
+  // ─── Final CTA Form state ────────────────────────────────────────────────
+  const [ctaFormData, setCtaFormData] = useState(emptyForm());
+  const [ctaSubmitting, setCtaSubmitting] = useState(false);
+  const [ctaStatus, setCtaStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  const handleCtaInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setCtaFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+  const handleCtaChallengeToggle = (challenge: string) => {
+    setCtaFormData(prev => ({
       ...prev,
       growthChallenges: prev.growthChallenges.includes(challenge)
         ? prev.growthChallenges.filter(c => c !== challenge)
         : [...prev.growthChallenges, challenge]
     }));
   };
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-
-  const [isVideoPlaying, setIsVideoPlaying] = useState(true);
-  const [isVideoHovered, setIsVideoHovered] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  const toggleVideoPlay = (e: React.MouseEvent) => {
-    if (videoRef.current) {
-      const rect = e.currentTarget.getBoundingClientRect();
-      const clickY = e.clientY - rect.top;
-      if (isVideoHovered && rect.height - clickY < 60) {
-        return;
-      }
-      if (videoRef.current.paused) {
-        videoRef.current.play();
-      } else {
-        videoRef.current.pause();
-      }
-    }
-  };
-
-  const handleFormSubmit = async (e: React.FormEvent, formType: string = 'Strategy Call') => {
+  const handleCtaFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus('idle');
-
-    const submissionData = {
-      ...formData,
-      formType,
-      pageSource: 'websiteLandingPage',
-      submittedAt: new Date().toISOString(),
-    };
-
+    setCtaSubmitting(true);
+    setCtaStatus('idle');
+    const submissionData = { ...ctaFormData, formType: 'Strategy Call', pageSource: 'websiteLandingPage', submittedAt: new Date().toISOString() };
     try {
       const API_URL = import.meta.env.VITE_CONTACT_API_URL || 'https://zevenstone-contact-api.zevenstone7.workers.dev';
-
-      const response = await fetch(API_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: JSON.stringify(submissionData),
-      });
-
+      const response = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(submissionData) });
       if (response.ok) {
-        setFormSubmitted(true);
-        setSubmitStatus('success');
-        setShowFloatingForm(false);
-
-        setTimeout(() => {
-          setFormSubmitted(false);
-          setSubmitStatus('idle');
-          setFormData({
-            title: '',
-            firstName: '',
-            lastName: '',
-            email: '',
-            phone: '',
-            businessName: '',
-            growthChallenges: [] as string[]
-          });
-        }, 3000);
-      } else {
-        setSubmitStatus('error');
-      }
-    } catch (err) {
-      console.error('Submission error:', err);
-      setSubmitStatus('error');
-    } finally {
-      setIsSubmitting(false);
-    }
+        setCtaFormSubmitted(true);
+        setCtaStatus('success');
+        setTimeout(() => { setCtaFormSubmitted(false); setCtaStatus('idle'); setCtaFormData(emptyForm()); }, 4000);
+      } else { setCtaStatus('error'); }
+    } catch (err) { console.error('CTA form error:', err); setCtaStatus('error'); }
+    finally { setCtaSubmitting(false); }
   };
 
+  // ─── Floating Sticky Form state ──────────────────────────────────────────
+  const [floatingFormData, setFloatingFormData] = useState(emptyForm());
+  const [floatingSubmitting, setFloatingSubmitting] = useState(false);
+  const [floatingStatus, setFloatingStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [floatingFormSubmitted, setFloatingFormSubmitted] = useState(false);
+
+  const handleFloatingInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFloatingFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+  const handleFloatingChallengeToggle = (challenge: string) => {
+    setFloatingFormData(prev => ({
+      ...prev,
+      growthChallenges: prev.growthChallenges.includes(challenge)
+        ? prev.growthChallenges.filter(c => c !== challenge)
+        : [...prev.growthChallenges, challenge]
+    }));
+  };
+  const handleFloatingFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setFloatingSubmitting(true);
+    setFloatingStatus('idle');
+    const submissionData = { ...floatingFormData, formType: 'Ready to Scale', pageSource: 'websiteLandingPage', submittedAt: new Date().toISOString() };
+    try {
+      const API_URL = import.meta.env.VITE_CONTACT_API_URL || 'https://zevenstone-contact-api.zevenstone7.workers.dev';
+      const response = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(submissionData) });
+      if (response.ok) {
+        setFloatingFormSubmitted(true);
+        setFloatingStatus('success');
+        setShowFloatingForm(false);
+        setTimeout(() => { setFloatingFormSubmitted(false); setFloatingStatus('idle'); setFloatingFormData(emptyForm()); }, 4000);
+      } else { setFloatingStatus('error'); }
+    } catch (err) { console.error('Floating form error:', err); setFloatingStatus('error'); }
+    finally { setFloatingSubmitting(false); }
+  };
+
+  // ─── Lead Magnet Modal state ─────────────────────────────────────────────
+  const [leadFormData, setLeadFormData] = useState(emptyForm());
+  const [leadSubmitting, setLeadSubmitting] = useState(false);
+  const [leadStatus, setLeadStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  const handleLeadInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setLeadFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+  const handleLeadChallengeToggle = (challenge: string) => {
+    setLeadFormData(prev => ({
+      ...prev,
+      growthChallenges: prev.growthChallenges.includes(challenge)
+        ? prev.growthChallenges.filter(c => c !== challenge)
+        : [...prev.growthChallenges, challenge]
+    }));
+  };
   const handleLeadMagnetSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus('idle');
-
-    const submissionData = {
-      ...formData,
-      formType: 'Case Study',
-      pageSource: 'websiteLandingPage',
-      submittedAt: new Date().toISOString(),
-    };
-
+    setLeadSubmitting(true);
+    setLeadStatus('idle');
+    const submissionData = { ...leadFormData, formType: 'Case Study', pageSource: 'websiteLandingPage', submittedAt: new Date().toISOString() };
     try {
       const API_URL = import.meta.env.VITE_CONTACT_API_URL || 'https://zevenstone-contact-api.zevenstone7.workers.dev';
-
-      const response = await fetch(API_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: JSON.stringify(submissionData),
-      });
-
+      const response = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(submissionData) });
       if (response.ok) {
-        // Show success screen inside the modal
         setLeadMagnetSubmitted(true);
-
-        // Trigger PDF download
         const playbookUrl = pageData?.leadMagnet?.pdfUrl || '/assets/Zevenstone Website Case Studies.pdf';
         try {
           const pdfResponse = await fetch(playbookUrl);
-          if (!pdfResponse.ok) {
-            throw new Error(`PDF fetch failed. Status: ${pdfResponse.status}`);
-          }
+          if (!pdfResponse.ok) throw new Error(`PDF fetch failed. Status: ${pdfResponse.status}`);
           const blob = await pdfResponse.blob();
           const pdfBlob = new Blob([blob], { type: 'application/pdf' });
           const objectUrl = URL.createObjectURL(pdfBlob);
@@ -196,38 +160,41 @@ export default function LandingPage() {
           console.error('PDF download error:', pdfError);
           window.open(playbookUrl, '_blank');
         }
+        setTimeout(() => { setShowLeadMagnet(false); setLeadMagnetSubmitted(false); setLeadFormData(emptyForm()); setLeadStatus('idle'); }, 4000);
+      } else { setLeadStatus('error'); }
+    } catch (err) { console.error('Lead magnet error:', err); setLeadStatus('error'); }
+    finally { setLeadSubmitting(false); }
+  };
 
-        // Auto-close modal and reset form after showing the success screen
-        setTimeout(() => {
-          setShowLeadMagnet(false);
-          setLeadMagnetSubmitted(false);
-          setFormData({
-            title: '',
-            firstName: '',
-            lastName: '',
-            email: '',
-            phone: '',
-            businessName: '',
-            growthChallenges: [] as string[]
-          });
-          setSubmitStatus('idle');
-        }, 4000);
-      } else {
-        setSubmitStatus('error');
-      }
-    } catch (err) {
-      console.error('Lead magnet error:', err);
-      setSubmitStatus('error');
-    } finally {
-      setIsSubmitting(false);
+  // ─── Scroll visibility — hide floating form after CTA or floating submit ──
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 25);
+      const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+      setShowFloatingForm(scrollPercent > 25 && !ctaFormSubmitted && !floatingFormSubmitted);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [ctaFormSubmitted, floatingFormSubmitted]);
+
+  const scrollToCTA = () => {
+    const section = document.getElementById('form-cta-section');
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+  const [isVideoPlaying, setIsVideoPlaying] = useState(true);
+  const [isVideoHovered, setIsVideoHovered] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const toggleVideoPlay = (e: React.MouseEvent) => {
+    if (videoRef.current) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const clickY = e.clientY - rect.top;
+      if (isVideoHovered && rect.height - clickY < 60) return;
+      if (videoRef.current.paused) { videoRef.current.play(); } else { videoRef.current.pause(); }
+    }
   };
 
   // Basic markdown-like bold parsing for descriptions
@@ -887,21 +854,14 @@ export default function LandingPage() {
             {pd.finalCtaDescription}
           </p>
 
-          {!formSubmitted ? (
+          {!ctaFormSubmitted ? (
             <div className="px-2 sm:px-0">
               <div className="bg-white/10 backdrop-blur-lg rounded-2xl sm:rounded-3xl p-6 sm:p-12 mb-8 border border-white/20 shadow-2xl">
-                <form onSubmit={(e) => handleFormSubmit(e, 'Strategy Call')} className="space-y-5 sm:space-y-6">
+                <form onSubmit={handleCtaFormSubmit} className="space-y-5 sm:space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
                     <div className="text-left">
-                      <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest">
-                        Title
-                      </label>
-                      <select
-                        name="title"
-                        value={formData.title}
-                        onChange={handleInputChange}
-                        className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium text-sm sm:text-base cursor-pointer appearance-none"
-                      >
+                      <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest">Title</label>
+                      <select name="title" value={ctaFormData.title} onChange={handleCtaInputChange} className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium text-sm sm:text-base cursor-pointer appearance-none">
                         <option value="">Title</option>
                         <option value="Mr.">Mr.</option>
                         <option value="Mrs.">Mrs.</option>
@@ -912,91 +872,33 @@ export default function LandingPage() {
                       </select>
                     </div>
                     <div className="text-left">
-                      <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest">
-                        <User className="w-3.5 h-3.5 sm:w-4 sm:h-4 inline mr-2" />
-                        First Name *
-                      </label>
-                      <input
-                        type="text"
-                        name="firstName"
-                        value={formData.firstName}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 placeholder-gray-400 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium text-sm sm:text-base"
-                        placeholder="John"
-                      />
+                      <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest"><User className="w-3.5 h-3.5 sm:w-4 sm:h-4 inline mr-2" />First Name *</label>
+                      <input type="text" name="firstName" value={ctaFormData.firstName} onChange={handleCtaInputChange} required className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 placeholder-gray-400 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium text-sm sm:text-base" placeholder="John" />
                     </div>
                     <div className="text-left">
-                      <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest">
-                        <User className="w-3.5 h-3.5 sm:w-4 sm:h-4 inline mr-2" />
-                        Last Name *
-                      </label>
-                      <input
-                        type="text"
-                        name="lastName"
-                        value={formData.lastName}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 placeholder-gray-400 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium text-sm sm:text-base"
-                        placeholder="Smith"
-                      />
+                      <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest"><User className="w-3.5 h-3.5 sm:w-4 sm:h-4 inline mr-2" />Last Name *</label>
+                      <input type="text" name="lastName" value={ctaFormData.lastName} onChange={handleCtaInputChange} required className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 placeholder-gray-400 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium text-sm sm:text-base" placeholder="Smith" />
                     </div>
                     <div className="text-left">
-                      <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest">
-                        <Mail className="w-3.5 h-3.5 sm:w-4 sm:h-4 inline mr-2" />
-                        Work Email *
-                      </label>
-                      <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 placeholder-gray-400 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium text-sm sm:text-base"
-                        placeholder="john@agency.com"
-                      />
+                      <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest"><Mail className="w-3.5 h-3.5 sm:w-4 sm:h-4 inline mr-2" />Work Email *</label>
+                      <input type="email" name="email" value={ctaFormData.email} onChange={handleCtaInputChange} required className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 placeholder-gray-400 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium text-sm sm:text-base" placeholder="john@agency.com" />
                     </div>
                     <div className="text-left">
-                      <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest">
-                        <Building2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 inline mr-2" />
-                        Business Name *
-                      </label>
-                      <input
-                        type="text"
-                        name="businessName"
-                        value={formData.businessName}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 placeholder-gray-400 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium text-sm sm:text-base"
-                        placeholder="Your Business Name"
-                      />
+                      <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest"><Building2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 inline mr-2" />Business Name *</label>
+                      <input type="text" name="businessName" value={ctaFormData.businessName} onChange={handleCtaInputChange} required className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 placeholder-gray-400 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium text-sm sm:text-base" placeholder="Your Business Name" />
                     </div>
                     <div className="text-left">
-                      <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest">
-                        <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 inline mr-2" />
-                        Phone Number *
-                      </label>
-                      <input
-                        type="tel"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 placeholder-gray-400 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium text-sm sm:text-base"
-                        placeholder="+1 (555) 000-0000"
-                      />
+                      <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest"><TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 inline mr-2" />Phone Number *</label>
+                      <input type="tel" name="phone" value={ctaFormData.phone} onChange={handleCtaInputChange} required className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 placeholder-gray-400 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium text-sm sm:text-base" placeholder="+1 (555) 000-0000" />
                     </div>
                     <div className="text-left md:col-span-2 space-y-3">
-                      <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest">
-                        What's Your Biggest Website Challenge Right Now? (Select all that apply)
-                      </label>
+                      <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest">What's Your Biggest Website Challenge Right Now? (Select all that apply)</label>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {growthChallengeOptions.map((option, idx) => (
                           <label key={idx} className="flex items-start gap-3 p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 cursor-pointer transition-colors group">
-                            <input type="checkbox" className="hidden" checked={formData.growthChallenges.includes(option)} onChange={() => handleChallengeToggle(option)} />
-                            <input type="hidden" name={`challenge_${option}`} value={formData.growthChallenges.includes(option) ? 'on' : 'off'} />
-                            <div className={`w-5 h-5 rounded flex items-center justify-center shrink-0 border ${formData.growthChallenges.includes(option) ? 'bg-blue-500 border-blue-500' : 'border-white/30 group-hover:border-white/50'}`}>
-                              {formData.growthChallenges.includes(option) && <CheckCircle className="w-3.5 h-3.5 text-white" />}
+                            <input type="checkbox" className="hidden" checked={ctaFormData.growthChallenges.includes(option)} onChange={() => handleCtaChallengeToggle(option)} />
+                            <div className={`w-5 h-5 rounded flex items-center justify-center shrink-0 border ${ctaFormData.growthChallenges.includes(option) ? 'bg-blue-500 border-blue-500' : 'border-white/30 group-hover:border-white/50'}`}>
+                              {ctaFormData.growthChallenges.includes(option) && <CheckCircle className="w-3.5 h-3.5 text-white" />}
                             </div>
                             <span className="text-sm font-medium text-blue-50">{option}</span>
                           </label>
@@ -1004,18 +906,11 @@ export default function LandingPage() {
                       </div>
                     </div>
                   </div>
-
-                  {submitStatus === 'error' && (
-                    <div className="mb-4 p-4 bg-white/20 text-white rounded-xl border border-white/30 text-sm font-medium animate-shake">
-                      Oops! Something went wrong. Please try again.
-                    </div>
+                  {ctaStatus === 'error' && (
+                    <div className="mb-4 p-4 bg-white/20 text-white rounded-xl border border-white/30 text-sm font-medium animate-shake">Oops! Something went wrong. Please try again.</div>
                   )}
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 sm:px-12 py-4 sm:py-5 rounded-xl sm:rounded-2xl font-extrabold text-lg sm:text-xl shadow-2xl hover:shadow-3xl hover:scale-[1.02] active:scale-95 transition-all inline-flex items-center justify-center gap-4 group disabled:opacity-70 disabled:cursor-not-allowed"
-                  >
-                    <span>{isSubmitting ? 'Sending...' : 'Book Your Free Strategy Call'}</span>
+                  <button type="submit" disabled={ctaSubmitting || !ctaFormData.firstName || !ctaFormData.lastName || !ctaFormData.email || !ctaFormData.businessName || !ctaFormData.phone || ctaFormData.growthChallenges.length === 0} className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 sm:px-12 py-4 sm:py-5 rounded-xl sm:rounded-2xl font-extrabold text-lg sm:text-xl shadow-2xl hover:shadow-3xl hover:scale-[1.02] active:scale-95 transition-all inline-flex items-center justify-center gap-4 group disabled:opacity-70 disabled:cursor-not-allowed">
+                    <span>{ctaSubmitting ? 'Sending...' : 'Book Your Free Strategy Call'}</span>
                     <Calendar className="w-5 h-5 sm:w-6 sm:h-6 shrink-0 group-hover:rotate-12 transition-transform" />
                   </button>
                 </form>
@@ -1025,9 +920,7 @@ export default function LandingPage() {
             <div className="bg-white/10 backdrop-blur-lg rounded-2xl sm:rounded-3xl p-8 sm:p-12 mb-8 border-2 border-white/40 shadow-2xl">
               <CheckCircle className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-6 text-green-400 animate-bounce" />
               <h3 className="text-2xl sm:text-3xl font-extrabold mb-4 uppercase tracking-wider">Success!</h3>
-              <p className="text-lg sm:text-xl text-blue-100 mb-6">
-                We'll reach out within 24 hours to schedule your strategy call.
-              </p>
+              <p className="text-lg sm:text-xl text-blue-100 mb-6">We'll reach out within 24 hours to schedule your strategy call.</p>
             </div>
           )}
 
@@ -1072,14 +965,9 @@ export default function LandingPage() {
               <p className="text-blue-100 text-xs font-medium uppercase tracking-widest">Free Strategy Call</p>
             </div>
             <div className="p-6 overflow-y-auto flex-1 custom-scrollbar">
-              <form onSubmit={(e) => handleFormSubmit(e, 'Ready to Scale')} className="space-y-4">
+              <form onSubmit={handleFloatingFormSubmit} className="space-y-4">
                 <div className="space-y-4">
-                  <select
-                    name="title"
-                    value={formData.title}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium cursor-pointer"
-                  >
+                  <select name="title" value={floatingFormData.title} onChange={handleFloatingInputChange} className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium cursor-pointer">
                     <option value="">Title</option>
                     <option value="Mr.">Mr.</option>
                     <option value="Mrs.">Mrs.</option>
@@ -1088,61 +976,19 @@ export default function LandingPage() {
                     <option value="Prof.">Prof.</option>
                     <option value="other">other</option>
                   </select>
-                  <input
-                    type="text"
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={handleInputChange}
-                    required
-                    placeholder="First Name"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium"
-                  />
-                  <input
-                    type="text"
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={handleInputChange}
-                    required
-                    placeholder="Last Name"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium"
-                  />
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    required
-                    placeholder="Work Email"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium"
-                  />
-                  <input
-                    type="text"
-                    name="businessName"
-                    value={formData.businessName}
-                    onChange={handleInputChange}
-                    required
-                    placeholder="Business Name"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium"
-                  />
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    required
-                    placeholder="Phone Number *"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium"
-                  />
+                  <input type="text" name="firstName" value={floatingFormData.firstName} onChange={handleFloatingInputChange} required placeholder="First Name" className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium" />
+                  <input type="text" name="lastName" value={floatingFormData.lastName} onChange={handleFloatingInputChange} required placeholder="Last Name" className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium" />
+                  <input type="email" name="email" value={floatingFormData.email} onChange={handleFloatingInputChange} required placeholder="Work Email" className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium" />
+                  <input type="text" name="businessName" value={floatingFormData.businessName} onChange={handleFloatingInputChange} required placeholder="Business Name" className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium" />
+                  <input type="tel" name="phone" value={floatingFormData.phone} onChange={handleFloatingInputChange} required placeholder="Phone Number *" className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium" />
                   <div className="pt-2 border-t border-gray-100">
-                    <label className="block text-[10px] font-bold mb-2 text-gray-400 uppercase tracking-widest">
-                      Biggest Growth Challenge? (Select all that apply)
-                    </label>
+                    <label className="block text-[10px] font-bold mb-2 text-gray-400 uppercase tracking-widest">Biggest Growth Challenge? (Select all that apply)</label>
                     <div className="space-y-2">
                       {growthChallengeOptions.map((option, idx) => (
                         <label key={idx} className="flex items-start gap-3 p-2.5 rounded-xl border border-gray-100 bg-gray-50 hover:bg-white hover:border-blue-500 cursor-pointer transition-colors group">
-                          <input type="checkbox" className="hidden" checked={formData.growthChallenges.includes(option)} onChange={() => handleChallengeToggle(option)} />
-                          <div className={`w-4 h-4 rounded flex items-center justify-center shrink-0 border mt-0.5 ${formData.growthChallenges.includes(option) ? 'bg-blue-500 border-blue-500' : 'border-gray-300 group-hover:border-blue-500'}`}>
-                            {formData.growthChallenges.includes(option) && <CheckCircle className="w-3 h-3 text-white" />}
+                          <input type="checkbox" className="hidden" checked={floatingFormData.growthChallenges.includes(option)} onChange={() => handleFloatingChallengeToggle(option)} />
+                          <div className={`w-4 h-4 rounded flex items-center justify-center shrink-0 border mt-0.5 ${floatingFormData.growthChallenges.includes(option) ? 'bg-blue-500 border-blue-500' : 'border-gray-300 group-hover:border-blue-500'}`}>
+                            {floatingFormData.growthChallenges.includes(option) && <CheckCircle className="w-3 h-3 text-white" />}
                           </div>
                           <span className="text-xs font-medium text-gray-700 leading-tight">{option}</span>
                         </label>
@@ -1150,17 +996,11 @@ export default function LandingPage() {
                     </div>
                   </div>
                 </div>
-                {submitStatus === 'error' && (
-                  <div className="mb-4 p-4 bg-red-50 text-red-600 rounded-xl border border-red-100 text-sm font-medium animate-shake">
-                    Oops! Something went wrong. Please try again.
-                  </div>
+                {floatingStatus === 'error' && (
+                  <div className="mb-4 p-4 bg-red-50 text-red-600 rounded-xl border border-red-100 text-sm font-medium animate-shake">Oops! Something went wrong. Please try again.</div>
                 )}
-                <button
-                  type="submit"
-                  disabled={isSubmitting || !formData.firstName || !formData.lastName || !formData.email || !formData.businessName || !formData.phone || formData.growthChallenges.length === 0}
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 rounded-xl font-bold hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-sm shadow-lg shadow-blue-100 disabled:opacity-70 disabled:cursor-not-allowed disabled:scale-100"
-                >
-                  {isSubmitting ? 'Sending...' : 'Book Free Call →'}
+                <button type="submit" disabled={floatingSubmitting || !floatingFormData.firstName || !floatingFormData.lastName || !floatingFormData.email || !floatingFormData.businessName || !floatingFormData.phone || floatingFormData.growthChallenges.length === 0} className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 rounded-xl font-bold hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-sm shadow-lg shadow-blue-100 disabled:opacity-70 disabled:cursor-not-allowed disabled:scale-100">
+                  {floatingSubmitting ? 'Sending...' : 'Book Free Call →'}
                 </button>
               </form>
               <p className="text-[10px] text-gray-400 mt-4 text-center font-bold uppercase tracking-widest opacity-60">No commitment required</p>
@@ -1193,12 +1033,7 @@ export default function LandingPage() {
                   <div className="space-y-4">
                     <div>
                       <label className="block text-xs font-bold mb-2 text-gray-400 uppercase tracking-widest px-1">Title</label>
-                      <select
-                        name="title"
-                        value={formData.title}
-                        onChange={handleInputChange}
-                        className="w-full px-5 py-3 sm:py-4 rounded-xl border-2 border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-base font-medium shadow-sm cursor-pointer"
-                      >
+                      <select name="title" value={leadFormData.title} onChange={handleLeadInputChange} className="w-full px-5 py-3 sm:py-4 rounded-xl border-2 border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-base font-medium shadow-sm cursor-pointer">
                         <option value="">Title</option>
                         <option value="Mr.">Mr.</option>
                         <option value="Mrs.">Mrs.</option>
@@ -1210,74 +1045,32 @@ export default function LandingPage() {
                     </div>
                     <div>
                       <label className="block text-xs font-bold mb-2 text-gray-400 uppercase tracking-widest px-1">First Name *</label>
-                      <input
-                        type="text"
-                        name="firstName"
-                        value={formData.firstName}
-                        onChange={handleInputChange}
-                        required
-                        placeholder="John"
-                        className="w-full px-5 py-3 sm:py-4 rounded-xl border-2 border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-base font-medium shadow-sm"
-                      />
+                      <input type="text" name="firstName" value={leadFormData.firstName} onChange={handleLeadInputChange} required placeholder="John" className="w-full px-5 py-3 sm:py-4 rounded-xl border-2 border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-base font-medium shadow-sm" />
                     </div>
                     <div>
                       <label className="block text-xs font-bold mb-2 text-gray-400 uppercase tracking-widest px-1">Last Name *</label>
-                      <input
-                        type="text"
-                        name="lastName"
-                        value={formData.lastName}
-                        onChange={handleInputChange}
-                        required
-                        placeholder="Smith"
-                        className="w-full px-5 py-3 sm:py-4 rounded-xl border-2 border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-base font-medium shadow-sm"
-                      />
+                      <input type="text" name="lastName" value={leadFormData.lastName} onChange={handleLeadInputChange} required placeholder="Smith" className="w-full px-5 py-3 sm:py-4 rounded-xl border-2 border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-base font-medium shadow-sm" />
                     </div>
                     <div>
                       <label className="block text-xs font-bold mb-2 text-gray-400 uppercase tracking-widest px-1">Work Email *</label>
-                      <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        required
-                        placeholder="john@agency.com"
-                        className="w-full px-5 py-3 sm:py-4 rounded-xl border-2 border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-base font-medium shadow-sm"
-                      />
+                      <input type="email" name="email" value={leadFormData.email} onChange={handleLeadInputChange} required placeholder="john@agency.com" className="w-full px-5 py-3 sm:py-4 rounded-xl border-2 border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-base font-medium shadow-sm" />
                     </div>
                     <div>
                       <label className="block text-xs font-bold mb-2 text-gray-400 uppercase tracking-widest px-1">Business Name *</label>
-                      <input
-                        type="text"
-                        name="businessName"
-                        value={formData.businessName}
-                        onChange={handleInputChange}
-                        required
-                        placeholder="Your Business Name"
-                        className="w-full px-5 py-3 sm:py-4 rounded-xl border-2 border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-base font-medium shadow-sm"
-                      />
+                      <input type="text" name="businessName" value={leadFormData.businessName} onChange={handleLeadInputChange} required placeholder="Your Business Name" className="w-full px-5 py-3 sm:py-4 rounded-xl border-2 border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-base font-medium shadow-sm" />
                     </div>
                     <div>
                       <label className="block text-xs font-bold mb-2 text-gray-400 uppercase tracking-widest px-1">Phone Number *</label>
-                      <input
-                        type="tel"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleInputChange}
-                        required
-                        placeholder="+1 (555) 000-0000"
-                        className="w-full px-5 py-3 sm:py-4 rounded-xl border-2 border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-base font-medium shadow-sm"
-                      />
+                      <input type="tel" name="phone" value={leadFormData.phone} onChange={handleLeadInputChange} required placeholder="+1 (555) 000-0000" className="w-full px-5 py-3 sm:py-4 rounded-xl border-2 border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-base font-medium shadow-sm" />
                     </div>
                     <div>
-                      <label className="block text-xs font-bold mb-2 text-gray-400 uppercase tracking-widest px-1">
-                        What's Your Biggest Website Challenge Right Now?
-                      </label>
+                      <label className="block text-xs font-bold mb-2 text-gray-400 uppercase tracking-widest px-1">What's Your Biggest Website Challenge Right Now?</label>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                         {growthChallengeOptions.map((option, idx) => (
                           <label key={idx} className="flex items-start gap-3 p-3 rounded-xl border-2 border-gray-100 bg-gray-50 hover:bg-white hover:border-blue-500 cursor-pointer transition-colors group">
-                            <input type="checkbox" className="hidden" checked={formData.growthChallenges.includes(option)} onChange={() => handleChallengeToggle(option)} />
-                            <div className={`w-5 h-5 rounded flex items-center justify-center shrink-0 border mt-0.5 ${formData.growthChallenges.includes(option) ? 'bg-blue-500 border-blue-500' : 'border-gray-300 group-hover:border-blue-500'}`}>
-                              {formData.growthChallenges.includes(option) && <CheckCircle className="w-3.5 h-3.5 text-white" />}
+                            <input type="checkbox" className="hidden" checked={leadFormData.growthChallenges.includes(option)} onChange={() => handleLeadChallengeToggle(option)} />
+                            <div className={`w-5 h-5 rounded flex items-center justify-center shrink-0 border mt-0.5 ${leadFormData.growthChallenges.includes(option) ? 'bg-blue-500 border-blue-500' : 'border-gray-300 group-hover:border-blue-500'}`}>
+                              {leadFormData.growthChallenges.includes(option) && <CheckCircle className="w-3.5 h-3.5 text-white" />}
                             </div>
                             <span className="text-sm font-medium text-gray-700 leading-snug">{option}</span>
                           </label>
@@ -1285,17 +1078,11 @@ export default function LandingPage() {
                       </div>
                     </div>
                   </div>
-                  {submitStatus === 'error' && (
-                    <div className="p-4 bg-red-50 text-red-600 rounded-xl border border-red-100 text-sm font-medium animate-shake">
-                      Oops! Something went wrong. Please try again.
-                    </div>
+                  {leadStatus === 'error' && (
+                    <div className="p-4 bg-red-50 text-red-600 rounded-xl border border-red-100 text-sm font-medium animate-shake">Oops! Something went wrong. Please try again.</div>
                   )}
-                  <button
-                    type="submit"
-                    disabled={isSubmitting || !formData.firstName || !formData.lastName || !formData.email || !formData.businessName || !formData.phone || formData.growthChallenges.length === 0}
-                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 sm:py-5 rounded-xl sm:rounded-2xl font-extrabold text-base sm:text-xl shadow-xl shadow-blue-100 hover:shadow-2xl hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100"
-                  >
-                    {isSubmitting ? 'Sending...' : 'Get Your Free Case Study →'}
+                  <button type="submit" disabled={leadSubmitting || !leadFormData.firstName || !leadFormData.lastName || !leadFormData.email || !leadFormData.businessName || !leadFormData.phone || leadFormData.growthChallenges.length === 0} className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 sm:py-5 rounded-xl sm:rounded-2xl font-extrabold text-base sm:text-xl shadow-xl shadow-blue-100 hover:shadow-2xl hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100">
+                    {leadSubmitting ? 'Sending...' : 'Get Your Free Case Study →'}
                   </button>
                 </form>
 

@@ -64,7 +64,7 @@ export default {
       } else if (isLandingPage) {
         sanityDocument.formType   = data.formType;
         sanityDocument.phone      = data.phone      || '';
-        sanityDocument.agencyName = data.agencyName || '';
+        sanityDocument.businessName = data.businessName || '';
         sanityDocument.challenge  = data.challenge  || '';
       } else {
         sanityDocument.budget       = data.budget       || '';
