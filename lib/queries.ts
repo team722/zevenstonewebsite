@@ -197,7 +197,7 @@ export const HOME_PAGE_QUERY = `
     founderMessages[] {
       title, content, author, role, "photoUrl": photo.asset->url
     },
-    "showcaseVideoUrl": showcaseVideo.asset->url,
+     "showcaseVideoUrl": showcaseVideo.asset->url,
     seo
   }
 `;
@@ -441,7 +441,7 @@ export const WEBSITE_LANDING_PAGE_QUERY = `
   *[_type == "websiteLandingPage"][0] {
     heroHeading, heroHighlight, heroDescription, primaryCtaText, secondaryCtaText, trustLine,
     socialStats[] { value, label },
-    "showcaseVideoUrl": showcaseVideo.asset->url,
+    "showcaseVideoUrl": showcaseVideoUrl.asset->url,
     problemLabel, problemHeading, problemDescription, painPoints, urgencyMessage,
     leadMagnet { heading, description, buttonText, "pdfUrl": pdfFile.asset->url },
     solutionLabel, solutionHeading, solutionDescription, solutionKeyMessage,

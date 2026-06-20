@@ -22,6 +22,8 @@ export default function LandingPage() {
     queryFn: () => sanityClient.fetch(WEBSITE_LANDING_PAGE_QUERY) 
   });
 
+  console.log('Fetched page data:', pageData);
+
   const [isScrolled, setIsScrolled] = useState(false);
   const [showFloatingForm, setShowFloatingForm] = useState(false);
   const [showLeadMagnet, setShowLeadMagnet] = useState(false);
