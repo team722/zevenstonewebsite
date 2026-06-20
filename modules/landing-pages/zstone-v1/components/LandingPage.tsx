@@ -1,5 +1,6 @@
 import { ArrowRight, CheckCircle, TrendingUp, Zap, Users, Target, Clock, Shield, Award, Star, DollarSign, BarChart3, Rocket, X, Download, Mail, Building2, User, Calendar } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useQuery } from '@tanstack/react-query';
 import imgLinkLogo from "figma:asset/landingpageLogo.png";
 import imgWhiteLogo from "figma:asset/Logo-White.webp";
@@ -199,6 +200,11 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-white font-['Poppins',sans-serif]">
+      <Helmet>
+        <title>Agency Delivery Partner for Marketing Agencies | Zevenstone</title>
+        <meta name="description" content="Scale your agency without increasing overhead. White-label digital marketing, automation, creative, and technology delivery under your brand. Trusted by growing agencies across USA." />
+      </Helmet>
+
       {/* Sticky Header */}
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/95 backdrop-blur-lg shadow-md' : 'bg-transparent'
         }`}>
