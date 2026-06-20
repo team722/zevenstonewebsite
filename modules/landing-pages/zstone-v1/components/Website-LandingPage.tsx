@@ -892,7 +892,7 @@ export default function LandingPage() {
                       <input type="tel" name="phone" value={ctaFormData.phone} onChange={handleCtaInputChange} required className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 placeholder-gray-400 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium text-sm sm:text-base" placeholder="+1 (555) 000-0000" />
                     </div>
                     <div className="text-left md:col-span-2 space-y-3">
-                      <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest">What's Your Biggest Website Challenge Right Now? (Select all that apply)</label>
+                      <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest">What's Your Biggest Website Challenge Right Now?</label>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {growthChallengeOptions.map((option, idx) => (
                           <label key={idx} className="flex items-start gap-3 p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 cursor-pointer transition-colors group">
@@ -982,7 +982,7 @@ export default function LandingPage() {
                   <input type="text" name="businessName" value={floatingFormData.businessName} onChange={handleFloatingInputChange} required placeholder="Business Name" className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium" />
                   <input type="tel" name="phone" value={floatingFormData.phone} onChange={handleFloatingInputChange} required placeholder="Phone Number *" className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium" />
                   <div className="pt-2 border-t border-gray-100">
-                    <label className="block text-[10px] font-bold mb-2 text-gray-400 uppercase tracking-widest">Biggest Growth Challenge? (Select all that apply)</label>
+                    <label className="block text-[10px] font-bold mb-2 text-gray-400 uppercase tracking-widest">What's Your Biggest Website Challenge Right Now?</label>
                     <div className="space-y-2">
                       {growthChallengeOptions.map((option, idx) => (
                         <label key={idx} className="flex items-start gap-3 p-2.5 rounded-xl border border-gray-100 bg-gray-50 hover:bg-white hover:border-blue-500 cursor-pointer transition-colors group">

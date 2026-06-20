@@ -70,7 +70,7 @@ const AppContent: React.FC = () => {
 
           {/* New Modular Landing Page Routes (Phase 2) */}
           <Route path="/strategic-partnerships/agency-growth-partner" element={<ZstoneLandingPageV1 />} />
-           <Route path="/website-care-growth" element={<ZstoneLandingPageV2 />} />
+           <Route path="/managed-solutions/grow-your-business-online" element={<ZstoneLandingPageV2 />} />
           {/* <Route path="/landing-page/services" element={<ZstoneServicesPageV1 />} />
           <Route path="/landing-page/video-production" element={<ZstoneVideoProductionV1 />} />
           <Route path="/landing-page/stories" element={<ZstoneStoriesPageV1 />} />
