@@ -39,8 +39,11 @@ export default {
         });
       }
 
-      const isLandingPage = !!data.formType;
-      const sanityDocumentType = isLandingPage ? 'landingPageSubmission' : 'contactSubmission';
+      const isWebsiteLandingPage = data.pageSource === 'websiteLandingPage';
+      const isLandingPage = !!data.formType && !isWebsiteLandingPage;
+      const sanityDocumentType = isWebsiteLandingPage 
+        ? 'websiteLandingPageSubmission' 
+        : (isLandingPage ? 'landingPageSubmission' : 'contactSubmission');
 
       // ── 1. Save to Sanity ────────────────────────────────────────────────
       const sanityDocument: any = {
@@ -53,10 +56,15 @@ export default {
         submittedAt: new Date().toISOString(),
       };
 
-      if (isLandingPage) {
+      if (isWebsiteLandingPage) {
         sanityDocument.formType   = data.formType;
         sanityDocument.phone      = data.phone      || '';
-        sanityDocument.agencyName = data.agencyName || '';
+        sanityDocument.businessName = data.businessName || '';
+        sanityDocument.growthChallenges = data.growthChallenges || [];
+      } else if (isLandingPage) {
+        sanityDocument.formType   = data.formType;
+        sanityDocument.phone      = data.phone      || '';
+        sanityDocument.businessName = data.businessName || '';
         sanityDocument.challenge  = data.challenge  || '';
       } else {
         sanityDocument.budget       = data.budget       || '';
@@ -129,7 +137,13 @@ export default {
             const portalName = env.ZOHO_PORTAL_NAME || 'zevenstone';
             let formLinkName = env.ZOHO_FORM_LINK_NAME || 'websiteform';
 
-            if (isLandingPage) {
+            if (isWebsiteLandingPage) {
+              entryPayload.data.SingleLine2 = data.agencyName || '';
+              entryPayload.data.PhoneNumber = data.phone || '';
+              entryPayload.data.MultiLine1 = Array.isArray(data.growthChallenges) ? data.growthChallenges.join(', ') : '';
+              entryPayload.data.SingleLine3 = data.formType || '';
+              formLinkName = env.ZOHO_LANDING_FORM_NAME || 'ZevenstoneAgencyForm';
+            } else if (isLandingPage) {
               entryPayload.data.SingleLine2 = data.agencyName || '';
               entryPayload.data.PhoneNumber = data.phone || '';
               entryPayload.data.MultiLine1 = data.challenge || '';

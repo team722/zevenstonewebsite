@@ -197,7 +197,7 @@ export const HOME_PAGE_QUERY = `
     founderMessages[] {
       title, content, author, role, "photoUrl": photo.asset->url
     },
-    "showcaseVideoUrl": showcaseVideo.asset->url,
+     "showcaseVideoUrl": showcaseVideo.asset->url,
     seo
   }
 `;
@@ -434,5 +434,27 @@ export const NESTED_SERVICE_QUERY = `
       title, description, primaryButtonText, primaryButtonUrl, secondaryButtonText, secondaryButtonUrl,
       trustNote, badges
     }
+  }
+`;
+
+export const WEBSITE_LANDING_PAGE_QUERY = `
+  *[_type == "websiteLandingPage"][0] {
+    heroHeading, heroHighlight, heroDescription, primaryCtaText, secondaryCtaText, trustLine,
+    socialStats[] { value, label },
+    "showcaseVideoUrl": showcaseVideoUrl.asset->url,
+    problemLabel, problemHeading, problemDescription, painPoints, urgencyMessage,
+    leadMagnet { heading, description, buttonText, "pdfUrl": pdfFile.asset->url },
+    solutionLabel, solutionHeading, solutionDescription, solutionKeyMessage,
+    services[] { title, iconName, inclusions },
+    howItWorksLabel, howItWorksHeading, steps[] { stepNumber, title, description, iconName },
+    numbersHeading, numbersStats[] { value, label },
+    diffHeading, diffIntro, diffHighlight, diffBottom, differentiators[] { text, iconName },
+    partnershipHeading, partnershipNote, models[] { title, description, iconName },
+    resultsLabel, resultsHeading, caseStudies[] { title, description, metric, label },
+    testimonialsHeading, testimonials[] { quote, author, role },
+    qualifierHeading, qualifierDescription, checklist, qualifierCtaHeading, qualifierCtaButton,
+    aboutHeading, aboutDescription1, aboutDescription2, aboutTagline,
+    finalCtaHeading, finalCtaDescription, formTitle, formBenefits,
+    seoTitle, seoDescription
   }
 `;
