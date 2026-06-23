@@ -3,10 +3,7 @@ import { motion } from 'framer-motion';
 import { Send, CheckCircle2 } from 'lucide-react';
 import { Button } from './ui/Button';
 
-export const ContactForm: React.FC = () => {
-   const zohoFormRef = useRef<HTMLFormElement>(null);
-
-   const [formData, setFormData] = useState({
+export const ContactForm: React.FC = () => {   const [formData, setFormData] = useState({
       title: '',
       firstName: '',
       lastName: '',
@@ -53,10 +50,6 @@ export const ContactForm: React.FC = () => {
          }
 
          if (response.ok && (result?.success || (contentType && contentType.includes('application/json')))) {
-            // Trigger the native hidden Zoho form submission
-            if (zohoFormRef.current) {
-               zohoFormRef.current.submit();
-            }
             setSubmitStatus('success');
          } else {
             console.error('Server returned an unexpected response. Expected JSON API response.');
@@ -72,25 +65,6 @@ export const ContactForm: React.FC = () => {
 
    return (
       <>
-         {/* Hidden iframe to receive the native form submission response quietly */}
-         <iframe name="zoho_hidden_iframe" id="zoho_hidden_iframe" style={{ display: 'none' }} title="zoho-iframe"></iframe>
-
-         {/* Hidden native Zoho Form to bypass anti-spam and CSRF checks */}
-         <form
-            action="https://connect.zevenstone.com/zevenstone/form/websiteform/formperma/NkXcBE1CUcbQkq2l1m67xnpT6tHWJm-F0Xr7F5gmP5g?zf_lang=en"
-            method="POST"
-            target="zoho_hidden_iframe"
-            ref={zohoFormRef}
-           
-         >
-            <input type="hidden" name="Dropdown1" value={formData.title} />
-            <input type="hidden" name="SingleLine" value={formData.firstName} />
-            <input type="hidden" name="SingleLine1" value={formData.lastName} />
-            <input type="hidden" name="Email" value={formData.email} />
-            <input type="hidden" name="Dropdown" value={formData.budget} />
-            <input type="hidden" name="MultiLine" value={formData.expectations} />
-         </form>
-
          {submitStatus === 'success' ? (
             <motion.div
                initial={{ opacity: 0, scale: 0.9 }}
