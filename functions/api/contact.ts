@@ -23,8 +23,11 @@ export async function onRequestPost({ request, env }) {
       });
     }
 
-    const isLandingPage = !!data.formType;
-    const sanityDocumentType = isLandingPage ? 'landingPageSubmission' : 'contactSubmission';
+    const isWebsiteLandingPage = data.pageSource === 'websiteLandingPage';
+    const isLandingPage = !!data.formType && !isWebsiteLandingPage;
+    const sanityDocumentType = isWebsiteLandingPage 
+      ? 'websiteLandingPageSubmission' 
+      : (isLandingPage ? 'landingPageSubmission' : 'contactSubmission');
 
     // ── 1. Save to Sanity ──────────────────────────────────────────────────
     const sanityDocument: any = {
@@ -37,7 +40,12 @@ export async function onRequestPost({ request, env }) {
       submittedAt: new Date().toISOString(),
     };
 
-    if (isLandingPage) {
+    if (isWebsiteLandingPage) {
+      sanityDocument.formType         = data.formType;
+      sanityDocument.phone            = data.phone || '';
+      sanityDocument.businessName     = data.businessName || '';
+      sanityDocument.growthChallenges = data.growthChallenges || [];
+    } else if (isLandingPage) {
       sanityDocument.formType    = data.formType;
       sanityDocument.phone       = data.phone       || '';
       sanityDocument.agencyName  = data.agencyName  || '';
@@ -111,7 +119,9 @@ export async function onRequestPost({ request, env }) {
         } else {
           // Step 2b: Add entry via Zoho Bigin REST API (Contacts module)
           let descriptionText = '';
-          if (isLandingPage) {
+          if (isWebsiteLandingPage) {
+            descriptionText = `Form Type: ${data.formType || 'N/A'}\nBusiness Name: ${data.businessName || 'N/A'}\nGrowth Challenges: ${Array.isArray(data.growthChallenges) ? data.growthChallenges.join(', ') : 'N/A'}`;
+          } else if (isLandingPage) {
             descriptionText = `Form Type: ${data.formType || 'N/A'}\nAgency Name: ${data.agencyName || 'N/A'}\nChallenge: ${data.challenge || 'N/A'}`;
           } else {
             descriptionText = `Title: ${data.title || 'N/A'}\nBudget: ${data.budget || 'N/A'}\nExpectations: ${data.expectations || 'N/A'}`;

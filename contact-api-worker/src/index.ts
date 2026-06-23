@@ -124,34 +124,11 @@ export default {
             biginError = `Token error: ${JSON.stringify(tokenData)}`;
             console.error('Zoho token error:', biginError);
           } else {
-            // Step 2b: Add entry via Zoho Forms REST API
-            const entryPayload: any = {
-              data: {
-                Dropdown1: data.title || '',
-                SingleLine: data.firstName || '',
-                SingleLine1: data.lastName || '',
-                Email: data.email || '',
-              },
-            };
-
-            const portalName = env.ZOHO_PORTAL_NAME || 'zevenstone';
-            let formLinkName = env.ZOHO_FORM_LINK_NAME || 'websiteform';
-
-            if (isWebsiteLandingPage) {
-              entryPayload.data.SingleLine2 = data.agencyName || '';
-              entryPayload.data.PhoneNumber = data.phone || '';
-              entryPayload.data.MultiLine1 = Array.isArray(data.growthChallenges) ? data.growthChallenges.join(', ') : '';
-              entryPayload.data.SingleLine3 = data.formType || '';
-              formLinkName = env.ZOHO_LANDING_FORM_NAME || 'ZevenstoneAgencyForm';
-            } else if (isLandingPage) {
-              entryPayload.data.SingleLine2 = data.agencyName || '';
-              entryPayload.data.PhoneNumber = data.phone || '';
-              entryPayload.data.MultiLine1 = data.challenge || '';
-              entryPayload.data.SingleLine3 = data.formType || '';
-              formLinkName = env.ZOHO_LANDING_FORM_NAME || 'ZevenstoneAgencyForm';
             // Step 2b: Add entry via Zoho Bigin REST API (Contacts module)
             let descriptionText = '';
-            if (isLandingPage) {
+            if (isWebsiteLandingPage) {
+              descriptionText = `Form Type: ${data.formType || 'N/A'}\nBusiness Name: ${data.businessName || 'N/A'}\nGrowth Challenges: ${Array.isArray(data.growthChallenges) ? data.growthChallenges.join(', ') : 'N/A'}`;
+            } else if (isLandingPage) {
               descriptionText = `Form Type: ${data.formType || 'N/A'}\nAgency Name: ${data.agencyName || 'N/A'}\nChallenge: ${data.challenge || 'N/A'}`;
             } else {
               descriptionText = `Title: ${data.title || 'N/A'}\nBudget: ${data.budget || 'N/A'}\nExpectations: ${data.expectations || 'N/A'}`;
