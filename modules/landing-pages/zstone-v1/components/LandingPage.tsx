@@ -15,15 +15,12 @@ export default function LandingPage() {
   const [showLeadMagnet, setShowLeadMagnet] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [leadMagnetSubmitted, setLeadMagnetSubmitted] = useState(false);
-  const [formData, setFormData] = useState({
-    title: '',
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    agencyName: '',
-    challenge: ''
-  });
+  const emptyForm = { title: '', firstName: '', lastName: '', email: '', phone: '', agencyName: '', challenge: '' };
+
+  // Separate state for each form — no cross-contamination
+  const [ctaFormData, setCtaFormData] = useState({ ...emptyForm });
+  const [floatingFormData, setFloatingFormData] = useState({ ...emptyForm });
+  const [leadMagnetFormData, setLeadMagnetFormData] = useState({ ...emptyForm });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -43,8 +40,8 @@ export default function LandingPage() {
     }
   };
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [submittingForm, setSubmittingForm] = useState<string | null>(null);
+  const [formStatus, setFormStatus] = useState<Record<string, 'idle' | 'success' | 'error'>>({});
 
   const [isVideoPlaying, setIsVideoPlaying] = useState(true);
   const [isVideoHovered, setIsVideoHovered] = useState(false);
@@ -65,13 +62,13 @@ export default function LandingPage() {
     }
   };
 
-  const handleFormSubmit = async (e: React.FormEvent, formType: string = 'Strategy Call') => {
+  const handleFormSubmit = async (e: React.FormEvent, formType: string = 'Strategy Call', sourceData?: typeof emptyForm) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus('idle');
+    setSubmittingForm(formType);
+    setFormStatus(prev => ({ ...prev, [formType]: 'idle' }));
 
     const submissionData = {
-      ...formData,
+      ...(sourceData || ctaFormData),
       formType,
       submittedAt: new Date().toISOString(),
     };
@@ -90,41 +87,34 @@ export default function LandingPage() {
 
       if (response.ok) {
         setFormSubmitted(true);
-        setSubmitStatus('success');
+        setFormStatus(prev => ({ ...prev, [formType]: 'success' }));
         setShowFloatingForm(false);
 
         // Reset form after 3 seconds
         setTimeout(() => {
           setFormSubmitted(false);
-          setSubmitStatus('idle');
-          setFormData({
-            title: '',
-            firstName: '',
-            lastName: '',
-            email: '',
-            phone: '',
-            agencyName: '',
-            challenge: ''
-          });
+          setFormStatus(prev => ({ ...prev, [formType]: 'idle' }));
+          setCtaFormData({ ...emptyForm });
+          setFloatingFormData({ ...emptyForm });
         }, 3000);
       } else {
-        setSubmitStatus('error');
+        setFormStatus(prev => ({ ...prev, [formType]: 'error' }));
       }
     } catch (err) {
       console.error('Submission error:', err);
-      setSubmitStatus('error');
+      setFormStatus(prev => ({ ...prev, [formType]: 'error' }));
     } finally {
-      setIsSubmitting(false);
+      setSubmittingForm(null);
     }
   };
 
   const handleLeadMagnetSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus('idle');
+    setSubmittingForm('Case Study');
+    setFormStatus(prev => ({ ...prev, ['Case Study']: 'idle' }));
 
     const submissionData = {
-      ...formData,
+      ...leadMagnetFormData,
       formType: 'Case Study',
       submittedAt: new Date().toISOString(),
     };
@@ -142,6 +132,10 @@ export default function LandingPage() {
       });
 
       if (response.ok) {
+        setLeadMagnetSubmitted(true);
+        setFormStatus(prev => ({ ...prev, ['Case Study']: 'success' }));
+        setShowFloatingForm(false);
+
         // 1. Close modal immediately
         setShowLeadMagnet(false);
 
@@ -169,34 +163,27 @@ export default function LandingPage() {
         }
 
         // 3. Reset states for next time
-        setFormData({
-          title: '',
-          firstName: '',
-          lastName: '',
-          email: '',
-          phone: '',
-          agencyName: '',
-          challenge: ''
-        });
-        setSubmitStatus('idle');
-        setLeadMagnetSubmitted(false); // No need for success view anymore
+        setLeadMagnetFormData({ ...emptyForm });
+        setFormStatus(prev => ({ ...prev, ['Case Study']: 'idle' }));
+        setLeadMagnetSubmitted(false);
       } else {
-        setSubmitStatus('error');
+        setFormStatus(prev => ({ ...prev, ['Case Study']: 'error' }));
       }
     } catch (err) {
-      console.error('Lead magnet error:', err);
-      setSubmitStatus('error');
+      console.error('Lead Magnet error:', err);
+      setFormStatus(prev => ({ ...prev, ['Case Study']: 'error' }));
     } finally {
-      setIsSubmitting(false);
+      setSubmittingForm(null);
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
+  const makeChangeHandler = (setter: React.Dispatch<React.SetStateAction<typeof emptyForm>>, data: typeof emptyForm) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
+      setter({ ...data, [e.target.name]: e.target.value });
+
+  const handleCtaChange = makeChangeHandler(setCtaFormData, ctaFormData);
+  const handleFloatingChange = makeChangeHandler(setFloatingFormData, floatingFormData);
+  const handleLeadMagnetChange = makeChangeHandler(setLeadMagnetFormData, leadMagnetFormData);
 
   return (
     <div className="min-h-screen bg-white font-['Poppins',sans-serif]">
@@ -931,7 +918,7 @@ export default function LandingPage() {
           {!formSubmitted ? (
             <div className="px-2 sm:px-0">
               <div className="bg-white/10 backdrop-blur-lg rounded-2xl sm:rounded-3xl p-6 sm:p-12 mb-8 border border-white/20 shadow-2xl">
-                <form onSubmit={(e) => handleFormSubmit(e, 'Strategy Call')} className="space-y-5 sm:space-y-6">
+                <form onSubmit={(e) => handleFormSubmit(e, 'Strategy Call', ctaFormData)} className="space-y-5 sm:space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
                     <div className="text-left">
                       <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest">
@@ -939,8 +926,8 @@ export default function LandingPage() {
                       </label>
                       <select
                         name="title"
-                        value={formData.title}
-                        onChange={handleInputChange}
+                        value={ctaFormData.title}
+                        onChange={handleCtaChange}
                         className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium text-sm sm:text-base cursor-pointer appearance-none"
                       >
                         <option value="">Title</option>
@@ -958,8 +945,8 @@ export default function LandingPage() {
                       <input
                         type="text"
                         name="firstName"
-                        value={formData.firstName}
-                        onChange={handleInputChange}
+                        value={ctaFormData.firstName}
+                        onChange={handleCtaChange}
                         required
                         className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 placeholder-gray-400 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium text-sm sm:text-base"
                         placeholder="John"
@@ -973,8 +960,8 @@ export default function LandingPage() {
                       <input
                         type="text"
                         name="lastName"
-                        value={formData.lastName}
-                        onChange={handleInputChange}
+                        value={ctaFormData.lastName}
+                        onChange={handleCtaChange}
                         required
                         className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 placeholder-gray-400 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium text-sm sm:text-base"
                         placeholder="Smith"
@@ -988,8 +975,8 @@ export default function LandingPage() {
                       <input
                         type="email"
                         name="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
+                        value={ctaFormData.email}
+                        onChange={handleCtaChange}
                         required
                         className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 placeholder-gray-400 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium text-sm sm:text-base"
                         placeholder="john@agency.com"
@@ -1003,8 +990,8 @@ export default function LandingPage() {
                       <input
                         type="text"
                         name="agencyName"
-                        value={formData.agencyName}
-                        onChange={handleInputChange}
+                        value={ctaFormData.agencyName}
+                        onChange={handleCtaChange}
                         required
                         className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 placeholder-gray-400 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium text-sm sm:text-base"
                         placeholder="Your Agency"
@@ -1018,8 +1005,8 @@ export default function LandingPage() {
                       <input
                         type="tel"
                         name="phone"
-                        value={formData.phone}
-                        onChange={handleInputChange}
+                        value={ctaFormData.phone}
+                        onChange={handleCtaChange}
                         required
                         className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 placeholder-gray-400 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium text-sm sm:text-base"
                         placeholder="+1 (555) 000-0000"
@@ -1031,8 +1018,8 @@ export default function LandingPage() {
                       </label>
                       <textarea
                         name="challenge"
-                        value={formData.challenge}
-                        onChange={handleInputChange}
+                        value={ctaFormData.challenge}
+                        onChange={handleCtaChange}
                         rows={3}
                         className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 placeholder-gray-400 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium resize-none text-sm sm:text-base"
                         placeholder="e.g., Turning away clients due to capacity..."
@@ -1040,17 +1027,17 @@ export default function LandingPage() {
                     </div>
                   </div>
 
-                  {submitStatus === 'error' && (
+                  {formStatus['Strategy Call'] === 'error' && (
                     <div className="mb-4 p-4 bg-white/20 text-white rounded-xl border border-white/30 text-sm font-medium animate-shake">
                       Oops! Something went wrong. Please try again.
                     </div>
                   )}
                   <button
                     type="submit"
-                    disabled={isSubmitting}
+                    disabled={submittingForm === 'Strategy Call'}
                     className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 sm:px-12 py-4 sm:py-5 rounded-xl sm:rounded-2xl font-extrabold text-lg sm:text-xl shadow-2xl hover:shadow-3xl hover:scale-[1.02] active:scale-95 transition-all inline-flex items-center justify-center gap-4 group disabled:opacity-70 disabled:cursor-not-allowed"
                   >
-                    <span>{isSubmitting ? 'Sending...' : 'Book Your Free Strategy Call'}</span>
+                    <span>{submittingForm === 'Strategy Call' ? 'Sending...' : 'Book Your Free Strategy Call'}</span>
                     <Calendar className="w-5 h-5 sm:w-6 sm:h-6 shrink-0 group-hover:rotate-12 transition-transform" />
                   </button>
                 </form>
@@ -1113,12 +1100,12 @@ export default function LandingPage() {
               <p className="text-blue-100 text-xs font-medium uppercase tracking-widest">Free Strategy Call</p>
             </div>
             <div className="p-6">
-              <form onSubmit={(e) => handleFormSubmit(e, 'Ready to Scale')} className="space-y-4">
+              <form onSubmit={(e) => handleFormSubmit(e, 'Ready to Scale', floatingFormData)} className="space-y-4">
                 <div className="space-y-4">
                   <select
                     name="title"
-                    value={formData.title}
-                    onChange={handleInputChange}
+                    value={floatingFormData.title}
+                    onChange={handleFloatingChange}
                     className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium cursor-pointer"
                   >
                     <option value="">Title</option>
@@ -1130,8 +1117,8 @@ export default function LandingPage() {
                   <input
                     type="text"
                     name="firstName"
-                    value={formData.firstName}
-                    onChange={handleInputChange}
+                    value={floatingFormData.firstName}
+                    onChange={handleFloatingChange}
                     required
                     placeholder="First Name"
                     className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium"
@@ -1139,8 +1126,8 @@ export default function LandingPage() {
                   <input
                     type="text"
                     name="lastName"
-                    value={formData.lastName}
-                    onChange={handleInputChange}
+                    value={floatingFormData.lastName}
+                    onChange={handleFloatingChange}
                     required
                     placeholder="Last Name"
                     className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium"
@@ -1148,8 +1135,8 @@ export default function LandingPage() {
                   <input
                     type="email"
                     name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
+                    value={floatingFormData.email}
+                    onChange={handleFloatingChange}
                     required
                     placeholder="Work Email"
                     className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium"
@@ -1157,8 +1144,8 @@ export default function LandingPage() {
                   <input
                     type="text"
                     name="agencyName"
-                    value={formData.agencyName}
-                    onChange={handleInputChange}
+                    value={floatingFormData.agencyName}
+                    onChange={handleFloatingChange}
                     required
                     placeholder="Agency Name"
                     className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium"
@@ -1166,24 +1153,24 @@ export default function LandingPage() {
                   <input
                     type="tel"
                     name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
+                    value={floatingFormData.phone}
+                    onChange={handleFloatingChange}
                     required
                     placeholder="Phone Number *"
                     className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium"
                   />
                 </div>
-                {submitStatus === 'error' && (
+                {formStatus['Ready to Scale'] === 'error' && (
                   <div className="mb-4 p-4 bg-red-50 text-red-600 rounded-xl border border-red-100 text-sm font-medium animate-shake">
                     Oops! Something went wrong. Please try again.
                   </div>
                 )}
                 <button
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={submittingForm === 'Ready to Scale'}
                   className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 rounded-xl font-bold hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-sm shadow-lg shadow-blue-100 disabled:opacity-70 disabled:cursor-not-allowed"
                 >
-                  {isSubmitting ? 'Sending...' : 'Book Free Call →'}
+                  {submittingForm === 'Ready to Scale' ? 'Sending...' : 'Book Free Call →'}
                 </button>
               </form>
               <p className="text-[10px] text-gray-400 mt-4 text-center font-bold uppercase tracking-widest opacity-60">No commitment required</p>
@@ -1218,8 +1205,8 @@ export default function LandingPage() {
                       <label className="block text-xs font-bold mb-2 text-gray-400 uppercase tracking-widest px-1">Title</label>
                       <select
                         name="title"
-                        value={formData.title}
-                        onChange={handleInputChange}
+                        value={leadMagnetFormData.title}
+                        onChange={handleLeadMagnetChange}
                         className="w-full px-5 py-3 sm:py-4 rounded-xl border-2 border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-base font-medium shadow-sm cursor-pointer"
                       >
                         <option value="">Title</option>
@@ -1234,8 +1221,8 @@ export default function LandingPage() {
                       <input
                         type="text"
                         name="firstName"
-                        value={formData.firstName}
-                        onChange={handleInputChange}
+                        value={leadMagnetFormData.firstName}
+                        onChange={handleLeadMagnetChange}
                         required
                         placeholder="John"
                         className="w-full px-5 py-3 sm:py-4 rounded-xl border-2 border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-base font-medium shadow-sm"
@@ -1246,8 +1233,8 @@ export default function LandingPage() {
                       <input
                         type="text"
                         name="lastName"
-                        value={formData.lastName}
-                        onChange={handleInputChange}
+                        value={leadMagnetFormData.lastName}
+                        onChange={handleLeadMagnetChange}
                         required
                         placeholder="Smith"
                         className="w-full px-5 py-3 sm:py-4 rounded-xl border-2 border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-base font-medium shadow-sm"
@@ -1258,8 +1245,8 @@ export default function LandingPage() {
                       <input
                         type="email"
                         name="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
+                        value={leadMagnetFormData.email}
+                        onChange={handleLeadMagnetChange}
                         required
                         placeholder="john@agency.com"
                         className="w-full px-5 py-3 sm:py-4 rounded-xl border-2 border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-base font-medium shadow-sm"
@@ -1270,8 +1257,8 @@ export default function LandingPage() {
                       <input
                         type="text"
                         name="agencyName"
-                        value={formData.agencyName}
-                        onChange={handleInputChange}
+                        value={leadMagnetFormData.agencyName}
+                        onChange={handleLeadMagnetChange}
                         required
                         placeholder="Your Agency Name"
                         className="w-full px-5 py-3 sm:py-4 rounded-xl border-2 border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-base font-medium shadow-sm"
@@ -1282,25 +1269,25 @@ export default function LandingPage() {
                       <input
                         type="tel"
                         name="phone"
-                        value={formData.phone}
-                        onChange={handleInputChange}
+                        value={leadMagnetFormData.phone}
+                        onChange={handleLeadMagnetChange}
                         required
                         placeholder="+1 (555) 000-0000"
                         className="w-full px-5 py-3 sm:py-4 rounded-xl border-2 border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-base font-medium shadow-sm"
                       />
                     </div>
                   </div>
-                  {submitStatus === 'error' && (
+                  {formStatus['Case Study'] === 'error' && (
                     <div className="p-4 bg-red-50 text-red-600 rounded-xl border border-red-100 text-sm font-medium animate-shake">
                       Oops! Something went wrong. Please try again.
                     </div>
                   )}
                   <button
                     type="submit"
-                    disabled={isSubmitting || !formData.firstName || !formData.lastName || !formData.email || !formData.agencyName || !formData.phone}
+                    disabled={submittingForm === 'Case Study' || !leadMagnetFormData.firstName || !leadMagnetFormData.lastName || !leadMagnetFormData.email || !leadMagnetFormData.agencyName || !leadMagnetFormData.phone}
                     className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 sm:py-5 rounded-xl sm:rounded-2xl font-extrabold text-base sm:text-xl shadow-xl shadow-blue-100 hover:shadow-2xl hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100"
                   >
-                    {isSubmitting ? 'Sending...' : 'Get Your Free Case Study →'}
+                    {submittingForm === 'Case Study' ? 'Sending...' : 'Get Your Free Case Study →'}
                   </button>
                 </form>
 
