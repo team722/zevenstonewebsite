@@ -97,9 +97,9 @@ export default {
         sanityError = 'Missing Sanity Token';
       }
 
-      // ── 2. Submit to Zoho Forms via Official REST API (OAuth2) ───────────
-      let zohoError: any = null;
-      let zohoSuccess = false;
+      // ── 2. Submit to Zoho Bigin via Official REST API ───────────
+      let biginError: any = null;
+      let biginSuccess = false;
 
       if (env.ZOHO_CLIENT_ID && env.ZOHO_CLIENT_SECRET && env.ZOHO_REFRESH_TOKEN) {
         try {
@@ -121,8 +121,8 @@ export default {
           const tokenData: any = await tokenResponse.json();
 
           if (!tokenData.access_token) {
-            zohoError = `Token error: ${JSON.stringify(tokenData)}`;
-            console.error('Zoho token error:', zohoError);
+            biginError = `Token error: ${JSON.stringify(tokenData)}`;
+            console.error('Zoho token error:', biginError);
           } else {
             // Step 2b: Add entry via Zoho Forms REST API
             const entryPayload: any = {
@@ -149,44 +149,62 @@ export default {
               entryPayload.data.MultiLine1 = data.challenge || '';
               entryPayload.data.SingleLine3 = data.formType || '';
               formLinkName = env.ZOHO_LANDING_FORM_NAME || 'ZevenstoneAgencyForm';
+            // Step 2b: Add entry via Zoho Bigin REST API (Contacts module)
+            let descriptionText = '';
+            if (isLandingPage) {
+              descriptionText = `Form Type: ${data.formType || 'N/A'}\nAgency Name: ${data.agencyName || 'N/A'}\nChallenge: ${data.challenge || 'N/A'}`;
             } else {
-              entryPayload.data.Dropdown = data.budget || '';
-              entryPayload.data.MultiLine = data.expectations || '';
+              descriptionText = `Title: ${data.title || 'N/A'}\nBudget: ${data.budget || 'N/A'}\nExpectations: ${data.expectations || 'N/A'}`;
             }
 
-            const apiUrl = `https://forms.zoho.in/api/v1/${portalName}/forms/${formLinkName}/entries`;
+            const payloadData: any = {
+              Last_Name: data.lastName || 'Unknown',
+              First_Name: data.firstName || '',
+              Email: data.email || '',
+              Description: descriptionText
+            };
+            if (data.phone) {
+               payloadData.Phone = data.phone;
+            }
 
-            const zohoApiResponse = await fetch(apiUrl, {
+            const biginPayload = {
+              data: [payloadData]
+            };
+
+            const apiUrl = 'https://www.zohoapis.in/bigin/v2/Contacts';
+
+            const biginApiResponse = await fetch(apiUrl, {
               method: 'POST',
               headers: {
                 'Authorization': `Zoho-oauthtoken ${tokenData.access_token}`,
                 'Content-Type': 'application/json',
               },
-              body: JSON.stringify(entryPayload),
+              body: JSON.stringify(biginPayload),
             });
 
-            const zohoApiResult: any = await zohoApiResponse.json();
-            zohoSuccess = zohoApiResponse.ok;
+            const biginApiResult: any = await biginApiResponse.json();
+            // Bigin returns an array of results for batch inserts
+            biginSuccess = biginApiResponse.ok && biginApiResult.data && biginApiResult.data[0].code === 'SUCCESS';
 
-            if (!zohoSuccess) {
-              zohoError = JSON.stringify(zohoApiResult);
-              console.error('Zoho API Error:', zohoError);
+            if (!biginSuccess) {
+              biginError = JSON.stringify(biginApiResult);
+              console.error('Bigin API Error:', biginError);
             }
           }
         } catch (e: any) {
-          zohoError = e.message;
-          console.error('Zoho Fetch Error:', e);
+          biginError = e.message;
+          console.error('Bigin Fetch Error:', e);
         }
       } else {
-        zohoError = 'Missing Zoho OAuth2 configuration';
+        biginError = 'Missing Zoho OAuth2 configuration';
       }
 
       return new Response(JSON.stringify({
-        success: sanitySuccess || zohoSuccess,
+        success: sanitySuccess || biginSuccess,
         sanity:  { success: sanitySuccess, error: sanityError },
-        zoho:    { success: zohoSuccess,   error: zohoError },
+        bigin:   { success: biginSuccess, error: biginError }
       }), {
-        status: (sanitySuccess || zohoSuccess) ? 200 : 500,
+        status: (sanitySuccess || biginSuccess) ? 200 : 500,
         headers: { 'Content-Type': 'application/json', ...corsHeaders },
       });
 
