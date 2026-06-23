@@ -64,7 +64,7 @@ export default {
       } else if (isLandingPage) {
         sanityDocument.formType   = data.formType;
         sanityDocument.phone      = data.phone      || '';
-        sanityDocument.businessName = data.businessName || '';
+        sanityDocument.agencyName = data.agencyName || '';
         sanityDocument.challenge  = data.challenge  || '';
       } else {
         sanityDocument.budget       = data.budget       || '';
@@ -129,7 +129,7 @@ export default {
             if (isWebsiteLandingPage) {
               descriptionText = `Form Type: ${data.formType || 'N/A'}\nBusiness Name: ${data.businessName || 'N/A'}\nGrowth Challenges: ${Array.isArray(data.growthChallenges) ? data.growthChallenges.join(', ') : 'N/A'}`;
             } else if (isLandingPage) {
-              descriptionText = `Form Type: ${data.formType || 'N/A'}\nAgency Name: ${data.agencyName || 'N/A'}\nChallenge: ${data.challenge || 'N/A'}`;
+              descriptionText = `Form Type: ${data.formType || 'N/A'}\nAgency Name: ${data.agencyName || data.businessName || 'N/A'}\nChallenge: ${data.challenge || 'N/A'}`;
             } else {
               descriptionText = `Title: ${data.title || 'N/A'}\nBudget: ${data.budget || 'N/A'}\nExpectations: ${data.expectations || 'N/A'}`;
             }
