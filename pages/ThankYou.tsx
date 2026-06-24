@@ -2,6 +2,9 @@ import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useQuery } from '@tanstack/react-query';
+import { sanityClient } from '../lib/sanity';
+import { NESTED_SERVICE_QUERY } from '../lib/queries';
 
 import reviewIcon from '../public/assets/review.png';
 import researchIcon from '../public/assets/research.png';
@@ -16,64 +19,15 @@ export const ThankYou: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const caseStudies = [
-    {
-      disciplineTag: "Technical SEO",
-      mainMetric: "Page 1",
-      results: [
-        { value: "Page 1", label: "for 14 target keywords" },
-        { value: "6 mo", label: "to first page rankings" },
-        { value: "+218%", label: "organic traffic growth" }
-      ],
-      title: "From Invisible to Page One — Professional Services Firm",
-      challenge: "Managing a few projects is straightforward. Managing 40+ at the same time is where things break.",
-      tacticalActions: ["Technical Audit", "Crawl Fix", "Schema Markup", "Core Web Vitals", "Redirect Architecture"],
-      quote: "They found problems our developer didn't know existed.",
-      url: "case-studies"
-    },
-    {
-      disciplineTag: "Technical SEO",
-      mainMetric: "#1",
-      results: [
-        { value: "Page 1", label: "for 14 target keywords" },
-        { value: "6 mo", label: "to first page rankings" },
-        { value: "+218%", label: "organic traffic growth" }
-      ],
-      title: "From Invisible to Page One — Professional Services Firm",
-      challenge: "Managing a few projects is straightforward. Managing 40+ at the same time is where things break.",
-      tacticalActions: ["Technical Audit", "Crawl Fix", "Schema Markup", "Core Web Vitals", "Redirect Architecture"],
-      quote: "They found problems our developer didn't know existed.",
-      url: "case-studies"
-    },
-    {
-      disciplineTag: "Technical SEO",
-      mainMetric: "Top 3",
-      results: [
-        { value: "Page 1", label: "for 14 target keywords" },
-        { value: "6 mo", label: "to first page rankings" },
-        { value: "+218%", label: "organic traffic growth" }
-      ],
-      title: "From Invisible to Page One — Professional Services Firm",
-      challenge: "Managing a few projects is straightforward. Managing 40+ at the same time is where things break.",
-      tacticalActions: ["Technical Audit", "Crawl Fix", "Schema Markup", "Core Web Vitals", "Redirect Architecture"],
-      quote: "They found problems our developer didn't know existed.",
-      url: "case-studies"
-    },
-    {
-      disciplineTag: "Technical SEO",
-      mainMetric: "189%",
-      results: [
-        { value: "Page 1", label: "for 14 target keywords" },
-        { value: "6 mo", label: "to first page rankings" },
-        { value: "+218%", label: "organic traffic growth" }
-      ],
-      title: "From Invisible to Page One — Professional Services Firm",
-      challenge: "Managing a few projects is straightforward. Managing 40+ at the same time is where things break.",
-      tacticalActions: ["Technical Audit", "Crawl Fix", "Schema Markup", "Core Web Vitals", "Redirect Architecture"],
-      quote: "They found problems our developer didn't know existed.",
-      url: "case-studies"
-    }
-  ];
+  const { data: nestedService } = useQuery({
+    queryKey: ['thankYouCaseStudies'],
+    // Using the specific nested service slug provided by the user
+    queryFn: () => sanityClient.fetch(NESTED_SERVICE_QUERY, { slug: 'search-engine-optimisation' })
+  });
+
+  const caseStudies = nestedService?.caseStudiesSection?.caseStudies || [];
+
+  console.log('Fetched case studies:', caseStudies);
 
   return (
     <div className="min-h-screen bg-white font-sans overflow-x-hidden">
@@ -293,16 +247,16 @@ export const ThankYou: React.FC = () => {
             <h2 className="text-blue-500 text-xs font-bold tracking-[0.2em] uppercase mb-4">WHILE YOU WAIT</h2>
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
               <h3 className="text-4xl md:text-5xl font-extrabold text-[#111827] tracking-tight leading-tight max-w-2xl">
-                See What We've Built <br className="hidden md:block" />for Clients Like You.
+                Here's Proof It Works.
               </h3>
               <p className="text-gray-500 max-w-sm text-sm sm:text-base leading-relaxed">
-                Four disciplines. Four different challenges. One consistent outcome — measurable growth tied to organic search.
+                Different industries, different goals, one pattern of real, measurable progress.
               </p>
             </div>
           </div>
 
           <div className={`${styles['cs-rich-grid']} mb-16 ${styles.seoPageWrapper}`}>
-            {caseStudies.map((cs, idx) => {
+            {caseStudies.map((cs: any, idx: number) => {
               const colorClasses = [styles.tech, styles.tech, styles.local, styles.content];
               const colorClass = colorClasses[idx % colorClasses.length];
               const MotionLink = motion(Link);
@@ -310,7 +264,7 @@ export const ThankYou: React.FC = () => {
               return (
                 <MotionLink
                   key={idx}
-                  to='/success-stories'
+                 to={`/${cs.url}` || '#'}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -324,14 +278,12 @@ export const ThankYou: React.FC = () => {
                     </div>
                     <div className={styles['cs-header-main']}>
                       <div className={styles['cs-client']}>
-                        {/* Simulated Helium SEO Logo */}
-                        <div className="flex items-center gap-2">
-                          <div className={`w-8 h-8 rounded flex items-center justify-center transform rotate-12 ${colorClass === styles.local ? 'bg-green-500' : colorClass === styles.content ? 'bg-purple-600' : 'bg-blue-500'}`}>
-                            <span className="text-white font-extrabold -rotate-12 text-lg">H</span>
-                          </div>
-                          <span className="font-extrabold text-xl text-gray-900 tracking-tight">Helium <span className="font-medium text-gray-500">SEO™</span></span>
-                        </div>
+                    {cs.logoUrl && (
+                      <div className={`${styles['cs-logo-box']} ${colorClass}`} aria-hidden="true">
+                        <img src={cs.logoUrl} alt="Client logo" className='w-full h-auto' />
                       </div>
+                    )}
+                  </div>
                       <div className={`${styles['cs-main-metric']} ${colorClass}`}>
                         {cs.mainMetric}
                       </div>
@@ -339,7 +291,7 @@ export const ThankYou: React.FC = () => {
                   </div>
 
                   <div className={styles['cs-rich-results']} role="list" aria-label="Results">
-                    {cs.results?.map((res, ri) => (
+                    {cs.results?.map((res: any, ri: number) => (
                       <div key={ri} className={styles['cs-rich-result']} role="listitem">
                         <div className={`${styles['cs-rich-result-val']} ${colorClass}`}>{res.value}</div>
                         <div className={styles['cs-rich-result-lbl']}>{res.label}</div>
@@ -357,7 +309,7 @@ export const ThankYou: React.FC = () => {
                   <div className={styles['cs-work-tags-wrap']}>
                     <div className={styles['cs-work-tags-lbl']}>Tactical Actions Deployed:</div>
                     <div className={styles['cs-work-tags']} role="list" aria-label="Work done on this project">
-                      {cs.tacticalActions?.slice(0, 5).map((act, ai) => (
+                      {cs.tacticalActions?.slice(0, 5).map((act: string, ai: number) => (
                         <span key={ai} className={`${styles['cs-work-tag']} ${colorClass}`} role="listitem">{act}</span>
                       ))}
                       {cs.tacticalActions?.length > 5 && (
