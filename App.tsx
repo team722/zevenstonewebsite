@@ -69,7 +69,7 @@ const AppContent: React.FC = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/terms-and-conditions" element={<TermsPage />} />
           <Route path="/privacy-policy" element={<PrivacyPage />} />
-          <Route path="/thank-you" element={<ThankYou />} />
+          {/* <Route path="/thank-you" element={<ThankYou />} /> */}
 
           {/* New Modular Landing Page Routes (Phase 2) */}
           <Route path="/strategic-partnerships/agency-growth-partner" element={<ZstoneLandingPageV1 />} />
@@ -80,7 +80,7 @@ const AppContent: React.FC = () => {
           <Route path="/landing-page/story/:id" element={<ZstoneStoryDetailV1 />} />
           <Route path="/landing-page/blog" element={<ZstoneBlogHubV1 />} />
           <Route path="/landing-page/blog/:id" element={<ZstoneBlogPostV1 />} /> */}
-          <Route path="*" element={<NotFound />} />
+          {/* <Route path="*" element={<NotFound />} /> */}
         </Routes>
       </main>
       {!isLandingPage && !isWebsiteLandingPage && <Footer />}
