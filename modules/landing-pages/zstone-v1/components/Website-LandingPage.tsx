@@ -374,7 +374,7 @@ export default function LandingPage() {
               </button>
               <a
                 href="#how-it-works"
-                className="border-2 border-gray-300 text-gray-700 px-6 sm:px-10 py-4 sm:py-5 rounded-xl font-bold text-base sm:text-lg hover:bg-gray-50 transition-all inline-flex items-center justify-center gap-3 w-full sm:w-auto"
+                className="border-2 border-gray-300 text-gray-700 px-6 sm:px-10 py-4 sm:py-5 rounded-xl font-bold text-base sm:text-lg border-zeven-dark/10 text-zeven-dark hover:border-zeven-blue hover:text-zeven-blue shadow-sm hover:shadow-md transition-all inline-flex items-center justify-center gap-3 w-full sm:w-auto"
               >
                 {pd.secondaryCtaText}
               </a>
