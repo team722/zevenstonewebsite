@@ -1,6 +1,7 @@
 import * as Icons from 'lucide-react';
 import { ArrowRight, CheckCircle, TrendingUp, Zap, Users, Target, Clock, Shield, Award, Star, DollarSign, BarChart3, Rocket, X, Download, Mail, Building2, User, Calendar } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import imgLinkLogo from "figma:asset/landingpageLogo.png";
 import { Helmet } from 'react-helmet-async';
@@ -24,6 +25,8 @@ export default function LandingPage() {
   });
 
   console.log('Fetched page data:', pageData);
+
+  const navigate = useNavigate();
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [showFloatingForm, setShowFloatingForm] = useState(false);
@@ -76,9 +79,7 @@ export default function LandingPage() {
       const API_URL = import.meta.env.VITE_CONTACT_API_URL || 'https://zevenstone-contact-api.zevenstone7.workers.dev';
       const response = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(submissionData) });
       if (response.ok) {
-        setCtaFormSubmitted(true);
-        setCtaStatus('success');
-        setTimeout(() => { setCtaFormSubmitted(false); setCtaStatus('idle'); setCtaFormData(emptyForm()); }, 4000);
+        navigate('/thank-you');
       } else { setCtaStatus('error'); }
     } catch (err) { console.error('CTA form error:', err); setCtaStatus('error'); }
     finally { setCtaSubmitting(false); }
@@ -110,10 +111,7 @@ export default function LandingPage() {
       const API_URL = import.meta.env.VITE_CONTACT_API_URL || 'https://zevenstone-contact-api.zevenstone7.workers.dev';
       const response = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(submissionData) });
       if (response.ok) {
-        setFloatingFormSubmitted(true);
-        setFloatingStatus('success');
-        setShowFloatingForm(false);
-        setTimeout(() => { setFloatingFormSubmitted(false); setFloatingStatus('idle'); setFloatingFormData(emptyForm()); }, 4000);
+        navigate('/thank-you');
       } else { setFloatingStatus('error'); }
     } catch (err) { console.error('Floating form error:', err); setFloatingStatus('error'); }
     finally { setFloatingSubmitting(false); }
@@ -144,26 +142,7 @@ export default function LandingPage() {
       const API_URL = import.meta.env.VITE_CONTACT_API_URL || 'https://zevenstone-contact-api.zevenstone7.workers.dev';
       const response = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(submissionData) });
       if (response.ok) {
-        setLeadMagnetSubmitted(true);
-        const playbookUrl = pageData?.leadMagnet?.pdfUrl || '/assets/Zevenstone Website Case Studies.pdf';
-        try {
-          const pdfResponse = await fetch(playbookUrl);
-          if (!pdfResponse.ok) throw new Error(`PDF fetch failed. Status: ${pdfResponse.status}`);
-          const blob = await pdfResponse.blob();
-          const pdfBlob = new Blob([blob], { type: 'application/pdf' });
-          const objectUrl = URL.createObjectURL(pdfBlob);
-          const link = document.createElement('a');
-          link.href = objectUrl;
-          link.setAttribute('download', 'Zevenstone-Growth-Case-Study.pdf');
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-          URL.revokeObjectURL(objectUrl);
-        } catch (pdfError) {
-          console.error('PDF download error:', pdfError);
-          window.open(playbookUrl, '_blank');
-        }
-        setTimeout(() => { setShowLeadMagnet(false); setLeadMagnetSubmitted(false); setLeadFormData(emptyForm()); setLeadStatus('idle'); }, 4000);
+        navigate('/thank-you');
       } else { setLeadStatus('error'); }
     } catch (err) { console.error('Lead magnet error:', err); setLeadStatus('error'); }
     finally { setLeadSubmitting(false); }
@@ -380,7 +359,7 @@ export default function LandingPage() {
             </h1>
 
             {/* Subheadline */}
-            <p className="text-lg sm:text-xl md:text-2xl text-gray-600 mb-8 sm:mb-10 leading-relaxed px-2">
+            <p className="hero-description text-lg sm:text-xl md:text-2xl text-gray-600 mb-8 sm:mb-10 leading-relaxed px-2">
               {renderFormattedText(pd.heroDescription)}
             </p>
 
@@ -395,7 +374,7 @@ export default function LandingPage() {
               </button>
               <a
                 href="#how-it-works"
-                className="border-2 border-gray-300 text-gray-700 px-6 sm:px-10 py-4 sm:py-5 rounded-xl font-bold text-base sm:text-lg hover:bg-gray-50 transition-all inline-flex items-center justify-center gap-3 w-full sm:w-auto"
+                className="border-2 border-gray-300 text-gray-700 px-6 sm:px-10 py-4 sm:py-5 rounded-xl font-bold text-base sm:text-lg border-zeven-dark/10 text-zeven-dark hover:border-zeven-blue hover:text-zeven-blue shadow-sm hover:shadow-md transition-all inline-flex items-center justify-center gap-3 w-full sm:w-auto"
               >
                 {pd.secondaryCtaText}
               </a>
@@ -424,7 +403,7 @@ export default function LandingPage() {
       </section>
 
       {/* --- VIDEO SECTION --- */}
-      {pd.showcaseVideoUrl && (
+      {!pd.showcaseVideoUrl && (
         <section className="py-12 sm:py-16 md:py-24 lg:py-0 lg:pt-32 lg:pb-24 bg-white relative overflow-hidden">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-blue-500/10 rounded-full blur-[150px] pointer-events-none" />
 
@@ -868,7 +847,7 @@ export default function LandingPage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
                     <div className="text-left">
                       <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest">Title</label>
-                      <select name="title" value={ctaFormData.title} onChange={handleCtaInputChange} className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium text-sm sm:text-base cursor-pointer appearance-none">
+                      <select name="title" value={ctaFormData.title} onChange={handleCtaInputChange} className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium text-sm sm:text-base cursor-pointer">
                         <option value="">Title</option>
                         <option value="Mr.">Mr.</option>
                         <option value="Mrs.">Mrs.</option>
@@ -1027,11 +1006,10 @@ export default function LandingPage() {
               <X className="w-6 h-6 sm:w-7 sm:h-7" />
             </button>
 
-            {!leadMagnetSubmitted ? (
-              <div className="p-6 sm:p-10 md:p-14 max-h-[90vh] overflow-y-auto custom-scrollbar">
-                <div className="bg-gradient-to-br from-blue-500 to-purple-600 w-12 h-12 sm:w-16 md:w-20 rounded-xl sm:rounded-2xl md:rounded-3xl flex items-center justify-center mb-4 sm:mb-6 md:mb-8 shadow-xl shadow-blue-200">
-                  <Download className="w-5 h-5 sm:w-8 md:w-10 text-white" />
-                </div>
+            <div className="p-6 sm:p-10 md:p-14 max-h-[90vh] overflow-y-auto">
+              <div className="bg-gradient-to-br from-blue-500 to-purple-600 w-12 h-12 sm:w-16 md:w-20 rounded-xl sm:rounded-2xl md:rounded-3xl flex items-center justify-center mb-4 sm:mb-6 md:mb-8 shadow-xl shadow-blue-200">
+                <Download className="w-5 h-5 sm:w-8 md:w-10 text-white" />
+              </div>
                 <h3 className="text-xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 mb-3 md:mb-4 leading-tight tracking-tight">
                   {pd.leadMagnet?.heading || "Growth System Case Study"}
                 </h3>
@@ -1104,18 +1082,7 @@ export default function LandingPage() {
                   </div>
                 </div>
               </div>
-            ) : (
-              <div className="p-10 sm:p-16 md:p-20 text-center">
-                <div className="w-16 h-16 sm:w-20 md:w-24 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6 md:mb-8">
-                  <CheckCircle className="w-10 h-10 sm:w-14 md:w-16 text-green-500 animate-pulse" />
-                </div>
-                <h3 className="text-xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 mb-3 md:mb-4 tracking-tight">Check Your Inbox!</h3>
-                <p className="text-sm sm:text-lg md:text-xl text-gray-600 font-medium leading-relaxed">
-                  We've sent the White-Label Growth Playbook. It will arrive within 2 minutes.
-                </p>
-              </div>
-            )}
-          </div>
+            </div>
         </div>
       )}
     </div>

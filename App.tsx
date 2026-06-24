@@ -23,7 +23,9 @@ import ZstoneLandingPageV1 from './modules/landing-pages/zstone-v1/components/La
 import ZstoneLandingPageV2 from './modules/landing-pages/zstone-v1/components/Website-LandingPage';
 import TermsPage from './pages/TermsPage';
 import PrivacyPage from './pages/Privacy';
-import  NestedServicePage  from './pages/NestedServicePage';
+import NestedServicePage from './pages/NestedServicePage';
+import { ThankYou } from './pages/ThankYou';
+import { NotFound } from './pages/NotFound';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -67,6 +69,7 @@ const AppContent: React.FC = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/terms-and-conditions" element={<TermsPage />} />
           <Route path="/privacy-policy" element={<PrivacyPage />} />
+          {/* <Route path="/thank-you" element={<ThankYou />} /> */}
 
           {/* New Modular Landing Page Routes (Phase 2) */}
           <Route path="/strategic-partnerships/agency-growth-partner" element={<ZstoneLandingPageV1 />} />
@@ -77,6 +80,7 @@ const AppContent: React.FC = () => {
           <Route path="/landing-page/story/:id" element={<ZstoneStoryDetailV1 />} />
           <Route path="/landing-page/blog" element={<ZstoneBlogHubV1 />} />
           <Route path="/landing-page/blog/:id" element={<ZstoneBlogPostV1 />} /> */}
+          {/* <Route path="*" element={<NotFound />} /> */}
         </Routes>
       </main>
       {!isLandingPage && !isWebsiteLandingPage && <Footer />}
