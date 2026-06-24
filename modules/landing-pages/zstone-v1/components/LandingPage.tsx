@@ -1,5 +1,6 @@
 import { ArrowRight, CheckCircle, TrendingUp, Zap, Users, Target, Clock, Shield, Award, Star, DollarSign, BarChart3, Rocket, X, Download, Mail, Building2, User, Calendar } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { useQuery } from '@tanstack/react-query';
 import imgLinkLogo from "figma:asset/landingpageLogo.png";
@@ -10,6 +11,7 @@ import { HOME_PAGE_QUERY } from '../../../../lib/queries';
 
 export default function LandingPage() {
   const { data: homePage } = useQuery({ queryKey: ['homePage'], queryFn: () => sanityClient.fetch(HOME_PAGE_QUERY) });
+  const navigate = useNavigate();
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [showFloatingForm, setShowFloatingForm] = useState(false);
@@ -87,17 +89,7 @@ export default function LandingPage() {
       });
 
       if (response.ok) {
-        setFormSubmitted(true);
-        setFormStatus(prev => ({ ...prev, [formType]: 'success' }));
-        setShowFloatingForm(false);
-
-        // Reset form after 3 seconds
-        setTimeout(() => {
-          setFormSubmitted(false);
-          setFormStatus(prev => ({ ...prev, [formType]: 'idle' }));
-          setCtaFormData({ ...emptyForm });
-          setFloatingFormData({ ...emptyForm });
-        }, 3000);
+        navigate('/thank-you');
       } else {
         setFormStatus(prev => ({ ...prev, [formType]: 'error' }));
       }
@@ -133,40 +125,7 @@ export default function LandingPage() {
       });
 
       if (response.ok) {
-        setLeadMagnetSubmitted(true);
-        setFormStatus(prev => ({ ...prev, ['Case Study']: 'success' }));
-        setShowFloatingForm(false);
-
-        // 1. Close modal immediately
-        setShowLeadMagnet(false);
-
-        // 2. Trigger automatic PDF download
-        const playbookUrl = '/assets/Zevenstone Website Case Studies.pdf';
-        try {
-          const pdfResponse = await fetch(playbookUrl);
-          if (!pdfResponse.ok) {
-            throw new Error(`PDF fetch failed. Status: ${pdfResponse.status}`);
-          }
-          // Force blob type to application/pdf to ensure browser treats it as a download
-          const blob = await pdfResponse.blob();
-          const pdfBlob = new Blob([blob], { type: 'application/pdf' });
-          const objectUrl = URL.createObjectURL(pdfBlob);
-          const link = document.createElement('a');
-          link.href = objectUrl;
-          link.setAttribute('download', 'Zevenstone-Website-Case-Studies.pdf');
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-          URL.revokeObjectURL(objectUrl);
-        } catch (pdfError) {
-          console.error('PDF download error:', pdfError);
-          window.open(playbookUrl, '_blank');
-        }
-
-        // 3. Reset states for next time
-        setLeadMagnetFormData({ ...emptyForm });
-        setFormStatus(prev => ({ ...prev, ['Case Study']: 'idle' }));
-        setLeadMagnetSubmitted(false);
+        navigate('/thank-you');
       } else {
         setFormStatus(prev => ({ ...prev, ['Case Study']: 'error' }));
       }
@@ -916,10 +875,9 @@ export default function LandingPage() {
             Book a free 30-minute strategy call. We'll map exactly how our system can plug into your agency and start delivering from day one.
           </p>
 
-          {!formSubmitted ? (
-            <div className="px-2 sm:px-0">
-              <div className="bg-white/10 backdrop-blur-lg rounded-2xl sm:rounded-3xl p-6 sm:p-12 mb-8 border border-white/20 shadow-2xl">
-                <form onSubmit={(e) => handleFormSubmit(e, 'Strategy Call', ctaFormData)} className="space-y-5 sm:space-y-6">
+          <div className="px-2 sm:px-0">
+            <div className="bg-white/10 backdrop-blur-lg rounded-2xl sm:rounded-3xl p-6 sm:p-12 mb-8 border border-white/20 shadow-2xl">
+              <form onSubmit={(e) => handleFormSubmit(e, 'Strategy Call', ctaFormData)} className="space-y-5 sm:space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
                     <div className="text-left">
                       <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest">
@@ -1042,17 +1000,8 @@ export default function LandingPage() {
                     <Calendar className="w-5 h-5 sm:w-6 sm:h-6 shrink-0 group-hover:rotate-12 transition-transform" />
                   </button>
                 </form>
-              </div>
             </div>
-          ) : (
-            <div className="bg-white/10 backdrop-blur-lg rounded-2xl sm:rounded-3xl p-8 sm:p-12 mb-8 border-2 border-white/40 shadow-2xl">
-              <CheckCircle className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-6 text-green-400 animate-bounce" />
-              <h3 className="text-2xl sm:text-3xl font-extrabold mb-4 uppercase tracking-wider">Success!</h3>
-              <p className="text-lg sm:text-xl text-blue-100 mb-6">
-                We'll reach out within 24 hours to schedule your strategy call.
-              </p>
-            </div>
-          )}
+          </div>
 
           <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-4 sm:gap-10 text-xs sm:text-sm font-bold uppercase tracking-widest opacity-80">
             <div className="flex items-center gap-2.5">
@@ -1191,11 +1140,10 @@ export default function LandingPage() {
               <X className="w-6 h-6 sm:w-7 sm:h-7" />
             </button>
 
-            {!leadMagnetSubmitted ? (
-              <div className="p-6 sm:p-10 md:p-14 max-h-[90vh] overflow-y-auto custom-scrollbar">
-                <div className="bg-gradient-to-br from-blue-500 to-purple-600 w-12 h-12 sm:w-16 md:w-20 rounded-xl sm:rounded-2xl md:rounded-3xl flex items-center justify-center mb-4 sm:mb-6 md:mb-8 shadow-xl shadow-blue-200">
-                  <Download className="w-5 h-5 sm:w-8 md:w-10 text-white" />
-                </div>
+            <div className="p-6 sm:p-10 md:p-14 max-h-[90vh] overflow-y-auto custom-scrollbar">
+              <div className="bg-gradient-to-br from-blue-500 to-purple-600 w-12 h-12 sm:w-16 md:w-20 rounded-xl sm:rounded-2xl md:rounded-3xl flex items-center justify-center mb-4 sm:mb-6 md:mb-8 shadow-xl shadow-blue-200">
+                <Download className="w-5 h-5 sm:w-8 md:w-10 text-white" />
+              </div>
                 <h3 className="text-xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 mb-3 md:mb-4 leading-tight tracking-tight">
                   Growth System <span className="text-blue-600">Case Study</span>
                 </h3>
@@ -1303,19 +1251,8 @@ export default function LandingPage() {
                   </div>
                 </div>
               </div>
-            ) : (
-              <div className="p-10 sm:p-16 md:p-20 text-center">
-                <div className="w-16 h-16 sm:w-20 md:w-24 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6 md:mb-8">
-                  <CheckCircle className="w-10 h-10 sm:w-14 md:w-16 text-green-500 animate-pulse" />
-                </div>
-                <h3 className="text-xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 mb-3 md:mb-4 tracking-tight">Check Your Inbox!</h3>
-                <p className="text-sm sm:text-lg md:text-xl text-gray-600 font-medium leading-relaxed">
-                  We've sent the White-Label Growth Playbook. It will arrive within 2 minutes.
-                </p>
-              </div>
-            )}
+            </div>
           </div>
-        </div>
       )}
     </div>
   );

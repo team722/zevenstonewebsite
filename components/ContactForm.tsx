@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Send, CheckCircle2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from './ui/Button';
 
 export const ContactForm: React.FC = () => {   const [formData, setFormData] = useState({
@@ -12,6 +13,8 @@ export const ContactForm: React.FC = () => {   const [formData, setFormData] = u
       expectations: '',
       website_url: '',
    });
+
+   const navigate = useNavigate();
 
    const [isSubmitting, setIsSubmitting] = useState(false);
    const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
@@ -50,7 +53,7 @@ export const ContactForm: React.FC = () => {   const [formData, setFormData] = u
          }
 
          if (response.ok && (result?.success || (contentType && contentType.includes('application/json')))) {
-            setSubmitStatus('success');
+            navigate('/thank-you');
          } else {
             console.error('Server returned an unexpected response. Expected JSON API response.');
             setSubmitStatus('error');
@@ -65,32 +68,6 @@ export const ContactForm: React.FC = () => {   const [formData, setFormData] = u
 
    return (
       <>
-         {submitStatus === 'success' ? (
-            <motion.div
-               initial={{ opacity: 0, scale: 0.9 }}
-               animate={{ opacity: 1, scale: 1 }}
-               className="text-center py-20"
-            >
-               <div className="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
-                  <CheckCircle2 size={40} />
-               </div>
-               <h3 className="text-3xl font-bold text-zeven-dark mb-4">Message Sent!</h3>
-               <p className="text-zeven-gray text-lg">Thank you for reaching out. We've received your details and will get back to you shortly.</p>
-               <Button className="mt-8 rounded-xl" onClick={() => {
-                  setSubmitStatus('idle');
-                  setFormData({
-                     title: '',
-                     firstName: '',
-                     lastName: '',
-                     email: '',
-                     budget: '',
-                     expectations: '',
-                     website_url: '',
-                  });
-               }}>Send Another Message</Button>
-            </motion.div>
-         ) : (
-
          <form className="space-y-5" onSubmit={handleSubmit}>
             {submitStatus === 'error' && (
                <div className="p-4 bg-red-50 text-red-600 rounded-xl border border-red-100 text-sm font-medium">
@@ -165,7 +142,6 @@ export const ContactForm: React.FC = () => {   const [formData, setFormData] = u
                {isSubmitting ? 'Sending Message...' : 'Send Message'}
             </Button>
          </form>
-         )}
       </>
    );
 };
