@@ -7,6 +7,7 @@ import reviewIcon from '../public/assets/review.png';
 import researchIcon from '../public/assets/research.png';
 import messageIcon from '../public/assets/message.png';
 import talkIcon from '../public/assets/talk.png';
+import styles from './ServiceSeo.module.css';
 
 export const ThankYou: React.FC = () => {
   useEffect(() => {
@@ -16,10 +17,62 @@ export const ThankYou: React.FC = () => {
   const navigate = useNavigate();
 
   const caseStudies = [
-    { metric: 'Page 1', colorClass: 'text-blue-500', badgeClass: 'bg-blue-50 text-blue-500 border-blue-100', metricColor: 'text-blue-500' },
-    { metric: '#1', colorClass: 'text-blue-500', badgeClass: 'bg-blue-50 text-blue-500 border-blue-100', metricColor: 'text-blue-500' },
-    { metric: 'Top 3', colorClass: 'text-green-500', badgeClass: 'bg-blue-50 text-blue-500 border-blue-100', metricColor: 'text-green-500' },
-    { metric: '189%', colorClass: 'text-purple-600', badgeClass: 'bg-blue-50 text-blue-500 border-blue-100', metricColor: 'text-purple-600' },
+    {
+      disciplineTag: "Technical SEO",
+      mainMetric: "Page 1",
+      results: [
+        { value: "Page 1", label: "for 14 target keywords" },
+        { value: "6 mo", label: "to first page rankings" },
+        { value: "+218%", label: "organic traffic growth" }
+      ],
+      title: "From Invisible to Page One — Professional Services Firm",
+      challenge: "Managing a few projects is straightforward. Managing 40+ at the same time is where things break.",
+      tacticalActions: ["Technical Audit", "Crawl Fix", "Schema Markup", "Core Web Vitals", "Redirect Architecture"],
+      quote: "They found problems our developer didn't know existed.",
+      url: "case-studies"
+    },
+    {
+      disciplineTag: "Technical SEO",
+      mainMetric: "#1",
+      results: [
+        { value: "Page 1", label: "for 14 target keywords" },
+        { value: "6 mo", label: "to first page rankings" },
+        { value: "+218%", label: "organic traffic growth" }
+      ],
+      title: "From Invisible to Page One — Professional Services Firm",
+      challenge: "Managing a few projects is straightforward. Managing 40+ at the same time is where things break.",
+      tacticalActions: ["Technical Audit", "Crawl Fix", "Schema Markup", "Core Web Vitals", "Redirect Architecture"],
+      quote: "They found problems our developer didn't know existed.",
+      url: "case-studies"
+    },
+    {
+      disciplineTag: "Technical SEO",
+      mainMetric: "Top 3",
+      results: [
+        { value: "Page 1", label: "for 14 target keywords" },
+        { value: "6 mo", label: "to first page rankings" },
+        { value: "+218%", label: "organic traffic growth" }
+      ],
+      title: "From Invisible to Page One — Professional Services Firm",
+      challenge: "Managing a few projects is straightforward. Managing 40+ at the same time is where things break.",
+      tacticalActions: ["Technical Audit", "Crawl Fix", "Schema Markup", "Core Web Vitals", "Redirect Architecture"],
+      quote: "They found problems our developer didn't know existed.",
+      url: "case-studies"
+    },
+    {
+      disciplineTag: "Technical SEO",
+      mainMetric: "189%",
+      results: [
+        { value: "Page 1", label: "for 14 target keywords" },
+        { value: "6 mo", label: "to first page rankings" },
+        { value: "+218%", label: "organic traffic growth" }
+      ],
+      title: "From Invisible to Page One — Professional Services Firm",
+      challenge: "Managing a few projects is straightforward. Managing 40+ at the same time is where things break.",
+      tacticalActions: ["Technical Audit", "Crawl Fix", "Schema Markup", "Core Web Vitals", "Redirect Architecture"],
+      quote: "They found problems our developer didn't know existed.",
+      url: "case-studies"
+    }
   ];
 
   return (
@@ -186,86 +239,88 @@ export const ThankYou: React.FC = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
-            {caseStudies.map((cs, idx) => (
-              <motion.div key={idx} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: idx * 0.1 }} className="bg-white rounded-[2rem] p-8 border border-gray-100 shadow-sm flex flex-col h-full hover:shadow-xl transition-shadow duration-300">
-                {/* Header Row */}
-                <div className="flex justify-between items-start mb-8">
-                  <div className="flex flex-col gap-4">
-                    <span className="text-[10px] font-bold text-blue-500 bg-blue-50 px-3 py-1.5 rounded-full w-fit uppercase tracking-wider">Technical SEO</span>
-                    {/* Simulated Helium SEO Logo */}
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 bg-blue-500 rounded flex items-center justify-center transform rotate-12">
-                        <span className="text-white font-extrabold -rotate-12 text-lg">H</span>
+          <div className={`${styles['cs-rich-grid']} mb-16 ${styles.seoPageWrapper}`}>
+            {caseStudies.map((cs, idx) => {
+              const colorClasses = [styles.tech, styles.tech, styles.local, styles.content];
+              const colorClass = colorClasses[idx % colorClasses.length];
+              const MotionLink = motion(Link);
+              
+              return (
+                <MotionLink
+                  key={idx}
+                  to='/success-stories'
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.05 }}
+                  className={`${styles['cs-rich-card']} ${colorClass}`}
+                  aria-label="Read case study"
+                >
+                  <div className={styles['cs-header']}>
+                    <div className={styles['cs-header-top']}>
+                      <span className={`${styles['cs-tag-pill']} ${colorClass}`}>{cs.disciplineTag}</span>
+                    </div>
+                    <div className={styles['cs-header-main']}>
+                      <div className={styles['cs-client']}>
+                        {/* Simulated Helium SEO Logo */}
+                        <div className="flex items-center gap-2">
+                          <div className={`w-8 h-8 rounded flex items-center justify-center transform rotate-12 ${colorClass === styles.local ? 'bg-green-500' : colorClass === styles.content ? 'bg-purple-600' : 'bg-blue-500'}`}>
+                            <span className="text-white font-extrabold -rotate-12 text-lg">H</span>
+                          </div>
+                          <span className="font-extrabold text-xl text-gray-900 tracking-tight">Helium <span className="font-medium text-gray-500">SEO™</span></span>
+                        </div>
                       </div>
-                      <span className="font-extrabold text-xl text-gray-900 tracking-tight">Helium <span className="font-medium text-gray-500">SEO™</span></span>
+                      <div className={`${styles['cs-main-metric']} ${colorClass}`}>
+                        {cs.mainMetric}
+                      </div>
                     </div>
                   </div>
-                  <div className={`text-4xl sm:text-5xl font-black ${cs.metricColor} tracking-tighter`}>
-                    {cs.metric}
-                  </div>
-                </div>
 
-                {/* Stats Row */}
-                <div className="grid grid-cols-3 gap-3 mb-8">
-                  <div className="bg-gray-50 rounded-2xl p-4 text-center">
-                    <div className={`text-xl font-black mb-1 ${cs.metricColor}`}>Page 1</div>
-                    <div className="text-[10px] text-gray-500 font-medium leading-tight">for 14 target<br/>keywords</div>
-                  </div>
-                  <div className="bg-gray-50 rounded-2xl p-4 text-center">
-                    <div className={`text-xl font-black mb-1 ${cs.metricColor}`}>6 mo</div>
-                    <div className="text-[10px] text-gray-500 font-medium leading-tight">to first page<br/>rankings</div>
-                  </div>
-                  <div className="bg-gray-50 rounded-2xl p-4 text-center">
-                    <div className={`text-xl font-black mb-1 ${cs.metricColor}`}>+218%</div>
-                    <div className="text-[10px] text-gray-500 font-medium leading-tight">organic traffic<br/>growth</div>
-                  </div>
-                </div>
-
-                {/* Title */}
-                <h4 className="text-xl font-bold text-gray-900 mb-6 leading-snug">
-                  From Invisible to Page One — Professional Services Firm
-                </h4>
-
-                {/* Challenge */}
-                <div className="mb-6 bg-gray-50/50 rounded-2xl p-6">
-                  <h5 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">THE CHALLENGE</h5>
-                  <p className="text-sm text-gray-600 leading-relaxed font-medium">
-                    Managing a few projects is straightforward. Managing 40+ at the same time is where things break.
-                  </p>
-                </div>
-
-                {/* Tactical Actions */}
-                <div className="mb-8 flex-1">
-                  <h5 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">TACTICAL ACTIONS DEPLOYED:</h5>
-                  <div className="flex flex-wrap gap-2">
-                    {['Technical Audit', 'Crawl Fix', 'Schema Markup', 'Core Web Vitals', 'Redirect Architecture'].map((tag, i) => (
-                      <span key={i} className="text-[10px] font-bold text-blue-500 border border-blue-200 bg-white px-2.5 py-1 rounded-md">
-                        {tag}
-                      </span>
+                  <div className={styles['cs-rich-results']} role="list" aria-label="Results">
+                    {cs.results?.map((res, ri) => (
+                      <div key={ri} className={styles['cs-rich-result']} role="listitem">
+                        <div className={`${styles['cs-rich-result-val']} ${colorClass}`}>{res.value}</div>
+                        <div className={styles['cs-rich-result-lbl']}>{res.label}</div>
+                      </div>
                     ))}
-                    <span className="text-[10px] font-bold text-white bg-blue-500 px-2.5 py-1 rounded-md">+1</span>
                   </div>
-                </div>
 
-                {/* Footer Quote & Link */}
-                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pt-6 border-t border-gray-100">
-                  <p className="text-xs text-gray-400 italic max-w-[200px] leading-relaxed">
-                    "They found problems our developer didn't know existed."
-                  </p>
-                  <Link to="/" className="text-sm font-bold text-blue-500 hover:text-blue-700 flex items-center gap-1 transition-colors whitespace-nowrap">
-                    Read Full Story <span>&rarr;</span>
-                  </Link>
-                </div>
-              </motion.div>
-            ))}
+                  <h3 className={styles['cs-rich-title']}>{cs.title}</h3>
+
+                  <div className={styles['cs-rich-challenge']}>
+                    <div className={styles['cs-rich-challenge-lbl']}>The Challenge</div>
+                    <p>{cs.challenge}</p>
+                  </div>
+
+                  <div className={styles['cs-work-tags-wrap']}>
+                    <div className={styles['cs-work-tags-lbl']}>Tactical Actions Deployed:</div>
+                    <div className={styles['cs-work-tags']} role="list" aria-label="Work done on this project">
+                      {cs.tacticalActions?.slice(0, 5).map((act, ai) => (
+                        <span key={ai} className={`${styles['cs-work-tag']} ${colorClass}`} role="listitem">{act}</span>
+                      ))}
+                      {cs.tacticalActions?.length > 5 && (
+                        <span className={`${styles['cs-work-tag']} ${styles['plus-badge']} ${colorClass}`} role="listitem">+{cs.tacticalActions.length - 5}</span>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className={styles['cs-rich-cta']}>
+                    <p className={styles['cs-rich-quote']}>"{cs.quote}"</p>
+                    <span className={`${styles['cs-rich-link']} ${colorClass}`}>                
+                        Read Full Story 
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    </span>
+                  </div>
+                </MotionLink>
+              );
+            })}
           </div>
 
           {/* Bottom CTA */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-6 border-t border-gray-200 pt-8 mt-16">
             <p className="text-gray-500 font-medium">Curious how we'd approach your specific challenge?</p>
             <div className="flex items-center gap-4">
-              <Link to="/case-studies" className="px-6 py-3 rounded-full border-2 border-gray-200 text-gray-700 font-bold text-sm hover:border-gray-300 transition-colors">
+              <Link to="/success-stories" className="px-6 py-3 rounded-full border-2 border-gray-200 text-gray-700 font-bold text-sm hover:border-gray-300 transition-colors">
                 All Case Studies &rarr;
               </Link>
               <Link to="/contact" className="px-6 py-3 rounded-full bg-[#1E50FF] text-white font-bold text-sm hover:bg-blue-700 transition-colors">
