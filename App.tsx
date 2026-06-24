@@ -20,6 +20,7 @@ import { BlogPost } from './pages/BlogPost';
 import { LandingPage as LandingPageOriginal } from './pages/LandingPage';
 // New Modular Landing Page Components
 import ZstoneLandingPageV1 from './modules/landing-pages/zstone-v1/components/LandingPage';
+import ZstoneLandingPageV2 from './modules/landing-pages/zstone-v1/components/Website-LandingPage';
 import TermsPage from './pages/TermsPage';
 import PrivacyPage from './pages/Privacy';
 import  NestedServicePage  from './pages/NestedServicePage';
@@ -44,11 +45,12 @@ const ScrollToTop = () => {
 const AppContent: React.FC = () => {
   const location = useLocation();
   const isLandingPage = location.pathname.startsWith('/strategic-partnerships/agency-growth-partner') || location.pathname.startsWith('/v1');
+  const isWebsiteLandingPage = location.pathname.startsWith('/managed-solutions/grow-your-business-online') || location.pathname.startsWith('/v2');
 
   return (
     <div className="min-h-screen bg-zeven-bg text-zeven-dark selection:bg-zeven-blue selection:text-white font-sans antialiased">
       <SeoScripts />
-      {!isLandingPage && <Navbar />}
+      {!isLandingPage && !isWebsiteLandingPage && <Navbar />}
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -68,6 +70,7 @@ const AppContent: React.FC = () => {
 
           {/* New Modular Landing Page Routes (Phase 2) */}
           <Route path="/strategic-partnerships/agency-growth-partner" element={<ZstoneLandingPageV1 />} />
+           <Route path="/managed-solutions/grow-your-business-online" element={<ZstoneLandingPageV2 />} />
           {/* <Route path="/landing-page/services" element={<ZstoneServicesPageV1 />} />
           <Route path="/landing-page/video-production" element={<ZstoneVideoProductionV1 />} />
           <Route path="/landing-page/stories" element={<ZstoneStoriesPageV1 />} />
@@ -76,7 +79,7 @@ const AppContent: React.FC = () => {
           <Route path="/landing-page/blog/:id" element={<ZstoneBlogPostV1 />} /> */}
         </Routes>
       </main>
-      {!isLandingPage && <Footer />}
+      {!isLandingPage && !isWebsiteLandingPage && <Footer />}
       <ScrollToTopButton />
     </div>
   );

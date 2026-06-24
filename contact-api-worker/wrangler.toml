@@ -8,11 +8,10 @@ SANITY_PROJECT_ID = "h79epwt4"
 SANITY_DATASET = "production"
 SANITY_WRITE_TOKEN = "skFWn2ogh2ytjdOXwi3VegmHKtb5gAz7c7JgUNEQiB74SpSzRy3H83LOudohcxyaXFrckhaxqwrW0R0IqUntuRnGWLnYdp4WF3JHxChCwvCjnxLensWsmPx20GM5sUdhfTqZkzzYKtsiT0qBv4RHcYPKhwrU9AeIBUYGSsFFoBF6WLuVz9jc"
 
-# --- Zoho Forms REST API (OAuth2) ---
-# Fill these in after completing the Zoho API Console setup (see instructions below)
+# --- Zoho Bigin REST API (OAuth2 - ZohoBigin.modules.ALL scope) ---
 ZOHO_CLIENT_ID = "1000.T8NVXCDGUZE4HYTP7LYSUKGL9ELPXF"
 ZOHO_CLIENT_SECRET = "d69912b8acea12c545fdd6ca5c21bfe37e60ddc544"
-ZOHO_REFRESH_TOKEN = "1000.2f72e9110388b42507cae9e8735374cd.f7b6633a8c597248faf3fa0a2778af29"
+ZOHO_REFRESH_TOKEN = "1000.5021ddde2927cc39e2e70d8fe38d7e70.f85bbe8968a50d697c0222602d51d975"
 ZOHO_PORTAL_NAME = "zevenstone"
 ZOHO_FORM_LINK_NAME = "websiteform"
 ZOHO_LANDING_FORM_NAME = "ZevenstoneAgencyForm"
