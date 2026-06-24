@@ -78,7 +78,9 @@ export const ThankYou: React.FC = () => {
   return (
     <div className="min-h-screen bg-white font-sans overflow-x-hidden">
       <Helmet>
-        <title>Thank You | Zevenstone</title>
+        <title>Thank You | Your Website Audit Request Has Been Received</title>
+        <meta name="description" content="Thank you for requesting your free website audit. Our team will review your website and contact you with the next steps shortly."
+  />
       </Helmet>
 
       {/* 1. Hero Section */}
@@ -113,10 +115,10 @@ export const ThankYou: React.FC = () => {
 
             {/* Main Typography */}
             <h1 className="text-5xl md:text-7xl font-extrabold mb-6 leading-[1.1] tracking-tight">
-              Thank You — <br />We'll Be in Touch.
+              Got It. We're On Your Request.<br />
             </h1>
             <p className="text-lg md:text-xl text-blue-50 font-medium mb-12 max-w-2xl mx-auto opacity-90">
-              Your brief has landed with our team. Expect a reply within 1<br className="hidden sm:block" /> business day — usually sooner.
+             Your details have been logged. Expect a response within 1 business day, usually sooner.
             </p>
 
             {/* Buttons */}
@@ -145,7 +147,7 @@ export const ThankYou: React.FC = () => {
           <div className="text-center mb-16">
             <h2 className="text-blue-500 text-xs font-bold tracking-[0.2em] uppercase mb-4">WHAT HAPPENS NEXT</h2>
             <h3 className="text-4xl md:text-5xl font-extrabold text-[#111827] tracking-tight">
-              Here's Exactly What to Expect
+             Here's How We Get You There
             </h3>
           </div>
 
@@ -162,11 +164,11 @@ export const ThankYou: React.FC = () => {
                 </div>
                 <div className="flex-1 bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm pt-7">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3">
-                    <h4 className="text-xl sm:text-2xl font-extrabold text-gray-900">We Review Your Brief</h4>
+                    <h4 className="text-xl sm:text-2xl font-extrabold text-gray-900">Your Request Lands on the Right Desk</h4>
                     <span className="text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1.5 rounded-full whitespace-nowrap">Within the hour</span>
                   </div>
                   <p className="text-gray-500 text-sm sm:text-base leading-relaxed">
-                    Our team reads every submission personally — no auto-responders, no AI summaries. We understand your goals before we reply.
+                  A specialist in what you've asked about picks this up and confirms exactly what you need.               
                   </p>
                 </div>
               </motion.div>
@@ -178,11 +180,11 @@ export const ThankYou: React.FC = () => {
                 </div>
                 <div className="flex-1 bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm pt-7">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3">
-                    <h4 className="text-xl sm:text-2xl font-extrabold text-gray-900">We Research Your Site</h4>
+                    <h4 className="text-xl sm:text-2xl font-extrabold text-gray-900">We Do Our Research </h4>
                     <span className="text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1.5 rounded-full whitespace-nowrap">Same day</span>
                   </div>
                   <p className="text-gray-500 text-sm sm:text-base leading-relaxed">
-                    We run a quick diagnostic across technical health, content gaps, and authority signals before we get on a call — so every minute is useful.
+                    A look at your business, your goals, and what you're working with, so we're not starting from zero.
                   </p>
                 </div>
               </motion.div>
@@ -194,11 +196,71 @@ export const ThankYou: React.FC = () => {
                 </div>
                 <div className="flex-1 bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm pt-7">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3">
-                    <h4 className="text-xl sm:text-2xl font-extrabold text-gray-900">You Get a Tailored Response</h4>
+                    <h4 className="text-xl sm:text-2xl font-extrabold text-gray-900">A Few Early Observations </h4>
                     <span className="text-xs font-bold text-green-600 bg-green-50 px-3 py-1.5 rounded-full whitespace-nowrap">Within 1 business day</span>
                   </div>
                   <p className="text-gray-500 text-sm sm:text-base leading-relaxed">
                     Not a template. A specific plan based on your goals, your site, and your current search position — with realistic next steps.
+                  </p>
+                </div>
+              </motion.div>
+               {/* Step 4 */}
+              <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="flex items-start gap-6 sm:gap-10">
+                <div className="relative z-10 bg-blue-500 w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/30 border-4 border-white">
+                  <img src={messageIcon} alt="Message" className="" />
+                </div>
+                <div className="flex-1 bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm pt-7">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3">
+                    <h4 className="text-xl sm:text-2xl font-extrabold text-gray-900">A Conversation, Not a Pitch</h4>
+                    <span className="text-xs font-bold text-green-600 bg-green-50 px-3 py-1.5 rounded-full whitespace-nowrap">Scheduled with you</span>
+                  </div>
+                  <p className="text-gray-500 text-sm sm:text-base leading-relaxed">
+                    We ask about your goals, your pain points, and the context only you have.
+                  </p>
+                </div>
+              </motion.div>
+               {/* Step 5 */}
+              <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="flex items-start gap-6 sm:gap-10">
+                <div className="relative z-10 bg-blue-500 w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/30 border-4 border-white">
+                  <img src={messageIcon} alt="Message" className="" />
+                </div>
+                <div className="flex-1 bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm pt-7">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3">
+                    <h4 className="text-xl sm:text-2xl font-extrabold text-gray-900">A Plan Built Around What You Told Us</h4>
+                    <span className="text-xs font-bold text-green-600 bg-green-50 px-3 py-1.5 rounded-full whitespace-nowrap">After the call</span>
+                  </div>
+                  <p className="text-gray-500 text-sm sm:text-base leading-relaxed">
+                    Tailored to what you actually need, based on the call.
+                  </p>
+                </div>
+              </motion.div>
+                 {/* Step 6 */}
+              <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="flex items-start gap-6 sm:gap-10">
+                <div className="relative z-10 bg-blue-500 w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/30 border-4 border-white">
+                  <img src={messageIcon} alt="Message" className="" />
+                </div>
+                <div className="flex-1 bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm pt-7">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3">
+                    <h4 className="text-xl sm:text-2xl font-extrabold text-gray-900">Everything Gets Locked In</h4>
+                    <span className="text-xs font-bold text-green-600 bg-green-50 px-3 py-1.5 rounded-full whitespace-nowrap">On approval</span>
+                  </div>
+                  <p className="text-gray-500 text-sm sm:text-base leading-relaxed">
+                   Once you're happy with the plan, we formalise it in a Statement of Work. 
+                  </p>
+                </div>
+              </motion.div>
+               {/* Step 7 */}
+              <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="flex items-start gap-6 sm:gap-10">
+                <div className="relative z-10 bg-blue-500 w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/30 border-4 border-white">
+                  <img src={messageIcon} alt="Message" className="" />
+                </div>
+                <div className="flex-1 bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm pt-7">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3">
+                    <h4 className="text-xl sm:text-2xl font-extrabold text-gray-900">The Work Begins</h4>
+                    <span className="text-xs font-bold text-green-600 bg-green-50 px-3 py-1.5 rounded-full whitespace-nowrap">Project kickoff</span>
+                  </div>
+                  <p className="text-gray-500 text-sm sm:text-base leading-relaxed">
+                    KPIs agreed, the plan finalised, and the project starts.
                   </p>
                 </div>
               </motion.div>
@@ -212,7 +274,7 @@ export const ThankYou: React.FC = () => {
               </div>
               <div className="flex-1 text-center md:text-left">
                 <h4 className="text-white text-xl font-bold mb-1">Prefer to Talk Now?</h4>
-                <p className="text-blue-100 text-sm">Book a free 30-minute strategy call — we'll audit your site live before the call so every minute counts.</p>
+                <p className="text-blue-100 text-sm">Book a free 30-minute call — we'll come prepared so every minute is useful.</p>
               </div>
               <div className="shrink-0">
                 <Link to="/contact" className="inline-flex items-center gap-2 bg-white text-[#2B60E6] px-6 py-3 rounded-full font-bold text-sm hover:scale-105 transition-transform shadow-md">
@@ -228,7 +290,7 @@ export const ThankYou: React.FC = () => {
       <section className="py-24 bg-[#FAFAFA] border-t border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="mb-16">
-            <h2 className="text-blue-500 text-xs font-bold tracking-[0.2em] uppercase mb-4">DO YOU WANT TO KNOW MORE?</h2>
+            <h2 className="text-blue-500 text-xs font-bold tracking-[0.2em] uppercase mb-4">WHILE YOU WAIT</h2>
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
               <h3 className="text-4xl md:text-5xl font-extrabold text-[#111827] tracking-tight leading-tight max-w-2xl">
                 See What We've Built <br className="hidden md:block" />for Clients Like You.
