@@ -7,6 +7,7 @@ import imgWhiteLogo from "figma:asset/Logo-White.webp";
 import { sanityClient } from '../../../../lib/sanity';
 import { HOME_PAGE_QUERY } from '../../../../lib/queries';
 
+
 export default function LandingPage() {
   const { data: homePage } = useQuery({ queryKey: ['homePage'], queryFn: () => sanityClient.fetch(HOME_PAGE_QUERY) });
 
@@ -1284,7 +1285,7 @@ export default function LandingPage() {
                   )}
                   <button
                     type="submit"
-                    disabled={submittingForm === 'Case Study' || !leadMagnetFormData.firstName || !leadMagnetFormData.lastName || !leadMagnetFormData.email || !leadMagnetFormData.agencyName || !leadMagnetFormData.phone}
+                    disabled={submittingForm === 'Case Study'}
                     className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 sm:py-5 rounded-xl sm:rounded-2xl font-extrabold text-base sm:text-xl shadow-xl shadow-blue-100 hover:shadow-2xl hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100"
                   >
                     {submittingForm === 'Case Study' ? 'Sending...' : 'Get Your Free Case Study →'}
