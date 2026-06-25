@@ -2,6 +2,9 @@ import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useQuery } from '@tanstack/react-query';
+import { sanityClient } from '../lib/sanity';
+import { NESTED_SERVICE_QUERY } from '../lib/queries';
 
 import reviewIcon from '../public/assets/review.png';
 import researchIcon from '../public/assets/research.png';
@@ -20,69 +23,22 @@ export const ThankYou: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const caseStudies = [
-    {
-      disciplineTag: "Technical SEO",
-      mainMetric: "Page 1",
-      results: [
-        { value: "Page 1", label: "for 14 target keywords" },
-        { value: "6 mo", label: "to first page rankings" },
-        { value: "+218%", label: "organic traffic growth" }
-      ],
-      title: "From Invisible to Page One — Professional Services Firm",
-      challenge: "Managing a few projects is straightforward. Managing 40+ at the same time is where things break.",
-      tacticalActions: ["Technical Audit", "Crawl Fix", "Schema Markup", "Core Web Vitals", "Redirect Architecture"],
-      quote: "They found problems our developer didn't know existed.",
-      url: "case-studies"
-    },
-    {
-      disciplineTag: "Technical SEO",
-      mainMetric: "#1",
-      results: [
-        { value: "Page 1", label: "for 14 target keywords" },
-        { value: "6 mo", label: "to first page rankings" },
-        { value: "+218%", label: "organic traffic growth" }
-      ],
-      title: "From Invisible to Page One — Professional Services Firm",
-      challenge: "Managing a few projects is straightforward. Managing 40+ at the same time is where things break.",
-      tacticalActions: ["Technical Audit", "Crawl Fix", "Schema Markup", "Core Web Vitals", "Redirect Architecture"],
-      quote: "They found problems our developer didn't know existed.",
-      url: "case-studies"
-    },
-    {
-      disciplineTag: "Technical SEO",
-      mainMetric: "Top 3",
-      results: [
-        { value: "Page 1", label: "for 14 target keywords" },
-        { value: "6 mo", label: "to first page rankings" },
-        { value: "+218%", label: "organic traffic growth" }
-      ],
-      title: "From Invisible to Page One — Professional Services Firm",
-      challenge: "Managing a few projects is straightforward. Managing 40+ at the same time is where things break.",
-      tacticalActions: ["Technical Audit", "Crawl Fix", "Schema Markup", "Core Web Vitals", "Redirect Architecture"],
-      quote: "They found problems our developer didn't know existed.",
-      url: "case-studies"
-    },
-    {
-      disciplineTag: "Technical SEO",
-      mainMetric: "189%",
-      results: [
-        { value: "Page 1", label: "for 14 target keywords" },
-        { value: "6 mo", label: "to first page rankings" },
-        { value: "+218%", label: "organic traffic growth" }
-      ],
-      title: "From Invisible to Page One — Professional Services Firm",
-      challenge: "Managing a few projects is straightforward. Managing 40+ at the same time is where things break.",
-      tacticalActions: ["Technical Audit", "Crawl Fix", "Schema Markup", "Core Web Vitals", "Redirect Architecture"],
-      quote: "They found problems our developer didn't know existed.",
-      url: "case-studies"
-    }
-  ];
+  const { data: nestedService } = useQuery({
+    queryKey: ['thankYouCaseStudies'],
+    // Using the specific nested service slug provided by the user
+    queryFn: () => sanityClient.fetch(NESTED_SERVICE_QUERY, { slug: 'search-engine-optimisation' })
+  });
+
+  const caseStudies = nestedService?.caseStudiesSection?.caseStudies || [];
+
+  console.log('Fetched case studies:', caseStudies);
 
   return (
     <div className="min-h-screen bg-white font-sans overflow-x-hidden">
       <Helmet>
-        <title>Thank You | Zevenstone</title>
+        <title>Thank You | Your Website Audit Request Has Been Received</title>
+        <meta name="description" content="Thank you for requesting your free website audit. Our team will review your website and contact you with the next steps shortly."
+  />
       </Helmet>
 
       {/* 1. Hero Section */}
@@ -117,10 +73,10 @@ export const ThankYou: React.FC = () => {
 
             {/* Main Typography */}
             <h1 className="text-5xl md:text-7xl font-extrabold mb-6 leading-[1.1] tracking-tight">
-              Thank You — <br />We'll Be in Touch.
+              Got It. We're On Your Request.<br />
             </h1>
             <p className="text-lg md:text-xl text-blue-50 font-medium mb-12 max-w-2xl mx-auto opacity-90">
-              Your brief has landed with our team. Expect a reply within 1<br className="hidden sm:block" /> business day — usually sooner.
+             Your details have been logged. Expect a response within 1 business day, usually sooner.
             </p>
 
             {/* Buttons */}
@@ -149,7 +105,7 @@ export const ThankYou: React.FC = () => {
           <div className="text-center mb-16">
             <h2 className="text-blue-500 text-xs font-bold tracking-[0.2em] uppercase mb-4">WHAT HAPPENS NEXT</h2>
             <h3 className="text-4xl md:text-5xl font-extrabold text-[#111827] tracking-tight">
-              Here's Exactly What to Expect
+             Here's How We Get You There
             </h3>
           </div>
 
@@ -166,11 +122,11 @@ export const ThankYou: React.FC = () => {
                 </div>
                 <div className="flex-1 bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm pt-7">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3">
-                    <h4 className="text-xl sm:text-2xl font-extrabold text-gray-900">We Review Your Brief</h4>
+                    <h4 className="text-xl sm:text-2xl font-extrabold text-gray-900">Your Request Lands on the Right Desk</h4>
                     <span className="text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1.5 rounded-full whitespace-nowrap">Within the hour</span>
                   </div>
                   <p className="text-gray-500 text-sm sm:text-base leading-relaxed">
-                    Our team reads every submission personally — no auto-responders, no AI summaries. We understand your goals before we reply.
+                  A specialist in what you've asked about picks this up and confirms exactly what you need.               
                   </p>
                 </div>
               </motion.div>
@@ -182,11 +138,11 @@ export const ThankYou: React.FC = () => {
                 </div>
                 <div className="flex-1 bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm pt-7">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3">
-                    <h4 className="text-xl sm:text-2xl font-extrabold text-gray-900">We Research Your Site</h4>
+                    <h4 className="text-xl sm:text-2xl font-extrabold text-gray-900">We Do Our Research </h4>
                     <span className="text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1.5 rounded-full whitespace-nowrap">Same day</span>
                   </div>
                   <p className="text-gray-500 text-sm sm:text-base leading-relaxed">
-                    We run a quick diagnostic across technical health, content gaps, and authority signals before we get on a call — so every minute is useful.
+                    A look at your business, your goals, and what you're working with, so we're not starting from zero.
                   </p>
                 </div>
               </motion.div>
@@ -198,7 +154,7 @@ export const ThankYou: React.FC = () => {
                 </div>
                 <div className="flex-1 bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm pt-7">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3">
-                    <h4 className="text-xl sm:text-2xl font-extrabold text-gray-900">You Get a Tailored Response</h4>
+                    <h4 className="text-xl sm:text-2xl font-extrabold text-gray-900">A Few Early Observations </h4>
                     <span className="text-xs font-bold text-green-600 bg-green-50 px-3 py-1.5 rounded-full whitespace-nowrap">Within 1 business day</span>
                   </div>
                   <p className="text-gray-500 text-sm sm:text-base leading-relaxed">
@@ -276,7 +232,7 @@ export const ThankYou: React.FC = () => {
               </div>
               <div className="flex-1 text-center md:text-left">
                 <h4 className="text-white text-xl font-bold mb-1">Prefer to Talk Now?</h4>
-                <p className="text-blue-100 text-sm">Book a free 30-minute strategy call — we'll audit your site live before the call so every minute counts.</p>
+                <p className="text-blue-100 text-sm">Book a free 30-minute call — we'll come prepared so every minute is useful.</p>
               </div>
               <div className="shrink-0">
                 <Link to="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ31-wqPNl6QMi6k3yGv1nHp897byjs7WOUScsIuy8f0qKK5MNbnVNtLjUsTyHJbdAzQE771nqjE" className="inline-flex items-center gap-2 bg-white text-[#2B60E6] px-6 py-3 rounded-full font-bold text-sm hover:scale-105 transition-transform shadow-md">
@@ -292,19 +248,19 @@ export const ThankYou: React.FC = () => {
       <section className="py-24 bg-[#FAFAFA] border-t border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="mb-16">
-            <h2 className="text-blue-500 text-xs font-bold tracking-[0.2em] uppercase mb-4">DO YOU WANT TO KNOW MORE?</h2>
+            <h2 className="text-blue-500 text-xs font-bold tracking-[0.2em] uppercase mb-4">WHILE YOU WAIT</h2>
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
               <h3 className="text-4xl md:text-5xl font-extrabold text-[#111827] tracking-tight leading-tight max-w-2xl">
-                See What We've Built <br className="hidden md:block" />for Clients Like You.
+                Here's Proof It Works.
               </h3>
               <p className="text-gray-500 max-w-sm text-sm sm:text-base leading-relaxed">
-                Four disciplines. Four different challenges. One consistent outcome — measurable growth tied to organic search.
+                Different industries, different goals, one pattern of real, measurable progress.
               </p>
             </div>
           </div>
 
           <div className={`${styles['cs-rich-grid']} mb-16 ${styles.seoPageWrapper}`}>
-            {caseStudies.map((cs, idx) => {
+            {caseStudies.map((cs: any, idx: number) => {
               const colorClasses = [styles.tech, styles.tech, styles.local, styles.content];
               const colorClass = colorClasses[idx % colorClasses.length];
               const MotionLink = motion(Link);
@@ -312,7 +268,7 @@ export const ThankYou: React.FC = () => {
               return (
                 <MotionLink
                   key={idx}
-                  to='/success-stories'
+                 to={`/${cs.url}` || '#'}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -326,14 +282,12 @@ export const ThankYou: React.FC = () => {
                     </div>
                     <div className={styles['cs-header-main']}>
                       <div className={styles['cs-client']}>
-                        {/* Simulated Helium SEO Logo */}
-                        <div className="flex items-center gap-2">
-                          <div className={`w-8 h-8 rounded flex items-center justify-center transform rotate-12 ${colorClass === styles.local ? 'bg-green-500' : colorClass === styles.content ? 'bg-purple-600' : 'bg-blue-500'}`}>
-                            <span className="text-white font-extrabold -rotate-12 text-lg">H</span>
-                          </div>
-                          <span className="font-extrabold text-xl text-gray-900 tracking-tight">Helium <span className="font-medium text-gray-500">SEO™</span></span>
-                        </div>
+                    {cs.logoUrl && (
+                      <div className={`${styles['cs-logo-box']} ${colorClass}`} aria-hidden="true">
+                        <img src={cs.logoUrl} alt="Client logo" className='w-full h-auto' />
                       </div>
+                    )}
+                  </div>
                       <div className={`${styles['cs-main-metric']} ${colorClass}`}>
                         {cs.mainMetric}
                       </div>
@@ -341,7 +295,7 @@ export const ThankYou: React.FC = () => {
                   </div>
 
                   <div className={styles['cs-rich-results']} role="list" aria-label="Results">
-                    {cs.results?.map((res, ri) => (
+                    {cs.results?.map((res: any, ri: number) => (
                       <div key={ri} className={styles['cs-rich-result']} role="listitem">
                         <div className={`${styles['cs-rich-result-val']} ${colorClass}`}>{res.value}</div>
                         <div className={styles['cs-rich-result-lbl']}>{res.label}</div>
@@ -359,7 +313,7 @@ export const ThankYou: React.FC = () => {
                   <div className={styles['cs-work-tags-wrap']}>
                     <div className={styles['cs-work-tags-lbl']}>Tactical Actions Deployed:</div>
                     <div className={styles['cs-work-tags']} role="list" aria-label="Work done on this project">
-                      {cs.tacticalActions?.slice(0, 5).map((act, ai) => (
+                      {cs.tacticalActions?.slice(0, 5).map((act: string, ai: number) => (
                         <span key={ai} className={`${styles['cs-work-tag']} ${colorClass}`} role="listitem">{act}</span>
                       ))}
                       {cs.tacticalActions?.length > 5 && (
