@@ -1,7 +1,7 @@
 import * as Icons from 'lucide-react';
 import { ArrowRight, CheckCircle, TrendingUp, Zap, Users, Target, Clock, Shield, Award, Star, DollarSign, BarChart3, Rocket, X, Download, Mail, Building2, User, Calendar } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import imgLinkLogo from "figma:asset/landingpageLogo.png";
 import { Helmet } from 'react-helmet-async';
@@ -79,7 +79,7 @@ export default function LandingPage() {
       const API_URL = import.meta.env.VITE_CONTACT_API_URL || 'https://zevenstone-contact-api.zevenstone7.workers.dev';
       const response = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(submissionData) });
       if (response.ok) {
-        navigate('/thank-you');
+        navigate('/managed-solutions/grow-your-business-online/thank-you');
       } else { setCtaStatus('error'); }
     } catch (err) { console.error('CTA form error:', err); setCtaStatus('error'); }
     finally { setCtaSubmitting(false); }
@@ -111,7 +111,7 @@ export default function LandingPage() {
       const API_URL = import.meta.env.VITE_CONTACT_API_URL || 'https://zevenstone-contact-api.zevenstone7.workers.dev';
       const response = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(submissionData) });
       if (response.ok) {
-        navigate('/thank-you');
+        navigate('/managed-solutions/grow-your-business-online/thank-you');
       } else { setFloatingStatus('error'); }
     } catch (err) { console.error('Floating form error:', err); setFloatingStatus('error'); }
     finally { setFloatingSubmitting(false); }
@@ -142,22 +142,36 @@ export default function LandingPage() {
       const API_URL = import.meta.env.VITE_CONTACT_API_URL || 'https://zevenstone-contact-api.zevenstone7.workers.dev';
       const response = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(submissionData) });
       if (response.ok) {
-        navigate('/thank-you');
+        navigate('/managed-solutions/grow-your-business-online/thank-you');
       } else { setLeadStatus('error'); }
     } catch (err) { console.error('Lead magnet error:', err); setLeadStatus('error'); }
     finally { setLeadSubmitting(false); }
   };
 
-  // ─── Scroll visibility — hide floating form after CTA or floating submit ──
+  // ─── Scroll visibility & Floating form timer visibility ───
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 25);
-      const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-      setShowFloatingForm(scrollPercent > 25 && !ctaFormSubmitted && !floatingFormSubmitted);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [ctaFormSubmitted, floatingFormSubmitted]);
+  }, []);
+
+  console.log(isScrolled,'scroll')
+
+  useEffect(() => {
+    if (ctaFormSubmitted || floatingFormSubmitted) {
+      setShowFloatingForm(false);
+      return;
+    }
+
+    if (!showFloatingForm) {
+      const timerId = setTimeout(() => {
+        setShowFloatingForm(true);
+      }, 10000); // 10 seconds delay
+      return () => clearTimeout(timerId);
+    }
+  }, [showFloatingForm, ctaFormSubmitted, floatingFormSubmitted]);
 
   const scrollToCTA = () => {
     const section = document.getElementById('form-cta-section');
@@ -331,7 +345,7 @@ export default function LandingPage() {
         }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
           <div className="flex items-center justify-between">
-            <img src={imgLinkLogo} alt="Zevenstone" className="h-6 sm:h-8" />
+             <Link to="/"><img src={imgLinkLogo} alt="Zevenstone" className="h-6 sm:h-8" /></Link>
             <button
               onClick={scrollToCTA}
               className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 sm:px-8 py-2 sm:py-3 rounded-lg sm:rounded-xl text-sm sm:text-base font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all"
@@ -926,7 +940,9 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto text-center">
           <div className="flex items-center justify-center gap-2.5 mb-6">
             <div className="p-2 rounded-lg">
-              <img src={imgWhiteLogo} alt="Zevenstone" className="h-16 sm:h-20" />
+              <Link to="/">
+                <img src={imgWhiteLogo} alt="Zevenstone" className="h-16 sm:h-20" />
+              </Link>
             </div>
             <span className="hidden font-extrabold text-xl tracking-tight">ZEVENSTONE</span>
           </div>

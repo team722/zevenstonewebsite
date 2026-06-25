@@ -30,6 +30,9 @@ export const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const isThankYouPage = location.pathname === '/managed-solutions/grow-your-business-online/thank-you';
+  const isNavHighlighted = isScrolled || isThankYouPage;
+
   return (
     <>
       <motion.nav
@@ -42,7 +45,7 @@ export const Navbar: React.FC = () => {
           className={`
             relative flex items-center justify-between
             transition-all duration-500 cubic-bezier(0.4, 0, 0.2, 1)
-            ${isScrolled
+            ${isNavHighlighted
               ? 'w-full max-w-5xl bg-white/70 backdrop-blur-xl shadow-lg border border-white/40 py-2 px-6 rounded-full'
               : 'w-full max-w-7xl bg-transparent py-4 px-0'
             }
@@ -51,8 +54,8 @@ export const Navbar: React.FC = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group relative z-20">
             {siteSettings?.logoUrl
-              ? <img src={siteSettings.logoUrl} alt="Logo" className={`transition-all duration-300 w-auto object-contain ${isScrolled ? 'h-8' : 'h-10 md:h-12'}`} />
-              : <Logo className={`transition-all duration-300 w-auto ${isScrolled ? 'h-8' : 'h-10 md:h-12'}`} />
+              ? <img src={siteSettings.logoUrl} alt="Logo" className={`transition-all duration-300 w-auto object-contain ${isNavHighlighted ? 'h-8' : 'h-10 md:h-12'}`} />
+              : <Logo className={`transition-all duration-300 w-auto ${isNavHighlighted ? 'h-8' : 'h-10 md:h-12'}`} />
             }
           </Link>
 
@@ -94,7 +97,7 @@ export const Navbar: React.FC = () => {
             <Link to={ctaBtn?.url || "/contact"}>
               <button className={`
                 group relative px-6 py-2.5 rounded-full overflow-hidden font-semibold text-sm transition-all duration-300
-                ${isScrolled
+                ${isNavHighlighted
                   ? 'bg-zeven-dark text-white hover:bg-zeven-blue shadow-lg shadow-zeven-dark/20'
                   : 'bg-white text-zeven-dark shadow-xl hover:shadow-2xl'
                 }
@@ -110,7 +113,7 @@ export const Navbar: React.FC = () => {
 
           {/* Mobile Toggle */}
           <button
-            className={`md:hidden p-2 rounded-full relative z-20 ${isScrolled ? 'bg-zeven-surface' : 'bg-white shadow-md'}`}
+            className={`md:hidden p-2 rounded-full relative z-20 ${isNavHighlighted ? 'bg-zeven-surface' : 'bg-white shadow-md'}`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
