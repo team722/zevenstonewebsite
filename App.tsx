@@ -46,8 +46,8 @@ const ScrollToTop = () => {
 
 const AppContent: React.FC = () => {
   const location = useLocation();
-  const isLandingPage = location.pathname.startsWith('/strategic-partnerships/agency-growth-partner') || location.pathname.startsWith('/v1');
-  const isWebsiteLandingPage = location.pathname.startsWith('/managed-solutions/grow-your-business-online') || location.pathname.startsWith('/v2');
+  const isLandingPage = location.pathname.startsWith('/strategic-partnerships/agency-growth-partner') && !location.pathname.includes('/thank-you') || location.pathname.startsWith('/v1');
+  const isWebsiteLandingPage = location.pathname.startsWith('/managed-solutions/grow-your-business-online') && !location.pathname.includes('/thank-you') || location.pathname.startsWith('/v2');
 
   return (
     <div className="min-h-screen bg-zeven-bg text-zeven-dark selection:bg-zeven-blue selection:text-white font-sans antialiased">
