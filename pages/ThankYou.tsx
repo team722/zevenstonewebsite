@@ -337,7 +337,7 @@ export const ThankYou: React.FC = () => {
           {/* Bottom CTA */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-6 border-t border-gray-200 pt-8 mt-16">
             <p className="text-gray-500 font-medium">Curious how we'd approach your specific challenge?</p>
-            <div className="flex items-center gap-4">
+            <div className="flex flex-col sm:flex-row items-center gap-4">
               <Link to="/success-stories" className="px-6 py-3 rounded-full border-2 border-gray-200 text-gray-700 font-bold text-sm hover:border-gray-300 transition-colors">
                 All Case Studies &rarr;
               </Link>
