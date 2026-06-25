@@ -80,7 +80,7 @@ const AppContent: React.FC = () => {
           <Route path="/landing-page/story/:id" element={<ZstoneStoryDetailV1 />} />
           <Route path="/landing-page/blog" element={<ZstoneBlogHubV1 />} />
           <Route path="/landing-page/blog/:id" element={<ZstoneBlogPostV1 />} /> */}
-          <Route path="*" element={<NotFound />} />
+          {/* <Route path="*" element={<NotFound />} /> */}
         </Routes>
       </main>
       {!isLandingPage && !isWebsiteLandingPage && <Footer />}

@@ -9,6 +9,10 @@ import { NESTED_SERVICE_QUERY } from '../lib/queries';
 import reviewIcon from '../public/assets/review.png';
 import researchIcon from '../public/assets/research.png';
 import messageIcon from '../public/assets/message.png';
+import conversationIcon from '../public/assets/conversation.png';
+import planIcon from '../public/assets/plan.png';
+import lockIcon from '../public/assets/lock.png';
+import workBeginIcon from '../public/assets/work-begin.png';
 import talkIcon from '../public/assets/talk.png';
 import styles from './ServiceSeo.module.css';
 
@@ -161,7 +165,7 @@ export const ThankYou: React.FC = () => {
                {/* Step 4 */}
               <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="flex items-start gap-6 sm:gap-10">
                 <div className="relative z-10 bg-blue-500 w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/30 border-4 border-white">
-                  <img src={messageIcon} alt="Message" className="" />
+                  <img src={conversationIcon} alt="Message" className="" />
                 </div>
                 <div className="flex-1 bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm pt-7">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3">
@@ -176,7 +180,7 @@ export const ThankYou: React.FC = () => {
                {/* Step 5 */}
               <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="flex items-start gap-6 sm:gap-10">
                 <div className="relative z-10 bg-blue-500 w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/30 border-4 border-white">
-                  <img src={messageIcon} alt="Message" className="" />
+                  <img src={planIcon} alt="Message" className="" />
                 </div>
                 <div className="flex-1 bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm pt-7">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3">
@@ -191,7 +195,7 @@ export const ThankYou: React.FC = () => {
                  {/* Step 6 */}
               <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="flex items-start gap-6 sm:gap-10">
                 <div className="relative z-10 bg-blue-500 w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/30 border-4 border-white">
-                  <img src={messageIcon} alt="Message" className="" />
+                  <img src={lockIcon} alt="Message" className="" />
                 </div>
                 <div className="flex-1 bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm pt-7">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3">
@@ -206,7 +210,7 @@ export const ThankYou: React.FC = () => {
                {/* Step 7 */}
               <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="flex items-start gap-6 sm:gap-10">
                 <div className="relative z-10 bg-blue-500 w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/30 border-4 border-white">
-                  <img src={messageIcon} alt="Message" className="" />
+                  <img src={workBeginIcon} alt="Message" className="" />
                 </div>
                 <div className="flex-1 bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm pt-7">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3">
@@ -231,7 +235,7 @@ export const ThankYou: React.FC = () => {
                 <p className="text-blue-100 text-sm">Book a free 30-minute call — we'll come prepared so every minute is useful.</p>
               </div>
               <div className="shrink-0">
-                <Link to="/contact" className="inline-flex items-center gap-2 bg-white text-[#2B60E6] px-6 py-3 rounded-full font-bold text-sm hover:scale-105 transition-transform shadow-md">
+                <Link to="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ31-wqPNl6QMi6k3yGv1nHp897byjs7WOUScsIuy8f0qKK5MNbnVNtLjUsTyHJbdAzQE771nqjE" className="inline-flex items-center gap-2 bg-white text-[#2B60E6] px-6 py-3 rounded-full font-bold text-sm hover:scale-105 transition-transform shadow-md">
                   Book a Call <span>&rarr;</span>
                 </Link>
               </div>
