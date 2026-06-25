@@ -69,7 +69,7 @@ const AppContent: React.FC = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/terms-and-conditions" element={<TermsPage />} />
           <Route path="/privacy-policy" element={<PrivacyPage />} />
-          {/* <Route path="/thank-you" element={<ThankYou />} /> */}
+         <Route path="/managed-solutions/grow-your-business-online/thank-you" element={<ThankYou />} />
 
           {/* New Modular Landing Page Routes (Phase 2) */}
           <Route path="/strategic-partnerships/agency-growth-partner" element={<ZstoneLandingPageV1 />} />
