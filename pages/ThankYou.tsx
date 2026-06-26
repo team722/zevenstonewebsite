@@ -227,7 +227,7 @@ export const ThankYou: React.FC = () => {
 
             {/* Talk Now CTA */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }} className="bg-[#2B60E6] rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row items-center gap-6 shadow-xl shadow-blue-900/10">
-              <div className="w-14 h-14 bg-blue-600 rounded-full flex items-center justify-center shrink-0 shadow-inner">
+              <div className="w-14 h-14 bg-[#FFFFFF26] rounded-full flex items-center justify-center shrink-0 shadow-inner">
                 <img src={talkIcon} alt="Talk" className="w-6 h-6" />
               </div>
               <div className="flex-1 text-center md:text-left">
