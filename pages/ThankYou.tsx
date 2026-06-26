@@ -6,14 +6,14 @@ import { useQuery } from '@tanstack/react-query';
 import { sanityClient } from '../lib/sanity';
 import { NESTED_SERVICE_QUERY } from '../lib/queries';
 
-import reviewIcon from '../public/assets/review.png';
-import researchIcon from '../public/assets/research.png';
-import messageIcon from '../public/assets/message.png';
-import conversationIcon from '../public/assets/conversation.png';
-import planIcon from '../public/assets/plan.png';
-import lockIcon from '../public/assets/lock.png';
-import workBeginIcon from '../public/assets/work-begin.png';
-import talkIcon from '../public/assets/talk.png';
+import reviewIcon from '../public/assets/review.svg';
+import researchIcon from '../public/assets/research.svg';
+import messageIcon from '../public/assets/message.svg';
+import conversationIcon from '../public/assets/conversation.svg';
+import planIcon from '../public/assets/plan.svg';
+import lockIcon from '../public/assets/lock.svg';
+import workBeginIcon from '../public/assets/work-begin.svg';
+import talkIcon from '../public/assets/talk.svg';
 import styles from './ServiceSeo.module.css';
 
 export const ThankYou: React.FC = () => {
@@ -118,7 +118,7 @@ export const ThankYou: React.FC = () => {
               {/* Step 1 */}
               <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="flex items-start gap-6 sm:gap-10">
                 <div className="relative z-10 bg-blue-500 w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/30 border-4 border-white">
-                  <img src={reviewIcon} alt="Review" className="" />
+                  <img src={reviewIcon} alt="Review" className="w-6 h-6" />
                 </div>
                 <div className="flex-1 bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm pt-7">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3">
@@ -134,7 +134,7 @@ export const ThankYou: React.FC = () => {
               {/* Step 2 */}
               <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="flex items-start gap-6 sm:gap-10">
                 <div className="relative z-10 bg-blue-500 w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/30 border-4 border-white">
-                  <img src={researchIcon} alt="Research" className="" />
+                  <img src={researchIcon} alt="Research" className="w-6 h-6" />
                 </div>
                 <div className="flex-1 bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm pt-7">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3">
@@ -150,7 +150,7 @@ export const ThankYou: React.FC = () => {
               {/* Step 3 */}
               <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="flex items-start gap-6 sm:gap-10">
                 <div className="relative z-10 bg-blue-500 w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/30 border-4 border-white">
-                  <img src={messageIcon} alt="Message" className="" />
+                  <img src={messageIcon} alt="Message" className="w-6 h-6" />
                 </div>
                 <div className="flex-1 bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm pt-7">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3">
@@ -165,7 +165,7 @@ export const ThankYou: React.FC = () => {
                {/* Step 4 */}
               <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="flex items-start gap-6 sm:gap-10">
                 <div className="relative z-10 bg-blue-500 w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/30 border-4 border-white">
-                  <img src={conversationIcon} alt="Message" className="" />
+                  <img src={conversationIcon} alt="Message" className="w-6 h-6" />
                 </div>
                 <div className="flex-1 bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm pt-7">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3">
@@ -180,7 +180,7 @@ export const ThankYou: React.FC = () => {
                {/* Step 5 */}
               <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="flex items-start gap-6 sm:gap-10">
                 <div className="relative z-10 bg-blue-500 w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/30 border-4 border-white">
-                  <img src={planIcon} alt="Message" className="" />
+                  <img src={planIcon} alt="Message" className="w-6 h-6" />
                 </div>
                 <div className="flex-1 bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm pt-7">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3">
@@ -195,7 +195,7 @@ export const ThankYou: React.FC = () => {
                  {/* Step 6 */}
               <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="flex items-start gap-6 sm:gap-10">
                 <div className="relative z-10 bg-blue-500 w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/30 border-4 border-white">
-                  <img src={lockIcon} alt="Message" className="" />
+                  <img src={lockIcon} alt="Message" className="w-6 h-6" />
                 </div>
                 <div className="flex-1 bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm pt-7">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3">
@@ -210,7 +210,7 @@ export const ThankYou: React.FC = () => {
                {/* Step 7 */}
               <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="flex items-start gap-6 sm:gap-10">
                 <div className="relative z-10 bg-blue-500 w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/30 border-4 border-white">
-                  <img src={workBeginIcon} alt="Message" className="" />
+                  <img src={workBeginIcon} alt="Message" className="w-6 h-6" />
                 </div>
                 <div className="flex-1 bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm pt-7">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3">
@@ -228,7 +228,7 @@ export const ThankYou: React.FC = () => {
             {/* Talk Now CTA */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }} className="bg-[#2B60E6] rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row items-center gap-6 shadow-xl shadow-blue-900/10">
               <div className="w-14 h-14 bg-blue-600 rounded-full flex items-center justify-center shrink-0 shadow-inner">
-                <img src={talkIcon} alt="Talk" className="" />
+                <img src={talkIcon} alt="Talk" className="w-6 h-6" />
               </div>
               <div className="flex-1 text-center md:text-left">
                 <h4 className="text-white text-xl font-bold mb-1">Prefer to Talk Now?</h4>
