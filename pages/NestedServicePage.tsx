@@ -6,7 +6,9 @@ import { useQuery } from "@tanstack/react-query";
 import { ChevronLeft } from "lucide-react";
 import { sanityClient } from "../lib/sanity";
 import { NESTED_SERVICE_QUERY } from "../lib/queries";
+import { isBlockedLiveNestedServiceRoute } from "../lib/liveServiceGuards";
 import { LoadingSpinner, ErrorState } from "../components/ui";
+import { NotFound } from "./NotFound";
 import styles from "./ServiceSeo.module.css";
 
 const PAGE_ACTIVE_CLASS = "service-seo-page-active";
@@ -35,20 +37,21 @@ const viewportScaleIn = {
 } as const;
 
 const NestedServicePage: React.FC = () => {
-  const { slug } = useParams<{ slug: string }>();
+  const { category, slug } = useParams<{ category: string; slug: string }>();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [activeDisciplineIndex, setActiveDisciplineIndex] = useState<number | null>(null);
   const [canScrollTabsBack, setCanScrollTabsBack] = useState(false);
   const tabNavRef = useRef<HTMLDivElement | null>(null);
   const tabTrackRef = useRef<HTMLDivElement | null>(null);
+  const isLiveBlockedServiceRoute = isBlockedLiveNestedServiceRoute(category, slug);
 
   const { data: service, isLoading, error } = useQuery({
-    queryKey: ["nestedService", slug],
+    queryKey: ["nestedService", category, slug],
     queryFn: async () => {
       if (!slug) return null;
       return sanityClient.fetch(NESTED_SERVICE_QUERY, { slug });
     },
-    enabled: !!slug,
+    enabled: !!slug && !isLiveBlockedServiceRoute,
   });
 
 
@@ -310,6 +313,7 @@ const NestedServicePage: React.FC = () => {
     };
   }, [service]);
 
+  if (isLiveBlockedServiceRoute) return <NotFound />;
   if (isLoading) return <LoadingSpinner />;
   if (error || !service) return <ErrorState />;
 

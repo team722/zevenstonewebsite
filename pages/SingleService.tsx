@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Helmet } from 'react-helmet-async';
 import { sanityClient } from '../lib/sanity';
 import { SINGLE_SERVICE_QUERY } from '../lib/queries';
+import { isBlockedLiveNestedServiceRoute, slugifyServicePathSegment } from '../lib/liveServiceGuards';
 import { Play, CheckCircle, ChevronDown, ChevronUp, Star, ArrowRight } from 'lucide-react';
 import { LoadingSpinner, ErrorState, Button, ScrollReveal } from '../components/ui';
 import { motion } from 'framer-motion';
@@ -31,6 +32,10 @@ export const SingleService: React.FC = () => {
   const filteredPortfolio = service?.portfolio?.examples?.filter((ex: any) =>
     activeTab === 'All Videos' || ex.category === activeTab
   );
+  const visibleFeatures = (service?.features?.list || []).filter((feature: any) => {
+    const featureSlug = slugifyServicePathSegment(feature.title || '');
+    return !isBlockedLiveNestedServiceRoute(slug, featureSlug);
+  });
 
   return (
     <div className="pt-24 pb-0 bg-white">
@@ -358,7 +363,7 @@ export const SingleService: React.FC = () => {
       )}
 
       {/* What We Create (Features List) */}
-      {service.features && (
+      {service.features && visibleFeatures.length > 0 && (
         <section className="py-24 md:py-32 bg-slate-50/50">
           <div className="container mx-auto px-6 lg:px-12">
             <ScrollReveal>
@@ -369,10 +374,10 @@ export const SingleService: React.FC = () => {
             </ScrollReveal>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-              {service.features.list?.map((feature: any, index: number) => (
+              {visibleFeatures.map((feature: any, index: number) => (
                 <ScrollReveal key={index} delay={index * 0.1}>
                   <Link 
-                    to={`/services/${slug}/${feature.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}`} 
+                    to={`/services/${slug}/${slugifyServicePathSegment(feature.title || '')}`} 
                     className="block bg-white border border-slate-100 p-10 md:p-12 rounded-[2.5rem] shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] hover:-translate-y-2 hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] transition-all duration-500 h-full relative group cursor-pointer"
                   >
                     <h3 className="text-2xl md:text-3xl font-bold text-zeven-dark mb-6 tracking-tight">{feature.title}</h3>
