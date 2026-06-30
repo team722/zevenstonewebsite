@@ -5,6 +5,7 @@ import { Logo } from './ui/Logo';
 import { useQuery } from '@tanstack/react-query';
 import { sanityClient } from '../lib/sanity';
 import { SITE_SETTINGS_QUERY } from '../lib/queries';
+import { isBlockedLiveNestedServicePath } from '../lib/liveServiceGuards';
 
 type FooterLinkItem = {
   _key?: string;
@@ -103,7 +104,7 @@ const formatPhoneHref = (phone?: string) => {
 };
 
 const filterLinks = (links?: FooterLinkItem[] | null) =>
-  (links || []).filter((item) => getLinkText(item) && getRawUrl(item));
+  (links || []).filter((item) => getLinkText(item) && getRawUrl(item) && !isBlockedLiveNestedServicePath(getRawUrl(item)));
 
 const filterColumns = (columns?: FooterColumn[] | null) =>
   (columns || [])

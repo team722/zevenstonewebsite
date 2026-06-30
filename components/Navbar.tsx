@@ -8,6 +8,7 @@ import { Logo } from './ui/Logo';
 import { useQuery } from '@tanstack/react-query';
 import { sanityClient } from '../lib/sanity';
 import { SITE_SETTINGS_QUERY } from '../lib/queries';
+import { isBlockedLiveNestedServicePath } from '../lib/liveServiceGuards';
 
 export const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -19,7 +20,9 @@ export const Navbar: React.FC = () => {
     queryFn: () => sanityClient.fetch(SITE_SETTINGS_QUERY),
   });
 
-  const navItems = siteSettings?.navigation || NAV_ITEMS;
+  const navItems = (siteSettings?.navigation || NAV_ITEMS).filter(
+    (item: any) => !isBlockedLiveNestedServicePath(item.url || item.path)
+  );
   const ctaBtn = siteSettings?.headerCta;
 
   useEffect(() => {
