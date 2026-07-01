@@ -53,7 +53,7 @@ export const ContactForm: React.FC = () => {   const [formData, setFormData] = u
          }
 
          if (response.ok && (result?.success || (contentType && contentType.includes('application/json')))) {
-            navigate('/thank-you');
+            navigate('/solutions/thank-you');
          } else {
             console.error('Server returned an unexpected response. Expected JSON API response.');
             setSubmitStatus('error');
