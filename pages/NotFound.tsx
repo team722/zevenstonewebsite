@@ -5,9 +5,12 @@ import { motion } from 'framer-motion';
 
 export const NotFound: React.FC = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const mobileMetricCardClass = 'scale-[0.72] sm:scale-100 origin-center';
+  const mobilePillClass = 'scale-[0.78] sm:scale-100 origin-center';
+  const mobileWideElementClass = 'scale-[0.58] sm:scale-100 origin-center';
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
+    const handleMouseMove = (e: MouseEvent) => {//
       // Calculate mouse position relative to the center of the screen
       // Normalized between -1 and 1
       const x = (e.clientX / window.innerWidth) * 2 - 1;
@@ -26,66 +29,66 @@ export const NotFound: React.FC = () => {
   });
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] flex flex-col items-center justify-center relative overflow-hidden font-sans pt-24 pb-12 px-4">
+    <div className="min-h-screen bg-[#FAFAFA] flex flex-col items-center justify-center relative overflow-hidden font-sans pt-28 sm:pt-24 pb-16 sm:pb-12 px-4">
       <Helmet>
         <title>404: Page Not Found — Zevenstone</title>
         <meta name="description" content="This page doesn't exist. Let's get you back to the working parts." />
       </Helmet>
 
       {/* --- Parallax Background Elements --- */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
         
         {/* Top Left Area */}
-        <div className="absolute top-[10%] left-[5%] md:left-[10%]" style={getParallaxStyle(-30, '-12deg')}>
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 flex flex-col items-center justify-center opacity-80 backdrop-blur-sm">
+        <div className="absolute top-[7%] -left-7 sm:top-[15%] sm:left-[5%]" style={getParallaxStyle(-30, '-12deg')}>
+          <div className={`${mobileMetricCardClass} bg-white rounded-2xl shadow-sm border border-gray-100 p-4 flex flex-col items-center justify-center opacity-55 sm:opacity-80 backdrop-blur-sm`}>
             <span className="text-[#2563EB] font-black text-2xl">+218%</span>
             <span className="text-[10px] text-gray-400 font-medium leading-tight text-center">organic traffic<br/>growth</span>
           </div>
         </div>
 
-        <div className="absolute top-[28%] left-[8%] md:left-[15%]" style={getParallaxStyle(-15, '8deg')}>
-          <div className="bg-blue-50 text-blue-500 font-bold text-[10px] px-3 py-1.5 rounded-full opacity-70">
+        <div className="absolute top-[20%] left-[2%] sm:top-[28%] sm:left-[8%] md:left-[15%]" style={getParallaxStyle(-15, '8deg')}>
+          <div className={`${mobilePillClass} bg-blue-50 text-blue-500 font-bold text-[10px] px-3 py-1.5 rounded-full opacity-50 sm:opacity-70`}>
             Technical SEO
           </div>
         </div>
 
-        <div className="absolute top-[36%] left-[4%] md:left-[12%]" style={getParallaxStyle(-20, '-4deg')}>
-          <div className="bg-green-50 text-green-600 font-bold text-[10px] px-3 py-1.5 rounded-full opacity-70">
+        <div className="absolute top-[34%] -left-8 sm:top-[36%] sm:left-[4%] md:left-[12%]" style={getParallaxStyle(-20, '-4deg')}>
+          <div className={`${mobilePillClass} bg-green-50 text-green-600 font-bold text-[10px] px-3 py-1.5 rounded-full opacity-45 sm:opacity-70`}>
             Core Web Vitals
           </div>
         </div>
 
         {/* Top Right Area */}
-        <div className="absolute top-[8%] right-[5%] md:right-[15%]" style={getParallaxStyle(40, '15deg')}>
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 flex flex-col items-center justify-center opacity-80 backdrop-blur-sm">
+        <div className="absolute top-[8%] -right-8 sm:top-[12%] sm:right-[5%] md:right-[15%]" style={getParallaxStyle(40, '15deg')}>
+          <div className={`${mobileMetricCardClass} bg-white rounded-2xl shadow-sm border border-gray-100 p-4 flex flex-col items-center justify-center opacity-55 sm:opacity-80 backdrop-blur-sm`}>
             <span className="text-green-500 font-black text-2xl">6 mo</span>
             <span className="text-[10px] text-gray-400 font-medium leading-tight text-center">avg. to page one</span>
           </div>
         </div>
 
-        <div className="absolute top-[20%] right-[10%] md:right-[22%]" style={getParallaxStyle(25, '20deg')}>
-          <div className="bg-[#78A3FF] text-white font-bold text-xs px-5 py-2.5 rounded-full shadow-lg opacity-80">
+        <div className="absolute top-[21%] -right-1 sm:top-[20%] sm:right-[10%] md:right-[22%]" style={getParallaxStyle(25, '20deg')}>
+          <div className={`${mobilePillClass} bg-[#78A3FF] text-white font-bold text-xs px-5 py-2.5 rounded-full shadow-lg opacity-55 sm:opacity-80`}>
             Start Project &rarr;
           </div>
         </div>
 
-        <div className="absolute top-[28%] right-[6%] md:right-[12%]" style={getParallaxStyle(30, '-10deg')}>
-          <div className="bg-purple-50 text-purple-500 font-bold text-[10px] px-3 py-1.5 rounded-full opacity-70">
+        <div className="absolute top-[33%] -right-6 sm:top-[28%] sm:right-[6%] md:right-[12%]" style={getParallaxStyle(30, '-10deg')}>
+          <div className={`${mobilePillClass} bg-purple-50 text-purple-500 font-bold text-[10px] px-3 py-1.5 rounded-full opacity-45 sm:opacity-70`}>
             Link Building
           </div>
         </div>
 
         {/* Mid Right Area */}
-        <div className="absolute top-[45%] right-[2%] md:right-[8%]" style={getParallaxStyle(15, '-20deg')}>
-          <div className="bg-white rounded-full shadow-sm border border-gray-100 px-4 py-2 flex items-center opacity-70 w-48">
-            <span className="text-gray-300 text-[10px] font-medium w-full">your@email.com</span>
+        <div className="absolute top-[46%] -right-24 sm:top-[45%] sm:right-[2%] md:right-[8%]" style={getParallaxStyle(15, '-20deg')}>
+          <div className={`${mobileWideElementClass} bg-white rounded-full shadow-sm border border-gray-100 px-4 py-2 flex items-center opacity-40 sm:opacity-70 w-48`}>
+            <span className="text-gray-300 text-[10px] font-medium w-full">info@zevenstone.com</span>
             <div className="w-1 h-3 bg-blue-500 rounded animate-pulse"></div>
           </div>
         </div>
 
         {/* Bottom Left Area */}
-        <div className="absolute bottom-[20%] left-[2%] md:left-[8%]" style={getParallaxStyle(-25, '-10deg')}>
-          <div className="bg-white rounded-full shadow-sm border border-gray-100 p-2 flex items-center gap-2 opacity-60">
+        <div className="absolute bottom-[28%] -left-28 sm:bottom-[30%] sm:left-[2%] md:left-[8%]" style={getParallaxStyle(-25, '-10deg')}>
+          <div className={`${mobileWideElementClass} bg-white rounded-full shadow-sm border border-gray-100 p-2 flex items-center gap-2 opacity-35 sm:opacity-60`}>
             <div className="flex items-center gap-1 text-[8px] font-bold text-gray-400 px-2"><span className="text-blue-500 bg-blue-50 w-4 h-4 rounded-full flex items-center justify-center">1</span> Technical SEO</div>
             <div className="flex items-center gap-1 text-[8px] font-bold text-gray-400 px-2"><span className="text-blue-500 bg-blue-50 w-4 h-4 rounded-full flex items-center justify-center">2</span> On-Page</div>
             <div className="flex items-center gap-1 text-[8px] font-bold text-blue-500 px-2 border-b-2 border-blue-500 pb-1"><span className="text-white bg-blue-500 w-4 h-4 rounded-full flex items-center justify-center">3</span> Local SEO</div>
@@ -93,35 +96,35 @@ export const NotFound: React.FC = () => {
           </div>
         </div>
 
-        <div className="absolute bottom-[10%] left-[5%] md:left-[10%]" style={getParallaxStyle(-40, '12deg')}>
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 flex flex-col items-center justify-center opacity-80 backdrop-blur-sm">
+        <div className="absolute bottom-[8%] -left-5 sm:bottom-[10%] sm:left-[5%] md:left-[10%]" style={getParallaxStyle(-40, '12deg')}>
+          <div className={`${mobileMetricCardClass} bg-white rounded-2xl shadow-sm border border-gray-100 p-4 flex flex-col items-center justify-center opacity-50 sm:opacity-80 backdrop-blur-sm`}>
             <span className="text-purple-500 font-black text-2xl">40+</span>
             <span className="text-[10px] text-gray-400 font-medium leading-tight text-center">clients ranking</span>
           </div>
         </div>
 
-        <div className="absolute bottom-[15%] left-[25%] md:left-[22%]" style={getParallaxStyle(-15, '18deg')}>
-          <div className="bg-blue-50 text-blue-500 font-bold text-[10px] px-3 py-1.5 rounded-full opacity-70">
+        <div className="absolute bottom-[15%] left-[24%] sm:bottom-[15%] sm:left-[25%] md:left-[22%]" style={getParallaxStyle(-15, '18deg')}>
+          <div className={`${mobilePillClass} bg-blue-50 text-blue-500 font-bold text-[10px] px-3 py-1.5 rounded-full opacity-45 sm:opacity-70`}>
             Mobile SEO
           </div>
         </div>
 
         {/* Bottom Right Area */}
-        <div className="absolute bottom-[25%] right-[5%] md:right-[15%]" style={getParallaxStyle(35, '25deg')}>
-          <div className="bg-white rounded-full shadow-sm border border-gray-100 px-5 py-2.5 flex items-center gap-2 opacity-80">
+        <div className="absolute bottom-[23%] -right-8 sm:bottom-[25%] sm:right-[5%] md:right-[15%]" style={getParallaxStyle(35, '25deg')}>
+          <div className={`${mobilePillClass} bg-white rounded-full shadow-sm border border-gray-100 px-5 py-2.5 flex items-center gap-2 opacity-45 sm:opacity-80`}>
             <span className="text-gray-500 text-xs font-bold">Read Full Story</span>
             <span className="text-gray-400 text-[10px]">&rarr;</span>
           </div>
         </div>
 
-        <div className="absolute bottom-[35%] right-[12%] md:right-[25%]" style={getParallaxStyle(20, '15deg')}>
-          <div className="bg-teal-50 text-teal-600 font-bold text-[10px] px-3 py-1.5 rounded-full opacity-70">
+        <div className="absolute bottom-[34%] right-[4%] sm:bottom-[35%] sm:right-[12%] md:right-[25%]" style={getParallaxStyle(20, '15deg')}>
+          <div className={`${mobilePillClass} bg-teal-50 text-teal-600 font-bold text-[10px] px-3 py-1.5 rounded-full opacity-45 sm:opacity-70`}>
             Analytics
           </div>
         </div>
 
-        <div className="absolute bottom-[12%] right-[2%] md:right-[8%]" style={getParallaxStyle(45, '-15deg')}>
-          <div className="bg-white rounded-full shadow-sm border border-gray-100 p-2 flex items-center gap-2 opacity-50 w-64">
+        <div className="absolute bottom-[7%] -right-32 sm:bottom-[12%] sm:right-[2%] md:right-[8%]" style={getParallaxStyle(45, '-15deg')}>
+          <div className={`${mobileWideElementClass} bg-white rounded-full shadow-sm border border-gray-100 p-2 flex items-center gap-2 opacity-30 sm:opacity-50 w-64`}>
             <div className="w-8 h-2 bg-gray-100 rounded-full"></div>
             <div className="w-12 h-2 bg-gray-100 rounded-full"></div>
             <div className="w-10 h-2 bg-gray-100 rounded-full"></div>
@@ -131,8 +134,8 @@ export const NotFound: React.FC = () => {
         </div>
 
         {/* Top Center-ish */}
-        <div className="absolute top-[6%] left-[30%] md:left-[35%]" style={getParallaxStyle(-10, '25deg')}>
-          <div className="bg-green-50 text-green-500 font-bold text-[10px] px-3 py-1.5 rounded-full opacity-70">
+        <div className="absolute top-[13%] left-[35%] sm:top-[15%] sm:left-[30%] md:left-[25%]" style={getParallaxStyle(-10, '25deg')}>
+          <div className={`${mobilePillClass} bg-green-50 text-green-500 font-bold text-[10px] px-3 py-1.5 rounded-full opacity-45 sm:opacity-70`}>
             Schema Markup
           </div>
         </div>
@@ -147,19 +150,19 @@ export const NotFound: React.FC = () => {
         className="relative z-10 flex flex-col items-center text-center max-w-3xl mx-auto"
       >
         {/* Large 404 Text */}
-        <h1 className="text-[12rem] md:text-[16rem] font-black text-[#2563EB] leading-none tracking-tighter select-none">
+        <h1 className="text-[8.5rem] sm:text-[12rem] md:text-[16rem] font-black text-[#2563EB] leading-none tracking-tighter select-none">
           404
         </h1>
         
         {/* Decorative broken line */}
-        <div className="flex items-center gap-2 mb-10 opacity-40">
-          <div className="h-[2px] w-8 bg-blue-500"></div>
-          <div className="h-[2px] w-4 bg-blue-500 transform -rotate-12 translate-y-1"></div>
-          <div className="h-[2px] w-6 bg-blue-500 transform rotate-12 -translate-y-1"></div>
-          <div className="h-[2px] w-12 bg-blue-500"></div>
+        <div className="flex items-center gap-1.5 sm:gap-2 mb-8 sm:mb-10 opacity-40">
+          <div className="h-[2px] w-6 sm:w-8 bg-blue-500"></div>
+          <div className="h-[2px] w-3 sm:w-4 bg-blue-500 transform -rotate-12 translate-y-1"></div>
+          <div className="h-[2px] w-5 sm:w-6 bg-blue-500 transform rotate-12 -translate-y-1"></div>
+          <div className="h-[2px] w-9 sm:w-12 bg-blue-500"></div>
           <div className="h-[2px] w-2 bg-blue-500 transform rotate-45 translate-y-1"></div>
-          <div className="h-[2px] w-8 bg-blue-500"></div>
-          <div className="h-[2px] w-16 bg-gray-200"></div>
+          <div className="h-[2px] w-6 sm:w-8 bg-blue-500"></div>
+          <div className="h-[2px] w-10 sm:w-16 bg-gray-200"></div>
         </div>
 
         {/* Tagline */}
@@ -169,10 +172,10 @@ export const NotFound: React.FC = () => {
         </div>
 
         {/* Heading & Paragraph */}
-        <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4 tracking-tight">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 mb-4 tracking-tight">
           This page doesn't exist.
         </h2>
-        <p className="text-gray-500 text-sm md:text-base leading-relaxed max-w-md mx-auto mb-10">
+        <p className="text-gray-500 text-sm md:text-base leading-relaxed max-w-sm sm:max-w-md mx-auto mb-10">
           Looks like this block fell off the grid. Everything else is intact — let's get you back to the working parts.
         </p>
 
