@@ -1,6 +1,6 @@
 import { ArrowRight, CheckCircle, TrendingUp, Zap, Users, Target, Clock, Shield, Award, Star, DollarSign, BarChart3, Rocket, X, Download, Mail, Building2, User, Calendar } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { useQuery } from '@tanstack/react-query';
 import imgLinkLogo from "figma:asset/landingpageLogo.png";
@@ -8,6 +8,11 @@ import imgWhiteLogo from "figma:asset/Logo-White.webp";
 import { sanityClient } from '../../../../lib/sanity';
 import { HOME_PAGE_QUERY } from '../../../../lib/queries';
 
+const FLOATING_FORM_REOPEN_DELAY_MS = 10000;
+
+const LEAD_MAGNET_PDF_URL = '/assets/Zevenstone%20Website%20Case%20Studies.pdf';
+const LEAD_MAGNET_PDF_FILENAME = 'Zevenstone Website Case Studies.pdf';
+const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
 
 export default function LandingPage() {
   const { data: homePage } = useQuery({ queryKey: ['homePage'], queryFn: () => sanityClient.fetch(HOME_PAGE_QUERY) });
@@ -28,13 +33,25 @@ export default function LandingPage() {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 25);
-      // Show floating form after 50% scroll
-      const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-      setShowFloatingForm(scrollPercent > 25 && !formSubmitted);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [formSubmitted]);
+  }, []);
+
+  useEffect(() => {
+    if (formSubmitted) {
+      setShowFloatingForm(false);
+      return;
+    }
+
+    if (!showFloatingForm) {
+      const timerId = window.setTimeout(() => {
+        setShowFloatingForm(true);
+      }, FLOATING_FORM_REOPEN_DELAY_MS);
+
+      return () => window.clearTimeout(timerId);
+    }
+  }, [showFloatingForm, formSubmitted]);
 
   const scrollToCTA = () => {
     const section = document.getElementById('form-cta-section');
@@ -89,6 +106,7 @@ export default function LandingPage() {
       });
 
       if (response.ok) {
+        setFormSubmitted(true);
         navigate('/solutions/thank-you');
       } else {
         setFormStatus(prev => ({ ...prev, [formType]: 'error' }));
@@ -125,6 +143,13 @@ export default function LandingPage() {
       });
 
       if (response.ok) {
+        const downloadLink = document.createElement('a');
+        downloadLink.href = LEAD_MAGNET_PDF_URL;
+        downloadLink.download = LEAD_MAGNET_PDF_FILENAME;
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        downloadLink.remove();
+        await new Promise<void>((resolve) => window.setTimeout(resolve, LEAD_MAGNET_REDIRECT_DELAY_MS));
         navigate('/solutions/thank-you');
       } else {
         setFormStatus(prev => ({ ...prev, ['Case Study']: 'error' }));
@@ -157,7 +182,9 @@ export default function LandingPage() {
         }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
           <div className="flex items-center justify-between">
-            <img src={imgLinkLogo} alt="Zevenstone" className="h-6 sm:h-8" />
+           <Link to="/">
+           <img src={imgLinkLogo} alt="Zevenstone" className="h-6 sm:h-8" />
+           </Link>
             <button
               onClick={scrollToCTA}
               className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 sm:px-8 py-2 sm:py-3 rounded-lg sm:rounded-xl text-sm sm:text-base font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all"
@@ -202,8 +229,7 @@ export default function LandingPage() {
               </button>
               <a
                 href="#how-it-works"
-                className="border-2 border-gray-300 text-gray-700 px-6 sm:px-10 py-4 sm:py-5 rounded-xl font-bold text-base sm:text-lg hover:bg-gray-50 transition-all inline-flex items-center justify-center gap-3 w-full sm:w-auto"
-              >
+                className="border-2 border-gray-300 text-gray-700 px-6 sm:px-10 py-4 sm:py-5 rounded-xl font-bold text-base sm:text-lg border-zeven-dark/10 text-zeven-dark hover:border-zeven-blue hover:text-zeven-blue shadow-sm hover:shadow-md transition-all inline-flex items-center justify-center gap-3 w-full sm:w-auto"              >
                 See How It Works
               </a>
             </div>
@@ -349,7 +375,7 @@ export default function LandingPage() {
           <div className="mt-10 sm:mt-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl sm:rounded-3xl p-6 sm:p-12 text-white text-center relative overflow-hidden group">
             <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-white/20 transition-all duration-700" />
             <Download className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-4 sm:mb-6" />
-            <h3 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">Download: The Growth System Case Study</h3>
+            <h3 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">The Growth System Case Study</h3>
             <p className="text-base sm:text-lg text-blue-100 mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed">
               One partner. Every scope. See exactly how we built the brand, systems, and infrastructure that took one business from early-stage to fully scalable.
             </p>
@@ -385,7 +411,7 @@ export default function LandingPage() {
             {/* Digital Marketing */}
             <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-xl border border-gray-100 hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 flex flex-col">
               <div className="bg-gradient-to-br from-blue-500 to-blue-600 w-12 h-12 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-blue-200">
-                <TrendingUp className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+                <Zap className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
               </div>
               <h3 className="text-xl sm:text-2xl font-bold text-[#2c2e33] mb-4">Digital Marketing</h3>
               <ul className="space-y-2.5 text-sm sm:text-base text-gray-600 flex-grow">
@@ -450,7 +476,7 @@ export default function LandingPage() {
             {/* Tech Solutions */}
             <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-xl border border-gray-100 hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 flex flex-col sm:col-span-2 lg:col-span-1">
               <div className="bg-gradient-to-br from-indigo-500 to-indigo-600 w-12 h-12 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-indigo-200">
-                <Target className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+                <TrendingUp className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
               </div>
               <h3 className="text-xl sm:text-2xl font-bold text-[#2c2e33] mb-4">Tech Solutions</h3>
               <ul className="space-y-2.5 text-sm sm:text-base text-gray-600 flex-grow">
@@ -1025,7 +1051,9 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto text-center">
           <div className="flex items-center justify-center gap-2.5 mb-6">
             <div className="p-2 rounded-lg">
+              <Link to="/">
               <img src={imgWhiteLogo} alt="Zevenstone" className="h-16 sm:h-20" />
+              </Link>
             </div>
             <span className="hidden font-extrabold text-xl tracking-tight">ZEVENSTONE</span>
           </div>
@@ -1140,7 +1168,7 @@ export default function LandingPage() {
               <X className="w-6 h-6 sm:w-7 sm:h-7" />
             </button>
 
-            <div className="p-6 sm:p-10 md:p-14 max-h-[90vh] overflow-y-auto custom-scrollbar">
+            <div className="p-6 sm:p-10 md:p-14 max-h-[90vh] overflow-y-auto">
               <div className="bg-gradient-to-br from-blue-500 to-purple-600 w-12 h-12 sm:w-16 md:w-20 rounded-xl sm:rounded-2xl md:rounded-3xl flex items-center justify-center mb-4 sm:mb-6 md:mb-8 shadow-xl shadow-blue-200">
                 <Download className="w-5 h-5 sm:w-8 md:w-10 text-white" />
               </div>
@@ -1233,7 +1261,7 @@ export default function LandingPage() {
                   )}
                   <button
                     type="submit"
-                    disabled={submittingForm === 'Case Study'}
+                    disabled={!leadMagnetFormData.firstName || !leadMagnetFormData.lastName || !leadMagnetFormData.email || !leadMagnetFormData.agencyName || !leadMagnetFormData.phone}
                     className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 sm:py-5 rounded-xl sm:rounded-2xl font-extrabold text-base sm:text-xl shadow-xl shadow-blue-100 hover:shadow-2xl hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100"
                   >
                     {submittingForm === 'Case Study' ? 'Sending...' : 'Get Your Free Case Study →'}

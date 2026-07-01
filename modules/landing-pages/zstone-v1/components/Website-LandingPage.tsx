@@ -28,6 +28,10 @@ export default function LandingPage() {
 
   const navigate = useNavigate();
 
+const LEAD_MAGNET_PDF_URL = '/assets/Zevenstone%20Website%20Case%20Studies.pdf';
+const LEAD_MAGNET_PDF_FILENAME = 'Zevenstone Website Case Studies.pdf';
+const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
+
   const [isScrolled, setIsScrolled] = useState(false);
   const [showFloatingForm, setShowFloatingForm] = useState(false);
   const [showLeadMagnet, setShowLeadMagnet] = useState(false);
@@ -142,6 +146,13 @@ export default function LandingPage() {
       const API_URL = import.meta.env.VITE_CONTACT_API_URL || 'https://zevenstone-contact-api.zevenstone7.workers.dev';
       const response = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(submissionData) });
       if (response.ok) {
+        const downloadLink = document.createElement('a');
+        downloadLink.href = LEAD_MAGNET_PDF_URL;
+        downloadLink.download = LEAD_MAGNET_PDF_FILENAME;
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        downloadLink.remove();
+        await new Promise<void>((resolve) => window.setTimeout(resolve, LEAD_MAGNET_REDIRECT_DELAY_MS));
         navigate('/solutions/thank-you');
       } else { setLeadStatus('error'); }
     } catch (err) { console.error('Lead magnet error:', err); setLeadStatus('error'); }
