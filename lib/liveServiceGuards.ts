@@ -9,6 +9,8 @@ const BLOCKED_LIVE_NESTED_SERVICE_PATHS = new Set([
   '/services/tech-solutions/landing-pages-cro',
 ]);
 
+const ENABLE_LIVE_SERVICE_GUARDS = false;
+
 export const slugifyServicePathSegment = (text: string) =>
   text
     .toLowerCase()
@@ -45,7 +47,9 @@ export const normalizeInternalPath = (path?: string) => {
 };
 
 export const isBlockedLiveNestedServicePath = (path?: string) =>
-  isLiveProductionHost() && BLOCKED_LIVE_NESTED_SERVICE_PATHS.has(normalizeInternalPath(path));
+    ENABLE_LIVE_SERVICE_GUARDS && isLiveProductionHost() && BLOCKED_LIVE_NESTED_SERVICE_PATHS.has(normalizeInternalPath(path));
+
+console.log(isBlockedLiveNestedServicePath,"service path check");
 
 export const isBlockedLiveNestedServiceRoute = (category?: string, slug?: string) => {
   if (!category || !slug) return false;
