@@ -79,7 +79,7 @@ export default function LandingPage() {
       const API_URL = import.meta.env.VITE_CONTACT_API_URL || 'https://zevenstone-contact-api.zevenstone7.workers.dev';
       const response = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(submissionData) });
       if (response.ok) {
-        navigate('/managed-solutions/grow-your-business-online/thank-you');
+        navigate('/solutions/thank-you');
       } else { setCtaStatus('error'); }
     } catch (err) { console.error('CTA form error:', err); setCtaStatus('error'); }
     finally { setCtaSubmitting(false); }
@@ -111,7 +111,7 @@ export default function LandingPage() {
       const API_URL = import.meta.env.VITE_CONTACT_API_URL || 'https://zevenstone-contact-api.zevenstone7.workers.dev';
       const response = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(submissionData) });
       if (response.ok) {
-        navigate('/managed-solutions/grow-your-business-online/thank-you');
+        navigate('/solutions/thank-you');
       } else { setFloatingStatus('error'); }
     } catch (err) { console.error('Floating form error:', err); setFloatingStatus('error'); }
     finally { setFloatingSubmitting(false); }
@@ -142,7 +142,7 @@ export default function LandingPage() {
       const API_URL = import.meta.env.VITE_CONTACT_API_URL || 'https://zevenstone-contact-api.zevenstone7.workers.dev';
       const response = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(submissionData) });
       if (response.ok) {
-        navigate('/managed-solutions/grow-your-business-online/thank-you');
+        navigate('/solutions/thank-you');
       } else { setLeadStatus('error'); }
     } catch (err) { console.error('Lead magnet error:', err); setLeadStatus('error'); }
     finally { setLeadSubmitting(false); }
