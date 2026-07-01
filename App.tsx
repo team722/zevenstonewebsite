@@ -46,8 +46,8 @@ const ScrollToTop = () => {
 
 const AppContent: React.FC = () => {
   const location = useLocation();
-  const isLandingPage = location.pathname.startsWith('/strategic-partnerships/agency-growth-partner') || location.pathname.startsWith('/v1');
-  const isWebsiteLandingPage = location.pathname.startsWith('/managed-solutions/grow-your-business-online') || location.pathname.startsWith('/v2');
+  const isLandingPage = (location.pathname.startsWith('/strategic-partnerships/agency-growth-partner') && !location.pathname.includes('/thank-you')) || location.pathname.startsWith('/v1');
+  const isWebsiteLandingPage = (location.pathname.startsWith('/managed-solutions/grow-your-business-online') && !location.pathname.includes('/thank-you')) || location.pathname.startsWith('/v2');
 
   return (
     <div className="min-h-screen bg-zeven-bg text-zeven-dark selection:bg-zeven-blue selection:text-white font-sans antialiased">
@@ -69,7 +69,7 @@ const AppContent: React.FC = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/terms-and-conditions" element={<TermsPage />} />
           <Route path="/privacy-policy" element={<PrivacyPage />} />
-          {/* <Route path="/thank-you" element={<ThankYou />} /> */}
+          <Route path="/solutions/thank-you" element={<ThankYou />} />
 
           {/* New Modular Landing Page Routes (Phase 2) */}
           <Route path="/strategic-partnerships/agency-growth-partner" element={<ZstoneLandingPageV1 />} />

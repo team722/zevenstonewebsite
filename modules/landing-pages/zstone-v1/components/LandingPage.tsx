@@ -89,7 +89,7 @@ export default function LandingPage() {
       });
 
       if (response.ok) {
-        navigate('/thank-you');
+        navigate('/solutions/thank-you');
       } else {
         setFormStatus(prev => ({ ...prev, [formType]: 'error' }));
       }
@@ -125,7 +125,7 @@ export default function LandingPage() {
       });
 
       if (response.ok) {
-        navigate('/thank-you');
+        navigate('/solutions/thank-you');
       } else {
         setFormStatus(prev => ({ ...prev, ['Case Study']: 'error' }));
       }
