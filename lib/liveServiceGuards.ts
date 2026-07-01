@@ -49,7 +49,6 @@ export const normalizeInternalPath = (path?: string) => {
 export const isBlockedLiveNestedServicePath = (path?: string) =>
     ENABLE_LIVE_SERVICE_GUARDS && isLiveProductionHost() && BLOCKED_LIVE_NESTED_SERVICE_PATHS.has(normalizeInternalPath(path));
 
-console.log(isBlockedLiveNestedServicePath,"service path check");
 
 export const isBlockedLiveNestedServiceRoute = (category?: string, slug?: string) => {
   if (!category || !slug) return false;
