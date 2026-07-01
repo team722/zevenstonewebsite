@@ -244,9 +244,9 @@ export default function LandingPage() {
     solutionHeading: pageData.solutionHeading || "One System. Every Scope. Zero Overhead.",
     solutionDescription: pageData.solutionDescription || "Zevenstone operates as your invisible delivery engine — handling everything your clients need, **under your brand**, at the quality and consistency your reputation demands.",
     services: pageData.services || [
-      { title: "Digital Marketing", iconName: "TrendingUp", inclusions: ["Search Engine Optimisation", "Paid Search · Google Ads", "Social Media Advertising", "Lead Generation", "CRO Audit"] },
+      { title: "Digital Marketing", iconName: "Target", inclusions: ["Search Engine Optimisation", "Paid Search · Google Ads", "Social Media Advertising", "Lead Generation", "CRO Audit"] },
       { title: "Marketing Automation", iconName: "Zap", inclusions: ["CRM Setup and Management", "Lead Management System", "Sales Pipeline Management", "Email and Lifecycle Sequences", "AI Solutions"] },
-      { title: "Creative Services", iconName: "Target", inclusions: ["Brand Strategy", "Graphic Design · Motion Graphics", "Video Editing", "UI/UX Design", "Web & Digital Experience"] },
+      { title: "Creative Services", iconName: "TrendingUp", inclusions: ["Brand Strategy", "Graphic Design · Motion Graphics", "Video Editing", "UI/UX Design", "Web & Digital Experience"] },
       { title: "Tech Solutions", iconName: "Target", inclusions: ["Custom Web Development", "E-Commerce Solutions", "Web App Development", "Customer Journey Design", "App Development"] }
     ],
     solutionKeyMessage: pageData.solutionKeyMessage || "One partner. Every scope. Delivered under your brand.",
