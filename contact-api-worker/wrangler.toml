@@ -16,3 +16,18 @@ ZOHO_PORTAL_NAME = "zevenstone"
 ZOHO_FORM_LINK_NAME = "websiteform"
 ZOHO_LANDING_FORM_NAME = "ZevenstoneAgencyForm"
 ZOHO_LANDING_PERMA = "kVR_H1dwYdcCYi6XnQBA7LLg-e1FOZ2jA9hg5YZ7I3A"
+
+[observability]
+enabled = true
+head_sampling_rate = 1
+
+[observability.logs]
+enabled = true
+head_sampling_rate = 1
+persist = true
+invocation_logs = true
+
+[observability.traces]
+enabled = false
+persist = true
+head_sampling_rate = 1
