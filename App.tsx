@@ -46,8 +46,10 @@ const ScrollToTop = () => {
 
 const AppContent: React.FC = () => {
   const location = useLocation();
-  const isLandingPage = (location.pathname.startsWith('/strategic-partnerships/agency-growth-partner') && !location.pathname.includes('/thank-you')) || location.pathname.startsWith('/v1');
-  const isWebsiteLandingPage = (location.pathname.startsWith('/managed-solutions/grow-your-business-online') && !location.pathname.includes('/thank-you')) || location.pathname.startsWith('/v2');
+  const currentPath = location.pathname.replace(/\/$/, '') || '/';
+  const isLandingPage = currentPath === '/strategic-partnerships/agency-growth-partner' || currentPath === '/v1';
+  const isWebsiteLandingPage = currentPath === '/managed-solutions/grow-your-business-online' || currentPath === '/v2';
+
 
   return (
     <div className="min-h-screen bg-zeven-bg text-zeven-dark selection:bg-zeven-blue selection:text-white font-sans antialiased">
@@ -80,7 +82,7 @@ const AppContent: React.FC = () => {
           <Route path="/landing-page/story/:id" element={<ZstoneStoryDetailV1 />} />
           <Route path="/landing-page/blog" element={<ZstoneBlogHubV1 />} />
           <Route path="/landing-page/blog/:id" element={<ZstoneBlogPostV1 />} /> */}
-          {/* <Route path="*" element={<NotFound />} /> */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       {!isLandingPage && !isWebsiteLandingPage && <Footer />}
