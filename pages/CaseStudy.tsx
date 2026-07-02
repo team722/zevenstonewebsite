@@ -37,14 +37,23 @@ const CaseStudyContactForm = ({
    benefits?: string[];
 }) => {
    const [formData, setFormData] = useState({
-      name: '',
+      title: '',
+      firstName: '',
+      lastName: '',
       email: '',
       company: '',
-      goals: '',
+      budget: '',
+      expectations: '',
       website_url: '', // honeypot
    });
    const [isSubmitting, setIsSubmitting] = useState(false);
    const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+   };
+
+     const navigate = useNavigate();
 
    const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
@@ -64,10 +73,15 @@ const CaseStudyContactForm = ({
             },
             body: JSON.stringify({
                formSource: 'caseStudy',
-               name: formData.name,
+               title: formData.title,
+               firstName: formData.firstName,
+               lastName: formData.lastName,
+               name: `${formData.firstName} ${formData.lastName}`.trim(),
                email: formData.email,
                company: formData.company,
-               goals: formData.goals,
+               budget: formData.budget,
+               expectations: formData.expectations,
+               goals: formData.expectations,
                caseStudySlug,
                website_url: formData.website_url, // honeypot
             }),
@@ -100,15 +114,7 @@ const CaseStudyContactForm = ({
    };
 
    if (submitStatus === 'success') {
-      return (
-         <div className="text-center py-10">
-            <div className="w-16 h-16 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
-               <CheckCircle className="w-8 h-8" />
-            </div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">Message Sent!</h3>
-            <p className="text-gray-600">We'll be in touch shortly.</p>
-         </div>
-      );
+    navigate('/solutions/thank-you');
    }
 
    return (
@@ -129,43 +135,117 @@ const CaseStudyContactForm = ({
                type="text"
                name="website_url"
                value={formData.website_url}
-               onChange={e => setFormData({...formData, website_url: e.target.value})}
+               onChange={handleChange}
                tabIndex={-1}
                autoComplete="new-password"
             />
          </div>
-         
-         <input 
-            type="text" 
-            placeholder="Your Name" 
-            required
-            value={formData.name}
-            onChange={e => setFormData({...formData, name: e.target.value})}
-            className="w-full px-4 py-3 md:px-6 md:py-4 bg-white border border-gray-200 rounded-full text-gray-800 placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-sm md:text-base font-medium shadow-sm" 
-         />
+         <div className="relative">
+         <select
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+            className="appearance-none w-full px-4 py-3 md:px-6 md:py-4 bg-white border border-gray-200 rounded-full text-gray-800 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-sm md:text-base font-medium shadow-sm"
+         >
+            <option value="">Select Title</option>
+            <option value="Mr.">Mr.</option>
+            <option value="Mrs.">Mrs.</option>
+            <option value="Ms.">Ms.</option>
+            <option value="Dr.">Dr.</option>
+         </select>
+         <div className="pointer-events-none absolute inset-y-0 right-5 flex items-center">
+    <svg
+      className="h-4 w-4 text-gray-600"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M19 9l-7 7-7-7"
+      />
+    </svg>
+  </div>
+         </div>
+
+         <div className="grid sm:grid-cols-2 gap-4">
+            <input 
+               type="text" 
+               name="firstName"
+               placeholder="First Name" 
+               required
+               value={formData.firstName}
+               onChange={handleChange}
+               className="w-full px-4 py-3 md:px-6 md:py-4 bg-white border border-gray-200 rounded-full text-gray-800 placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-sm md:text-base font-medium shadow-sm" 
+            />
+            
+            <input 
+               type="text" 
+               name="lastName"
+               placeholder="Last Name" 
+               required
+               value={formData.lastName}
+               onChange={handleChange}
+               className="w-full px-4 py-3 md:px-6 md:py-4 bg-white border border-gray-200 rounded-full text-gray-800 placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-sm md:text-base font-medium shadow-sm" 
+            />
+         </div>
          
          <input 
             type="email" 
+            name="email"
             placeholder="Email Address" 
             required
             value={formData.email}
-            onChange={e => setFormData({...formData, email: e.target.value})}
+            onChange={handleChange}
             className="w-full px-4 py-3 md:px-6 md:py-4 bg-white border border-gray-200 rounded-full text-gray-800 placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-sm md:text-base font-medium shadow-sm" 
          />
          
          <input 
             type="text" 
+            name="company"
             placeholder="Company Name" 
             value={formData.company}
-            onChange={e => setFormData({...formData, company: e.target.value})}
+            onChange={handleChange}
             className="w-full px-4 py-3 md:px-6 md:py-4 bg-white border border-gray-200 rounded-full text-gray-800 placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-sm md:text-base font-medium shadow-sm" 
          />
+          <div className="relative">
+         <select
+            name="budget"
+            value={formData.budget}
+            onChange={handleChange}
+            className="appearance-none w-full px-4 py-3 md:px-6 md:py-4 bg-white border border-gray-200 rounded-full text-gray-800 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-sm md:text-base font-medium shadow-sm"
+         >
+            <option value="">Select Budget</option>
+            <option value="5K-10K">5K-10K</option>
+            <option value="10K-50K">10K-50K</option>
+            <option value="50K-100K">50K-100K</option>
+            <option value="100K-500K">100K-500K</option>
+         </select>
+          <div className="pointer-events-none absolute inset-y-0 right-5 flex items-center">
+    <svg
+      className="h-4 w-4 text-gray-600"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M19 9l-7 7-7-7"
+      />
+    </svg>
+  </div>
+         </div>
          
          <textarea 
+            name="expectations"
             placeholder="Tell us about your goals..." 
             required
-            value={formData.goals}
-            onChange={e => setFormData({...formData, goals: e.target.value})}
+            value={formData.expectations}
+            onChange={handleChange}
             className="w-full px-4 py-3 md:px-6 md:py-4 bg-white border border-gray-200 rounded-[28px] text-gray-800 placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-sm md:text-base font-medium min-h-[140px] resize-none shadow-sm" 
          />
          
