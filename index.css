@@ -24,6 +24,10 @@
   --color-zeven-bg: #FFFFFF;
   --color-zeven-surface: #F5F6F8;
   --color-zeven-blue-dark: #155DFC;
+  --color-zeven-case-study: #225CE5;
+  --color-zeven-case-study-light:#2B7FFF;
+  --color-zeven-case-study-industry-blue:#0099FF;
+  --color-zeven-tactical-blue:#2563EB;
 
   /* Custom Background Images */
   --background-image-hero-pattern: radial-gradient(circle at 50% 50%, rgba(0, 153, 255, 0.05) 0%, rgba(255, 255, 255, 0) 50%);
