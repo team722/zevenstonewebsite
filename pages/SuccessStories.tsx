@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 
 export const SuccessStories: React.FC = () => {
    const [currentPage, setCurrentPage] = useState(1);
+   const [selectedTag, setSelectedTag] = useState<string>('All');
    const itemsPerPage = 4;
    const { data: caseStudies, isLoading: loadingCases, error: errorCases } = useQuery({
       queryKey: ['caseStudies'],
@@ -36,11 +37,17 @@ export const SuccessStories: React.FC = () => {
    if (isLoading) return <LoadingSpinner />;
    if (error) return <ErrorState />;
 
-   const stories = caseStudies || [];
+   const allStories = caseStudies || [];
    const clientLove = (testimonials || []).slice(0, 3);
 
-   const totalPages = Math.ceil(stories.length / itemsPerPage);
-   const currentStories = stories.slice(
+   const allTags = ['All', ...Array.from(new Set(allStories.flatMap((study: any) => study.tags || [])))].filter(Boolean) as string[];
+
+   const filteredStories = selectedTag === 'All' 
+      ? allStories 
+      : allStories.filter((study: any) => (study.tags || []).includes(selectedTag));
+
+   const totalPages = Math.ceil(filteredStories.length / itemsPerPage);
+   const currentStories = filteredStories.slice(
       (currentPage - 1) * itemsPerPage,
       currentPage * itemsPerPage
    );
@@ -152,10 +159,40 @@ export const SuccessStories: React.FC = () => {
             </div>
                
             {/* Featured Stories (Sanity Case Studies) */}
-            {stories.length > 0 && (
+            {allStories.length > 0 && (
                <div className="mb-32">
-                  <div className="grid md:grid-cols-2 gap-8">
-                     {currentStories.map((study: any, idx: number) => {
+                  {/* Filter Tabs */}
+                  {allTags.length > 1 && (
+                     <div className="flex mb-12">
+                        <div className="bg-white rounded-md p-4 w-full flex items-center gap-1 shadow-sm border border-gray-100 flex-wrap">
+                           {allTags.map(tag => (
+                              <button
+                                 key={tag}
+                                 onClick={() => {
+                                    setSelectedTag(tag);
+                                    setCurrentPage(1);
+                                 }}
+                                 className={`px-5 py-2 rounded-full text-sm font-semibold transition-all ${
+                                    selectedTag === tag 
+                                       ? 'bg-[#0ea5e9] text-white shadow-md' 
+                                       : 'text-gray-500 hover:bg-gray-50 hover:text-gray-800'
+                                 }`}
+                              >
+                                 {tag}
+                              </button>
+                           ))}
+                        </div>
+                     </div>
+                  )}
+
+                  {filteredStories.length === 0 ? (
+                     <div className="text-center py-20 bg-white rounded-3xl border border-gray-100 shadow-sm">
+                        <h3 className="text-xl font-bold text-gray-800 mb-2">No Case Studies Found</h3>
+                        <p className="text-gray-500">There are currently no case studies available for this category.</p>
+                     </div>
+                  ) : (
+                     <div className="grid md:grid-cols-2 gap-8">
+                        {currentStories.map((study: any, idx: number) => {
                      return (
                      <motion.div
                         key={study._id || idx}
@@ -233,7 +270,8 @@ export const SuccessStories: React.FC = () => {
                         </div>
                      </motion.div>
                      )})}
-                  </div>
+                     </div>
+                  )}
                   {renderPagination()}
                </div>
             )}
