@@ -191,7 +191,7 @@ export const SuccessStories: React.FC = () => {
                         <p className="text-gray-500">There are currently no case studies available for this category.</p>
                      </div>
                   ) : (
-                     <div className="grid md:grid-cols-2 gap-8">
+                     <div className="grid lg:grid-cols-2 gap-8 justify-center">
                         {currentStories.map((study: any, idx: number) => {
                      return (
                      <motion.div
@@ -200,7 +200,7 @@ export const SuccessStories: React.FC = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
-                        className="bg-white rounded-[2rem] border border-gray-100 shadow-lg hover:shadow-2xl transition-all p-8 flex flex-col h-full"
+                        className="bg-white rounded-[2rem] max-w-[608px] md:min-w-[480px] border border-gray-100 shadow-lg hover:shadow-2xl transition-all p-8 flex flex-col h-full"
                      >
                         {/* Top Row: Category and Pill */}
                         <div className="flex justify-between items-start mb-6">
