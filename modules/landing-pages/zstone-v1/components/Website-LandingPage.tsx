@@ -359,10 +359,10 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
              <Link to="/"><img src={imgLinkLogo} alt="Zevenstone" className="h-6 sm:h-8" /></Link>
             <button
               onClick={scrollToCTA}
-              id="cta_header_bookyourfreeaudit"
+              
               className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 sm:px-8 py-2 sm:py-3 rounded-lg sm:rounded-xl text-sm sm:text-base font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all"
             >
-              <a href="#form-cta-section">{pd.primaryCtaText}</a>
+              <a href="#form-cta-section" id="cta_header_bookyourfreeaudit">{pd.primaryCtaText}</a>
             </button>
           </div>
         </div>
