@@ -925,8 +925,8 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
                   {ctaStatus === 'error' && (
                     <div className="mb-4 p-4 bg-white/20 text-white rounded-xl border border-white/30 text-sm font-medium animate-shake">Oops! Something went wrong. Please try again.</div>
                   )}
-                  <button type="submit" id="cta_footerform_bookyourfreestrategycall" disabled={ctaSubmitting || !ctaFormData.firstName || !ctaFormData.lastName || !ctaFormData.email || !ctaFormData.businessName || !ctaFormData.phone || ctaFormData.growthChallenges.length === 0} className="cursor-pointer w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 sm:px-12 py-4 sm:py-5 rounded-xl sm:rounded-2xl font-extrabold text-lg sm:text-xl shadow-2xl hover:shadow-3xl hover:scale-[1.02] active:scale-95 transition-all inline-flex items-center justify-center gap-4 group disabled:opacity-70 disabled:cursor-not-allowed">
-                    <span>{ctaSubmitting ? 'Sending...' : 'Book Your Free Strategy Call'}</span>
+                  <button type="submit"  disabled={ctaSubmitting || !ctaFormData.firstName || !ctaFormData.lastName || !ctaFormData.email || !ctaFormData.businessName || !ctaFormData.phone || ctaFormData.growthChallenges.length === 0} className="cursor-pointer w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 sm:px-12 py-4 sm:py-5 rounded-xl sm:rounded-2xl font-extrabold text-lg sm:text-xl shadow-2xl hover:shadow-3xl hover:scale-[1.02] active:scale-95 transition-all inline-flex items-center justify-center gap-4 group disabled:opacity-70 disabled:cursor-not-allowed">
+                    <span id="cta_footerform_bookyourfreestrategycall">{ctaSubmitting ? 'Sending...' : 'Book Your Free Strategy Call'}</span>
                     <Calendar className="w-5 h-5 sm:w-6 sm:h-6 shrink-0 group-hover:rotate-12 transition-transform" />
                   </button>
                 </form>
