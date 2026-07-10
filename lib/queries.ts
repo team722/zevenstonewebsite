@@ -111,8 +111,9 @@ export const SERVICES_QUERY = `
 
 export const CASE_STUDIES_QUERY = `
   *[_type == "caseStudy"] | order(displayOrder asc) {
-    _id, client, industry, title, subtitle, tags, displayOrder, "slug": slug.current,
+    _id, client, industry, title, subtitle, tags, services, displayOrder, "slug": slug.current,
     "imageUrl": image.asset->url,
+     "logoUrl": logo.asset->url,
     headline,
     challenge {
       overview
@@ -120,7 +121,10 @@ export const CASE_STUDIES_QUERY = `
     results {
       overview,
       metrics[] { value, label }
-    }
+    },
+     testimonial {
+      quote, author, role, "avatarUrl": avatar.asset->url
+    },
   }
 `;
 
@@ -128,6 +132,7 @@ export const CASE_STUDY_BY_SLUG_QUERY = `
   *[_type == "caseStudy" && (slug.current == $slug || _id == $slug)][0] {
     _id, client, industry, title, subtitle, "slug": slug.current,
     "imageUrl": image.asset->url,
+      "logoUrl": logo.asset->url,
     timeline, totalDuration, services, tags,
     headline, heroCtaPrimary, heroCtaSecondary, trustIndicators,
     stickyCtaSubtitle, stickyCtaButtonText,

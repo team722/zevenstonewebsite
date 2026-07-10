@@ -25,6 +25,7 @@ export async function onRequestPost({ request, env }) {
 
     const isWebsiteLandingPage = data.pageSource === 'websiteLandingPage';
     const isLandingPage = !!data.formType && !isWebsiteLandingPage;
+    console.log(isLandingPage,':isLandingpage');
     const sanityDocumentType = isWebsiteLandingPage 
       ? 'websiteLandingPageSubmission' 
       : (isLandingPage ? 'landingPageSubmission' : 'contactSubmission');
