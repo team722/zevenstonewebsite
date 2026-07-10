@@ -360,7 +360,7 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
             <button
               onClick={scrollToCTA}
               
-              className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 sm:px-8 py-2 sm:py-3 rounded-lg sm:rounded-xl text-sm sm:text-base font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all"
+              className="cursor-pointer bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 sm:px-8 py-2 sm:py-3 rounded-lg sm:rounded-xl text-sm sm:text-base font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all"
             >
               <a href="#form-cta-section" id="cta_header_bookyourfreeaudit">{pd.primaryCtaText}</a>
             </button>
@@ -393,16 +393,17 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-6 px-4">
               <button
                 onClick={scrollToCTA}
-                id="cta_banner_bookyourfreeaudit"
-                className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 sm:px-10 py-4 sm:py-5 rounded-xl font-bold text-base sm:text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all inline-flex items-center justify-center gap-3 w-full sm:w-auto"
+               
+                className="cursor-pointer bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 sm:px-10 py-4 sm:py-5 rounded-xl font-bold text-base sm:text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all inline-flex items-center justify-center gap-3 w-full sm:w-auto"
               >
-                <a href="#form-cta-section">{pd.primaryCtaText}</a>
+                <a href="#form-cta-section"
+                 id="cta_banner_bookyourfreeaudit" >{pd.primaryCtaText}</a>
                 <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6" />
               </button>
               <a
                 href="#how-it-works"
                 id="cta_banner_seehowitworks"
-                className="border-2 border-gray-300 text-gray-700 px-6 sm:px-10 py-4 sm:py-5 rounded-xl font-bold text-base sm:text-lg border-zeven-dark/10 text-zeven-dark hover:border-zeven-blue hover:text-zeven-blue shadow-sm hover:shadow-md transition-all inline-flex items-center justify-center gap-3 w-full sm:w-auto"
+                className="cursor-pointer border-2 border-gray-300 text-gray-700 px-6 sm:px-10 py-4 sm:py-5 rounded-xl font-bold text-base sm:text-lg border-zeven-dark/10 text-zeven-dark hover:border-zeven-blue hover:text-zeven-blue shadow-sm hover:shadow-md transition-all inline-flex items-center justify-center gap-3 w-full sm:w-auto"
               >
                 {pd.secondaryCtaText}
               </a>
@@ -526,7 +527,7 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
               <button
                 onClick={() => setShowLeadMagnet(true)}
                 id="cta_cs_download_getfreeguide"
-                className="bg-white text-blue-600 px-6 sm:px-10 py-4 sm:py-5 rounded-xl font-bold text-base sm:text-lg shadow-xl hover:scale-105 transition-all inline-flex items-center gap-2 w-full sm:w-auto justify-center"
+                className="cursor-pointer bg-white text-blue-600 px-6 sm:px-10 py-4 sm:py-5 rounded-xl font-bold text-base sm:text-lg shadow-xl hover:scale-105 transition-all inline-flex items-center gap-2 w-full sm:w-auto justify-center"
               >
                 {pd.leadMagnet.buttonText}
                 <ArrowRight className="w-5 h-5" />
@@ -824,10 +825,9 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
             </p>
             <button
               onClick={scrollToCTA}
-              id="cta_abovefooter_bookyourfreeaudit"
-              className="bg-white text-blue-600 px-6 sm:px-12 py-4 sm:py-5 rounded-xl font-bold text-base sm:text-xl shadow-xl hover:scale-105 transition-all inline-flex items-center gap-3 relative z-10 w-full sm:w-auto justify-center"
+              className="cursor-pointer bg-white text-blue-600 px-6 sm:px-12 py-4 sm:py-5 rounded-xl font-bold text-base sm:text-xl shadow-xl hover:scale-105 transition-all inline-flex items-center gap-3 relative z-10 w-full sm:w-auto justify-center"
             >
-              <a href="#form-cta-section">{pd.qualifierCtaButton}</a>
+              <a href="#form-cta-section" id="cta_abovefooter_bookyourfreeaudit">{pd.qualifierCtaButton}</a>
               <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
           </div>
@@ -925,7 +925,7 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
                   {ctaStatus === 'error' && (
                     <div className="mb-4 p-4 bg-white/20 text-white rounded-xl border border-white/30 text-sm font-medium animate-shake">Oops! Something went wrong. Please try again.</div>
                   )}
-                  <button type="submit" id="cta_footerform_bookyourfreestrategycall" disabled={ctaSubmitting || !ctaFormData.firstName || !ctaFormData.lastName || !ctaFormData.email || !ctaFormData.businessName || !ctaFormData.phone || ctaFormData.growthChallenges.length === 0} className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 sm:px-12 py-4 sm:py-5 rounded-xl sm:rounded-2xl font-extrabold text-lg sm:text-xl shadow-2xl hover:shadow-3xl hover:scale-[1.02] active:scale-95 transition-all inline-flex items-center justify-center gap-4 group disabled:opacity-70 disabled:cursor-not-allowed">
+                  <button type="submit" id="cta_footerform_bookyourfreestrategycall" disabled={ctaSubmitting || !ctaFormData.firstName || !ctaFormData.lastName || !ctaFormData.email || !ctaFormData.businessName || !ctaFormData.phone || ctaFormData.growthChallenges.length === 0} className="cursor-pointer w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 sm:px-12 py-4 sm:py-5 rounded-xl sm:rounded-2xl font-extrabold text-lg sm:text-xl shadow-2xl hover:shadow-3xl hover:scale-[1.02] active:scale-95 transition-all inline-flex items-center justify-center gap-4 group disabled:opacity-70 disabled:cursor-not-allowed">
                     <span>{ctaSubmitting ? 'Sending...' : 'Book Your Free Strategy Call'}</span>
                     <Calendar className="w-5 h-5 sm:w-6 sm:h-6 shrink-0 group-hover:rotate-12 transition-transform" />
                   </button>
@@ -1017,7 +1017,7 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
                 {floatingStatus === 'error' && (
                   <div className="mb-4 p-4 bg-red-50 text-red-600 rounded-xl border border-red-100 text-sm font-medium animate-shake">Oops! Something went wrong. Please try again.</div>
                 )}
-                <button type="submit" id="cta_popupform_bookfreecall" disabled={floatingSubmitting || !floatingFormData.firstName || !floatingFormData.lastName || !floatingFormData.email || !floatingFormData.businessName || !floatingFormData.phone || floatingFormData.growthChallenges.length === 0} className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 rounded-xl font-bold hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-sm shadow-lg shadow-blue-100 disabled:opacity-70 disabled:cursor-not-allowed disabled:scale-100">
+                <button type="submit" id="cta_popupform_bookfreecall" disabled={floatingSubmitting || !floatingFormData.firstName || !floatingFormData.lastName || !floatingFormData.email || !floatingFormData.businessName || !floatingFormData.phone || floatingFormData.growthChallenges.length === 0} className="w-full cursor-pointer bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 rounded-xl font-bold hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-sm shadow-lg shadow-blue-100 disabled:opacity-70 disabled:cursor-not-allowed disabled:scale-100">
                   {floatingSubmitting ? 'Sending...' : 'Book Free Call →'}
                 </button>
               </form>
