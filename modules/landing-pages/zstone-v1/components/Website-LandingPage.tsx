@@ -393,10 +393,11 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-6 px-4">
               <button
                 onClick={scrollToCTA}
-                id="cta_banner_bookyourfreeaudit"
+               
                 className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 sm:px-10 py-4 sm:py-5 rounded-xl font-bold text-base sm:text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all inline-flex items-center justify-center gap-3 w-full sm:w-auto"
               >
-                <a href="#form-cta-section">{pd.primaryCtaText}</a>
+                <a href="#form-cta-section"
+                 id="cta_banner_bookyourfreeaudit" >{pd.primaryCtaText}</a>
                 <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6" />
               </button>
               <a
@@ -824,10 +825,9 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
             </p>
             <button
               onClick={scrollToCTA}
-              id="cta_abovefooter_bookyourfreeaudit"
               className="bg-white text-blue-600 px-6 sm:px-12 py-4 sm:py-5 rounded-xl font-bold text-base sm:text-xl shadow-xl hover:scale-105 transition-all inline-flex items-center gap-3 relative z-10 w-full sm:w-auto justify-center"
             >
-              <a href="#form-cta-section">{pd.qualifierCtaButton}</a>
+              <a href="#form-cta-section" id="cta_abovefooter_bookyourfreeaudit">{pd.qualifierCtaButton}</a>
               <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
           </div>
