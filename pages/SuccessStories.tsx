@@ -191,7 +191,7 @@ export const SuccessStories: React.FC = () => {
                         <p className="text-gray-500">There are currently no case studies available for this category.</p>
                      </div>
                   ) : (
-                     <div className="grid lg:grid-cols-2 gap-8 justify-center">
+                     <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-[auto_auto] gap-8 2xl:gap-12 justify-items-center justify-center">
                         {currentStories.map((study: any, idx: number) => {
                      return (
                      <motion.div
