@@ -73,7 +73,7 @@ const AppContent: React.FC = () => {
           <Route path="/terms-and-conditions" element={<TermsPage />} />
           <Route path="/privacy-policy" element={<PrivacyPage />} />
           <Route path="/solutions/thank-you" element={<ThankYou />} />
-          <Route path="/contact/thank-you" element={<WebsiteThankYou />} />
+          <Route path="/thank-you" element={<WebsiteThankYou />} />
          
 
           {/* New Modular Landing Page Routes (Phase 2) */}

@@ -36,9 +36,8 @@ export const WebsiteThankYou: React.FC = () => {
   return (
     <div className="min-h-screen bg-white font-sans overflow-x-hidden">
       <Helmet>
-        <title>Thank You | Your Website Audit Request Has Been Received</title>
-        <meta name="description" content="Thank you for requesting your free website audit. Our team will review your website and contact you with the next steps shortly."
-  />
+        <title>Thank You for Contacting Zevenstone | We'll Be in Touch Soon</title>
+        <meta name="description" content="Thank you for contacting Zevenstone. We've received your request and a member of our team will review it and get back to you as soon as possible." />
       </Helmet>
 
       {/* 1. Hero Section */}
