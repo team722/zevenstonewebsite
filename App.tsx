@@ -25,6 +25,7 @@ import TermsPage from './pages/TermsPage';
 import PrivacyPage from './pages/Privacy';
 import NestedServicePage from './pages/NestedServicePage';
 import { ThankYou } from './pages/ThankYou';
+import { WebsiteThankYou } from './pages/Website-ThankYou';
 import { NotFound } from './pages/NotFound';
 
 const queryClient = new QueryClient({
@@ -72,6 +73,8 @@ const AppContent: React.FC = () => {
           <Route path="/terms-and-conditions" element={<TermsPage />} />
           <Route path="/privacy-policy" element={<PrivacyPage />} />
           <Route path="/solutions/thank-you" element={<ThankYou />} />
+          <Route path="/contact/thank-you" element={<WebsiteThankYou />} />
+         
 
           {/* New Modular Landing Page Routes (Phase 2) */}
           <Route path="/strategic-partnerships/agency-growth-partner" element={<ZstoneLandingPageV1 />} />
