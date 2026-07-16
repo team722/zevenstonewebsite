@@ -153,32 +153,32 @@ export const SingleService: React.FC = () => {
             </ScrollReveal>
 
             <ScrollReveal delay={0.2}>
-              <a
-                href={service.featuredVideo.videoUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="max-w-5xl mx-auto block group cursor-pointer text-left"
+              <div
+                className="max-w-5xl mx-auto block group text-left"
               >
                 {/* Video Container */}
                 <div className="relative rounded-[2rem] md:rounded-[3rem] overflow-hidden aspect-[16/10] md:aspect-video bg-[#1a1f2e] border border-white/5 shadow-2xl">
-                  {service.featuredVideo.thumbnailUrl ? (
-                    <img src={service.featuredVideo.thumbnailUrl} alt="Video Thumbnail" className="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition duration-1000 group-hover:scale-105" />
+                  {service.featuredVideo.videoUrl ? (
+                    <video 
+                       className="w-full h-full object-cover relative z-10"
+                       muted
+                       autoPlay
+                       loop
+                       playsInline
+                       controls
+                    >
+                       <source src={service.featuredVideo.videoUrl} type="video/mp4" />
+                       Your browser does not support the video tag.
+                    </video>
                   ) : (
                     <div className="w-full h-full bg-[#1a1f2e]" />
                   )}
-
-                  {/* Play Button */}
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div className="w-16 h-16 md:w-24 md:h-24 bg-white rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-500 shadow-xl pointer-events-auto">
-                      <Play className="w-6 h-6 md:w-10 md:h-10 text-blue-500 ml-1 md:ml-2" fill="currentColor" />
-                    </div>
-                  </div>
 
                   {/* Decorative dark gradient for text legibility at bottom (Desktop Only) */}
                   <div className="hidden md:block absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-[#0A0F1C] via-[#0A0F1C]/40 to-transparent pointer-events-none opacity-90" />
 
                   {/* Desktop Overlay Content (Hidden on Mobile) */}
-                  <div className="hidden md:flex absolute bottom-8 left-8 right-8 items-end justify-between gap-6 pointer-events-none">
+                  <div className="hidden md:flex absolute bottom-8 z-50 left-8 right-8 items-end justify-between gap-6 pointer-events-none">
                     {/* Info Overlay */}
                     <div>
                       <p className="text-xs font-bold text-gray-300 uppercase tracking-widest mb-2">{service.featuredVideo.overlay?.badge || 'Featured Showreel'}</p>
@@ -207,7 +207,7 @@ export const SingleService: React.FC = () => {
                     <p className="text-2xl font-bold text-white tracking-tight">{service.featuredVideo.overlay?.counter?.value || '12.4M+'}</p>
                   </div>
                 </div>
-              </a>
+              </div>
             </ScrollReveal>
           </div>
         </section>
