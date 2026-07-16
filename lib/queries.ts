@@ -363,7 +363,7 @@ export const SINGLE_SERVICE_QUERY = `
       trustedBrands
     },
     featuredVideo {
-      title, description, videoUrl, "thumbnailUrl": thumbnail.asset->url,
+      title, description, "videoUrl": video.asset->url,
       overlay {
         badge, title, description, counter { label, value }
       }
