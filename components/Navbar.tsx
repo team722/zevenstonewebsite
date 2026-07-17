@@ -33,7 +33,7 @@ export const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const isThankYouPage = location.pathname === '/solutions/thank-you';
+  const isThankYouPage = location.pathname === '/solutions/thank-you' || location.pathname === '/thank-you';
   const isNavHighlighted = isScrolled || isThankYouPage;
 
   return (
