@@ -17,6 +17,10 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'Content-Type, Accept',
 };
 
+const TAG_MAPPING: Record<string, string> = {
+  'websiteLandingPage': 'Website Care & Growth',
+};
+
 export default {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     if (request.method === 'OPTIONS') {
@@ -160,13 +164,60 @@ export default {
               body: JSON.stringify(biginPayload),
             });
 
+            console.log(tokenData.access_token,':access_token');
+
             const biginApiResult: any = await biginApiResponse.json();
             // Bigin returns an array of results for batch inserts
-            biginSuccess = biginApiResponse.ok && biginApiResult.data && biginApiResult.data[0].code === 'SUCCESS';
+            const recordResult = biginApiResult.data && biginApiResult.data[0];
+            let contactId = null;
+
+            if (recordResult && recordResult.code === 'SUCCESS') {
+              contactId = recordResult.details?.id;
+              biginSuccess = true;
+            } else if (recordResult && recordResult.code === 'DUPLICATE_DATA' && recordResult.details?.id) {
+              contactId = recordResult.details.id;
+              biginSuccess = true; // Proceed as success so user doesn't see an error, and we can tag the existing contact
+            } else {
+              biginSuccess = false;
+            }
 
             if (!biginSuccess) {
               biginError = JSON.stringify(biginApiResult);
               console.error('Bigin API Error:', biginError);
+            }
+
+            // Tag Assignment Logic
+            console.log(data.pageSource,':pageSource');
+            const tagToAssign = TAG_MAPPING[data.pageSource];
+            if (tagToAssign && contactId) {
+              try {
+                console.log(`Assigning tag "${tagToAssign}" to contact ID: ${contactId}`);
+              const addTagsUrl = `https://www.zohoapis.in/bigin/v2/Contacts/actions/add_tags`;
+              
+              const tagPayload = {
+                tags: [{ name: tagToAssign }],
+                over_write: false,
+                ids: [contactId]
+              };
+
+              const tagResponse = await fetch(addTagsUrl, {
+                method: 'POST',
+                headers: {
+                  'Authorization': `Zoho-oauthtoken ${tokenData.access_token}`,
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(tagPayload)
+              });
+                
+                const tagResult: any = await tagResponse.json();
+                if (!tagResponse.ok || (tagResult.data && tagResult.data[0].code !== 'SUCCESS')) {
+                  console.warn(`Non-blocking warning: Failed to assign tag "${tagToAssign}" to contact ${contactId}`, JSON.stringify(tagResult));
+                } else {
+                  console.log(`Successfully assigned tag "${tagToAssign}" to contact ${contactId}`);
+                }
+              } catch (tagError: any) {
+                console.error(`Non-blocking error: Exception while assigning tag to contact ${contactId}:`, tagError.message);
+              }
             }
           }
         } catch (e: any) {
