@@ -179,7 +179,7 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
     if (!showFloatingForm) {
       const timerId = setTimeout(() => {
         setShowFloatingForm(true);
-      }, 10000); // 10 seconds delay
+      }, 60000); // 10 seconds delay
       return () => clearTimeout(timerId);
     }
   }, [showFloatingForm, ctaFormSubmitted, floatingFormSubmitted]);
@@ -904,8 +904,8 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
                       <input type="text" name="businessName" value={ctaFormData.businessName} onChange={handleCtaInputChange} required className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 placeholder-gray-400 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium text-sm sm:text-base" placeholder="Your Business Name" />
                     </div>
                     <div className="text-left">
-                      <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest"><TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 inline mr-2" />Phone Number *</label>
-                      <input type="tel" name="phone" value={ctaFormData.phone} onChange={handleCtaInputChange} required className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 placeholder-gray-400 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium text-sm sm:text-base" placeholder="+1 (555) 000-0000" />
+                      <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest"><TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 inline mr-2" />Phone Number</label>
+                      <input type="tel" name="phone" value={ctaFormData.phone} onChange={handleCtaInputChange} className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white text-gray-900 placeholder-gray-400 border-2 border-transparent focus:border-blue-300 focus:outline-none transition-all font-medium text-sm sm:text-base" placeholder="+1 (555) 000-0000" />
                     </div>
                     <div className="text-left md:col-span-2 space-y-3">
                       <label className="block text-xs sm:text-sm font-bold mb-2 text-blue-100 uppercase tracking-widest">What's Your Biggest Website Challenge Right Now?</label>
@@ -925,7 +925,7 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
                   {ctaStatus === 'error' && (
                     <div className="mb-4 p-4 bg-white/20 text-white rounded-xl border border-white/30 text-sm font-medium animate-shake">Oops! Something went wrong. Please try again.</div>
                   )}
-                  <button type="submit"  disabled={ctaSubmitting || !ctaFormData.firstName || !ctaFormData.lastName || !ctaFormData.email || !ctaFormData.businessName || !ctaFormData.phone || ctaFormData.growthChallenges.length === 0} className="cursor-pointer w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 sm:px-12 py-4 sm:py-5 rounded-xl sm:rounded-2xl font-extrabold text-lg sm:text-xl shadow-2xl hover:shadow-3xl hover:scale-[1.02] active:scale-95 transition-all inline-flex items-center justify-center gap-4 group disabled:opacity-70 disabled:cursor-not-allowed">
+                  <button type="submit"  disabled={ctaSubmitting || !ctaFormData.firstName || !ctaFormData.lastName || !ctaFormData.email || !ctaFormData.businessName || ctaFormData.growthChallenges.length === 0} className="cursor-pointer w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 sm:px-12 py-4 sm:py-5 rounded-xl sm:rounded-2xl font-extrabold text-lg sm:text-xl shadow-2xl hover:shadow-3xl hover:scale-[1.02] active:scale-95 transition-all inline-flex items-center justify-center gap-4 group disabled:opacity-70 disabled:cursor-not-allowed">
                     <span id="cta_footerform_bookyourfreestrategycall">{ctaSubmitting ? 'Sending...' : 'Book Your Free Strategy Call'}</span>
                     <Calendar className="w-5 h-5 sm:w-6 sm:h-6 shrink-0 group-hover:rotate-12 transition-transform" />
                   </button>
@@ -998,7 +998,7 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
                   <input type="text" name="lastName" value={floatingFormData.lastName} onChange={handleFloatingInputChange} required placeholder="Last Name" className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium" />
                   <input type="email" name="email" value={floatingFormData.email} onChange={handleFloatingInputChange} required placeholder="Work Email" className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium" />
                   <input type="text" name="businessName" value={floatingFormData.businessName} onChange={handleFloatingInputChange} required placeholder="Business Name" className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium" />
-                  <input type="tel" name="phone" value={floatingFormData.phone} onChange={handleFloatingInputChange} required placeholder="Phone Number *" className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium" />
+                  <input type="tel" name="phone" value={floatingFormData.phone} onChange={handleFloatingInputChange}  placeholder="Phone Number" className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-sm font-medium" />
                   <div className="pt-2 border-t border-gray-100">
                     <label className="block text-[10px] font-bold mb-2 text-gray-400 uppercase tracking-widest">What's Your Biggest Website Challenge Right Now?</label>
                     <div className="space-y-2">
@@ -1017,7 +1017,7 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
                 {floatingStatus === 'error' && (
                   <div className="mb-4 p-4 bg-red-50 text-red-600 rounded-xl border border-red-100 text-sm font-medium animate-shake">Oops! Something went wrong. Please try again.</div>
                 )}
-                <button type="submit" id="cta_popupform_bookfreecall" disabled={floatingSubmitting || !floatingFormData.firstName || !floatingFormData.lastName || !floatingFormData.email || !floatingFormData.businessName || !floatingFormData.phone || floatingFormData.growthChallenges.length === 0} className="w-full cursor-pointer bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 rounded-xl font-bold hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-sm shadow-lg shadow-blue-100 disabled:opacity-70 disabled:cursor-not-allowed disabled:scale-100">
+                <button type="submit" id="cta_popupform_bookfreecall" disabled={floatingSubmitting || !floatingFormData.firstName || !floatingFormData.lastName || !floatingFormData.email || !floatingFormData.businessName || floatingFormData.growthChallenges.length === 0} className="w-full cursor-pointer bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 rounded-xl font-bold hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-sm shadow-lg shadow-blue-100 disabled:opacity-70 disabled:cursor-not-allowed disabled:scale-100">
                   {floatingSubmitting ? 'Sending...' : 'Book Free Call →'}
                 </button>
               </form>
@@ -1077,8 +1077,8 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
                       <input type="text" name="businessName" value={leadFormData.businessName} onChange={handleLeadInputChange} required placeholder="Your Business Name" className="w-full px-5 py-3 sm:py-4 rounded-xl border-2 border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-base font-medium shadow-sm" />
                     </div>
                     <div>
-                      <label className="block text-xs font-bold mb-2 text-gray-400 uppercase tracking-widest px-1">Phone Number *</label>
-                      <input type="tel" name="phone" value={leadFormData.phone} onChange={handleLeadInputChange} required placeholder="+1 (555) 000-0000" className="w-full px-5 py-3 sm:py-4 rounded-xl border-2 border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-base font-medium shadow-sm" />
+                      <label className="block text-xs font-bold mb-2 text-gray-400 uppercase tracking-widest px-1">Phone Number</label>
+                      <input type="tel" name="phone" value={leadFormData.phone} onChange={handleLeadInputChange} placeholder="+1 (555) 000-0000" className="w-full px-5 py-3 sm:py-4 rounded-xl border-2 border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 focus:outline-none transition-all text-base font-medium shadow-sm" />
                     </div>
                     <div>
                       <label className="block text-xs font-bold mb-2 text-gray-400 uppercase tracking-widest px-1">What's Your Biggest Website Challenge Right Now?</label>
@@ -1098,7 +1098,7 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
                   {leadStatus === 'error' && (
                     <div className="p-4 bg-red-50 text-red-600 rounded-xl border border-red-100 text-sm font-medium animate-shake">Oops! Something went wrong. Please try again.</div>
                   )}
-                  <button type="submit" disabled={leadSubmitting || !leadFormData.firstName || !leadFormData.lastName || !leadFormData.email || !leadFormData.businessName || !leadFormData.phone || leadFormData.growthChallenges.length === 0} className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 sm:py-5 rounded-xl sm:rounded-2xl font-extrabold text-base sm:text-xl shadow-xl shadow-blue-100 hover:shadow-2xl hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100">
+                  <button type="submit" disabled={leadSubmitting || !leadFormData.firstName || !leadFormData.lastName || !leadFormData.email || !leadFormData.businessName || leadFormData.growthChallenges.length === 0} className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 sm:py-5 rounded-xl sm:rounded-2xl font-extrabold text-base sm:text-xl shadow-xl shadow-blue-100 hover:shadow-2xl hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100">
                     {leadSubmitting ? 'Sending...' : 'Get Your Free Case Study →'}
                   </button>
                 </form>
