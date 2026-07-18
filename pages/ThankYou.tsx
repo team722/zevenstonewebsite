@@ -42,7 +42,7 @@ export const ThankYou: React.FC = () => {
       </Helmet>
 
       {/* 1. Hero Section */}
-      <section className="relative pt-32 pb-24 lg:pt-40 lg:pb-32 overflow-hidden bg-gradient-to-br from-[#1E50FF] to-[#00C2FF] text-white">
+      <section className="relative pt-32 pb-24 lg:pt-40 lg:pb-32 overflow-hidden bg-gradient-to-br from-[#01208b] to-[#148eb5] text-white">
         {/* Concentric Circles Background (Simulated) */}
         <div className="absolute inset-0 opacity-20 pointer-events-none">
           <div className="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-1/4 w-[800px] h-[800px] rounded-full border-[1px] border-white/30"></div>
