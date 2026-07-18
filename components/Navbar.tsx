@@ -34,7 +34,7 @@ export const Navbar: React.FC = () => {
   }, []);
 
   const isThankYouPage = location.pathname === '/solutions/thank-you' || location.pathname === '/thank-you';
-  const isNavHighlighted = isScrolled || isThankYouPage;
+  const isNavHighlighted = isScrolled;
 
   return (
     <>
