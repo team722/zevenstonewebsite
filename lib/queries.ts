@@ -460,6 +460,7 @@ export const WEBSITE_LANDING_PAGE_QUERY = `
     qualifierHeading, qualifierDescription, checklist, qualifierCtaHeading, qualifierCtaButton,
     aboutHeading, aboutDescription1, aboutDescription2, aboutTagline,
     finalCtaHeading, finalCtaDescription, formTitle, formBenefits,
+    sectionVisibility,
     seoTitle, seoDescription
   }
 `;
