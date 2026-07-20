@@ -38,6 +38,40 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
   const [ctaFormSubmitted, setCtaFormSubmitted] = useState(false);
   const [leadMagnetSubmitted, setLeadMagnetSubmitted] = useState(false);
 
+  // A/B Testing State
+  const [abVariant, setAbVariant] = useState<'direct_download' | 'form_then_download'>('form_then_download');
+
+  useEffect(() => {
+    let savedVariant = localStorage.getItem('lead_magnet_ab_variant') as 'direct_download' | 'form_then_download' | null;
+    if (!savedVariant) {
+      savedVariant = Math.random() > 0.5 ? 'direct_download' : 'form_then_download';
+      localStorage.setItem('lead_magnet_ab_variant', savedVariant);
+    }
+    setAbVariant(savedVariant);
+  }, []);
+
+  const trackAbTestEvent = async (event: string) => {
+    try {
+      let sessionId = localStorage.getItem('ab_session_id');
+      if (!sessionId) {
+        sessionId = Math.random().toString(36).substring(2, 15);
+        localStorage.setItem('ab_session_id', sessionId);
+      }
+      const submissionData = { 
+        pageSource: 'websiteLandingPageAbTestEvent', 
+        variant: abVariant, 
+        event, 
+        sessionId,
+        submittedAt: new Date().toISOString() 
+      };
+      const API_URL = import.meta.env.VITE_CONTACT_API_URL || 'https://zevenstone-contact-api.zevenstone7.workers.dev';
+      await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(submissionData) });
+    } catch (err) {
+      console.error('A/B tracking error:', err);
+    }
+  };
+
+
   // ─── Shared helpers ──────────────────────────────────────────────────────
   const emptyForm = () => ({
     title: '',
@@ -143,9 +177,12 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
     setLeadStatus('idle');
     const submissionData = { ...leadFormData, formType: 'Case Study', pageSource: 'websiteLandingPage', submittedAt: new Date().toISOString() };
     try {
+      trackAbTestEvent('form_submitted');
+      
       const API_URL = import.meta.env.VITE_CONTACT_API_URL || 'https://zevenstone-contact-api.zevenstone7.workers.dev';
       const response = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(submissionData) });
       if (response.ok) {
+        trackAbTestEvent('pdf_downloaded');
         const downloadLink = document.createElement('a');
         downloadLink.href = LEAD_MAGNET_PDF_URL;
         downloadLink.download = LEAD_MAGNET_PDF_FILENAME;
@@ -158,6 +195,7 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
     } catch (err) { console.error('Lead magnet error:', err); setLeadStatus('error'); }
     finally { setLeadSubmitting(false); }
   };
+
 
   // ─── Scroll visibility & Floating form timer visibility ───
   useEffect(() => {
@@ -214,6 +252,21 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
   if (isLoading) return <LoadingSpinner />;
   // Even if there's an error, we might want to render default content, but since it's full CMS we return error state
   if (error || !pageData) return <ErrorState />;
+
+  const v = pageData.sectionVisibility || {};
+  const showSocialProof = v.showSocialProof ?? true;
+  const showShowcaseVideo = v.showShowcaseVideo ?? true;
+  const showProblem = v.showProblem ?? true;
+  const showSolution = v.showSolution ?? true;
+  const showHowItWorks = v.showHowItWorks ?? true;
+  const showNumbers = v.showNumbers ?? true;
+  const showDifferentiation = v.showDifferentiation ?? true;
+  const showPartnership = v.showPartnership ?? true;
+  const showResults = v.showResults ?? true;
+  const showTestimonials = v.showTestimonials ?? true;
+  const showQualifier = v.showQualifier ?? true;
+  const showAbout = v.showAbout ?? true;
+
 
   // Default fallbacks in case the CMS is not fully populated yet
   const pd = {
@@ -418,21 +471,24 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
       </section>
 
       {/* Social Proof Bar */}
-      <section className="bg-[#2c2e33] text-white py-8 sm:py-12 px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 sm:gap-8 text-center">
-            {pd.socialStats.map((stat: any, idx: number) => (
-              <div key={idx} className={idx > 2 ? (idx === 3 ? "sm:hidden lg:block" : "hidden sm:block lg:block") : ""}>
-                <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-blue-400 mb-1">{stat.value}</div>
-                <div className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider">{stat.label}</div>
-              </div>
-            ))}
-          </div> 
-        </div>
-      </section>
+      {console.log(showSocialProof,'showSocialProof')}
+      {showSocialProof && (
+        <section className="bg-[#2c2e33] text-white py-8 sm:py-12 px-4 sm:px-6">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 sm:gap-8 text-center">
+              {pd.socialStats.map((stat: any, idx: number) => (
+                <div key={idx} className={idx > 2 ? (idx === 3 ? "sm:hidden lg:block" : "hidden sm:block lg:block") : ""}>
+                  <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-blue-400 mb-1">{stat.value}</div>
+                  <div className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider">{stat.label}</div>
+                </div>
+              ))}
+            </div> 
+          </div>
+        </section>
+      )}
 
       {/* --- VIDEO SECTION --- */}
-      {!pd.showcaseVideoUrl && (
+      {showShowcaseVideo && !pd.showcaseVideoUrl && (
         <section className="py-12 sm:py-16 md:py-24 lg:py-0 lg:pt-32 lg:pb-24 bg-white relative overflow-hidden">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-blue-500/10 rounded-full blur-[150px] pointer-events-none" />
 
@@ -477,7 +533,8 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
       )}
 
       {/* Problem Section */}
-      <section className="py-12 sm:py-20 lg:py-32 px-4 sm:px-6">
+      {showProblem && (
+        <section className="py-12 sm:py-20 lg:py-32 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-10 sm:mb-16">
             <div className="inline-block bg-red-100 text-red-600 px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider mb-4">
@@ -525,7 +582,21 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
                 {pd.leadMagnet.description}
               </p>
               <button
-                onClick={() => setShowLeadMagnet(true)}
+                onClick={() => {
+                  trackAbTestEvent('cta_clicked');
+                  if (abVariant === 'direct_download') {
+                    trackAbTestEvent('pdf_downloaded');
+                    const downloadLink = document.createElement('a');
+                    downloadLink.href = LEAD_MAGNET_PDF_URL;
+                    downloadLink.download = LEAD_MAGNET_PDF_FILENAME;
+                    document.body.appendChild(downloadLink);
+                    downloadLink.click();
+                    downloadLink.remove();
+                  } else {
+                    trackAbTestEvent('form_opened');
+                    setShowLeadMagnet(true);
+                  }
+                }}
                 id="cta_cs_download_getfreeguide"
                 className="cursor-pointer bg-white text-blue-600 px-6 sm:px-10 py-4 sm:py-5 rounded-xl font-bold text-base sm:text-lg shadow-xl hover:scale-105 transition-all inline-flex items-center gap-2 w-full sm:w-auto justify-center"
               >
@@ -536,9 +607,11 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
           )}
         </div>
       </section>
+      )}
 
       {/* Solution Section */}
-      <section className="py-12 sm:py-20 lg:py-32 px-4 sm:px-6 bg-gradient-to-b from-blue-50 to-white">
+      {showSolution && (
+        <section className="py-12 sm:py-20 lg:py-32 px-4 sm:px-6 bg-gradient-to-b from-blue-50 to-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-10 sm:mb-16">
             <div className="inline-block bg-blue-100 text-blue-700 px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider mb-4">
@@ -592,9 +665,11 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
           </div>
         </div>
       </section>
+      )}
 
       {/* How It Works */}
-      <section id="how-it-works" className="py-12 pb-24 px-4 sm:px-6">
+      {showHowItWorks && (
+        <section id="how-it-works" className="py-12 pb-24 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12 sm:mb-16">
             <div className="inline-block bg-green-100 text-green-700 px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider mb-4">
@@ -627,9 +702,11 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
           </div>
         </div>
       </section>
+      )}
 
       {/* The Numbers */}
-      <section className="py-12 sm:py-20 lg:py-32 px-4 sm:px-6 bg-gradient-to-br from-green-600 to-green-700 text-white relative overflow-hidden">
+      {showNumbers && (
+        <section className="py-12 sm:py-20 lg:py-32 px-4 sm:px-6 bg-gradient-to-br from-green-600 to-green-700 text-white relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
           <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
         </div>
@@ -653,9 +730,11 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
           </div>
         </div>
       </section>
+      )}
 
       {/* Differentiation */}
-      <section className="py-12 sm:py-20 lg:py-32 px-4 sm:px-6">
+      {showDifferentiation && (
+        <section className="py-12 sm:py-20 lg:py-32 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-10 sm:mb-16">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#2c2e33] mb-4 sm:mb-6">
@@ -693,9 +772,11 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
           </div>
         </div>
       </section>
+      )}
 
       {/* Partnership Models */}
-      <section className="py-12 sm:py-20 lg:py-32 px-4 sm:px-6 bg-gray-50">
+      {showPartnership && (
+        <section className="py-12 sm:py-20 lg:py-32 px-4 sm:px-6 bg-gray-50">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-10 sm:mb-16">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#2c2e33] mb-4 sm:mb-6" dangerouslySetInnerHTML={{ __html: pd.partnershipHeading }}>
@@ -724,9 +805,11 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
           </div>
         </div>
       </section>
+      )}
 
       {/* Case Studies */}
-      <section className="py-12 sm:py-20 lg:py-32 px-4 sm:px-6">
+      {showResults && (
+        <section className="py-12 sm:py-20 lg:py-32 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-10 sm:mb-16">
             <div className="inline-block bg-blue-100 text-blue-700 px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider mb-4">
@@ -757,9 +840,11 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
           </div>
         </div>
       </section>
+      )}
 
       {/* Testimonials */}
-      <section className="py-12 sm:py-20 lg:py-32 px-4 sm:px-6 bg-gradient-to-br from-blue-600 to-blue-800 text-white relative overflow-hidden">
+      {showTestimonials && (
+        <section className="py-12 sm:py-20 lg:py-32 px-4 sm:px-6 bg-gradient-to-br from-blue-600 to-blue-800 text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-10 pointer-events-none">
           <div className="absolute top-0 left-0 w-full h-full" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
         </div>
@@ -791,9 +876,11 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
           </div>
         </div>
       </section>
+      )}
 
       {/* Qualifier Section */}
-      <section className="py-12 sm:py-20 lg:py-32 px-4 sm:px-6 bg-gray-50">
+      {showQualifier && (
+        <section className="py-12 sm:py-20 lg:py-32 px-4 sm:px-6 bg-gray-50">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-10 sm:mb-12">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#2c2e33] mb-4 sm:mb-6 leading-tight" dangerouslySetInnerHTML={{ __html: pd.qualifierHeading }}>
@@ -833,9 +920,11 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
           </div>
         </div>
       </section>
+      )}
 
       {/* About Section */}
-      <section className="py-12 sm:py-20 lg:py-32 px-4 sm:px-6">
+      {showAbout && (
+        <section className="py-12 sm:py-20 lg:py-32 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#2c2e33] mb-4 sm:mb-8 leading-tight">
             {pd.aboutHeading}
@@ -855,6 +944,7 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
           </div>
         </div>
       </section>
+      )}
 
       {/* Final CTA Section */}
       <section className="py-12 sm:py-20 lg:py-32 px-4 sm:px-6 bg-gradient-to-br from-blue-600 via-blue-700 to-purple-700 text-white relative overflow-hidden">
