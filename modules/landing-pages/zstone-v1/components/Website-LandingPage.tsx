@@ -177,7 +177,7 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
     setLeadStatus('idle');
     const submissionData = { ...leadFormData, formType: 'Case Study', pageSource: 'websiteLandingPage', submittedAt: new Date().toISOString() };
     try {
-      trackAbTestEvent('form_submitted');
+    //  trackAbTestEvent('form_submitted');
       
       const API_URL = import.meta.env.VITE_CONTACT_API_URL || 'https://zevenstone-contact-api.zevenstone7.workers.dev';
       const response = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(submissionData) });
