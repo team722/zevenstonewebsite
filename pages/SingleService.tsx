@@ -177,8 +177,10 @@ export const SingleService: React.FC = () => {
                   {/* Decorative dark gradient for text legibility at bottom (Desktop Only) */}
                   <div className="hidden md:block absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-[#0A0F1C] via-[#0A0F1C]/40 to-transparent pointer-events-none opacity-90" />
 
+                
+                </div>
                   {/* Desktop Overlay Content (Hidden on Mobile) */}
-                  <div className="hidden md:flex absolute bottom-8 z-50 left-8 right-8 items-end justify-between gap-6 pointer-events-none">
+                  <div className="hidden md:flex z-50 mt-8 items-end justify-between gap-6 pointer-events-none">
                     {/* Info Overlay */}
                     <div>
                       <p className="text-xs font-bold text-gray-300 uppercase tracking-widest mb-2">{service.featuredVideo.overlay?.badge || 'Featured Showreel'}</p>
@@ -192,7 +194,6 @@ export const SingleService: React.FC = () => {
                       <p className="text-3xl font-bold text-white tracking-tight">{service.featuredVideo.overlay?.counter?.value || '12.4M+'}</p>
                     </div>
                   </div>
-                </div>
 
                 {/* Mobile Info & Counter (Below Video, Hidden on Desktop) */}
                 <div className="md:hidden mt-6 flex flex-col gap-5 px-2">

@@ -378,7 +378,7 @@ export const CaseStudy: React.FC = () => {
             <div className="absolute top-[354px] left-10 w-[300px] h-[300px] md:w-[546px] md:h-[546px] bg-blue-400/5 rounded-full blur-[45px]" />
 
             <div className="max-w-7xl mx-auto relative z-10 pt-8 sm:pt-16">
-               <div className="grid lg:grid-cols-2 gap-12 items-stretch">
+               <div className="grid lg:grid-cols-2 gap-12 items-center">
                   <div className="flex flex-col justify-center">
                      {/* Back Link */}
                      <Link to="/success-stories" className="hidden text-gray-500 hover:text-blue-500 mb-6 transition-colors text-sm font-semibold">
@@ -475,8 +475,8 @@ export const CaseStudy: React.FC = () => {
 
                   <div className="relative min-h-[320px] sm:min-h-[420px] lg:min-h-0">
                      {study.imageUrl && (
-                        <div className="h-[320px] sm:h-[420px] lg:h-full rounded-[40px] overflow-hidden shadow-2xl border-8 border-white/50 bg-slate-100">
-                           <img src={study.imageUrl} alt={study.client} className="w-full h-full sm:object-fill" />
+                        <div className="h-[320px] sm:h-[420px] overflow-hidden">
+                           <img src={study.imageUrl} alt={study.client} className="w-full h-full sm:object-contain" />
                         </div>
                      )}
                      {/* Floating badge */}
