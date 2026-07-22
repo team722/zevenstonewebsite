@@ -42,6 +42,32 @@ export default {
           headers: { 'Content-Type': 'application/json', ...corsHeaders },
         });
       }
+        console.log(data.pageSource,'datapagesource');
+      // ── A/B Testing Event Handling ─────────────────────────────────────────
+      const isWebsiteLandingPageAbTestEvent = data.pageSource === 'websiteLandingPageAbTestEvent';
+      if (isWebsiteLandingPageAbTestEvent) {
+        const sanityPayload = {
+          _type: 'websiteLandingPageAbTestEvent',
+          variant: data.variant,
+          event: data.event,
+          sessionId: data.sessionId,
+          submittedAt: data.submittedAt || new Date().toISOString()
+        };
+        const mutation = { mutations: [{ create: sanityPayload }] };
+        const sanityUrl = `https://${env.SANITY_PROJECT_ID}.api.sanity.io/v1/data/mutate/${env.SANITY_DATASET}`;
+        const sanityResponse = await fetch(sanityUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${env.SANITY_WRITE_TOKEN}` },
+          body: JSON.stringify(mutation),
+        });
+        if (!sanityResponse.ok) {
+          const sanityResult = await sanityResponse.json();
+          console.error('Sanity A/B Test Error:', JSON.stringify(sanityResult));
+          return new Response(JSON.stringify({ success: false, error: sanityResult }), { status: 500, headers: { 'Content-Type': 'application/json', ...corsHeaders } });
+        }
+        return new Response(JSON.stringify({ success: true }), { status: 200, headers: { 'Content-Type': 'application/json', ...corsHeaders } });
+      }
+      // ───────────────────────────────────────────────────────────────────────
 
       const isWebsiteLandingPage = data.pageSource === 'websiteLandingPage';
       const isLandingPage = !!data.formType && !isWebsiteLandingPage;
