@@ -44,10 +44,10 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
   useEffect(() => {
     let savedVariant = localStorage.getItem('lead_magnet_ab_variant') as 'direct_download' | 'form_then_download' | null;
     if (!savedVariant) {
-      savedVariant = Math.random() > 0.5 ? 'direct_download' : 'form_then_download';
-      localStorage.setItem('lead_magnet_ab_variant', savedVariant);
+     // savedVariant = Math.random() > 0.5 ? 'direct_download' : 'form_then_download';
+     // localStorage.setItem('lead_magnet_ab_variant', savedVariant);
     }
-    setAbVariant(savedVariant);
+  //  setAbVariant(savedVariant);
   }, []);
 
   const trackAbTestEvent = async (event: string) => {
@@ -585,7 +585,7 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
                 onClick={() => {
                   trackAbTestEvent('cta_clicked');
                   if (abVariant === 'direct_download') {
-                    trackAbTestEvent('pdf_downloaded');
+                   trackAbTestEvent('pdf_downloaded');
                     const downloadLink = document.createElement('a');
                     downloadLink.href = LEAD_MAGNET_PDF_URL;
                     downloadLink.download = LEAD_MAGNET_PDF_FILENAME;
@@ -593,7 +593,7 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
                     downloadLink.click();
                     downloadLink.remove();
                   } else {
-                    trackAbTestEvent('form_opened');
+                   trackAbTestEvent('form_opened');
                     setShowLeadMagnet(true);
                   }
                 }}
