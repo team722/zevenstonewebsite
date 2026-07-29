@@ -139,7 +139,7 @@ export const Blog: React.FC = () => {
                   <h2 className="text-3xl font-bold mb-4">{blogPageData?.stayAheadCta?.heading || "Stay ahead of the curve"}</h2>
                   <p className="text-blue-100 mb-8">{blogPageData?.stayAheadCta?.description || "Get the latest insights on strategy, design, and technology delivered to your inbox."}</p>
                   <div className="flex flex-col md:flex-row gap-4">
-                     <input type="email" placeholder="Enter your email" className="flex-grow px-6 py-4 rounded-xl text-zeven-dark focus:outline-none focus:ring-2 focus:ring-white" />
+                     <input type="email" placeholder="Enter your email" name="Email & Subscriptions" className="flex-grow px-6 py-4 rounded-xl text-zeven-dark border border-ring-white focus:outline-none focus:ring-2 focus:ring-white focus:border-ring-white" />
                      <button className="px-8 py-4 bg-zeven-dark rounded-xl font-bold hover:bg-white hover:text-zeven-dark transition-colors shadow-xl">{blogPageData?.stayAheadCta?.button?.text || "Subscribe"}</button>
                   </div>
                </div>
