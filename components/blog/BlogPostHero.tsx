@@ -100,7 +100,7 @@ export const BlogPostHero: React.FC<BlogPostHeroProps> = ({ title, category, pub
           </h1>
 
           {subtitle && (
-            <p className="text-xl md:text-[22px] text-slate-600 leading-relaxed mb-10 max-w-3xl">
+            <p className="text-xl md:text-[22px] text-slate-600 leading-relaxed mb-10">
               {subtitle}
             </p>
           )}
