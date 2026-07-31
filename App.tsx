@@ -49,7 +49,17 @@ const AppContent: React.FC = () => {
   const location = useLocation();
   const currentPath = location.pathname.replace(/\/$/, '') || '/';
   const isLandingPage = currentPath === '/strategic-partnerships/agency-growth-partner' || currentPath === '/v1';
-  const isWebsiteLandingPage = currentPath === '/managed-solutions/grow-your-business-online' || currentPath === '/v2';
+  const checkIsWebsiteLandingPage = (path: string) => {
+    if (path.startsWith('/managed-solutions/')) return true;
+    if (path === '/v2') return true;
+    const knownRoutes = ['/', '/about', '/services', '/portfolio', '/success-stories', '/blog', '/contact', '/terms-and-conditions', '/privacy-policy', '/solutions/thank-you', '/thank-you', '/strategic-partnerships/agency-growth-partner', '/v1'];
+    const hasKnownPrefix = path.startsWith('/services/') || path.startsWith('/blog/') || path.startsWith('/case-study/');
+    if (knownRoutes.includes(path) || hasKnownPrefix) {
+      return false;
+    }
+    return true;
+  };
+  const isWebsiteLandingPage = checkIsWebsiteLandingPage(currentPath);
 
 
   return (
@@ -78,14 +88,11 @@ const AppContent: React.FC = () => {
 
           {/* New Modular Landing Page Routes (Phase 2) */}
           <Route path="/strategic-partnerships/agency-growth-partner" element={<ZstoneLandingPageV1 />} />
-           <Route path="/managed-solutions/grow-your-business-online" element={<ZstoneLandingPageV2 />} />
-          {/* <Route path="/landing-page/services" element={<ZstoneServicesPageV1 />} />
-          <Route path="/landing-page/video-production" element={<ZstoneVideoProductionV1 />} />
-          <Route path="/landing-page/stories" element={<ZstoneStoriesPageV1 />} />
-          <Route path="/landing-page/story/:id" element={<ZstoneStoryDetailV1 />} />
-          <Route path="/landing-page/blog" element={<ZstoneBlogHubV1 />} />
-          <Route path="/landing-page/blog/:id" element={<ZstoneBlogPostV1 />} /> */}
-          <Route path="*" element={<NotFound />} />
+          {/* Dynamic Website Landing Pages */}
+          <Route path="/managed-solutions/:slug" element={<ZstoneLandingPageV2 />} />
+          
+          {/* Catch-All Route */}
+          <Route path="*" element={<ZstoneLandingPageV2 />} />
         </Routes>
       </main>
       {!isLandingPage && !isWebsiteLandingPage && <Footer />}
