@@ -443,7 +443,7 @@ export const NESTED_SERVICE_QUERY = `
 `;
 
 export const WEBSITE_LANDING_PAGE_QUERY = `
-  *[_type == "websiteLandingPage"][0] {
+  *[_type == "websiteLandingPage" && (slug.current == $slug || (!defined(slug.current) && $slug == "grow-your-business-online"))][0] {
     heroHeading, heroHighlight, heroDescription, primaryCtaText, secondaryCtaText, trustLine,
     socialStats[] { value, label },
     "showcaseVideoUrl": showcaseVideoUrl.asset->url,
