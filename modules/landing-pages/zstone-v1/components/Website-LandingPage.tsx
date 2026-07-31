@@ -415,7 +415,7 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
         }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
           <div className="flex items-center justify-between">
-             <Link to="/"><img src={imgLinkLogo} alt="Zevenstone" className="h-6 sm:h-8" /></Link>
+             <Link to="/"><img src={imgLinkLogo} alt="Zevenstone" className="h-6 sm:h-12" /></Link>
             <button
               onClick={scrollToCTA}
               
@@ -436,9 +436,9 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
         <div className="max-w-4xl mx-auto relative z-10">
           <div className="text-center max-w-4xl mx-auto">
             {/* Main Headline */}
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-[#2c2e33] mb-4 sm:mb-6 leading-[1.1] tracking-tight">
-              {pd.heroHeading}{' '}
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <h1 className="tracking-tight font-extrabold text-[#2c2e33] mb-4 sm:mb-6 leading-[1.1] tracking-tight">
+             <span className='sm:text-3xl text-2xl inline-block'>{pd.heroHeading}{' '}</span> 
+              <span className="inline-block text-4xl mt-4 sm:text-5xl md:text-6xl lg:text-7xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 {pd.heroHighlight}
               </span>
             </h1>
@@ -789,7 +789,7 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-4 gap-6 sm:gap-8">
             {pd.models.map((model: any, idx: number) => (
               <div
                 key={idx}
@@ -803,7 +803,13 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
               </div>
             ))}
           </div>
-
+            <button
+              onClick={scrollToCTA}
+              
+              className="block mx-auto mt-10 sm:mt-12 text-center cursor-pointer bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 sm:px-8 py-2 sm:py-3 rounded-lg sm:rounded-xl text-sm sm:text-base font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all"
+            >
+              <a href="#form-cta-section" id="cta_header_bookyourfreeaudit">{pd.primaryCtaText}</a>
+            </button>
           <div className="mt-10 sm:mt-12 text-center px-4">
             <p className="text-sm sm:text-base text-gray-600 font-bold uppercase tracking-widest opacity-60">
               {pd.partnershipNote}
