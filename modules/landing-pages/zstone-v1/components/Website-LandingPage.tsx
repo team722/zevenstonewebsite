@@ -1,7 +1,7 @@
 import * as Icons from 'lucide-react';
 import { ArrowRight, CheckCircle, TrendingUp, Zap, Users, Target, Clock, Shield, Award, Star, DollarSign, BarChart3, Rocket, X, Download, Mail, Building2, User, Calendar } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate,Link } from 'react-router-dom';
+import { useNavigate, Link, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import imgLinkLogo from "figma:asset/landingpageLogo.png";
 import { Helmet } from 'react-helmet-async';
@@ -9,6 +9,7 @@ import imgWhiteLogo from "figma:asset/Logo-White.webp";
 import { sanityClient } from '../../../../lib/sanity';
 import { WEBSITE_LANDING_PAGE_QUERY } from '../../../../lib/queries';
 import { LoadingSpinner, ErrorState } from '../../../../components/ui';
+import { NotFound } from '../../../../pages/NotFound';
 
 // Helper to render Lucide icons dynamically
 const DynamicIcon = ({ name, className }: { name?: string; className?: string }) => {
@@ -19,9 +20,14 @@ const DynamicIcon = ({ name, className }: { name?: string; className?: string })
 };
 
 export default function LandingPage() {
+  const params = useParams();
+  const rawSlug = params.slug || params['*'];
+  const slug = rawSlug?.replace(/\/$/, ''); // clean up trailing slashes
+  const querySlug = slug || 'grow-your-business-online';
+
   const { data: pageData, isLoading, error } = useQuery({ 
-    queryKey: ['websiteLandingPage'], 
-    queryFn: () => sanityClient.fetch(WEBSITE_LANDING_PAGE_QUERY) 
+    queryKey: ['websiteLandingPage', querySlug], 
+    queryFn: () => sanityClient.fetch(WEBSITE_LANDING_PAGE_QUERY, { slug: querySlug }) 
   });
 
   console.log('Fetched page data:', pageData);
@@ -250,8 +256,8 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
   };
 
   if (isLoading) return <LoadingSpinner />;
-  // Even if there's an error, we might want to render default content, but since it's full CMS we return error state
-  if (error || !pageData) return <ErrorState />;
+  if (error) return <ErrorState />;
+  if (!pageData) return <NotFound />;
 
   const v = pageData.sectionVisibility || {};
   const showSocialProof = v.showSocialProof ?? true;
