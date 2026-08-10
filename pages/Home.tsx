@@ -517,8 +517,8 @@ export const Home: React.FC = () => {
                               </div>
                               {/* `/services/${SERVICES_LIST[activeServiceTab].slug}` */}
                               <div className="pt-4">
-                                 <Link to='/contact'>
-                                    <Button variant="primary" className="rounded-full border-none shadow-lg shadow-zeven-blue/20">Know More</Button>
+                                 <Link to={`/services/${SERVICES_LIST[activeServiceTab].slug}`}>
+                                    <Button variant="primary" className="cursor-pointer rounded-full border-none shadow-lg shadow-zeven-blue/20">Know More</Button>
                                  </Link>
                               </div>
                            </div>
