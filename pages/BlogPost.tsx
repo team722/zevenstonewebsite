@@ -193,7 +193,7 @@ export const BlogPost: React.FC = () => {
   return (
     <div className="bg-white font-sans overflow-hidden">
       <Helmet>
-        <title>{post.seo?.metaTitle || `${post.title} | Zevenstone Blog`}</title>
+        <title>{post.seo?.title || `${post.title} | Zevenstone Blog`}</title>
         <meta name="description" content={post.seo?.description || post.seo?.metaDescription || post.excerpt} />
         {post.seo?.ogImage ? (
           <meta property="og:image" content={urlFor(post.seo.ogImage).url()} />
