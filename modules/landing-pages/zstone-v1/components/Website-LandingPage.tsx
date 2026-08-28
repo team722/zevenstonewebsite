@@ -10,6 +10,7 @@ import { sanityClient } from '../../../../lib/sanity';
 import { WEBSITE_LANDING_PAGE_QUERY } from '../../../../lib/queries';
 import { LoadingSpinner, ErrorState } from '../../../../components/ui';
 import { NotFound } from '../../../../pages/NotFound';
+import { CountdownBanner } from './CountdownBanner';
 
 // Helper to render Lucide icons dynamically
 const DynamicIcon = ({ name, className }: { name?: string; className?: string }) => {
@@ -475,9 +476,20 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
           </div>
         </div>
       </section>
+           {console.log('pageData', pageData.countdownBannerEnabled,pageData.countdownBannerHeadline)}
+      {/* Countdown Banner */}
+      {pageData.countdownBannerEnabled && (
+        <CountdownBanner
+          headline={pageData.countdownBannerHeadline}
+          highlightText={pageData.countdownBannerHighlight}
+          subtitle={pageData.countdownBannerSubtitle}
+          endDate={pageData.countdownBannerEndDate}
+          buttonText={pageData.countdownBannerButtonText}
+        />
+      )}
 
       {/* Social Proof Bar */}
-      {console.log(showSocialProof,'showSocialProof')}
+      {/* {console.log(showSocialProof,'showSocialProof')} */}
       {showSocialProof && (
         <section className="bg-[#2c2e33] text-white py-8 sm:py-12 px-4 sm:px-6">
           <div className="max-w-7xl mx-auto">
@@ -934,6 +946,17 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
       </section>
       )}
 
+       {/* Countdown Banner */}
+      {pageData.countdownBannerEnabled && (
+        <CountdownBanner
+          headline={pageData.countdownBannerHeadline}
+          highlightText={pageData.countdownBannerHighlight}
+          subtitle={pageData.countdownBannerSubtitle}
+          endDate={pageData.countdownBannerEndDate}
+          buttonText={pageData.countdownBannerButtonText}
+        />
+      )}
+
       {/* About Section */}
       {showAbout && (
         <section className="py-12 sm:py-20 lg:py-32 px-4 sm:px-6">
@@ -957,7 +980,16 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
         </div>
       </section>
       )}
-
+        {/* Countdown Banner */}
+      {pageData.countdownBannerEnabled && (
+        <CountdownBanner
+          headline={pageData.countdownBannerHeadline}
+          highlightText={pageData.countdownBannerHighlight}
+          subtitle={pageData.countdownBannerSubtitle}
+          endDate={pageData.countdownBannerEndDate}
+          buttonText={pageData.countdownBannerButtonText}
+        />
+      )}
       {/* Final CTA Section */}
       <section className="py-12 sm:py-20 lg:py-32 px-4 sm:px-6 bg-gradient-to-br from-blue-600 via-blue-700 to-purple-700 text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-10 pointer-events-none">
@@ -1069,7 +1101,7 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
           <p className="text-gray-500 text-xs sm:text-sm tracking-wide uppercase font-bold opacity-40">© 2026 Zevenstone. All rights reserved.</p>
         </div>
       </footer>
-
+       
       {/* Floating Sticky Form - Hidden on mobile, shown on tablet+ */}
       {showFloatingForm && (
         <div className="hidden md:block fixed bottom-10 right-8 z-50 max-w-sm w-full animate-slide-up">
