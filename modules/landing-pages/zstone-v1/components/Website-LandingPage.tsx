@@ -11,6 +11,7 @@ import { WEBSITE_LANDING_PAGE_QUERY } from '../../../../lib/queries';
 import { LoadingSpinner, ErrorState } from '../../../../components/ui';
 import { NotFound } from '../../../../pages/NotFound';
 import { CountdownBanner } from './CountdownBanner';
+import { PricingSection } from './PricingSection';
 
 // Helper to render Lucide icons dynamically
 const DynamicIcon = ({ name, className }: { name?: string; className?: string }) => {
@@ -956,6 +957,9 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
           buttonText={pageData.countdownBannerButtonText}
         />
       )}
+
+      {/* Pricing Section */}
+      <PricingSection />
 
       {/* About Section */}
       {showAbout && (
