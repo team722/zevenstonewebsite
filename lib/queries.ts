@@ -456,6 +456,7 @@ export const WEBSITE_LANDING_PAGE_QUERY = `
     numbersHeading, numbersStats[] { value, label },
     diffHeading, diffIntro, diffHighlight, diffBottom, differentiators[] { text, iconName },
     partnershipHeading, partnershipNote, models[] { title, description, iconName },
+    pricingBadge, pricingHeading, pricingDescription, pricingPlans[] { name, discountBadge, price, originalPrice, description, features, buttonText, buttonType, isPopular }, pricingBottomNoteHeading, pricingBottomNoteText, pricingDisclaimer,
     resultsLabel, resultsHeading, caseStudies[] { title, description, metric, label },
     testimonialsHeading, testimonials[] { quote, author, role },
     qualifierHeading, qualifierDescription, checklist, qualifierCtaHeading, qualifierCtaButton,

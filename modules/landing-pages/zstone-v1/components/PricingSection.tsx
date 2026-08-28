@@ -1,6 +1,28 @@
 import { CheckCircle, Info } from 'lucide-react';
 
-const pricingPlans = [
+interface PricingPlan {
+  name: string;
+  price: string;
+  originalPrice: string;
+  description: string;
+  features: string[];
+  buttonText: string;
+  buttonType: string;
+  isPopular: boolean;
+  discountBadge?: string;
+}
+
+interface PricingSectionProps {
+  badgeText?: string;
+  heading?: string;
+  description?: string;
+  plans?: PricingPlan[];
+  bottomNoteHeading?: string;
+  bottomNoteText?: string;
+  disclaimer?: string;
+}
+
+const defaultPricingPlans: PricingPlan[] = [
   {
     name: "STARTER",
     price: "$1,497",
@@ -63,11 +85,20 @@ const pricingPlans = [
     ],
     buttonText: "Book a Call",
     buttonType: "outline",
-    isPopular: false
+    isPopular: false,
+    discountBadge: "Save 29%"
   }
 ];
 
-export function PricingSection() {
+export function PricingSection({
+  badgeText = "FLEXIBLE PRICING",
+  heading = "Simple, Transparent Pricing",
+  description = "Choose the plan that fits your agency's growth stage. All plans include dedicated account management.",
+  plans = defaultPricingPlans,
+  bottomNoteHeading = "Limited time offer:",
+  bottomNoteText = "Lock in these promotional rates forever. Standard onboarding fees waived.",
+  disclaimer = "All contracts subject to strict white-label NDA protections. Custom terms available."
+}: PricingSectionProps) {
   const scrollToCTA = (e: React.MouseEvent) => {
     e.preventDefault();
     const section = document.getElementById('form-cta-section');
@@ -83,19 +114,19 @@ export function PricingSection() {
         {/* Header */}
         <div className="text-center mb-16 sm:mb-24">
           <div className="inline-block bg-[#EEF2FF] text-[#4F46E5] px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6">
-            FLEXIBLE PRICING
+            {badgeText}
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#111827] mb-4">
-            Simple, Transparent Pricing
+            {heading}
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto font-medium">
-            Choose the plan that fits your agency's growth stage. All plans include dedicated account management.
+            {description}
           </p>
         </div>
 
         {/* Pricing Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6 relative z-10 max-w-sm md:max-w-3xl lg:max-w-none mx-auto">
-          {pricingPlans.map((plan, idx) => {
+          {(plans?.length ? plans : defaultPricingPlans).map((plan, idx) => {
             const isDark = plan.isPopular;
             return (
               <div 
@@ -119,7 +150,7 @@ export function PricingSection() {
                     {plan.name}
                   </h3>
                   <div className={`px-2.5 py-1 rounded-full text-xs font-bold ${isDark ? 'bg-indigo-900/50 text-indigo-300' : 'bg-blue-50 text-blue-600'}`}>
-                    Save 29%
+                    {plan.discountBadge || "Save 29%"}
                   </div>
                 </div>
 
@@ -173,11 +204,11 @@ export function PricingSection() {
           <div className="flex items-center justify-center gap-2 text-sm">
             <Info className="w-4 h-4 text-indigo-600 shrink-0" />
             <p className="text-gray-600">
-              <span className="font-bold text-indigo-600">Limited time offer:</span> Lock in these promotional rates forever. Standard onboarding fees waived.
+              <span className="font-bold text-indigo-600">{bottomNoteHeading}</span> {bottomNoteText}
             </p>
           </div>
           <p className="text-xs text-gray-500 font-medium">
-            All contracts subject to strict white-label NDA protections. Custom terms available.
+            {disclaimer}
           </p>
         </div>
 

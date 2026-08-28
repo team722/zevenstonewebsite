@@ -273,6 +273,7 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
   const showResults = v.showResults ?? true;
   const showTestimonials = v.showTestimonials ?? true;
   const showQualifier = v.showQualifier ?? true;
+  const showPricing = v.showPricing ?? true;
   const showAbout = v.showAbout ?? true;
 
 
@@ -372,11 +373,19 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
       { title: "A Complete Brand in 90 Days", description: "A professional firm got a full brand identity, website, SEO foundation, and CRM — live in 90 days. Page one Google rankings within 6 months of launch.", metric: "90 Days", label: "To Full Launch" }
     ],
 
-    testimonialsHeading: pageData.testimonialsHeading || "What Our Agency Partners Say",
+    testimonialsHeading: pageData.testimonialsHeading || "Partners Talk.",
     testimonials: pageData.testimonials || [
       { quote: "I needed more than a vendor. I needed a team I could trust — and I found that in Zevenstone. From SEO and automations to design and video, they delivered with consistency, creativity, and clarity. More than a service provider, they became a true growth partner.", author: "Dr. Reggie Wright Jr", role: "Founder, Reggie Wright Enterprise" },
       { quote: "What sets Zevenstone apart is that they actually understand the business behind the brief. They don't just execute — they think.", author: "Jeb Rajan", role: "Founder, Bezhominds" }
     ],
+
+    pricingBadge: pageData.pricingBadge,
+    pricingHeading: pageData.pricingHeading,
+    pricingDescription: pageData.pricingDescription,
+    pricingPlans: pageData.pricingPlans,
+    pricingBottomNoteHeading: pageData.pricingBottomNoteHeading,
+    pricingBottomNoteText: pageData.pricingBottomNoteText,
+    pricingDisclaimer: pageData.pricingDisclaimer,
 
     qualifierHeading: pageData.qualifierHeading || "Is Zevenstone Right for Your Agency?",
     qualifierDescription: pageData.qualifierDescription || "We're the perfect fit if you check 3 or more of these boxes:",
@@ -959,7 +968,17 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
       )}
 
       {/* Pricing Section */}
-      <PricingSection />
+      {showPricing && (
+        <PricingSection
+          badgeText={pd.pricingBadge}
+          heading={pd.pricingHeading}
+          description={pd.pricingDescription}
+          plans={pd.pricingPlans}
+          bottomNoteHeading={pd.pricingBottomNoteHeading}
+          bottomNoteText={pd.pricingBottomNoteText}
+          disclaimer={pd.pricingDisclaimer}
+        />
+      )}
 
       {/* About Section */}
       {showAbout && (
