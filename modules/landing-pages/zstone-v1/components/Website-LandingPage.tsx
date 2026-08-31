@@ -12,6 +12,7 @@ import { LoadingSpinner, ErrorState } from '../../../../components/ui';
 import { NotFound } from '../../../../pages/NotFound';
 import { CountdownBanner } from './CountdownBanner';
 import { PricingSection } from './PricingSection';
+import { VideoTestimonialsSection } from './VideoTestimonialsSection';
 
 // Helper to render Lucide icons dynamically
 const DynamicIcon = ({ name, className }: { name?: string; className?: string }) => {
@@ -911,6 +912,9 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
         </div>
       </section>
       )}
+
+      {/* Video Testimonials */}
+      <VideoTestimonialsSection />
 
       {/* Qualifier Section */}
       {showQualifier && (
