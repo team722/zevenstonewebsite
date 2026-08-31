@@ -273,6 +273,7 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
   const showPartnership = v.showPartnership ?? true;
   const showResults = v.showResults ?? true;
   const showTestimonials = v.showTestimonials ?? true;
+  const showVideoTestimonials = v.showVideoTestimonials ?? true;
   const showQualifier = v.showQualifier ?? true;
   const showPricing = v.showPricing ?? true;
   const showAbout = v.showAbout ?? true;
@@ -379,6 +380,12 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
       { quote: "I needed more than a vendor. I needed a team I could trust — and I found that in Zevenstone. From SEO and automations to design and video, they delivered with consistency, creativity, and clarity. More than a service provider, they became a true growth partner.", author: "Dr. Reggie Wright Jr", role: "Founder, Reggie Wright Enterprise" },
       { quote: "What sets Zevenstone apart is that they actually understand the business behind the brief. They don't just execute — they think.", author: "Jeb Rajan", role: "Founder, Bezhominds" }
     ],
+
+    videoTestimonialsBadge: pageData.videoTestimonialsBadge,
+    videoTestimonialsHeading: pageData.videoTestimonialsHeading,
+    videoTestimonialsSubtitle: pageData.videoTestimonialsSubtitle,
+    featuredVideoTestimonial: pageData.featuredVideoTestimonial,
+    gridVideoTestimonials: pageData.gridVideoTestimonials,
 
     pricingBadge: pageData.pricingBadge,
     pricingHeading: pageData.pricingHeading,
@@ -914,7 +921,15 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
       )}
 
       {/* Video Testimonials */}
-      <VideoTestimonialsSection />
+      {showVideoTestimonials && (
+        <VideoTestimonialsSection 
+          badge={pd.videoTestimonialsBadge}
+          heading={pd.videoTestimonialsHeading}
+          subtitle={pd.videoTestimonialsSubtitle}
+          featuredTestimonial={pd.featuredVideoTestimonial}
+          gridTestimonials={pd.gridVideoTestimonials}
+        />
+      )}
 
       {/* Qualifier Section */}
       {showQualifier && (

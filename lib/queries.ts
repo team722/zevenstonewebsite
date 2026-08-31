@@ -459,6 +459,7 @@ export const WEBSITE_LANDING_PAGE_QUERY = `
     pricingBadge, pricingHeading, pricingDescription, pricingPlans[] { name, discountBadge, price, originalPrice, description, features, buttonText, buttonType, isPopular }, pricingBottomNoteHeading, pricingBottomNoteText, pricingDisclaimer,
     resultsLabel, resultsHeading, caseStudies[] { title, description, metric, label },
     testimonialsHeading, testimonials[] { quote, author, role },
+    videoTestimonialsBadge, videoTestimonialsHeading, videoTestimonialsSubtitle, featuredVideoTestimonial { quote, author, role, duration, "videoUrl": videoFile.asset->url }, gridVideoTestimonials[] { quote, author, role, duration, "videoUrl": videoFile.asset->url },
     qualifierHeading, qualifierDescription, checklist, qualifierCtaHeading, qualifierCtaButton,
     aboutHeading, aboutDescription1, aboutDescription2, aboutTagline,
     finalCtaHeading, finalCtaDescription, formTitle, formBenefits,
