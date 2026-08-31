@@ -10,6 +10,9 @@ import { sanityClient } from '../../../../lib/sanity';
 import { WEBSITE_LANDING_PAGE_QUERY } from '../../../../lib/queries';
 import { LoadingSpinner, ErrorState } from '../../../../components/ui';
 import { NotFound } from '../../../../pages/NotFound';
+import { CountdownBanner } from './CountdownBanner';
+import { PricingSection } from './PricingSection';
+import { VideoTestimonialsSection } from './VideoTestimonialsSection';
 
 // Helper to render Lucide icons dynamically
 const DynamicIcon = ({ name, className }: { name?: string; className?: string }) => {
@@ -270,7 +273,9 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
   const showPartnership = v.showPartnership ?? true;
   const showResults = v.showResults ?? true;
   const showTestimonials = v.showTestimonials ?? true;
+  const showVideoTestimonials = v.showVideoTestimonials ?? true;
   const showQualifier = v.showQualifier ?? true;
+  const showPricing = v.showPricing ?? true;
   const showAbout = v.showAbout ?? true;
 
 
@@ -370,11 +375,25 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
       { title: "A Complete Brand in 90 Days", description: "A professional firm got a full brand identity, website, SEO foundation, and CRM — live in 90 days. Page one Google rankings within 6 months of launch.", metric: "90 Days", label: "To Full Launch" }
     ],
 
-    testimonialsHeading: pageData.testimonialsHeading || "What Our Agency Partners Say",
+    testimonialsHeading: pageData.testimonialsHeading || "Partners Talk.",
     testimonials: pageData.testimonials || [
       { quote: "I needed more than a vendor. I needed a team I could trust — and I found that in Zevenstone. From SEO and automations to design and video, they delivered with consistency, creativity, and clarity. More than a service provider, they became a true growth partner.", author: "Dr. Reggie Wright Jr", role: "Founder, Reggie Wright Enterprise" },
       { quote: "What sets Zevenstone apart is that they actually understand the business behind the brief. They don't just execute — they think.", author: "Jeb Rajan", role: "Founder, Bezhominds" }
     ],
+
+    videoTestimonialsBadge: pageData.videoTestimonialsBadge,
+    videoTestimonialsHeading: pageData.videoTestimonialsHeading,
+    videoTestimonialsSubtitle: pageData.videoTestimonialsSubtitle,
+    featuredVideoTestimonial: pageData.featuredVideoTestimonial,
+    gridVideoTestimonials: pageData.gridVideoTestimonials,
+
+    pricingBadge: pageData.pricingBadge,
+    pricingHeading: pageData.pricingHeading,
+    pricingDescription: pageData.pricingDescription,
+    pricingPlans: pageData.pricingPlans,
+    pricingBottomNoteHeading: pageData.pricingBottomNoteHeading,
+    pricingBottomNoteText: pageData.pricingBottomNoteText,
+    pricingDisclaimer: pageData.pricingDisclaimer,
 
     qualifierHeading: pageData.qualifierHeading || "Is Zevenstone Right for Your Agency?",
     qualifierDescription: pageData.qualifierDescription || "We're the perfect fit if you check 3 or more of these boxes:",
@@ -410,6 +429,19 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
         <title>{pageData.seoTitle}</title>
         <meta name="description" content={pageData.seoDescription} />
       </Helmet>
+
+      {/* Top Countdown Banner */}
+      {pageData.countdownBannerEnabled && (
+        <CountdownBanner
+          position="top"
+          headline={pageData.countdownBannerHeadline}
+          highlightText={pageData.countdownBannerHighlight}
+          subtitle={pageData.countdownBannerSubtitle}
+          endDate={pageData.countdownBannerEndDate}
+          buttonText={pageData.countdownBannerButtonText}
+        />
+      )}
+
       {/* Sticky Header */}
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/95 backdrop-blur-lg shadow-md' : 'bg-transparent'
         }`}>
@@ -477,7 +509,7 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
       </section>
 
       {/* Social Proof Bar */}
-      {console.log(showSocialProof,'showSocialProof')}
+      {/* {console.log(showSocialProof,'showSocialProof')} */}
       {showSocialProof && (
         <section className="bg-[#2c2e33] text-white py-8 sm:py-12 px-4 sm:px-6">
           <div className="max-w-7xl mx-auto">
@@ -890,6 +922,17 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
       </section>
       )}
 
+      {/* Video Testimonials */}
+      {showVideoTestimonials && (
+        <VideoTestimonialsSection 
+          badge={pd.videoTestimonialsBadge}
+          heading={pd.videoTestimonialsHeading}
+          subtitle={pd.videoTestimonialsSubtitle}
+          featuredTestimonial={pd.featuredVideoTestimonial}
+          gridTestimonials={pd.gridVideoTestimonials}
+        />
+      )}
+
       {/* Qualifier Section */}
       {showQualifier && (
         <section className="py-12 sm:py-20 lg:py-32 px-4 sm:px-6 bg-gray-50">
@@ -934,6 +977,30 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
       </section>
       )}
 
+       {/* Countdown Banner */}
+      {pageData.countdownBannerEnabled && (
+        <CountdownBanner
+          headline={pageData.countdownBannerHeadline}
+          highlightText={pageData.countdownBannerHighlight}
+          subtitle={pageData.countdownBannerSubtitle}
+          endDate={pageData.countdownBannerEndDate}
+          buttonText={pageData.countdownBannerButtonText}
+        />
+      )}
+
+      {/* Pricing Section */}
+      {showPricing && (
+        <PricingSection
+          badgeText={pd.pricingBadge}
+          heading={pd.pricingHeading}
+          description={pd.pricingDescription}
+          plans={pd.pricingPlans}
+          bottomNoteHeading={pd.pricingBottomNoteHeading}
+          bottomNoteText={pd.pricingBottomNoteText}
+          disclaimer={pd.pricingDisclaimer}
+        />
+      )}
+
       {/* About Section */}
       {showAbout && (
         <section className="py-12 sm:py-20 lg:py-32 px-4 sm:px-6">
@@ -957,7 +1024,16 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
         </div>
       </section>
       )}
-
+        {/* Countdown Banner */}
+      {pageData.countdownBannerEnabled && (
+        <CountdownBanner
+          headline={pageData.countdownBannerHeadline}
+          highlightText={pageData.countdownBannerHighlight}
+          subtitle={pageData.countdownBannerSubtitle}
+          endDate={pageData.countdownBannerEndDate}
+          buttonText={pageData.countdownBannerButtonText}
+        />
+      )}
       {/* Final CTA Section */}
       <section className="py-12 sm:py-20 lg:py-32 px-4 sm:px-6 bg-gradient-to-br from-blue-600 via-blue-700 to-purple-700 text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-10 pointer-events-none">
@@ -1069,10 +1145,10 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
           <p className="text-gray-500 text-xs sm:text-sm tracking-wide uppercase font-bold opacity-40">© 2026 Zevenstone. All rights reserved.</p>
         </div>
       </footer>
-
+       
       {/* Floating Sticky Form - Hidden on mobile, shown on tablet+ */}
       {showFloatingForm && (
-        <div className="hidden md:block fixed bottom-10 right-8 z-50 max-w-sm w-full animate-slide-up">
+        <div className="hidden md:block fixed -bottom-10 right-8 z-50 max-w-sm w-full animate-slide-up">
           <div className="bg-white rounded-3xl shadow-2xl border border-blue-100 overflow-hidden shadow-blue-200/50 flex flex-col max-h-[85vh]">
             <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 relative">
               <button

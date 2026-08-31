@@ -444,6 +444,7 @@ export const NESTED_SERVICE_QUERY = `
 
 export const WEBSITE_LANDING_PAGE_QUERY = `
   *[_type == "websiteLandingPage" && (slug.current == $slug || (!defined(slug.current) && $slug == "grow-your-business-online"))][0] {
+    countdownBannerEnabled, countdownBannerHeadline, countdownBannerHighlight, countdownBannerSubtitle, countdownBannerEndDate, countdownBannerButtonText,
     heroHeading, heroHighlight, heroDescription, primaryCtaText, secondaryCtaText, trustLine,
     socialStats[] { value, label },
     "showcaseVideoUrl": showcaseVideoUrl.asset->url,
@@ -455,8 +456,10 @@ export const WEBSITE_LANDING_PAGE_QUERY = `
     numbersHeading, numbersStats[] { value, label },
     diffHeading, diffIntro, diffHighlight, diffBottom, differentiators[] { text, iconName },
     partnershipHeading, partnershipNote, models[] { title, description, iconName },
+    pricingBadge, pricingHeading, pricingDescription, pricingPlans[] { name, discountBadge, price, originalPrice, description, features, buttonText, buttonType, isPopular }, pricingBottomNoteHeading, pricingBottomNoteText, pricingDisclaimer,
     resultsLabel, resultsHeading, caseStudies[] { title, description, metric, label },
     testimonialsHeading, testimonials[] { quote, author, role },
+    videoTestimonialsBadge, videoTestimonialsHeading, videoTestimonialsSubtitle, featuredVideoTestimonial { quote, author, role, duration, "videoUrl": videoFile.asset->url }, gridVideoTestimonials[] { quote, author, role, duration, "videoUrl": videoFile.asset->url },
     qualifierHeading, qualifierDescription, checklist, qualifierCtaHeading, qualifierCtaButton,
     aboutHeading, aboutDescription1, aboutDescription2, aboutTagline,
     finalCtaHeading, finalCtaDescription, formTitle, formBenefits,
