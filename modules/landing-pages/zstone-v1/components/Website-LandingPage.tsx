@@ -977,17 +977,6 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
       </section>
       )}
 
-       {/* Countdown Banner */}
-      {pageData.countdownBannerEnabled && (
-        <CountdownBanner
-          headline={pageData.countdownBannerHeadline}
-          highlightText={pageData.countdownBannerHighlight}
-          subtitle={pageData.countdownBannerSubtitle}
-          endDate={pageData.countdownBannerEndDate}
-          buttonText={pageData.countdownBannerButtonText}
-        />
-      )}
-
       {/* Pricing Section */}
       {showPricing && (
         <PricingSection
@@ -1023,16 +1012,6 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
           </div>
         </div>
       </section>
-      )}
-        {/* Countdown Banner */}
-      {pageData.countdownBannerEnabled && (
-        <CountdownBanner
-          headline={pageData.countdownBannerHeadline}
-          highlightText={pageData.countdownBannerHighlight}
-          subtitle={pageData.countdownBannerSubtitle}
-          endDate={pageData.countdownBannerEndDate}
-          buttonText={pageData.countdownBannerButtonText}
-        />
       )}
       {/* Final CTA Section */}
       <section className="py-12 sm:py-20 lg:py-32 px-4 sm:px-6 bg-gradient-to-br from-blue-600 via-blue-700 to-purple-700 text-white relative overflow-hidden">
