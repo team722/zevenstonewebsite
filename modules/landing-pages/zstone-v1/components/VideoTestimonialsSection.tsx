@@ -133,7 +133,7 @@ export function VideoTestimonialsSection({
         </div>
 
         {/* Grid Testimonials */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 hidden">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {gridItems.map((item, idx) => (
             <div key={idx} className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all group cursor-pointer flex flex-col h-full">
               {/* Video Player */}
