@@ -429,6 +429,19 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
         <title>{pageData.seoTitle}</title>
         <meta name="description" content={pageData.seoDescription} />
       </Helmet>
+
+      {/* Top Countdown Banner */}
+      {pageData.countdownBannerEnabled && (
+        <CountdownBanner
+          position="top"
+          headline={pageData.countdownBannerHeadline}
+          highlightText={pageData.countdownBannerHighlight}
+          subtitle={pageData.countdownBannerSubtitle}
+          endDate={pageData.countdownBannerEndDate}
+          buttonText={pageData.countdownBannerButtonText}
+        />
+      )}
+
       {/* Sticky Header */}
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/95 backdrop-blur-lg shadow-md' : 'bg-transparent'
         }`}>
@@ -494,17 +507,6 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
           </div>
         </div>
       </section>
-           {console.log('pageData', pageData.countdownBannerEnabled,pageData.countdownBannerHeadline)}
-      {/* Countdown Banner */}
-      {pageData.countdownBannerEnabled && (
-        <CountdownBanner
-          headline={pageData.countdownBannerHeadline}
-          highlightText={pageData.countdownBannerHighlight}
-          subtitle={pageData.countdownBannerSubtitle}
-          endDate={pageData.countdownBannerEndDate}
-          buttonText={pageData.countdownBannerButtonText}
-        />
-      )}
 
       {/* Social Proof Bar */}
       {/* {console.log(showSocialProof,'showSocialProof')} */}
@@ -1146,7 +1148,7 @@ const LEAD_MAGNET_REDIRECT_DELAY_MS = 3000;
        
       {/* Floating Sticky Form - Hidden on mobile, shown on tablet+ */}
       {showFloatingForm && (
-        <div className="hidden md:block fixed bottom-10 right-8 z-50 max-w-sm w-full animate-slide-up">
+        <div className="hidden md:block fixed -bottom-10 right-8 z-50 max-w-sm w-full animate-slide-up">
           <div className="bg-white rounded-3xl shadow-2xl border border-blue-100 overflow-hidden shadow-blue-200/50 flex flex-col max-h-[85vh]">
             <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 relative">
               <button

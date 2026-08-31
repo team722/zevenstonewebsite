@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
 
 interface CountdownBannerProps {
@@ -7,6 +7,7 @@ interface CountdownBannerProps {
   subtitle?: string;
   endDate?: string;
   buttonText?: string;
+  position?: 'top' | 'inline';
 }
 
 export function CountdownBanner({
@@ -14,10 +15,44 @@ export function CountdownBanner({
   highlightText = "First 50 Agencies Only",
   subtitle = "Zevenstone invisible delivery engine for scaling regional partners.",
   endDate,
-  buttonText = "Apply Now"
+  buttonText = "Apply Now",
+  position = "inline"
 }: CountdownBannerProps) {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [isExpired, setIsExpired] = useState(false);
+  const bannerRef = useRef<HTMLDivElement>(null);
+
+  // Isolate header and body push-down logic for top banner
+  useEffect(() => {
+    if (position !== 'top') return;
+
+    const updateLayout = () => {
+      const header = document.querySelector('header');
+      if (bannerRef.current) {
+        const height = bannerRef.current.offsetHeight;
+        if (header) {
+          header.style.top = `${height}px`;
+        }
+        document.body.style.paddingTop = `${height}px`;
+      }
+    };
+    
+    updateLayout();
+    window.addEventListener('resize', updateLayout);
+    
+    const observer = new MutationObserver(updateLayout);
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      window.removeEventListener('resize', updateLayout);
+      observer.disconnect();
+      const header = document.querySelector('header');
+      if (header) {
+        header.style.top = '0px';
+      }
+      document.body.style.paddingTop = '0px';
+    };
+  }, [position]);
 
   useEffect(() => {
     if (!endDate) return;
@@ -59,10 +94,12 @@ export function CountdownBanner({
   };
 
   // We removed the auto-hide on expiry so you can see it renders even if the date is in the past.
-  // if (isExpired) return null;
+  const containerClasses = position === 'top' 
+    ? "fixed top-0 left-0 right-0 z-[60] bg-[#111827] border-b border-blue-900/50 py-3 sm:py-5 px-4 sm:px-6 flex items-center min-h-[80px] w-full"
+    : "bg-[#111827] border-b border-blue-900/50 py-3 sm:py-8 px-4 sm:px-6 relative overflow-hidden flex items-center min-h-[80px]";
 
   return (
-    <div className="bg-[#111827] border-b border-blue-900/50 py-3 sm:py-8 px-4 sm:px-6 relative overflow-hidden flex items-center min-h-[80px]">
+    <div ref={position === 'top' ? bannerRef : null} className={containerClasses}>
       <div className="max-w-7xl mx-auto w-full flex flex-col lg:flex-row items-center justify-between gap-4 lg:gap-8">
         
         {/* Left Side: Text Content */}
@@ -105,7 +142,7 @@ export function CountdownBanner({
           {/* CTA Button */}
           <button 
             onClick={scrollToCTA}
-            className="flex items-center underline gap-1.5 text-white text-xs sm:text-lg font-bold hover:text-blue-400 transition-colors shrink-0 group"
+            className="flex items-center underline cursor-pointer gap-1.5 text-white text-xs sm:text-lg font-bold hover:text-blue-400 transition-colors shrink-0 group"
           >
             {buttonText} 
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
